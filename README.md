@@ -25,7 +25,7 @@ nb: code diatas akan mengambil repository dengan branch <b>development</b>.
 ## Start to work
 
 ```bash
-# change directory to roorent-BE
+# change directory to roorent-FE
 $ cd roorent-FE
 
 # install package
