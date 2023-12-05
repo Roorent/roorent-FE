@@ -3,7 +3,7 @@
 import React, { useEffect } from "react";
 import { useRouter } from "next/navigation";
 
-export default function Home() {
+function Home() {
 	const router = useRouter();
 
 	useEffect(() => {
@@ -14,3 +14,5 @@ export default function Home() {
 
 	return <div style={{}}></div>;
 }
+
+export default Home;
