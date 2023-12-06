@@ -1,3 +1,56 @@
-/*@tailwind base;*/
+@tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@font-face {
+    font-family: 'Plus Jakarta Sans';
+    src: url('/fonts/PlusJakartaSans/PlusJakartaSans-Regular.ttf') format('ttf');
+}
+
+@font-face {
+    font-family: 'Plus Jakarta Sans';
+    src: url('/fonts/PlusJakartaSans/PlusJakartaSans-Medium.ttf') format('ttf');
+}
+
+body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+:where(.css-dev-only-do-not-override-1u09lqq).ant-input-affix-wrapper >.ant-input {
+    background-color: transparent;
+    color: white
+    /* opacity: -1 */
+}
+
+.input-login>.ant-input::placeholder{
+    color: white !important
+}
+
+.ant-input-affix-wrapper-focused {
+    border: 1px solid white !important;
+    box-shadow: 0 0 0 2px white !important
+    
+}
+
+.ant-input-affix-wrapper:hover {
+    border: 1px solid white !important
+    
+}
+
+.anticon svg{
+    color: white !important
+}
+
+.ant-btn{
+    height: fit-content !important;
+}
+
+.ant-btn-primary {
+    box-shadow: none;
+}
+
+.ant-btn-primary:hover {
+    background-color: rgba(255, 255, 255, 0.2)  !important;
+    border: 1px solid white !important;
+    color: white !important;
+}
