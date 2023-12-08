@@ -16,16 +16,27 @@ body {
     font-family: 'Plus Jakarta Sans', sans-serif;
 }
 
-:where(.css-dev-only-do-not-override-1u09lqq).ant-input-affix-wrapper >.ant-input {
-    background-color: transparent;
-    color: white
-    /* opacity: -1 */
-}
-
-.input-login>.ant-input::placeholder{
+.login>:where(.css-dev-only-do-not-override-z0trcs).ant-input{
+    background-color: transparent !important;
     color: white !important
 }
 
+.login>.ant-input-affix-wrapper >input.ant-input {
+    background-color: transparent !important;
+    color: white !important
+}
+
+.login>.ant-input:placeholder-shown{
+    background-color: transparent !important;
+}
+
+.login>.ant-input::placeholder{
+    color: white !important
+}
+
+.input-regis>.ant-input::placeholder{
+    @apply text-placeholder;
+}
 .ant-input-affix-wrapper-focused {
     border: 1px solid white !important;
     box-shadow: 0 0 0 2px white !important
@@ -37,7 +48,7 @@ body {
     
 }
 
-.anticon svg{
+.login>.anticon svg{
     color: white !important
 }
 
@@ -46,11 +57,46 @@ body {
 }
 
 .ant-btn-primary {
-    box-shadow: none;
+    box-shadow: none !important;
 }
 
 .ant-btn-primary:hover {
     background-color: rgba(255, 255, 255, 0.2)  !important;
     border: 1px solid white !important;
+    color: white !important;
+}
+
+.ant-steps .ant-steps-item-wait .ant-steps-item-icon {
+    background-color: transparent !important;
+    border-width: 2px !important;
+    @apply border-primary
+}
+
+.ant-steps .ant-steps-item-wait .ant-steps-item-icon >.ant-steps-icon {
+    @apply text-teks;
+    font-weight: bold !important;
+    font-size: medium !important;
+}
+
+.ant-steps .ant-steps-item-process .ant-steps-item-icon >.ant-steps-icon {
+    font-weight: bold !important;
+}
+
+.ant-steps .ant-steps-item-finish .ant-steps-item-icon {
+    background-color: #E6F4FF !important;
+}
+.regis>.anticon svg {
+    color: #4065DA !important;
+}
+
+.ant-input-group .ant-input {
+    font-size: 20px !important;
+}
+
+.ant-input-group .ant-input {
+    padding: 9px !important;
+}
+
+.ant-input-affix-wrapper .anticon.ant-input-password-icon {
     color: white !important;
 }
