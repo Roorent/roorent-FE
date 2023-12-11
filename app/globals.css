@@ -1,3 +1,51 @@
-/*@tailwind base;*/
+@tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+button,
+[type="button"],
+[type="reset"],
+[type="submit"] {
+	@apply bg-primary text-white;
+}
+/* Custom scrollbar */
+::-webkit-scrollbar {
+	width: 12px;
+}
+::-webkit-scrollbar-thumb {
+	background-color: #60a5fa;
+	border-radius: 6px;
+}
+/* Chrome */
+::-webkit-scrollbar-track {
+	background-color: #4065da;
+}
+/* Firefox */
+* {
+	scrollbar-color: #4065da #f0f0f0;
+}
+
+/* :where(.css-dev-only-do-not-override-1dj4ii3).ant-menu-light:not(
+		.ant-menu-horizontal
+	)
+	.ant-menu-item:not(.ant-menu-item-selected):hover,
+:where(.css-dev-only-do-not-override-1dj4ii3).ant-menu-light
+	> .ant-menu:not(.ant-menu-horizontal)
+	.ant-menu-item:not(.ant-menu-item-selected):hover {
+	@apply bg-blue-400;
+} */
+
+:where(.css-dev-only-do-not-override-1dj4ii3).ant-menu-light:not(
+		.ant-menu-horizontal
+	)
+	.ant-menu-item:not(.ant-menu-item-selected):hover,
+:where(.css-dev-only-do-not-override-1dj4ii3).ant-menu-light
+	> .ant-menu:not(.ant-menu-horizontal)
+	.ant-menu-item:not(.ant-menu-item-selected):hover {
+	color: white !important;
+}
+
+.box-sider:hover {
+	background-color: #60a5fa !important;
+	color: white !important;
+}
