@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useEffect, useState } from "react";
 import { Modal, ConfigProvider, Menu, Dropdown, Form, Input } from "antd";
 import { ArrowLeftOutlined, CaretDownOutlined } from "@ant-design/icons";

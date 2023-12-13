@@ -1,3 +1,5 @@
+"use client";
+
 import { ArrowLeftOutlined, SendOutlined } from "@ant-design/icons";
 import { ConfigProvider, Modal } from "antd";
 import React, { useEffect, useState } from "react";

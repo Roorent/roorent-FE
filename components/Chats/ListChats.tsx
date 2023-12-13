@@ -1,3 +1,5 @@
+"use client";
+
 import { CloseOutlined, MessageOutlined } from "@ant-design/icons";
 import { ConfigProvider, Modal } from "antd";
 import React, { useEffect, useState } from "react";

@@ -47,3 +47,100 @@ button,
 .sidebar .ant-menu-item.ant-menu-item-selected .ant-menu-title-content {
 	color: white !important;
 }
+
+@font-face {
+	font-family: "Plus Jakarta Sans";
+	src: url("/fonts/PlusJakartaSans/PlusJakartaSans-Regular.ttf") format("ttf");
+}
+
+@font-face {
+	font-family: "Plus Jakarta Sans";
+	src: url("/fonts/PlusJakartaSans/PlusJakartaSans-Medium.ttf") format("ttf");
+}
+
+body {
+	font-family: "Plus Jakarta Sans", sans-serif;
+}
+
+.login > :where(.css-dev-only-do-not-override-z0trcs).ant-input {
+	background-color: transparent !important;
+	color: white !important;
+}
+
+.login > .ant-input-affix-wrapper > input.ant-input {
+	background-color: transparent !important;
+	color: white !important;
+}
+
+.login > .ant-input:placeholder-shown {
+	background-color: transparent !important;
+}
+
+.login > .ant-input::placeholder {
+	color: white !important;
+}
+
+.input-regis > .ant-input::placeholder {
+	@apply text-placeholder;
+}
+.ant-input-affix-wrapper-focused {
+	border: 1px solid white !important;
+	box-shadow: 0 0 0 2px white !important;
+}
+
+.ant-input-affix-wrapper:hover {
+	border: 1px solid white !important;
+}
+
+.login > .anticon svg {
+	color: white !important;
+}
+
+.ant-btn {
+	height: fit-content !important;
+}
+
+.ant-btn-primary {
+	box-shadow: none !important;
+}
+
+.ant-btn-primary:hover {
+	background-color: rgba(255, 255, 255, 0.2) !important;
+	border: 1px solid white !important;
+	color: white !important;
+}
+
+.ant-steps .ant-steps-item-wait .ant-steps-item-icon {
+	background-color: transparent !important;
+	border-width: 2px !important;
+	@apply border-primary;
+}
+
+.ant-steps .ant-steps-item-wait .ant-steps-item-icon > .ant-steps-icon {
+	@apply text-teks;
+	font-weight: bold !important;
+	font-size: medium !important;
+}
+
+.ant-steps .ant-steps-item-process .ant-steps-item-icon > .ant-steps-icon {
+	font-weight: bold !important;
+}
+
+.ant-steps .ant-steps-item-finish .ant-steps-item-icon {
+	background-color: #e6f4ff !important;
+}
+.regis > .anticon svg {
+	color: #4065da !important;
+}
+
+.ant-input-group .ant-input {
+	font-size: 20px !important;
+}
+
+.ant-input-group .ant-input {
+	padding: 9px !important;
+}
+
+.ant-input-affix-wrapper .anticon.ant-input-password-icon {
+	color: white !important;
+}

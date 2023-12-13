@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useEffect, useState } from "react";
 import { Modal, ConfigProvider } from "antd";
 import type { RadioChangeEvent } from "antd";
