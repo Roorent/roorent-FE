@@ -7,7 +7,7 @@ const url = {
 const manipulatedata = {
     login(data: any){
         return http.post(url.login()).send(data)
-    }   
+    }
 }
 
 export const authRepository = {

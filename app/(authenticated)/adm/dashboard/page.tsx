@@ -14,6 +14,7 @@ const Dashboard = () => {
 		<div>
 			<div>home: {store.ui.title}</div>
 			{/* <div>fact: {data?.setup}</div> */}
+			{/* <div>fact: {data?.setup}</div> */}
 			<Button
 				className={"ml-8"}
 				onClick={() => {
