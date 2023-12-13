@@ -6,11 +6,11 @@ import { store } from "#/store";
 import { sampleRepository } from "#/repository/sample";
 
 const Dashboard = () => {
-	const { data, error, isLoading } = sampleRepository.hooks.useJoke();
+	// const { data, error, isLoading } = sampleRepository.hooks.useJoke();
 	return (
 		<div>
 			<div>home: {store.ui.title}</div>
-			<div>fact: {data?.setup}</div>
+			{/* <div>fact: {data?.setup}</div> */}
 			<Button
 				className={"ml-8"}
 				onClick={() => {
