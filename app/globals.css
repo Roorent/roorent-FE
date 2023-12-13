@@ -25,27 +25,25 @@ button,
 	scrollbar-color: #4065da #f0f0f0;
 }
 
-/* :where(.css-dev-only-do-not-override-1dj4ii3).ant-menu-light:not(
-		.ant-menu-horizontal
-	)
-	.ant-menu-item:not(.ant-menu-item-selected):hover,
-:where(.css-dev-only-do-not-override-1dj4ii3).ant-menu-light
-	> .ant-menu:not(.ant-menu-horizontal)
-	.ant-menu-item:not(.ant-menu-item-selected):hover {
-	@apply bg-blue-400;
-} */
-
-:where(.css-dev-only-do-not-override-1dj4ii3).ant-menu-light:not(
-		.ant-menu-horizontal
-	)
-	.ant-menu-item:not(.ant-menu-item-selected):hover,
-:where(.css-dev-only-do-not-override-1dj4ii3).ant-menu-light
-	> .ant-menu:not(.ant-menu-horizontal)
-	.ant-menu-item:not(.ant-menu-item-selected):hover {
-	color: white !important;
+.sidebar .ant-menu .ant-menu-root .ant-menu-inline .ant-menu-light {
+	@apply bg-primary;
+}
+.sidebar .ant-menu-item-group-title {
+	@apply text-slate-500 p-2 text-2xl;
+}
+.sidebar .ant-menu-title-content {
+	@apply text-lg font-bold text-slate-600 flex justify-center;
 }
 
-.box-sider:hover {
+.sidebar .ant-menu-item:hover {
 	background-color: #60a5fa !important;
+}
+.sidebar .ant-menu-item .ant-menu-title-content:hover {
+	color: white !important;
+}
+.sidebar .ant-menu-item.ant-menu-item-selected {
+	background-color: #4065da !important;
+}
+.sidebar .ant-menu-item.ant-menu-item-selected .ant-menu-title-content {
 	color: white !important;
 }

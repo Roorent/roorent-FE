@@ -1,20 +1,39 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import type { MenuProps } from "antd";
-import { Divider, Layout, Menu, theme } from "antd";
+import { Layout, Menu, theme } from "antd";
 import { useRouter } from "next/navigation";
 import MenuItem from "antd/es/menu/MenuItem";
 import { LogoutOutlined } from "@ant-design/icons";
 import Notifications from "#/components/Notifications";
 import Photo from "#/components/Photo";
 import { LOGO } from "#/constants/images";
+import Chats from "#/components/Chats";
 
 interface AuthenticatedLayoutProps {
 	children: React.ReactNode;
 }
 
 const { Header, Content, Sider } = Layout;
+
+type MenuItem = Required<MenuProps>["items"][number];
+
+function getItem(
+	label: React.ReactNode,
+	key?: React.Key | null,
+	icon?: React.ReactNode,
+	children?: MenuItem[],
+	type?: "group"
+): MenuItem {
+	return {
+		key,
+		icon,
+		children,
+		label,
+		type,
+	} as MenuItem;
+}
 
 const AuthenticatedLayout: React.FC<AuthenticatedLayoutProps> = ({
 	children,
@@ -25,22 +44,56 @@ const AuthenticatedLayout: React.FC<AuthenticatedLayoutProps> = ({
 		token: { colorBgContainer },
 	} = theme.useToken();
 
-	// const menu: MenuProps["items"] = [
-	// 	{
-	// 		key: `/dashboard`,
-	// 		label: `Dashboard`,
-	// 	},
-	// 	{
-	// 		key: `/about`,
-	// 		label: `About`,
-	// 	},
-	// ];
+	const items: MenuItem[] = [
+		getItem(
+			"Utama",
+			"/utama",
+			null,
+			[getItem("Dashboard", "/dashboard", null)],
+			"group"
+		),
+		{
+			type: "divider",
+			style: {
+				marginTop: "20px",
+				marginBottom: "20px",
+			},
+		},
+		getItem(
+			"Manajemen",
+			"/manajemen",
+			null,
+			[
+				getItem("Pengguna", "/pengguna", null),
+				{ type: "group" },
+				getItem("Akun Bank", "/bank-account", null),
+			],
+			"group"
+		),
+		{
+			type: "divider",
+			style: {
+				marginTop: "20px",
+				marginBottom: "20px",
+			},
+		},
+		getItem(
+			"Pembayaran",
+			"/pembayaran",
+			null,
+			[
+				getItem("Pembayaran Renter", "/renter-payment", null),
+				{ type: "group" },
+				getItem("Pembayaran Owner", "/owner-payment", null),
+			],
+			"group"
+		),
+	];
 
-	const styleSidebarItems = {
-		container: "mx-6 flex flex-col gap-1",
-		title: "text-slate-500 p-2 text-2xl",
-		subTitle: "text-lg ml-4 font-bold text-slate-600",
-		box: "bg-white p-6 rounded-sm flex justify-center box-sider",
+	const [current, setCurrent] = useState("/dashboard");
+
+	const onClick: MenuProps["onClick"] = (e) => {
+		setCurrent(e.key);
 	};
 
 	return (
@@ -48,65 +101,29 @@ const AuthenticatedLayout: React.FC<AuthenticatedLayoutProps> = ({
 			<Sider
 				width={300}
 				style={{ background: colorBgContainer }}
-				className="h-[100%] border-r-2 border-primary"
+				className="h-[100%] border-r-2 border-primary flex justify-center items-center"
 			>
-				<div className={"py-5 flex justify-center items-center "}>
+				<div className="py-5 flex justify-center items-center">
 					<a href="/">
 						<img src={LOGO} alt="Roorent" className="w-[160px]" />
 					</a>
 				</div>
 				<Menu
+					onClick={onClick}
 					mode="inline"
-					defaultSelectedKeys={["/dashboard"]}
-					className="p-4"
-					// items={[UserOutlined, VideoCameraOutlined, UserOutlined].map(
-					// 	(icon, index) => ({
-					// 		key: String(index + 1),
-					// 		icon: React.createElement(icon),
-					// 		label: `nav ${index + 1}`,
-					// 	})
-					// )}
+					style={{ width: 298, borderRight: 0 }}
+					defaultOpenKeys={["/dashboard"]}
+					selectedKeys={[current]}
+					items={items}
+					className="sidebar flex flex-col gap-1 justify-center px-8"
+				/>
+				<a
+					href="#"
+					className="text-slate-600 text-2xl font-bold flex gap-4 justify-center items-center hover:text-primary absolute left-[25%] bottom-16"
 				>
-					<div className={styleSidebarItems.container}>
-						<p className={styleSidebarItems.title}>Utama</p>
-						<MenuItem key={"/dashboard"} className={styleSidebarItems.box}>
-							<p className={styleSidebarItems.subTitle}>Dashboard</p>
-						</MenuItem>
-					</div>
-					<Divider />
-					<div className={styleSidebarItems.container}>
-						<p className={styleSidebarItems.title}>Manajemen</p>
-						<MenuItem key={"/users"} className={styleSidebarItems.box}>
-							<p className={styleSidebarItems.subTitle}>Pengguna</p>
-						</MenuItem>
-						<MenuItem key={"/banks"} className={styleSidebarItems.box}>
-							<p className={styleSidebarItems.subTitle}>Akun Bank</p>
-						</MenuItem>
-					</div>
-					<Divider />
-					<div className={styleSidebarItems.container}>
-						<p className={styleSidebarItems.title}>Pembayaran</p>
-						<MenuItem
-							key={"/payment?role=renter"}
-							className={styleSidebarItems.box}
-						>
-							<p className={styleSidebarItems.subTitle}>Pembayaran Renter</p>
-						</MenuItem>
-						<MenuItem
-							key={"/payment?role=owner"}
-							className={styleSidebarItems.box}
-						>
-							<p className={styleSidebarItems.subTitle}>Pembayaran Owner</p>
-						</MenuItem>
-					</div>
-					<a
-						href="#"
-						className="text-slate-600 text-2xl font-bold mt-16 flex gap-4 justify-center items-center"
-					>
-						<LogoutOutlined />
-						<p>Logout</p>
-					</a>
-				</Menu>
+					<LogoutOutlined />
+					<p>Logout</p>
+				</a>
 			</Sider>
 			<Layout>
 				<Header style={{ background: colorBgContainer }}>
@@ -118,7 +135,8 @@ const AuthenticatedLayout: React.FC<AuthenticatedLayoutProps> = ({
 							"absolute left-[300px] w-[calc(100%-300px)] py-[12px] pr-[100px] gap-10 justify-end items-center"
 						}
 					>
-						<div>
+						<div className="flex gap-6 items-center">
+							<Chats />
 							<Notifications />
 						</div>
 						<div className="flex items-center gap-8">
@@ -129,14 +147,14 @@ const AuthenticatedLayout: React.FC<AuthenticatedLayoutProps> = ({
 				</Header>
 				<Content
 					style={{ margin: "10px 0 0 10px" }}
-					className="border-2 border-t-primary border-l-0 text-slate-800 bg-white"
+					className="border-t-2 border-primary text-slate-800 bg-white"
 				>
 					<div
 						style={{
 							padding: "40px 150px 0 50px",
 							minHeight: 360,
 							height: "100%",
-							background: "colorBgContainer",
+							background: colorBgContainer,
 						}}
 						className="overflow-auto"
 					>

@@ -1,23 +1,15 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Modal, ConfigProvider, Menu, Dropdown, Form, Input } from "antd";
-import { Icon } from "@iconify/react";
-import bellLinear from "@iconify/icons-solar/bell-linear";
 import { ArrowLeftOutlined, CaretDownOutlined } from "@ant-design/icons";
 import Button from "../Button";
 
-function CreateNotifications({ onBack }: any) {
+function CreateNotifications({ openNotification, isOpen }: any) {
 	const [isModalOpen, setIsModalOpen] = useState(true);
 	const [role, setRole] = useState("Owner");
 
-	const showModal = () => {
-		setIsModalOpen(true);
-	};
 	const closeModal = () => {
+		openNotification("");
 		setIsModalOpen(false);
-	};
-	const handleBack = () => {
-		onBack();
-		closeModal();
 	};
 	const handleSubmit = () => {
 		closeModal();
@@ -34,15 +26,12 @@ function CreateNotifications({ onBack }: any) {
 		</Menu>
 	);
 
+	useEffect(() => {
+		setIsModalOpen(isOpen);
+	}, [isOpen]);
+
 	return (
 		<>
-			<div
-				className="bg-primary flex w-10 h-10 p-1 items-center justify-center rounded-[5px] cursor-pointer"
-				onClick={showModal}
-			>
-				<Icon className="text-white text-3xl" icon={bellLinear} />
-			</div>
-
 			<ConfigProvider
 				modal={{
 					styles: {
@@ -59,7 +48,11 @@ function CreateNotifications({ onBack }: any) {
 						<>
 							<div className="flex">
 								<div className="mr-4 text-2xl font-bold">
-									<ArrowLeftOutlined onClick={handleBack} />
+									<ArrowLeftOutlined
+										onClick={() => {
+											openNotification("list");
+										}}
+									/>
 								</div>
 								<div>
 									<div className="ml-2 text-2xl font-bold">Buat Notifikasi</div>

@@ -1,20 +1,16 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Modal, ConfigProvider } from "antd";
 import type { RadioChangeEvent } from "antd";
 import { Radio } from "antd";
-import { Icon } from "@iconify/react";
-import bellLinear from "@iconify/icons-solar/bell-linear";
 import { CloseOutlined } from "@ant-design/icons";
 import Button from "../Button";
 
-function ListNotifications({ onCreate }: any) {
+function ListNotifications({ openNotification, isOpen }: any) {
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [readable, setReadable] = useState(true);
 
-	const showModal = () => {
-		setIsModalOpen(true);
-	};
 	const closeModal = () => {
+		openNotification("");
 		setIsModalOpen(false);
 	};
 
@@ -22,15 +18,12 @@ function ListNotifications({ onCreate }: any) {
 		setReadable(e.target.value);
 	};
 
+	useEffect(() => {
+		setIsModalOpen(isOpen);
+	}, [isOpen]);
+
 	return (
 		<>
-			<div
-				className="bg-primary flex w-10 h-10 p-1 items-center justify-center rounded-[5px] cursor-pointer"
-				onClick={showModal}
-			>
-				<Icon className="text-white text-3xl" icon={bellLinear} />
-			</div>
-
 			<ConfigProvider
 				modal={{
 					styles: {
@@ -56,11 +49,20 @@ function ListNotifications({ onCreate }: any) {
 					onCancel={closeModal}
 					className="absolute top-14 right-[250px]"
 					closeIcon={
-						<div onClick={closeModal} className="text-red-600">
+						<div onClick={closeModal} className="text-slate-800">
 							<CloseOutlined className="text-2xl" />
 						</div>
 					}
-					footer={<Button onClick={onCreate}>Buat Notifikasi</Button>}
+					footer={
+						<Button
+							onClick={() => {
+								openNotification("create");
+								setIsModalOpen(false);
+							}}
+						>
+							Buat Notifikasi
+						</Button>
+					}
 				>
 					<div className="flex justify-end">
 						<Radio.Group onChange={changeRadio} value={readable}>
