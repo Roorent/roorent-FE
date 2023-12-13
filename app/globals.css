@@ -62,52 +62,40 @@ body {
 	font-family: "Plus Jakarta Sans", sans-serif;
 }
 
-.login > :where(.css-dev-only-do-not-override-z0trcs).ant-input {
-	background-color: transparent !important;
-	color: white !important;
+.login .ant-input, .login .ant-input-affix-wrapper >input.ant-input, .login .ant-input:placeholder-shown{
+    background-color: transparent !important;
+    color: white !important
 }
 
-.login > .ant-input-affix-wrapper > input.ant-input {
-	background-color: transparent !important;
-	color: white !important;
+.login .ant-input::placeholder, .login .anticon svg{
+    color: white !important
 }
 
-.login > .ant-input:placeholder-shown {
-	background-color: transparent !important;
+.login .ant-input-affix-wrapper-focused {
+    border: 1px solid white !important;
+    box-shadow: 0 0 0 2px white !important
 }
 
-.login > .ant-input::placeholder {
-	color: white !important;
+.login .ant-btn-primary {
+    box-shadow: none !important;
 }
 
-.input-regis > .ant-input::placeholder {
-	@apply text-placeholder;
-}
-.ant-input-affix-wrapper-focused {
-	border: 1px solid white !important;
-	box-shadow: 0 0 0 2px white !important;
+.regis .ant-btn-primary {
+    box-shadow: 6px 8px 4px -3px rgba(0, 0, 0, 25%), 0 4px 6px -4px rgb(0, 0, 0, 25%);
 }
 
-.ant-input-affix-wrapper:hover {
-	border: 1px solid white !important;
+.regis .ant-btn-default {
+    box-shadow: 6px 8px 4px -3px rgba(0, 0, 0, 25%), 0 4px 6px -4px rgb(0, 0, 0, 25%);
 }
 
-.login > .anticon svg {
-	color: white !important;
+.login .ant-input-affix-wrapper:hover {
+    border: 1px solid white !important;
 }
 
-.ant-btn {
-	height: fit-content !important;
-}
-
-.ant-btn-primary {
-	box-shadow: none !important;
-}
-
-.ant-btn-primary:hover {
-	background-color: rgba(255, 255, 255, 0.2) !important;
-	border: 1px solid white !important;
-	color: white !important;
+.login .ant-btn-primary:hover {
+    background-color: rgba(255, 255, 255, 0.2)  !important;
+    border: 1px solid white !important;
+    color: white !important;
 }
 
 .ant-steps .ant-steps-item-wait .ant-steps-item-icon {
@@ -129,18 +117,93 @@ body {
 .ant-steps .ant-steps-item-finish .ant-steps-item-icon {
 	background-color: #e6f4ff !important;
 }
-.regis > .anticon svg {
-	color: #4065da !important;
-}
 
 .ant-input-group .ant-input {
-	font-size: 20px !important;
+    padding: 9px !important;
+    border-radius: 10px;
+    font-size: 20px !important;
+    @apply border-rstroke ;
 }
 
-.ant-input-group .ant-input {
-	padding: 9px !important;
+.login .ant-input-affix-wrapper .anticon.ant-input-password-icon {
+    color: white !important;
 }
 
-.ant-input-affix-wrapper .anticon.ant-input-password-icon {
-	color: white !important;
+.ant-input-group .ant-input-group-addon {
+    padding-inline: 25px !important;
+    color: white !important;
+    border-start-start-radius: 10px !important;
+    background-color: #4065DA !important;
+    font-size: large !important;
+    @apply border-rstroke
+}
+
+.ant-picker {
+    @apply border-rstroke;
+    border-radius: 10px !important;
+    padding: 9px !important;
+    font-size: 20px !important;
+}
+.ant-picker .ant-picker-input >input:placeholder-shown, .ant-picker .ant-picker-input >input {
+    font-size: 20px !important;
+}
+
+.ant-select:not(.ant-select-customize-input) .ant-select-selector {
+    @apply border-rstroke;
+    font-size: 20px;
+}
+
+.ant-select-single:not(.ant-select-customize-input) .ant-select-selector {
+    padding: 9px;
+    border-radius: 10px !important;
+}
+
+.ant-select-single {
+    height: auto;
+}
+
+.regis .ant-input:hover, .regis .ant-input:focus{
+    @apply border-primary;
+}
+
+.regis .ant-btn-primary:hover{
+    background-color: #7291F5;
+}
+
+/* .ant-tabs .ant-tabs-tab{
+    width: 200px;
+} */
+
+.ant-tabs .ant-tabs-tab{
+    width: 216px;
+    justify-content: center;
+    border-radius: 20px;
+}
+.ant-tabs-top >.ant-tabs-nav{
+    margin: 0;
+}
+.ant-tabs .ant-tabs-tab+.ant-tabs-tab{
+    margin: 0;
+    width: 216px;
+    justify-content: center;
+    border-radius: 20px !important;
+}
+
+.ant-tabs-card.ant-tabs-top >.ant-tabs-nav .ant-tabs-tab-active{
+   background-color: #4065DA;
+   color: white !important;
+   border-radius: 20px;
+}
+
+.ant-tabs-card >.ant-tabs-nav .ant-tabs-tab{
+    border: none;
+    transition: none;
+}
+
+:where(.css-dev-only-do-not-override-1dj4ii3).ant-tabs-top >.ant-tabs-nav::before{
+    border: none;
+}
+
+:where(.css-dev-only-do-not-override-1dj4ii3).ant-upload-wrapper .ant-upload-select{
+    width: -webkit-fill-available !important;
 }

@@ -75,20 +75,21 @@ const Login = () => {
                             <Form.Item
                                 name="email"
                                 rules={[{ required: true, message: 'Harap masukan email anda!' }]}
+                                className="login"
                             >
                                 <Input size="large" placeholder="Masukan Email" prefix={<MailOutlined 
-                                className="text-white text-3xl mr-5"/>} className=" p-[10px] bg-white bg-opacity-20 rounded-[10px] border border-white border-opacity-30 login text-xl" />
+                                className="text-white text-3xl mr-5"/>} className=" p-[10px] login bg-white bg-opacity-20 rounded-[10px] border border-white border-opacity-30  text-xl" />
                             </Form.Item>
                             </div>
                         </div>
                         <div>
-                            <p className="text-white text-3xl font-bold pb-3">Password</p>
+                            <p className="text-white text-3xl font-bold pb-3">Kata Sandi</p>
                             <div className="w-full">
                             <Form.Item
                                 name="password"
                                 rules={[{ required: true, message: 'Harap masukan password anda!' }]}
                             >
-                                <Input.Password size="large" placeholder="Masukan Password" prefix={<LockOutlined 
+                                <Input.Password size="large" placeholder="Masukan Kata Sandi" prefix={<LockOutlined 
                                 className="text-white text-3xl mr-5"/>} className=" p-[10px] bg-white bg-opacity-20 rounded-[10px] border border-white border-opacity-30 login text-xl"
                                 iconRender={(visible) => (visible ? <EyeTwoTone/> : <EyeInvisibleOutlined/>)}/>
                             </Form.Item>
@@ -98,9 +99,9 @@ const Login = () => {
                             <a href="#" className="font-bold no-underline hover:underline">Aktifkan akun kembali!</a>
                         </div>
                     </div>
-                    <div className="w-full mt-10">
+                    <div className="w-full mt-10 login">
                     <Form.Item>
-                        <Button type="primary" loading={loading} htmlType="submit" block className="bg-tranparant border border-white rounded-full text-2xl font-bold py-3">
+                        <Button type="primary" loading={loading} htmlType="submit" block className=" bg-tranparant border border-white rounded-full text-2xl font-bold py-3 h-max">
                             Masuk
                         </Button>
                     </Form.Item>

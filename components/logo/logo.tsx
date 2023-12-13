@@ -1,9 +1,10 @@
 import { LOGO } from "#/constants/images";
 
-export default function Logo(){
+function Logo(){
     return(
         <div>
-            <img src={LOGO} alt="Logo Roorent" className="w-[260px]"/>
+            <img src={LOGO} alt="Logo Roorent" className="w-[230px]"/>
         </div>
     )
 }
+export default Logo
