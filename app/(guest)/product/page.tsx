@@ -1,35 +1,72 @@
-import { Tabs } from 'antd';
-import  { useState } from 'react'
 
-const { TabPane } = Tabs;
+// function Products() {
+ 
+//   return (
+//     <div className="p-4">
+      
+//     </div>
+//   );
+// }
 
-function Products() {
-  const [activeTab, setActiveTab] = useState('owner');
-  
-  const handleTabChange = (key : any) => {
-    setActiveTab(key);
-    };
-  // return (
-  //   <div className='w-full min-h-screen flex justify-center relative'>
-  //     <div className='bg-yellow-400 absolute top-[100px] w-[200px]'>a</div>
-  //     <div className='bg-red-400 w-1/2'>b</div>
-  //     <div className='bg-blue-400 w-1/2'>c</div>
-  //   </div>
-  // )
+// export default Products
+import { useState } from 'react';
+import { Select, Input, Form } from 'antd';
+
+const { Option } = Select;
+
+const MyForm = () => {
+  const [selectedOption, setSelectedOption] = useState<OptionType | undefined>(undefined);
+  const [hargaPerHari, setHargaPerHari] = useState('');
+  const [hargaPerBulan, setHargaPerBulan] = useState('');
+
+  const options = [
+    { value: 'perhari', label: 'Harga Per Hari' },
+    { value: 'campur', label: 'Harga Campur' },
+  ];
+
+  const handleSelectChange = (value) => {
+    const selected = options.find((option) => option.value === value);
+    setSelectedOption(selected || {});
+  };
+
+  const handleHargaPerHariChange = (e) => {
+    setHargaPerHari(e.target.value);
+  };
+
+  const handleHargaPerBulanChange = (e) => {
+    setHargaPerBulan(e.target.value);
+  };
+
   return (
-    <div className="p-4">
-      <Tabs activeKey={activeTab} onChange={handleTabChange}>
-        <TabPane tab="Pengguna" key="user">
-          {/* Konten untuk peran "Pengguna" */}
-          <div className="my-4">Isi formulir pendaftaran untuk pengguna.</div>
-        </TabPane>
-        <TabPane tab="Admin" key="admin">
-          {/* Konten untuk peran "Admin" */}
-          <div className="my-4">Isi formulir pendaftaran untuk admin.</div>
-        </TabPane>
-      </Tabs>
-    </div>
-  );
-}
+    <Form>
+      <Form.Item label="Pilih Jenis Harga">
+        <Select value={selectedOption.value} onChange={handleSelectChange}>
+          {options.map((option) => (
+            <Option key={option.value} value={option.value}>
+              {option.label}
+            </Option>
+          ))}
+        </Select>
+      </Form.Item>
 
-export default Products
+      {selectedOption.value === 'perhari' && (
+        <Form.Item label="Harga Per Hari">
+          <Input value={hargaPerHari} onChange={handleHargaPerHariChange} />
+        </Form.Item>
+      )}
+
+      {selectedOption.value === 'campur' && (
+        <>
+          <Form.Item label="Harga Per Hari">
+            <Input value={hargaPerHari} onChange={handleHargaPerHariChange} />
+          </Form.Item>
+          <Form.Item label="Harga Per Bulan">
+            <Input value={hargaPerBulan} onChange={handleHargaPerBulanChange} />
+          </Form.Item>
+        </>
+      )}
+    </Form>
+  );
+};
+
+export default MyForm;

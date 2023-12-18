@@ -60,7 +60,7 @@ function CreateNotifications({ openNotification, isOpen }: any) {
 									<div className="ml-2 text-2xl font-bold">Buat Notifikasi</div>
 								</div>
 							</div>
-							<div className="border-primary border-b-2 mt-2 mb-4"></div>
+							<div className="border-border-slate-200 border-b-2 mt-2 mb-4"></div>
 						</>
 					}
 					closeIcon={<p></p>}
@@ -73,7 +73,7 @@ function CreateNotifications({ openNotification, isOpen }: any) {
 					<div className="flex flex-col gap-4 my-2">
 						<div className="font-bold mt-2">
 							<Dropdown overlay={option} placement="bottomLeft">
-								<div className="p-[2px] px-6 flex bg-primary justify-between text-lg text-white rounded-md cursor-pointer">
+								<div className="p-[5px] px-6 flex bg-primary justify-between text-lg text-white rounded-md cursor-pointer">
 									<p>{role}</p>
 									<CaretDownOutlined />
 								</div>

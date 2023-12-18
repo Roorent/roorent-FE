@@ -13,7 +13,7 @@ function Chats() {
 	return (
 		<div>
 			<div
-				className="bg-primary flex w-10 h-10 p-1 items-center justify-center rounded-[5px] relative cursor-pointer"
+				className="bg-primary flex w-10 h-10 p-1 items-center justify-center rounded-[5px] relative cursor-pointer border-2 border-[#2951A3]"
 				onClick={() => {
 					setIsOpenModal("list");
 				}}

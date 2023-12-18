@@ -26,7 +26,11 @@ function CreateChats({ openChat, isOpen }: any) {
 				modal={{
 					styles: {
 						content: {
+							position: "absolute",
+							right: 0,
+							top: 0,
 							width: "80%",
+							height: "991px",
 							padding: "15px",
 							boxShadow: "0 25px 50px -12px rgb(0 0 0 / 0.5)",
 						},
@@ -55,20 +59,20 @@ function CreateChats({ openChat, isOpen }: any) {
 									</div>
 								</div>
 							</div>
-							<div className="border-primary border-b-2 mt-2 mb-4"></div>
+							<div className="border-slate-200 border-b-2 mt-2 mb-4"></div>
 						</div>
 					}
 					mask={false}
 					open={isModalOpen}
 					onCancel={closeModal}
-					className="absolute top-14 right-[320px]"
+					className="absolute top-0 right-0"
 					closeIcon={<p></p>}
 					footer={false}
 				>
-					<div className="my-1">
-						<div className="h-[300px] px-4 flex flex-col gap-4 text-slate-800 drop-shadow-md overflow-auto">
+					<div className="my-1 h-[835px]">
+						<div className="h-full px-4 flex flex-col gap-4 text-slate-800 drop-shadow-md overflow-auto">
 							<div className="flex">
-								<div className="bg-white rounded-xl p-2 max-w-[80%] flex flex-col relative">
+								<div className="bg-white text-slate-800 rounded-xl rounded-bl-none p-2 max-w-[80%] flex flex-col relative">
 									<p className="min-w-[100px] mb-5">
 										lawan Lorem ipsum, dolor sit amet consectetur adipisicing
 										elit. Enim maiores iusto quaerat sequi fuga ab ipsa
@@ -84,7 +88,7 @@ function CreateChats({ openChat, isOpen }: any) {
 								</div>
 							</div>
 							<div className="flex">
-								<div className="bg-blue-300 rounded-xl p-2 max-w-[80%] flex flex-col relative ml-auto">
+								<div className="bg-primary text-white rounded-xl rounded-br-none p-2 max-w-[80%] flex flex-col relative ml-auto border border-slate-200">
 									<p className="min-w-[100px] mb-5">saya</p>
 									<p className="text-[11px] font-thin absolute bottom-2 right-4">
 										08:20

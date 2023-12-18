@@ -6,6 +6,7 @@ import type { RadioChangeEvent } from "antd";
 import { Radio } from "antd";
 import { CloseOutlined } from "@ant-design/icons";
 import Button from "../Button";
+import { parseJwt } from "#/utils/convert";
 
 function ListNotifications({ openNotification, isOpen }: any) {
 	const [isModalOpen, setIsModalOpen] = useState(false);
@@ -24,6 +25,12 @@ function ListNotifications({ openNotification, isOpen }: any) {
 		setIsModalOpen(isOpen);
 	}, [isOpen]);
 
+	const token = localStorage.getItem("access_token")
+	let role: string = ''
+	
+	if(token){
+		role = parseJwt(token).role
+	}
 	return (
 		<>
 			<ConfigProvider
@@ -43,7 +50,7 @@ function ListNotifications({ openNotification, isOpen }: any) {
 							<div className="ml-2 text-2xl font-bold text-slate-800">
 								Notifikasi
 							</div>
-							<div className="border-primary border-b-2 mt-2 mb-4"></div>
+							<div className="border-slate-200 border-b-2 mt-2 mb-4"></div>
 						</div>
 					}
 					mask={false}
@@ -55,7 +62,7 @@ function ListNotifications({ openNotification, isOpen }: any) {
 							<CloseOutlined className="text-2xl" />
 						</div>
 					}
-					footer={
+					footer={role == "admin" ? 
 						<Button
 							onClick={() => {
 								openNotification("create");
@@ -64,7 +71,7 @@ function ListNotifications({ openNotification, isOpen }: any) {
 						>
 							Buat Notifikasi
 						</Button>
-					}
+					: <></>}
 				>
 					<div className="flex justify-end">
 						<Radio.Group onChange={changeRadio} value={readable}>
@@ -72,7 +79,7 @@ function ListNotifications({ openNotification, isOpen }: any) {
 							<Radio value={false}>Belum Dibaca</Radio>
 						</Radio.Group>
 					</div>
-					<div className="flex flex-col gap-4 my-2">
+					<div className="flex flex-col gap-4 my-2 h-[280px]">
 						{readable ? (
 							<>
 								<div>

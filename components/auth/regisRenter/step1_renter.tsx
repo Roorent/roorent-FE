@@ -85,7 +85,7 @@ function RenterStep1({ setData, dataInput, formStep1}: Props){
 				<div>
 					<p className="text-teks text-2xl font-bold">Jenis Kelamin</p>
 				</div>
-				<div className="w-full">
+				<div className="w-full regis">
 				<Form.Item
 					name="gender"
 					rules={[{ required: true, message: 'Harap masukan nama belakang anda!' }]}

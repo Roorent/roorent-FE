@@ -15,6 +15,7 @@ module.exports = {
 				rstroke: "#646464",
 				teks: "#0B0B0B",
 				placeholder: "#D7D7D7",
+				merah: "#DD1717"
 			},
 		},
 	},

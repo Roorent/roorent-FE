@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect } from "react";
-import { Button, Card } from "antd";
+import { Button} from "antd";
 import { store } from "#/store";
 import { sampleRepository } from "#/repository/sample";
 

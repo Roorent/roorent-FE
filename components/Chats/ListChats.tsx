@@ -23,7 +23,11 @@ function ListChats({ openChat, isOpen }: any) {
 				modal={{
 					styles: {
 						content: {
+							position: "absolute",
+							right: 0,
+							top: 0,
 							width: "80%",
+							height: "991px",
 							padding: "15px",
 							boxShadow: "0 25px 50px -12px rgb(0 0 0 / 0.5)",
 						},
@@ -36,13 +40,13 @@ function ListChats({ openChat, isOpen }: any) {
 							<div className="ml-2 text-2xl font-bold text-slate-800">
 								Pesan
 							</div>
-							<div className="border-primary border-b-2 mt-2 mb-4"></div>
+							<div className="border-slate-200 border-b-2 mt-2 mb-4"></div>
 						</div>
 					}
 					mask={false}
 					open={isModalOpen}
 					onCancel={closeModal}
-					className="absolute top-14 right-[320px]"
+					className="absolute top-0 right-0"
 					closeIcon={
 						<div onClick={closeModal} className="text-slate-800">
 							<CloseOutlined className="text-2xl" />
@@ -56,7 +60,7 @@ function ListChats({ openChat, isOpen }: any) {
 								<Photo />
 							</div>
 							<div
-								className="w-[82%] py-1 border-b border-primary cursor-pointer"
+								className="w-[82%] py-1 border-b border-slate-200 cursor-pointer"
 								onClick={() => {
 									openChat("create");
 									setIsModalOpen(false);
@@ -76,7 +80,7 @@ function ListChats({ openChat, isOpen }: any) {
 								<Photo />
 							</div>
 							<div
-								className="w-[82%] py-1 border-b border-primary cursor-pointer"
+								className="w-[82%] py-1 border-b border-slate-200 cursor-pointer"
 								onClick={() => {
 									openChat("create");
 									setIsModalOpen(false);
@@ -97,7 +101,7 @@ function ListChats({ openChat, isOpen }: any) {
 								<Photo />
 							</div>
 							<div
-								className="w-[82%] py-1 border-b border-primary cursor-pointer"
+								className="w-[82%] py-1 border-b border-slate-200 cursor-pointer"
 								onClick={() => {
 									openChat("create");
 									setIsModalOpen(false);

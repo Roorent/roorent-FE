@@ -1,7 +1,7 @@
 "use client";
 
 import React, {useEffect, useState} from "react";
-import {Button, Card, Checkbox, Col, Form, Input, Row, Typography, message} from 'antd/lib/index';
+import {Button, Form, Input, message} from 'antd/lib/index';
 import {EyeInvisibleOutlined, EyeTwoTone, LockOutlined, MailOutlined} from '@ant-design/icons';
 import {LOGIN} from "#/constants/images";
 import Logo from "#/components/logo/logo";
@@ -87,7 +87,7 @@ const Login = () => {
                             <div className="w-full">
                             <Form.Item
                                 name="password"
-                                rules={[{ required: true, message: 'Harap masukan password anda!' }]}
+                                rules={[{ required: true, message: 'Harap masukan kata sandi anda!' }]}
                             >
                                 <Input.Password size="large" placeholder="Masukan Kata Sandi" prefix={<LockOutlined 
                                 className="text-white text-3xl mr-5"/>} className=" p-[10px] bg-white bg-opacity-20 rounded-[10px] border border-white border-opacity-30 login text-xl"
@@ -96,7 +96,7 @@ const Login = () => {
                             </div>
                         </div>
                         <div className="text-white text-xl font-bold">
-                            <a href="#" className="font-bold no-underline hover:underline">Aktifkan akun kembali!</a>
+                            <a href="/account/re-active" className="font-bold no-underline hover:underline">Aktifkan akun kembali!</a>
                         </div>
                     </div>
                     <div className="w-full mt-10 login">
