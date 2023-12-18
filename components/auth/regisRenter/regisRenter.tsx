@@ -7,7 +7,6 @@ import Regis from "#/components/auth/img_regis";
 import { Button, message } from "antd/lib/index";
 import RenterStep1 from "./step1_renter";
 import RenterStep2 from "./step2_renter";
-import { authRepository } from "#/repository/auth";
 
 function RegisRenter() {
     const [dataInput, setData] = useState<Data>({
@@ -54,25 +53,7 @@ function RegisRenter() {
     };
   
     const items = steps.map((item) => ({ key: item.title, title: item.title }));
-    const onFinish =async (values:any) => {
-		try{
-			const data ={
-                level:"renter",
-				first_name:values?.first_name,
-				last_name:values?.last_name,
-				phone:values?.no_phone,
-				birth_date:values?.birth_date,
-				gender:values?.gender,
-                email:values?.email,
-                password:values?.password,
-                nik:values?.nik
-			}
-            const register = await authRepository.manipulatedata.register(data)
-            console.log
-		}catch(err){
-			// message.error(err)
-		}
-	}
+    
     return (
         <div className="w-full min-h-screen flex justify-center relative">
             <div className="w-1/2 relative">
@@ -119,10 +100,11 @@ function RegisRenter() {
                                 dataInput.birth_date.length <= 1 ||
                                 dataInput.gender.length <= 1 ||
                                 dataInput.email.length <= 1 ||
-                                dataInput.password.length <= 1 
+                                dataInput.password.length <= 1 ||
+                                dataInput.nik.length <= 1
                             }
                             onClick={() => message.success('Anda Telah Berhasil Registrasi!')} className="bg-primary rounded-[20px] px-8 py-2.5 text-xl font-bold regis w-full mt-[38px] h-max regis"
-                            onSubmit={onFinish}>
+                            >
                                 Daftar
                             </Button>
                         )}
