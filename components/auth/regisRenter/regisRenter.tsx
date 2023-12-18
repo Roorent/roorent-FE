@@ -7,6 +7,7 @@ import Regis from "#/components/auth/img_regis";
 import { Button, message } from "antd/lib/index";
 import RenterStep1 from "./step1_renter";
 import RenterStep2 from "./step2_renter";
+import { authRepository } from "#/repository/auth";
 
 function RegisRenter() {
     const [dataInput, setData] = useState<Data>({
@@ -56,14 +57,18 @@ function RegisRenter() {
     const onFinish =async (values:any) => {
 		try{
 			const data ={
+                level:"renter",
 				first_name:values?.first_name,
 				last_name:values?.last_name,
 				phone:values?.no_phone,
 				birth_date:values?.birth_date,
 				gender:values?.gender,
                 email:values?.email,
-                password:values?.password
+                password:values?.password,
+                nik:values?.nik
 			}
+            const register = await authRepository.manipulatedata.register(data)
+            console.log
 		}catch(err){
 			// message.error(err)
 		}
