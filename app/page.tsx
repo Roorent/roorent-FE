@@ -9,6 +9,7 @@ function Home() {
 	useEffect(() => {
 		if (router) {
 			router.push("/auth/login");
+			router.push('auth/register');
 		}
 	}, [router]);
 

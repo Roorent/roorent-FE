@@ -107,6 +107,7 @@ function RegisOwner() {
                             //     dataInput.email.length <= 1 ||
                             //     dataInput.password.length <= 1  
                             // }
+                            
                             onClick={() => console.log(dataInput.first_name.length, 
                                 dataInput.last_name.length, 
                                 dataInput.phone.length, 

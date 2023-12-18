@@ -53,7 +53,21 @@ function RegisRenter() {
     };
   
     const items = steps.map((item) => ({ key: item.title, title: item.title }));
-  
+    const onFinish =async (values:any) => {
+		try{
+			const data ={
+				first_name:values?.first_name,
+				last_name:values?.last_name,
+				phone:values?.no_phone,
+				birth_date:values?.birth_date,
+				gender:values?.gender,
+                email:values?.email,
+                password:values?.password
+			}
+		}catch(err){
+			// message.error(err)
+		}
+	}
     return (
         <div className="w-full min-h-screen flex justify-center relative">
             <div className="w-1/2 relative">
@@ -102,7 +116,8 @@ function RegisRenter() {
                                 dataInput.email.length <= 1 ||
                                 dataInput.password.length <= 1 
                             }
-                            onClick={() => message.success('Anda Telah Berhasil Registrasi!')} className="bg-primary rounded-[20px] px-8 py-2.5 text-xl font-bold regis w-full mt-[38px] h-max regis">
+                            onClick={() => message.success('Anda Telah Berhasil Registrasi!')} className="bg-primary rounded-[20px] px-8 py-2.5 text-xl font-bold regis w-full mt-[38px] h-max regis"
+                            onSubmit={onFinish}>
                                 Daftar
                             </Button>
                         )}
