@@ -59,7 +59,7 @@ function OwnerStep1({ setData, dataInput, formStep1}: Props){
 			>
 				<Input onChange={(e) => {
 					setData({ ...dataInput, phone: e.target.value })}} 
-					addonBefore="+62" placeholder="Masukan nomor telepon" maxLength={14} className="regis" />
+					addonBefore="+62" placeholder="Masukan nomor telepon" maxLength={11} className="regis" />
 			</Form.Item>
 			</div>
 		</div>

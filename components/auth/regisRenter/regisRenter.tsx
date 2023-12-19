@@ -97,7 +97,7 @@ function RegisRenter() {
                                 dataInput.first_name.length <= 1 ||
                                 dataInput.last_name.length <= 1 ||
                                 dataInput.phone.length <= 1 ||
-                                dataInput.birth_date.length <= 1 ||
+                                typeof dataInput.birth_date !== "object" ||
                                 dataInput.gender.length <= 1 ||
                                 dataInput.email.length <= 1 ||
                                 dataInput.password.length <= 1 

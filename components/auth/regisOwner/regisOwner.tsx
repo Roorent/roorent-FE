@@ -117,30 +117,18 @@ function RegisOwner() {
               <Button
                 type="primary"
                 htmlType="submit"
-                // disabled={
-                //     dataInput.first_name.length <= 1 ||
-                //     dataInput.last_name.length <= 1 ||
-                //     dataInput.phone.length <= 1 ||
-                //     dataInput.birth_date.length <= 1 ||
-                //     dataInput.gender.length <= 1||
-                //     dataInput.nik.length <= 1||
-                //     dataInput.photo_ktp.length <= 1||
-                //     dataInput.email.length <= 1 ||
-                //     dataInput.password.length <= 1
-                // }
-                onClick={() =>
-                  console.log(
-                    dataInput.first_name.length,
-                    dataInput.last_name.length,
-                    dataInput.phone.length,
-                    dataInput.birth_date.length,
-                    dataInput.gender.length,
-                    dataInput.nik.length,
-                    dataInput.photo_ktp.length,
-                    dataInput.email.length,
-                    dataInput.password.length
-                  )
+                disabled={
+                    dataInput.first_name.length <= 1 ||
+                    dataInput.last_name.length <= 1 ||
+                    dataInput.phone.length <= 1 ||
+                    typeof dataInput.birth_date !== "object" || 
+                    dataInput.gender.length <= 1||
+                    dataInput.nik.length <= 1||
+                    dataInput.photo_ktp.length <= 1||
+                    dataInput.email.length <= 1 ||
+                    dataInput.password.length <= 1
                 }
+                onClick={() => message.success('Anda Telah Berhasil Registrasi!')}
                 className="bg-primary rounded-[20px] px-8 py-2.5 text-xl font-bold regis w-full mt-[38px] h-max"
               >
                 Daftar
@@ -149,10 +137,10 @@ function RegisOwner() {
           </div>
           <div className="text-teks text-xl absolute bottom-10">
             <p>
-              Sudah punya akun?{" "}
+              Sudah punya akun?
               <a
                 href="/auth/login"
-                className="font-bold no-underline hover:underline"
+                className="font-bold no-underline hover:underline" 
               >
                 Masuk disini!
               </a>

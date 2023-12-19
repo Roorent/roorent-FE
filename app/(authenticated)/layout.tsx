@@ -52,6 +52,10 @@ const AuthenticatedLayout: React.FC<AuthenticatedLayoutProps> = ({
 		role = parseJwt(token).role
 	}
 
+	if(!token){
+		router.push("/")
+	}
+
 	const itemOwner: MenuItem[] = [
 		getItem(
 			"Produk",
@@ -157,9 +161,8 @@ const AuthenticatedLayout: React.FC<AuthenticatedLayoutProps> = ({
 	return (
 		<Layout style={{ height: "100%" }}>
 			
-			{role == "renter" ? 
+			{role !== "renter" && (
 			<>
-			</> : (<>
 			{!window.location.pathname.includes("/create-product") &&(
 			<Sider
 				width={300}

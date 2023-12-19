@@ -69,12 +69,12 @@ function RenterStep1({ setData, dataInput, formStep1}: Props){
 			</div>
 			<div className="w-full">
 			<Form.Item
-				name="no_phone"
+				name="phone"
 				rules={[{ required: true, message: 'Harap masukan nama belakang anda!' }]}
 			>
 				<Input onChange={(e) => {
-					setData({ ...dataInput, no_phone: e.target.value })}} 
-					addonBefore="+62" placeholder="Masukan nomor telepon" maxLength={14} className="regis" />
+					setData({ ...dataInput, phone: e.target.value })}} 
+					addonBefore="+62" placeholder="Masukan nomor telepon" maxLength={11} className="regis" />
 			</Form.Item>
 			</div>
 		</div>
