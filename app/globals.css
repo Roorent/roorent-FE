@@ -177,7 +177,7 @@ body {
     color: white;
     font-size: 20px;
 }
-.regis .ant-select-single, .produkOwner .ant-select-single {
+.regis .ant-select-single{
     height: auto;
 }
 .regis .ant-input:hover, .regis .ant-input:focus{
@@ -236,11 +236,21 @@ body {
 }
 
 .modal-hapus .anticon svg{
-    font-size: 84px;
+    font-size: 60px;
     color: #4065DA;
 }
-:where(.css-dev-only-do-not-override-6j9yrn).ant-btn  {
+.modal-hapus :where(.css-dev-only-do-not-override-6j9yrn).ant-btn  {
     height: max-content;
+}
+:where(.css-dev-only-do-not-override-6j9yrn).ant-btn{
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: large;
+    background-color: #4065DA;
+    font-weight: bold;
+    width: 50%;
 }
 .ant-modal-confirm .ant-modal-confirm-paragraph {
     max-width: none;
@@ -260,7 +270,7 @@ button, [type='button']{
     color: white;
     border-color: white;
 }
-:where(.css-dev-only-do-not-override-6j9yrn).ant-modal-confirm .ant-modal-confirm-btns {
+.modal-hapus :where(.css-dev-only-do-not-override-6j9yrn).ant-modal-confirm .ant-modal-confirm-btns {
     margin-top: 40px;
     display: flex;
     justify-content: space-between;
@@ -282,7 +292,7 @@ button, [type='button']{
 .ant-upload-wrapper.ant-upload-picture-card-wrapper .ant-upload-list.ant-upload-list-picture-card .ant-upload-list-item-container{
     width: 156px;
 }
-.ant-input-affix-wrapper, .ant-select:not(.ant-select-customize-input) .ant-select-selector{
+.create-produk .ant-input-affix-wrapper,.textarea-produk .ant-input-affix-wrapper, .ant-select:not(.ant-select-customize-input) .ant-select-selector{
     border-radius: 10px;
     @apply border-rstroke;
 }
@@ -301,7 +311,7 @@ textarea:where(.css-dev-only-do-not-override-1dj4ii3).ant-input{
     padding: 10px;
     height: max-content;
 }
-.ant-select .ant-select-arrow {
+.create-produk .ant-select .ant-select-arrow, .textarea-produk .ant-select .ant-select-arrow {
     height: 100%;
 }
 .ant-select-single .ant-select-selector {
@@ -310,4 +320,26 @@ textarea:where(.css-dev-only-do-not-override-1dj4ii3).ant-input{
 .ant-input-number-affix-wrapper input.ant-input-number-input {
     padding: 0px;
     font-size: 20px;
+}
+
+.list-produk .ant-form-item {
+    margin-bottom: 0;
+}
+
+.create-produk .ant-form-item .ant-form-item-explain-error {
+    margin-top: 10px;
+}
+.ant-input-number-sm input.ant-input-number-input {
+    height: max-content;
+}
+.ant-input-number .ant-input-number-input {
+    border-radius: 0;
+}
+.modal-berhasil :where(.css-dev-only-do-not-override-6j9yrn).ant-btn{
+    background-color: #4065DA;
+}
+:where(.css-dev-only-do-not-override-6j9yrn).ant-modal-confirm .ant-modal-confirm-btns{
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
 }

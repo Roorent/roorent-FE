@@ -5,12 +5,12 @@ import { Form } from "antd";
 import OwnerStep1 from "#/components/auth/regisOwner/step1_owner";
 import OwnerStep2 from "#/components/auth/regisOwner/step2_owner";
 import OwnerStep3 from "#/components/auth/regisOwner/step3_owner";
-import { Data } from "#/types/typeRegis";
+import { Register } from "#/types/typeRegis";
 import Regis from "#/components/auth/img_regis";
 import { Button, message } from "antd/lib/index";
 
 function RegisOwner() {
-  const [dataInput, setData] = useState<Data>({
+  const [dataInput, setData] = useState<Register>({
     level: "",
     first_name: "",
     last_name: "",

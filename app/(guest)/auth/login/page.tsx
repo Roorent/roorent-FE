@@ -34,7 +34,6 @@ const Login = () => {
 	}, []);
     
     const router = useRouter()
-    const [loading, setLoading] = useState(false)
 
     const onFinish = async (values: any) => {
         console.log('Received values of form: ', values);
@@ -69,9 +68,9 @@ const Login = () => {
                             <p className="mb-2">Jika kamu belum memiliki akun</p> 
                             <p>kamu bisa <a href="/auth/register" className="font-bold no-underline hover:underline">Daftar disini!</a></p>
                         </div>
-                        <div>
+                        <div className="login">
                             <p className="text-white text-3xl font-bold pb-3">Email</p>
-                            <div className="w-full">
+                            <div className="w-full login">
                             <Form.Item
                                 name="email"
                                 rules={[{ required: true, message: 'Harap masukan email anda!' }]}
@@ -101,7 +100,7 @@ const Login = () => {
                     </div>
                     <div className="w-full mt-10 login">
                     <Form.Item>
-                        <Button type="primary" loading={loading} htmlType="submit" block className=" bg-tranparant border border-white rounded-full text-2xl font-bold py-3 h-max">
+                        <Button type="primary" htmlType="submit" block className=" bg-tranparant border border-white rounded-full text-2xl font-bold py-3 h-max">
                             Masuk
                         </Button>
                     </Form.Item>

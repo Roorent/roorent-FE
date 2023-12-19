@@ -1,11 +1,11 @@
-import { Data } from "#/types/typeRegis";
+import { Register } from "#/types/typeRegis";
 import { EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
 import { Form, Input } from "antd";
 import { FormInstance } from "antd/lib";
 
 type Props = {
 	setData: any;
-	dataInput: Data;
+	dataInput: Register;
 	formStep2: FormInstance<any>
 }
 

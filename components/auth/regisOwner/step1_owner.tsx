@@ -2,13 +2,13 @@ import { DatePicker, Select, } from "antd/lib/index";
 import { Option } from "antd/es/mentions";
 import { Form, Input} from "antd/lib/index"
 import { FormInstance } from "antd";
-import { Data } from "#/types/typeRegis";
+import { Register } from "#/types/typeRegis";
 import moment from "moment";
 
 
 type Props = {
 	setData: any;
-	dataInput: Data;
+	dataInput: Register;
 	formStep1: FormInstance<any>
 }
 

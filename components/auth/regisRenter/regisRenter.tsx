@@ -2,14 +2,14 @@ import Logo from "#/components/logo/logo"
 import { Steps } from "antd";
 import { useState } from "react";
 import { Form} from "antd";
-import { Data } from "#/types/typeRegis";
+import { Register } from "#/types/typeRegis";
 import Regis from "#/components/auth/img_regis";
 import { Button, message } from "antd/lib/index";
 import RenterStep1 from "./step1_renter";
 import RenterStep2 from "./step2_renter";
 
 function RegisRenter() {
-    const [dataInput, setData] = useState<Data>({
+    const [dataInput, setData] = useState<Register>({
         level: "",
         first_name: "",
         last_name: "",

@@ -2,13 +2,13 @@ import { DatePicker, Select, } from "antd/lib/index";
 import { Option } from "antd/es/mentions";
 import { Form, Input} from "antd/lib/index"
 import { FormInstance } from "antd";
-import { Data } from "#/types/typeRegis";
+import { Register } from "#/types/typeRegis";
 import moment from "moment";
 
 
 type Props = {
 	setData: any;
-	dataInput: Data;
+	dataInput: Register;
 	formStep1: FormInstance<any>
 }
 
@@ -48,6 +48,21 @@ function RenterStep1({ setData, dataInput, formStep1}: Props){
 			</Form.Item>
 			</div>
 		</div>
+		<div className="grid gap-y-4 grid-cols-1">
+            <div>
+                <p className="text-teks text-2xl font-bold">No. NIK</p>
+            </div>
+            <div className="w-full">
+            <Form.Item
+                name="nik"
+                rules={[{ required: true, message: 'Harap masukan No.NIK!' }]}
+            >
+                <Input onChange={(e) => {
+                  setData({ ...dataInput, nik: e.target.value })}}
+                  size="large" placeholder="Masukan no nik" maxLength={16} className=" p-[10px] rounded-[10px] border border-rstroke regis text-xl" />
+            </Form.Item>
+            </div>
+        </div>
 		<div className="grid gap-y-4 grid-cols-1">
 			<div>
 				<p className="text-teks text-2xl font-bold">No. Hp</p>

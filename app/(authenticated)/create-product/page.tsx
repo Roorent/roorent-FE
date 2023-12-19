@@ -1,10 +1,24 @@
 "use client";
 
-import { ArrowLeftOutlined, CameraOutlined } from "@ant-design/icons";
-import { Form, Input, InputNumber, Modal, Select, Upload, message } from "antd";
+import ModalBerhasil from "#/components/Modal/modalBerhasil";
+import {
+  ArrowLeftOutlined,
+  CameraOutlined,
+  ExclamationCircleFilled,
+} from "@ant-design/icons";
+import {
+  Button,
+  Form,
+  Input,
+  InputNumber,
+  Modal,
+  Select,
+  Upload,
+  message,
+} from "antd";
 import { UploadFile } from "antd/es/upload/interface";
 import { RcFile, UploadProps } from "antd/lib/upload";
-import React, { ChangeEvent, useState } from "react";
+import React, { useState } from "react";
 
 const handleChangeProduk = (value: string) => {
   console.log(`selected ${value}`);
@@ -80,30 +94,57 @@ function CreateProduct() {
 
   const { Option } = Select;
 
+  //get value harga
   const options: OptionType[] = [
     { value: "campur", label: "Campur" },
     { value: "perhari", label: "Perhari" },
     { value: "perbulan", label: "Perbulan" },
   ];
-  const defaultSelectedOption: OptionType = { value: "campur", label: "Campur" };
+
+  const defaultSelectedOption: OptionType = {
+    value: "campur",
+    label: "Campur",
+  };
 
   const [selectedOption, setSelectedOption] = useState<OptionType | undefined>(
-    undefined
+    defaultSelectedOption
   );
-  const [hargaPerHari, setHargaPerHari] = useState<string>("");
-  const [hargaPerBulan, setHargaPerBulan] = useState<string>("");
+
+  const [hargaPerHari, setHargaPerHari] = useState<number | null>(null);
+  const [hargaPerBulan, setHargaPerBulan] = useState<number | null>(null);
 
   const handleSelectChange = (value: string) => {
     const selected = options.find((option) => option.value === value);
     setSelectedOption(selected);
   };
 
-  const handleHargaPerHariChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setHargaPerHari(e.target.value);
+  const handleHargaPerHariChange = (value: number | null) => {
+    setHargaPerHari(value);
   };
 
-  const handleHargaPerBulanChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setHargaPerBulan(e.target.value);
+  const handleHargaPerBulanChange = (value: number | null) => {
+    setHargaPerBulan(value);
+  };
+
+  // get value tipe produk
+  const optionsProduk: OptionType[] = [
+    { value: "kost", label: "Kost" },
+    { value: "gedung", label: "Gedung" },
+    { value: "hotel", label: "Hotel" },
+  ];
+
+  const defaultSelectedOptionProduk: OptionType = {
+    value: "kost",
+    label: "Kost",
+  };
+
+  const [selectedOptionProduk, setSelectedOptionProduk] = useState<
+    OptionType | undefined
+  >(defaultSelectedOptionProduk);
+
+  const handleSelectChangeProduk = (value: string) => {
+    const selected = optionsProduk.find((option) => option.value === value);
+    setSelectedOptionProduk(selected);
   };
   return (
     <div>
@@ -120,33 +161,40 @@ function CreateProduct() {
               <p className="text-white w-full">Tambah Produk </p>
             </div>
             <div className="flex gap-x-6 flex items-center">
-              <div className="w-full">
+              <div className="w-full list-produk">
                 <Form.Item
                   name="type"
-                  rules={[
-                    {
-                      required: true,
-                      message: "Harap masukan foto produk!",
-                    },
-                  ]}
                 >
-                  <Select
+                  {/* <Select
                     //   defaultValue="kost"
                     placeholder="Pilih Produk"
                     style={{ width: 170 }}
-                    className="produkOwner"
+                    className="produkOwner flex items-center"
                     onChange={handleChangeProduk}
                     options={[
                       { value: "kost", label: "Kost" },
                       { value: "gedung", label: "Gedung" },
                       { value: "hotel", label: "Hotel" },
                     ]}
-                  />
+                  /> */}
+                  <Select
+                    value={selectedOptionProduk?.value}
+                    onChange={handleSelectChangeProduk}
+                    defaultValue={defaultSelectedOptionProduk.value}
+                    style={{ width: 130 }}
+                    className="flex items-center"
+                  >
+                    {optionsProduk.map((option) => (
+                      <Option key={option.value} value={option.value}>
+                        {option.label}
+                      </Option>
+                    ))}
+                  </Select>
                 </Form.Item>
               </div>
             </div>
           </div>
-          <div className="flex gap-x-[80px]">
+          <div className="flex gap-x-[70px]">
             <div className="w-1/2">
               <div className="grid gap-y-4 grid-cols-1">
                 <div>
@@ -216,19 +264,13 @@ function CreateProduct() {
                 <div>
                   <Form.Item
                     name="stock"
-                    rules={[
-                      {
-                        required: true,
-                        message: "Harap masukan stok produk!",
-                      },
-                    ]}
                   >
                     <InputNumber
                       style={{ width: "100%" }}
                       size="small"
                       min={1}
                       max={10000}
-                      placeholder="Masukan stok produk"
+                      defaultValue={1}
                       className=" py-[10px] px-[3px] rounded-[10px] border border-rstroke regis text-xl"
                     />
                   </Form.Item>
@@ -238,7 +280,7 @@ function CreateProduct() {
                 <div>
                   <p className="text-teks text-2xl font-bold">Alamat</p>
                 </div>
-                <div>
+                <div className="textarea-produk">
                   <Form.Item
                     name="address"
                     rules={[
@@ -266,7 +308,7 @@ function CreateProduct() {
                 <div>
                   <p className="text-teks text-2xl font-bold">Kota</p>
                 </div>
-                <div>
+                <div className="create-produk">
                   <Form.Item
                     name="city"
                     rules={[
@@ -323,151 +365,244 @@ function CreateProduct() {
                   </Form.Item>
                 </div>
               </div>
-              <div className="produkOwner text-xl font-bold bg-primary rounded-[10px] px-5 py-2.5 flex items-center mb-[30px]">
-                <div className="w-full">
-                  <p className="text-white w-full ">Harga Produk</p>
-                </div>
-                <div className="flex gap-x-6 flex items-center">
-                  <div className="w-full">
-                    {/* <Select
-                      //   defaultValue="kost"
-                      placeholder="Pilih Tipe"
-                      style={{ width: 170 }}
-                      className="produkOwner"
-                      value={selectedOption.value}
-                      onChange={handleSelectChange}>
-                    /> */}
-                    <Select
-                      value={selectedOption?.value}
-                      onChange={handleSelectChange}
-                      defaultValue={defaultSelectedOption.value}
-                    >
-                      {options.map((option) => (
-                        <Option key={option.value} value={option.value}>
-                          {option.label}
-                        </Option>
-                      ))}
-                    </Select>
-                  </div>
-                </div>
-              </div>
-              {selectedOption?.value === "perhari" && (
-                <div className="grid gap-y-4 grid-cols-1">
-                  <div>
-                    <p className="text-teks text-2xl font-bold">
-                      Harga Perhari
-                    </p>
-                  </div>
-                  <div>
-                    <Form.Item
-                      name="daily_price"
-                      rules={[
-                        {
-                          required: true,
-                          message: "Harap masukan lokasi produk!",
-                        },
-                      ]}
-                    >
-                      <InputNumber
-                        style={{ width: "100%" }}
-                        size="small"
-                        prefix="Rp."
-                        min={1000}
-                        defaultValue={1000}
-                        className=" py-[10px] px-[3px] rounded-[10px] border border-rstroke regis text-xl items-center"
-                        value={hargaPerHari} onChange={handleHargaPerHariChange}
-                      />
-                    </Form.Item>
-                  </div>
-                </div>
-              )}
-              {selectedOption?.value === "perbulan" && (
-                <div className="grid gap-y-4 grid-cols-1">
-                  <div>
-                    <p className="text-teks text-2xl font-bold">
-                      Harga Perbulan
-                    </p>
-                  </div>
-                  <div>
-                    <Form.Item
-                      name="monthly_price"
-                      rules={[
-                        {
-                          required: true,
-                          message: "Harap masukan lokasi produk!",
-                        },
-                      ]}
-                    >
-                      <InputNumber
-                        style={{ width: "100%" }}
-                        size="small"
-                        prefix="Rp."
-                        min={1000}
-                        defaultValue={1000}
-                        className=" py-[10px] px-[3px] rounded-[10px] border border-rstroke regis text-xl items-center"
-                      />
-                    </Form.Item>
-                  </div>
-                </div>
-              )}
-              {selectedOption?.value === "campur" && (
+              {selectedOptionProduk?.value === "kost" && (
                 <>
-                  <div className="grid gap-y-4 grid-cols-1">
-                    <div>
-                      <p className="text-teks text-2xl font-bold">
-                        Harga Perhari
-                      </p>
+                  <div className="produkOwner text-xl font-bold bg-primary rounded-[10px] px-5 py-2.5 flex items-center mb-[30px]">
+                    <div className="w-full">
+                      <p className="text-white w-full ">Harga Produk</p>
                     </div>
-                    <div>
-                      <Form.Item
-                        name="daily_price"
-                        rules={[
-                          {
-                            required: true,
-                            message: "Harap masukan lokasi produk!",
-                          },
-                        ]}
-                      >
-                        <InputNumber
-                          style={{ width: "100%" }}
-                          size="small"
-                          prefix="Rp."
-                          min={1000}
-                          defaultValue={1000}
-                          className=" py-[10px] px-[3px] rounded-[10px] border border-rstroke regis text-xl items-center"
-                        />
-                      </Form.Item>
+                    <div className="flex gap-x-6 flex">
+                      <div className="w-full list-produk">
+                        <Form.Item>
+                          <Select
+                            value={selectedOption?.value}
+                            onChange={handleSelectChange}
+                            defaultValue={defaultSelectedOption.value}
+                            className="flex items-center"
+                          >
+                            {options.map((option) => (
+                              <Option key={option.value} value={option.value}>
+                                {option.label}
+                              </Option>
+                            ))}
+                          </Select>
+                        </Form.Item>
+                      </div>
                     </div>
                   </div>
-                  <div className="grid gap-y-4 grid-cols-1">
-                    <div>
-                      <p className="text-teks text-2xl font-bold">
-                        Harga Perbulan
-                      </p>
+                  {selectedOption?.value === "perhari" && (
+                    <div className="grid gap-y-4 grid-cols-1">
+                      <div>
+                        <p className="text-teks text-2xl font-bold">
+                          Harga Perhari
+                        </p>
+                      </div>
+                      <div>
+                        <Form.Item
+                          name="daily_price"
+                          rules={[
+                            {
+                              required: true,
+                              message: "Harap masukan harga produk!",
+                            },
+                          ]}
+                        >
+                          <InputNumber
+                            style={{ width: "100%" }}
+                            size="small"
+                            prefix="Rp."
+                            placeholder="Masukan Harga"
+                            min={1000}
+                            className=" p-[10px] rounded-[10px] border border-rstroke regis text-xl items-center"
+                            value={hargaPerHari}
+                            onChange={handleHargaPerHariChange}
+                          />
+                        </Form.Item>
+                      </div>
                     </div>
-                    <div>
-                      <Form.Item
-                        name="monthly_price"
-                        rules={[
-                          {
-                            required: true,
-                            message: "Harap masukan lokasi produk!",
-                          },
-                        ]}
-                      >
-                        <InputNumber
-                          style={{ width: "100%" }}
-                          size="small"
-                          prefix="Rp."
-                          min={1000}
-                          defaultValue={1000}
-                          className=" py-[10px] px-[3px] rounded-[10px] border border-rstroke regis text-xl items-center"
-                        />
-                      </Form.Item>
+                  )}
+                  {selectedOption?.value === "perbulan" && (
+                    <div className="grid gap-y-4 grid-cols-1">
+                      <div>
+                        <p className="text-teks text-2xl font-bold">
+                          Harga Perbulan
+                        </p>
+                      </div>
+                      <div>
+                        <Form.Item
+                          name="monthly_price"
+                          rules={[
+                            {
+                              required: true,
+                              message: "Harap masukan harga produk!",
+                            },
+                          ]}
+                        >
+                          <InputNumber
+                            style={{ width: "100%" }}
+                            size="small"
+                            placeholder="Masukan Harga"
+                            prefix="Rp."
+                            min={1000}
+                            className=" p-[10px] rounded-[10px] border border-rstroke regis text-xl items-center"
+                            value={hargaPerBulan}
+                            onChange={handleHargaPerBulanChange}
+                          />
+                        </Form.Item>
+                      </div>
                     </div>
-                  </div>
+                  )}
+                  {selectedOption?.value === "campur" && (
+                    <>
+                      <div className="grid gap-y-4 grid-cols-1">
+                        <div>
+                          <p className="text-teks text-2xl font-bold">
+                            Harga Perhari
+                          </p>
+                        </div>
+                        <div>
+                          <Form.Item
+                            name="daily_price"
+                            rules={[
+                              {
+                                required: true,
+                                message: "Harap masukan harga produk!",
+                              },
+                            ]}
+                          >
+                            <InputNumber
+                              style={{ width: "100%" }}
+                              size="small"
+                              placeholder="Masukan harga"
+                              prefix="Rp."
+                              min={1000}
+                              className=" p-[10px] rounded-[10px] border border-rstroke regis text-xl items-center"
+                              value={hargaPerHari}
+                              onChange={handleHargaPerHariChange}
+                            />
+                          </Form.Item>
+                        </div>
+                      </div>
+                      <div className="grid gap-y-4 grid-cols-1">
+                        <div>
+                          <p className="text-teks text-2xl font-bold">
+                            Harga Perbulan
+                          </p>
+                        </div>
+                        <div>
+                          <Form.Item
+                            name="monthly_price"
+                            rules={[
+                              {
+                                required: true,
+                                message: "Harap masukan harga produk!",
+                              },
+                            ]}
+                          >
+                            <InputNumber
+                              style={{ width: "100%" }}
+                              size="small"
+                              placeholder="Masukan harga"
+                              prefix="Rp."
+                              min={1000}
+                              className=" p-[10px] rounded-[10px] border border-rstroke regis text-xl items-center"
+                              value={hargaPerBulan}
+                              onChange={handleHargaPerBulanChange}
+                            />
+                          </Form.Item>
+                        </div>
+                      </div>
+                    </>
+                  )}
                 </>
               )}
+              {selectedOptionProduk?.value === "gedung" && (
+                  <>
+                    <div className="produkOwner text-xl font-bold bg-primary rounded-[10px] px-5 py-2.5 flex items-center mb-[30px]">
+                      <div className="w-full">
+                        <p className="text-white w-full flex justify-center">Harga Produk</p>
+                      </div>
+                    </div>
+                    <div className="grid gap-y-4 grid-cols-1">
+                      <div>
+                        <p className="text-teks text-2xl font-bold">
+                          Harga Perhari
+                        </p>
+                      </div>
+                      <div>
+                        <Form.Item
+                          name="daily_price"
+                          rules={[
+                            {
+                              required: true,
+                              message: "Harap masukan harga produk!",
+                            },
+                          ]}
+                        >
+                          <InputNumber
+                            style={{ width: "100%" }}
+                            size="small"
+                            placeholder="Masukan harga"
+                            prefix="Rp."
+                            min={1000}
+                            className=" p-[10px] rounded-[10px] border border-rstroke regis text-xl items-center"
+                            value={hargaPerHari}
+                            onChange={handleHargaPerHariChange}
+                          />
+                        </Form.Item>
+                      </div>
+                    </div>
+                  </>
+                )}
+              {selectedOptionProduk?.value === "hotel" && (
+                  <>
+                    <div className="produkOwner text-xl font-bold bg-primary rounded-[10px] px-5 py-2.5 flex items-center mb-[30px]">
+                      <div className="w-full">
+                        <p className="text-white w-full flex justify-center">Harga Produk</p>
+                      </div>
+                    </div>
+                    <div className="grid gap-y-4 grid-cols-1">
+                      <div>
+                        <p className="text-teks text-2xl font-bold">
+                          Harga Perhari
+                        </p>
+                      </div>
+                      <div>
+                        <Form.Item
+                          name="daily_price"
+                          rules={[
+                            {
+                              required: true,
+                              message: "Harap masukan harga produk!",
+                            },
+                          ]}
+                        >
+                          <InputNumber
+                            style={{ width: "100%" }}
+                            size="small"
+                            placeholder="Masukan harga"
+                            prefix="Rp."
+                            min={1000}
+                            className=" p-[10px] rounded-[10px] border border-rstroke regis text-xl items-center"
+                            value={hargaPerHari}
+                            onChange={handleHargaPerHariChange}
+                          />
+                        </Form.Item>
+                      </div>
+                    </div>
+                  </>
+                )}
+              <div className="text-xl border border-slate-300 rounded-[10px] px-5 py-2.5 flex items-center mb-[30px]">
+                <div className="mr-5">
+                  <ExclamationCircleFilled className="text-3xl text-primary" />
+                </div>
+                <div className="w-full">
+                  <p className="w-full ">
+                    Harga yang akan tampil nanti, bukan harga asli yang sudah di
+                    input akan ada biaya admin sebesar 5%
+                  </p>
+                </div>
+              </div>
             </div>
             <div className="w-1/2">
               <div className="produkOwner text-xl font-bold bg-primary rounded-[10px] px-5 py-2.5 flex items-center mb-[30px]">
@@ -483,7 +618,7 @@ function CreateProduct() {
                     Spesifikasi Produk
                   </p>
                 </div>
-                <div>
+                <div className="textarea-produk">
                   <Form.Item
                     name="specifications"
                     rules={[
@@ -511,7 +646,7 @@ function CreateProduct() {
                 <div>
                   <p className="text-teks text-2xl font-bold">Fasilitas</p>
                 </div>
-                <div>
+                <div className="textarea-produk">
                   <Form.Item
                     name="facilities"
                     rules={[
@@ -539,7 +674,7 @@ function CreateProduct() {
                 <div>
                   <p className="text-teks text-2xl font-bold">Catatan</p>
                 </div>
-                <div>
+                <div className="textarea-produk">
                   <Form.Item
                     name="note"
                     rules={[
@@ -584,13 +719,10 @@ function CreateProduct() {
                       },
                     ]}
                   >
-                    <InputNumber
-                      style={{ width: "100%" }}
+                    <Input
                       size="small"
-                      min={1}
-                      max={10000}
                       placeholder="Tentukan maksimal orang"
-                      className=" py-[10px] px-[3px] rounded-[10px] border border-rstroke regis text-xl"
+                      className=" p-[10px] rounded-[10px] border border-rstroke regis text-xl"
                     />
                   </Form.Item>
                 </div>
@@ -599,15 +731,9 @@ function CreateProduct() {
                 <div>
                   <p className="text-teks text-2xl font-bold">Tipe</p>
                 </div>
-                <div className="w-full">
+                <div className="w-full create-produk">
                   <Form.Item
                     name="gender"
-                    rules={[
-                      {
-                        required: true,
-                        message: "Harap tentukan maks.orang!",
-                      },
-                    ]}
                   >
                     <Select
                       placeholder="Pilih Tipe"
@@ -627,7 +753,7 @@ function CreateProduct() {
                 <div>
                   <p className="text-teks text-2xl font-bold">Catatan</p>
                 </div>
-                <div>
+                <div className="textarea-produk">
                   <Form.Item
                     name="notes"
                     rules={[
@@ -652,6 +778,23 @@ function CreateProduct() {
                 </div>
               </div>
             </div>
+          </div>
+          <div>
+            <Form.Item>
+              {/* <Button
+                type="primary"
+                htmlType="submit"
+                block
+                className=" bg-primary border border-white rounded-full text-2xl font-bold py-3 h-max"
+              >
+                Buat
+              </Button> */}
+              <ModalBerhasil
+              title="Berhasil Buat Produk"
+              content="Kamu telah berhasil membuat produk"
+              buttonText="Buat"
+              />
+            </Form.Item>
           </div>
         </div>
       </Form>

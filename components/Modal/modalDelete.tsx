@@ -1,6 +1,5 @@
-import { Modal } from 'antd';
+import { Button, Modal } from 'antd';
 import React from 'react'
-import Button from '../Button';
 
 
 function ModalDelete({ title, content, icon, buttonText}: any) {
@@ -8,7 +7,7 @@ function ModalDelete({ title, content, icon, buttonText}: any) {
 
     const showDeleteConfirm = () => {
         confirm({
-            title: <div className='text-4xl font-bold flex justify-center'>{title}</div>,
+            title: <div className='text-3xl font-bold flex justify-center'>{title}</div>,
             content: <div className='text-xl font-semibold flex justify-center mb-[25px]'>{content}</div>,
             icon: <div className='modal-hapus mb-[10px] flex justify-center'>{icon}</div>,
             okText: <div className='modal-hapus text-xl font-bold text-white'>Ya</div>,
