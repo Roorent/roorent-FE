@@ -112,7 +112,7 @@ function ListProduct() {
             <Button
               type="primary"
               htmlType="submit"
-              href="#"
+              href="/create-product"
               className="hover:text-primary hover:bg-white bg-tranparant border-2 border-white rounded-[10px] text-[20px] font-bold !mt-0 px-7"
             >
               Tambah

@@ -160,7 +160,7 @@ const AuthenticatedLayout: React.FC<AuthenticatedLayoutProps> = ({
 			{role == "renter" ? 
 			<>
 			</> : (<>
-			{/* {!window.location.pathname.includes("/create-product") &&( */}
+			{!window.location.pathname.includes("/create-product") &&(
 			<Sider
 				width={300}
 				style={{ background: colorBgContainer }}
@@ -199,7 +199,7 @@ const AuthenticatedLayout: React.FC<AuthenticatedLayoutProps> = ({
 					<p>Logout</p>
 				</a>
 			</Sider>
-			{/* )} */}
+			)}
 			</>)}	
 			<Layout>
 				<Header style={{ background: colorBgContainer }}>
@@ -235,7 +235,7 @@ const AuthenticatedLayout: React.FC<AuthenticatedLayoutProps> = ({
 				>
 					<div
 						style={{
-							padding: "40px 150px 0 50px",
+							padding: "40px 150px 0 150px",
 							minHeight: 360,
 							height: "100%",
 							background: colorBgContainer,
