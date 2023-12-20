@@ -55,10 +55,6 @@ const AuthenticatedLayout: React.FC<AuthenticatedLayoutProps> = ({
     router.push('/');
   }
 
-  if (!token) {
-    router.push('/');
-  }
-
   const itemOwner: MenuItem[] = [
     getItem(
       'Produk',

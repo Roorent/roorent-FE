@@ -27,7 +27,7 @@ function ListChats({ openChat, isOpen }: any) {
               right: 0,
               top: 0,
               width: '80%',
-              height: '991px',
+              height: '100vh',
               padding: '15px',
               boxShadow: '0 25px 50px -12px rgb(0 0 0 / 0.5)',
             },
