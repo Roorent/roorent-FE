@@ -49,7 +49,7 @@ const Login = () => {
             localStorage.setItem("access_token", login?.body?.data?.access_token)
             // setLoading(false)
             router.push("/adm/dashboard")
-        } catch (err) {
+        } catch (err: any) {
             // console.log(err.response.body?.error);
             message.error(err.response.body?.error)
         }
