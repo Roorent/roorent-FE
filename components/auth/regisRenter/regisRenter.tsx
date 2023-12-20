@@ -1,4 +1,4 @@
-import Logo from "#/components/Logo/logo";
+import { LOGO } from "#/constants/images";
 import { Steps } from "antd";
 import { useState } from "react";
 import { Form } from "antd";
@@ -91,7 +91,7 @@ function RegisRenter() {
 			<div className="w-1/2 flex justify-center min-h-screen relative">
 				<div className="w-[653px] py-5">
 					<div className="mb-[50px] flex justify-end">
-						<Logo />
+						<LOGO />
 					</div>
 					<div className="text-teks text-4xl font-bold flex justify-center mb-[45px]">
 						<p>Daftar Akun Penyewa</p>
