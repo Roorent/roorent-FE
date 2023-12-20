@@ -1,10 +1,10 @@
-import { DatePicker, Select, } from "antd/lib/index";
+import { DatePicker, Select } from "antd/lib/index";
 import { Option } from "antd/es/mentions";
-import { Form, Input} from "antd/lib/index"
+import { Form, Input } from "antd/lib/index";
 import { FormInstance } from "antd";
 import { Register } from "#/types/typeRegis";
 import moment from "moment";
-
+import { WarningFilled } from "@ant-design/icons";
 
 type Props = {
 	setData: any;
@@ -118,4 +118,4 @@ function RenterStep1({ setData, dataInput, formStep1}: Props){
 	</Form>
     )
 }
-export default RenterStep1
+export default RenterStep1;

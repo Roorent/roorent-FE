@@ -48,6 +48,7 @@ const Login = () => {
 
             localStorage.setItem("access_token", login?.body?.data?.access_token)
             // setLoading(false)
+            setTimeout(message.success('Anda Telah Berhasil Login!'), 5000)
             router.push("/adm/dashboard")
         } catch (err) {
             // console.log(err.response.body?.error);
