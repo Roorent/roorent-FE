@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import type { MenuProps } from "antd";
 import { Layout, Menu, theme } from "antd";
-import {useRouter}  from "next/navigation";
+import { useRouter } from "next/navigation";
 import MenuItem from "antd/es/menu/MenuItem";
 import { LogoutOutlined } from "@ant-design/icons";
 import Notifications from "#/components/Notifications";
@@ -45,15 +45,18 @@ const AuthenticatedLayout: React.FC<AuthenticatedLayoutProps> = ({
 		token: { colorBgContainer },
 	} = theme.useToken();
 
-	const token = localStorage.getItem("access_token")
-	let role: string = ''
-	
-	if(token){
-		role = parseJwt(token).role
+	const token = localStorage.getItem("access_token");
+	let role: string = "";
+
+	if (token) {
+		role = parseJwt(token).role;
+	}
+	if (!token) {
+		router.push("/");
 	}
 
-	if(!token){
-		router.push("/")
+	if (!token) {
+		router.push("/");
 	}
 
 	const itemOwner: MenuItem[] = [
@@ -160,56 +163,57 @@ const AuthenticatedLayout: React.FC<AuthenticatedLayoutProps> = ({
 
 	return (
 		<Layout style={{ height: "100%" }}>
-			
 			{role !== "renter" && (
-			<>
-			{!window.location.pathname.includes("/create-product") &&(
-			<Sider
-				width={300}
-				style={{ background: colorBgContainer }}
-				className="h-[100%] border-r-2 border-primary flex justify-center items-center"
-			>
-				<div className="py-5 flex justify-center items-center">
-					<a href="/">
-						<img src={LOGO} alt="Roorent" className="w-[160px]" />
-					</a>
-				</div>
-				{role == "admin" ? 
-				<Menu
-					onClick={onClickAdmin}
-					mode="inline"
-					style={{ width: 298, borderRight: 0 }}
-					defaultOpenKeys={["/adm/dashboard"]}
-					selectedKeys={[currAdmin]}
-					items= {itemAdmin}
-					className="sidebar flex flex-col gap-1 justify-center px-8"
-				/>
-				: 
-				<Menu
-					onClick={onClickOwner}
-					mode="inline"
-					style={{ width: 298, borderRight: 0 }}
-					defaultOpenKeys={["/list-produk"]}
-					selectedKeys={[currOwner]}
-					items= {itemOwner}
-					className="sidebar flex flex-col gap-1 justify-center px-8"
-				/>}
-				<a
-					href="#"
-					className="text-slate-600 text-2xl font-bold flex gap-4 justify-center items-center hover:text-primary absolute left-[25%] bottom-16"
-				>
-					<LogoutOutlined />
-					<p>Logout</p>
-				</a>
-			</Sider>
+				<>
+					{!window.location.pathname.includes("/create-product") && (
+						<Sider
+							width={300}
+							style={{ background: colorBgContainer }}
+							className="h-[100%] border-r-2 border-primary flex justify-center items-center"
+						>
+							<div className="py-5 flex justify-center items-center">
+								<a href="/">
+									<img src={LOGO} alt="Roorent" className="w-[160px]" />
+								</a>
+							</div>
+							{role == "admin" ? (
+								<Menu
+									onClick={onClickAdmin}
+									mode="inline"
+									style={{ width: 298, borderRight: 0 }}
+									defaultOpenKeys={["/adm/dashboard"]}
+									selectedKeys={[currAdmin]}
+									items={itemAdmin}
+									className="sidebar flex flex-col gap-1 justify-center px-8"
+								/>
+							) : (
+								<Menu
+									onClick={onClickOwner}
+									mode="inline"
+									style={{ width: 298, borderRight: 0 }}
+									defaultOpenKeys={["/list-produk"]}
+									selectedKeys={[currOwner]}
+									items={itemOwner}
+									className="sidebar flex flex-col gap-1 justify-center px-8"
+								/>
+							)}
+							<a
+								href="#"
+								className="text-slate-600 text-2xl font-bold flex gap-4 justify-center items-center hover:text-primary absolute left-[25%] bottom-16"
+							>
+								<LogoutOutlined />
+								<p>Logout</p>
+							</a>
+						</Sider>
+					)}
+				</>
 			)}
-			</>)}	
 			<Layout>
 				<Header style={{ background: colorBgContainer }}>
 					<Menu
 						mode="horizontal"
 						defaultSelectedKeys={[]}
-						style={{ borderBottomWidth: '2px' }}
+						style={{ borderBottomWidth: "2px" }}
 						className={
 							"absolute border-slate-200 left-[300px] w-[calc(100%-300px)] py-[12px] pr-[100px] gap-10 justify-end items-center"
 						}
@@ -219,7 +223,7 @@ const AuthenticatedLayout: React.FC<AuthenticatedLayoutProps> = ({
 								<>
 									<Notifications />
 								</>
-							):(
+							) : (
 								<>
 									<Chats />
 									<Notifications />
