@@ -3,14 +3,16 @@
 import React, { useEffect } from "react";
 import { useRouter } from "next/navigation";
 
-export default function Home() {
+function Home() {
 	const router = useRouter();
 
 	useEffect(() => {
 		if (router) {
-			router.push("/");
+			router.push("/auth/login");
 		}
 	}, [router]);
 
 	return <div style={{}}></div>;
 }
+
+export default Home;
