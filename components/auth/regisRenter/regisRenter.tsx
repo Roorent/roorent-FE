@@ -1,7 +1,7 @@
-import Logo from "#/components/logo/logo";
+import Logo from "#/components/Logo/logo";
 import { Steps } from "antd";
 import { useState } from "react";
-import { Form} from "antd";
+import { Form } from "antd";
 import { Register } from "#/types/typeRegis";
 import Regis from "#/components/auth/img_regis";
 import { Button, message } from "antd/lib/index";
@@ -11,39 +11,45 @@ import { useRouter } from "next/navigation";
 import { authRepository } from "#/repository/auth";
 
 function RegisRenter() {
-		const router = useRouter();
-    const [dataInput, setData] = useState<Register>({
-        level: "",
-        first_name: "",
-        last_name: "",
-        phone: "",
-        birth_date: "",
-        gender: "",
-        nik: "",
-        photo_ktp: "",
-        email: "",
-        password: "",
-    })
-    
-    const [formStep1] = Form.useForm();
-    const [formStep2] = Form.useForm();
-    
-    const steps = [
-        {
-        title: 'Biodata',
-        content: <RenterStep1 
-        setData={setData}
-        dataInput={dataInput}
-        formStep1={formStep1}/>
-        },
-        {
-        title: 'Akun',
-        content: <RenterStep2
-        setData={setData}
-        dataInput={dataInput}
-        formStep2={formStep2}/>
-        }
-    ];
+	const router = useRouter();
+	const [dataInput, setData] = useState<Register>({
+		level: "",
+		first_name: "",
+		last_name: "",
+		phone: "",
+		birth_date: "",
+		gender: "",
+		nik: "",
+		photo_ktp: "",
+		email: "",
+		password: "",
+	});
+
+	const [formStep1] = Form.useForm();
+	const [formStep2] = Form.useForm();
+
+	const steps = [
+		{
+			title: "Biodata",
+			content: (
+				<RenterStep1
+					setData={setData}
+					dataInput={dataInput}
+					formStep1={formStep1}
+				/>
+			),
+		},
+		{
+			title: "Akun",
+			content: (
+				<RenterStep2
+					setData={setData}
+					dataInput={dataInput}
+					formStep2={formStep2}
+				/>
+			),
+		},
+	];
 
 	const [current, setCurrent] = useState(0);
 
@@ -56,26 +62,22 @@ function RegisRenter() {
 	};
 
 	const items = steps.map((item) => ({ key: item.title, title: item.title }));
-	const onFinish = async (values: any) => {
-		try {
-			const role = 'renter';
-			const data = {
-				first_name: dataInput?.first_name,
-				last_name: dataInput?.last_name,
-				phone: "+62" + dataInput?.phone,
-				birth_date: dataInput?.birth_date,
-				gender: dataInput?.gender,
-				email: dataInput?.email,
-				password: dataInput?.password,
-				nik: dataInput?.nik,
-			};
-			const register = await authRepository.manipulatedata.register(data,role);
-			console.log(register, "hasilnya mana");
-			setTimeout(message.success('Anda Telah Berhasil Registrasi!'), 5000)
-			router.push("/auth/login");
-		} catch (err) {
-			// message.error(err)
-		}
+	const onFinish = async () => {
+		const role = "renter";
+		const data = {
+			first_name: dataInput?.first_name,
+			last_name: dataInput?.last_name,
+			phone: "+62" + dataInput?.phone,
+			birth_date: dataInput?.birth_date,
+			gender: dataInput?.gender,
+			email: dataInput?.email,
+			password: dataInput?.password,
+			nik: dataInput?.nik,
+		};
+		await authRepository.manipulatedata.register(data, role);
+
+		setTimeout(message.success("Anda Telah Berhasil Registrasi!"), 5000);
+		router.push("/auth/login");
 	};
 
 	return (
@@ -136,8 +138,8 @@ function RegisRenter() {
 									typeof dataInput.birth_date !== "object" ||
 									dataInput.gender.length <= 1 ||
 									dataInput.email.length <= 1 ||
-									dataInput.password.length <= 1 
-							}
+									dataInput.password.length <= 1
+								}
 								onClick={onFinish}
 								className="bg-primary rounded-[20px] px-8 py-2.5 text-xl font-bold regis w-full mt-[38px] h-max regis"
 							>

@@ -21,9 +21,6 @@
 .ant-menu-inline .ant-menu-item {
 	height: 50px;
 }
-.sidebar .ant-menu .ant-menu-root .ant-menu-inline .ant-menu-light {
-	/* @apply bg-primary; */
-}
 .sidebar .ant-menu-item-group-title {
 	@apply text-slate-500 p-2 text-2xl;
 }
@@ -47,11 +44,6 @@
 @font-face {
 	font-family: "Plus Jakarta Sans";
 	src: url("/fonts/PlusJakartaSans/PlusJakartaSans-Regular.ttf") format("ttf");
-}
-
-@font-face {
-	font-family: "Plus Jakarta Sans";
-	src: url("/fonts/PlusJakartaSans/PlusJakartaSans-Medium.ttf") format("ttf");
 }
 
 body {
@@ -206,10 +198,6 @@ body {
 .modal-hapus .ant-btn-primary:not(:disabled):not(.ant-btn-disabled):hover {
 	background-color: #e24444;
 }
-
-/* .ant-tabs .ant-tabs-tab{
-    width: 200px;
-} */
 
 .ant-tabs .ant-tabs-tab {
 	width: 216px;

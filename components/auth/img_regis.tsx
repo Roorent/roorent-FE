@@ -1,10 +1,11 @@
-import { REGIS } from "#/constants/images";
+import React from 'react';
+import { REGIS } from '#/constants/images';
 
-function Regis(){
-    return(
-        <div>
-            <img src={REGIS} alt="Img Register"/>
-        </div>
-    )
+function Regis() {
+  return (
+    <div>
+      <img src={REGIS} alt='Img Register' />
+    </div>
+  );
 }
-export default Regis
+export default Regis;
