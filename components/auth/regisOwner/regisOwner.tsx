@@ -8,12 +8,12 @@ import OwnerStep3 from '#/components/auth/regisOwner/step3_owner';
 import { Register } from '#/types/typeRegis';
 import Regis from '#/components/auth/img_regis';
 import { Button, message } from 'antd/lib/index';
-import { useRouter } from "next/navigation";
-import { authRepository } from "#/repository/auth";
+import { useRouter } from 'next/navigation';
+import { authRepository } from '#/repository/auth';
 
 function RegisOwner() {
   const router = useRouter();
-  
+
   const [dataInput, setData] = useState<Register>({
     level: '',
     first_name: '',
@@ -77,37 +77,37 @@ function RegisOwner() {
   const items = steps.map((item) => ({ key: item.title, title: item.title }));
 
   const onFinish = async () => {
-		const role = 'owner';
-			const data = {
-				first_name: dataInput?.first_name,
-				last_name: dataInput?.last_name,
-				phone: "+62" + dataInput?.phone,
-				birth_date: dataInput?.birth_date,
-				gender: dataInput?.gender,
-				email: dataInput?.email,
-				password: dataInput?.password,
-				nik: dataInput?.nik,
-        photo_ktp: dataInput?.photo_ktp
-			};
-      await authRepository.manipulatedata.register(data,role);
-			setTimeout(message.success('Anda Telah Berhasil Registrasi!'), 5000)
-			router.push("/auth/login");
-	};
+    const role = 'owner';
+    const data = {
+      first_name: dataInput?.first_name,
+      last_name: dataInput?.last_name,
+      phone: '+62' + dataInput?.phone,
+      birth_date: dataInput?.birth_date,
+      gender: dataInput?.gender,
+      email: dataInput?.email,
+      password: dataInput?.password,
+      nik: dataInput?.nik,
+      photo_ktp: dataInput?.photo_ktp,
+    };
+    await authRepository.manipulatedata.register(data, role);
+    setTimeout(message.success('Anda Telah Berhasil Registrasi!'), 5000);
+    router.push('/auth/login');
+  };
 
   return (
     <div className='w-full min-h-screen flex justify-center relative'>
       <div className='w-1/2 flex justify-center min-h-screen relative'>
         <div className='w-[653px] py-5'>
-          <div className='mb-[50px]'>
-            <LOGO />
+          <div className='mb-[80px]'>
+            <LOGO className='w-[300px]' />
           </div>
           <div className='text-teks text-4xl font-bold flex justify-center mb-[45px]'>
             <p>Daftar Akun Pemilik</p>
           </div>
           <Steps current={current} items={items} className='mb-[33px]' />
           <div>{steps[current].content}</div>
-          <div style={{ marginTop: 34 }} className="flex justify-between">
-            <div className="regis">
+          <div style={{ marginTop: 34 }} className='flex justify-between'>
+            <div className='regis'>
               {current > 0 && (
                 <Button
                   style={{ margin: '0 8px' }}
@@ -118,8 +118,7 @@ function RegisOwner() {
                 </Button>
               )}
             </div>
-            <div></div>
-            <div className="regis">
+            <div className='regis'>
               {current < steps.length - 1 && (
                 <Button
                   type='primary'
@@ -134,24 +133,24 @@ function RegisOwner() {
               )}
             </div>
           </div>
-          <div className="regis">
+          <div className='regis'>
             {current === steps.length - 1 && (
               <Button
-                type="primary"
-                htmlType="submit"
-                // disabled={
-                //     dataInput.first_name.length <= 1 ||
-                //     dataInput.last_name.length <= 1 ||
-                //     dataInput.phone.length <= 1 ||
-                //     typeof dataInput.birth_date !== "object" || 
-                //     dataInput.gender.length <= 1||
-                //     dataInput.nik.length <= 1||
-                //     dataInput.photo_ktp.length <= 1||
-                //     dataInput.email.length <= 1 ||
-                //     dataInput.password.length <= 1
-                // }
+                type='primary'
+                htmlType='submit'
+                disabled={
+                  dataInput.first_name.length <= 1 ||
+                  dataInput.last_name.length <= 1 ||
+                  dataInput.phone.length <= 1 ||
+                  typeof dataInput.birth_date !== 'object' ||
+                  dataInput.gender.length <= 1 ||
+                  dataInput.nik.length <= 1 ||
+                  dataInput.photo_ktp.length <= 1 ||
+                  dataInput.email.length <= 1 ||
+                  dataInput.password.length <= 1
+                }
                 onClick={onFinish}
-                className="bg-primary rounded-[20px] px-8 py-2.5 text-xl font-bold regis w-full mt-[38px] h-max"
+                className='bg-primary rounded-[20px] px-8 py-2.5 text-xl font-bold regis w-full mt-[38px] h-max'
               >
                 Daftar
               </Button>
@@ -162,7 +161,7 @@ function RegisOwner() {
               Sudah punya akun?
               <a
                 href='/auth/login'
-                className='font-bold no-underline hover:underline'
+                className='ml-2 font-bold no-underline hover:underline'
               >
                 Masuk disini!
               </a>

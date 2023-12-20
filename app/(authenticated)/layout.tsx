@@ -41,7 +41,9 @@ const AuthenticatedLayout: React.FC<AuthenticatedLayoutProps> = ({
 }) => {
   const router = useRouter();
 
-  const cruProduk = window.location.pathname.includes("/create-product") || window.location.pathname.includes("/edit-product");;
+  const cruProduk =
+    window.location.pathname.includes('/create-product') ||
+    window.location.pathname.includes('/edit-product');
 
   const {
     token: { colorBgContainer },
@@ -160,44 +162,44 @@ const AuthenticatedLayout: React.FC<AuthenticatedLayoutProps> = ({
   };
 
   return (
-    <Layout style={{ height: "100%" }}>
-      {role !== "renter" && (
+    <Layout style={{ height: '100%' }}>
+      {role !== 'renter' && (
         <>
           {!cruProduk && (
             <Sider
               width={300}
               style={{ background: colorBgContainer }}
-              className="h-[100%] border-r-2 border-primary flex justify-center items-center"
+              className='h-[100%] border-r-2 border-primary flex justify-center items-center'
             >
-              <div className="py-5 flex justify-center items-center">
-                <a href="/">
-                  <LOGO className="w-[160px]"/>
+              <div className='py-5 flex justify-center items-center'>
+                <a href='/'>
+                  <LOGO className='w-[160px]' />
                 </a>
               </div>
-              {role == "admin" ? (
+              {role == 'admin' ? (
                 <Menu
                   onClick={onClickAdmin}
-                  mode="inline"
+                  mode='inline'
                   style={{ width: 298, borderRight: 0 }}
-                  defaultOpenKeys={["/adm/dashboard"]}
+                  defaultOpenKeys={['/adm/dashboard']}
                   selectedKeys={[currAdmin]}
                   items={itemAdmin}
-                  className="sidebar flex flex-col gap-1 justify-center px-8"
+                  className='sidebar flex flex-col gap-1 justify-center px-8'
                 />
               ) : (
                 <Menu
                   onClick={onClickOwner}
-                  mode="inline"
+                  mode='inline'
                   style={{ width: 298, borderRight: 0 }}
-                  defaultOpenKeys={["/list-produk"]}
+                  defaultOpenKeys={['/list-produk']}
                   selectedKeys={[currOwner]}
                   items={itemOwner}
-                  className="sidebar flex flex-col gap-1 justify-center px-8"
+                  className='sidebar flex flex-col gap-1 justify-center px-8'
                 />
               )}
               <a
-                href="#"
-                className="text-slate-600 text-2xl font-bold flex gap-4 justify-center items-center hover:text-primary absolute left-[25%] bottom-16"
+                href='#'
+                className='text-slate-600 text-2xl font-bold flex gap-4 justify-center items-center hover:text-primary absolute left-[25%] bottom-16'
               >
                 <LogoutOutlined />
                 <p>Logout</p>
@@ -207,98 +209,102 @@ const AuthenticatedLayout: React.FC<AuthenticatedLayoutProps> = ({
         </>
       )}
       <Layout>
-      {!cruProduk ? (
-        <Header style={{ background: colorBgContainer }}>
-          <Menu
-            mode="horizontal"
-            defaultSelectedKeys={[]}
-            style={{ borderBottomWidth: "2px" }}
-            className={
-              "absolute border-slate-200 left-[300px] w-[calc(100%-300px)] py-[12px] px-[120px] gap-10 justify-end items-center"
-            }
-          >
-            <div className="flex gap-6 items-center">
-              {role == "admin" ? (
-                <>
-                  <Notifications />
-                </>
-              ) : (
-                <>
-                  <Chats />
-                  <Notifications />
-                </>
-              )}
-            </div>
-            <div className="flex items-center gap-8">
-              <p className="text-xl font-bold flex w-max flex justify-end">Halo, Maulana</p>
-              <Photo />
-            </div>
-          </Menu>
-        </Header>
-      ):(
-        <Header style={{ background: colorBgContainer }}>
-          <Menu
-            mode="horizontal"
-            defaultSelectedKeys={[]}
-            style={{ borderBottomWidth: "2px" }}
-            className={
-              "absolute border-slate-200 flex justify-start py-[12px] px-[120px] gap-10 w-full items-center"
-            }
-          >
-            <div className="w-full">
-              <LOGO className="w-[160px]"/>
-            </div>
-            <div className="flex gap-6 items-center">
-              {role == "admin" ? (
-                <>
-                  <Notifications />
-                </>
-              ) : (
-                <>
-                  <Chats />
-                  <Notifications />
-                </>
-              )}
-            </div>
-            <div className="flex items-center gap-6 w-fit">
-              <p className="text-xl font-bold flex w-max flex justify-end">Halo, Maulana</p>
-              <Photo />
-            </div>
-          </Menu>
-        </Header>
+        {!cruProduk ? (
+          <Header style={{ background: colorBgContainer }}>
+            <Menu
+              mode='horizontal'
+              defaultSelectedKeys={[]}
+              style={{ borderBottomWidth: '2px' }}
+              className={
+                'absolute border-slate-200 left-[300px] w-[calc(100%-300px)] py-[12px] px-[120px] gap-10 justify-end items-center'
+              }
+            >
+              <div className='flex gap-6 items-center'>
+                {role == 'admin' ? (
+                  <>
+                    <Notifications />
+                  </>
+                ) : (
+                  <>
+                    <Chats />
+                    <Notifications />
+                  </>
+                )}
+              </div>
+              <div className='flex items-center gap-8'>
+                <p className='text-xl font-bold flex w-max justify-end'>
+                  Halo, Maulana
+                </p>
+                <Photo />
+              </div>
+            </Menu>
+          </Header>
+        ) : (
+          <Header style={{ background: colorBgContainer }}>
+            <Menu
+              mode='horizontal'
+              defaultSelectedKeys={[]}
+              style={{ borderBottomWidth: '2px' }}
+              className={
+                'absolute border-slate-200 flex justify-start py-[12px] px-[120px] gap-10 w-full items-center'
+              }
+            >
+              <div className='w-full'>
+                <LOGO className='w-[160px]' />
+              </div>
+              <div className='flex gap-6 items-center'>
+                {role == 'admin' ? (
+                  <>
+                    <Notifications />
+                  </>
+                ) : (
+                  <>
+                    <Chats />
+                    <Notifications />
+                  </>
+                )}
+              </div>
+              <div className='flex items-center gap-6 w-fit'>
+                <p className='text-xl font-bold flex w-max justify-end'>
+                  Halo, Maulana
+                </p>
+                <Photo />
+              </div>
+            </Menu>
+          </Header>
         )}
-        {role !== "renter" && (
+        {role !== 'renter' && (
           <>
             {cruProduk ? (
               <Content
-                style={{ margin: "10px 0 0 0" }}
-                className="text-slate-800 bg-white"
+                style={{ margin: '10px 0 0 0' }}
+                className='text-slate-800 bg-white'
               >
                 <div
                   style={{
-                    padding: "40px 150px 0 150px",
+                    padding: '40px 150px 0 150px',
                     minHeight: 360,
-                    height: "100%",
+                    height: '100%',
                     background: colorBgContainer,
                   }}
-                  className="overflow-auto"
+                  className='overflow-auto'
                 >
                   {children}
                 </div>
               </Content>
             ) : (
               <Content
-                style={{ margin: "10px 0 0 0" }}
-                className="text-slate-800 bg-white"
+                style={{ margin: '10px 0 0 0' }}
+                className='text-slate-800 bg-white'
               >
                 <div
                   style={{
-                    padding: "40px 150px 0 50px",
+                    padding: '40px 150px 0 50px',
                     minHeight: 360,
-                    height: "100%",
+                    height: '100%',
                     background: colorBgContainer,
                   }}
-                  className="overflow-auto"
+                  className='overflow-auto'
                 >
                   {children}
                 </div>
