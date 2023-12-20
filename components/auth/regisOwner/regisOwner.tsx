@@ -85,7 +85,7 @@ function RegisOwner() {
           <Steps current={current} items={items} className="mb-[33px]" />
           <div>{steps[current].content}</div>
           <div style={{ marginTop: 34 }} className="flex justify-between">
-            <div className="regis-prev">
+            <div className="regis">
               {current > 0 && (
                 <Button
                   style={{ margin: "0 8px" }}
@@ -97,7 +97,7 @@ function RegisOwner() {
               )}
             </div>
             <div></div>
-            <div className="regis-next">
+            <div className="regis">
               {current < steps.length - 1 && (
                 <Button
                   type="primary"
@@ -112,7 +112,7 @@ function RegisOwner() {
               )}
             </div>
           </div>
-          <div className="">
+          <div className="regis">
             {current === steps.length - 1 && (
               <Button
                 type="primary"
@@ -137,13 +137,7 @@ function RegisOwner() {
           </div>
           <div className="text-teks text-xl absolute bottom-10">
             <p>
-              Sudah punya akun?
-              <a
-                href="/auth/login"
-                className="font-bold no-underline hover:underline" 
-              >
-                Masuk disini!
-              </a>
+              Sudah punya akun? <a href="/auth/login" className="font-bold no-underline hover:underline" >Masuk disini!</a>
             </p>
           </div>
         </div>

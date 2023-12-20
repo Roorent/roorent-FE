@@ -17,7 +17,7 @@ function CardProduk({ image, icon, label, content, hapus, hrefDetail, hrefEdit}:
                 <p className='font-semibold'>{label}</p>
               </div>
               <div className='mt-2'>
-                <p className='text-xl font-bold'>{content}</p>
+                <p className='text-lg font-bold'>{content}</p>
               </div>
             </div>
           </div>

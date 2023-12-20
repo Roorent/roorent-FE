@@ -1,24 +1,11 @@
 "use client";
 
-import ModalBerhasil from "#/components/Modal/modalBerhasil";
-import {
-  ArrowLeftOutlined,
-  CameraOutlined,
-  ExclamationCircleFilled,
-} from "@ant-design/icons";
-import {
-  Form,
-  Input,
-  InputNumber,
-  Modal,
-  Select,
-  Upload,
-  message,
-} from "antd";
-import { UploadFile } from "antd/es/upload/interface";
-import { RcFile, UploadProps } from "antd/lib/upload";
-import React, { useState } from "react";
-
+import ModalBerhasil from '#/components/Modal/modalBerhasil';
+import { ArrowLeftOutlined, CameraOutlined, ExclamationCircleFilled } from '@ant-design/icons';
+import { Form, Input, InputNumber, Modal, Select, message } from 'antd';
+import { RcFile } from 'antd/es/upload';
+import { Upload, UploadFile, UploadProps } from 'antd/lib';
+import React, { useState } from 'react'
 
 const getBase64 = (file: RcFile): Promise<string> =>
   new Promise((resolve, reject) => {
@@ -33,115 +20,116 @@ const filterOption = (
   option?: { label: string; value: string }
 ) => (option?.label ?? "").toLowerCase().includes(input.toLowerCase());
 
-function CreateProduct() {
-  const [previewOpen, setPreviewOpen] = useState(false);
-  const [previewImage, setPreviewImage] = useState("");
-  const [previewTitle, setPreviewTitle] = useState("");
-  const [fileList, setFileList] = useState<UploadFile[]>([]);
-  const handleCancel = () => setPreviewOpen(false);
 
-  const handlePreview = async (file: UploadFile) => {
-    if (!file.url && !file.preview) {
-      file.preview = await getBase64(file.originFileObj as RcFile);
-    }
-
-    setPreviewImage(file.url || (file.preview as string));
-    setPreviewOpen(true);
-    setPreviewTitle(
-      file.name || file.url!.substring(file.url!.lastIndexOf("/") + 1)
-    );
-  };
-
-  const handleChangeUpload: UploadProps["onChange"] = ({
-    fileList: newFileList,
-  }) => setFileList(newFileList);
-
-  const beforeUpload = (file: RcFile) => {
-    const isJpgOrPng =
-      file.type === "image/jpeg" ||
-      file.type === "image/png" ||
-      file.type === "image/jpg";
-    if (!isJpgOrPng) {
-      message.error("Anda hanya dapat mengunggah file JPG/JPEG/PNG!");
-    }
-    const isLt2M = file.size / 1024 / 1024 < 2;
-    if (!isLt2M) {
-      message.error("Gambar harus lebih kecil dari 2MB!");
-    }
-    return isJpgOrPng && isLt2M;
-  };
-
-  const uploadButton = (
-    <div>
-      <CameraOutlined className="text-4xl text-primary" />
-      <div style={{ marginTop: 5 }} className="text-xl">
-        Masukan Foto
+function EditProduct() {
+    const [previewOpen, setPreviewOpen] = useState(false);
+    const [previewImage, setPreviewImage] = useState("");
+    const [previewTitle, setPreviewTitle] = useState("");
+    const [fileList, setFileList] = useState<UploadFile[]>([]);
+    const handleCancel = () => setPreviewOpen(false);
+  
+    const handlePreview = async (file: UploadFile) => {
+      if (!file.url && !file.preview) {
+        file.preview = await getBase64(file.originFileObj as RcFile);
+      }
+  
+      setPreviewImage(file.url || (file.preview as string));
+      setPreviewOpen(true);
+      setPreviewTitle(
+        file.name || file.url!.substring(file.url!.lastIndexOf("/") + 1)
+      );
+    };
+  
+    const handleChangeUpload: UploadProps["onChange"] = ({
+      fileList: newFileList,
+    }) => setFileList(newFileList);
+  
+    const beforeUpload = (file: RcFile) => {
+      const isJpgOrPng =
+        file.type === "image/jpeg" ||
+        file.type === "image/png" ||
+        file.type === "image/jpg";
+      if (!isJpgOrPng) {
+        message.error("Anda hanya dapat mengunggah file JPG/JPEG/PNG!");
+      }
+      const isLt2M = file.size / 1024 / 1024 < 2;
+      if (!isLt2M) {
+        message.error("Gambar harus lebih kecil dari 2MB!");
+      }
+      return isJpgOrPng && isLt2M;
+    };
+  
+    const uploadButton = (
+      <div>
+        <CameraOutlined className="text-4xl text-primary" />
+        <div style={{ marginTop: 5 }} className="text-xl">
+          Masukan Foto
+        </div>
+        <div className="text-[#BBBBBB]">Berupa format jpg/jpeg/png.</div>
       </div>
-      <div className="text-[#BBBBBB]">Berupa format jpg/jpeg/png.</div>
-    </div>
-  );
-
-  const { TextArea } = Input;
-
-  interface OptionType {
-    value: string;
-    label: string;
-  }
-
-  const { Option } = Select;
-
-  //get value harga
-  const options: OptionType[] = [
-    { value: "campur", label: "Campur" },
-    { value: "perhari", label: "Perhari" },
-    { value: "perbulan", label: "Perbulan" },
-  ];
-
-  const defaultSelectedOption: OptionType = {
-    value: "campur",
-    label: "Campur",
-  };
-
-  const [selectedOption, setSelectedOption] = useState<OptionType | undefined>(
-    defaultSelectedOption
-  );
-
-  const [hargaPerHari, setHargaPerHari] = useState<number | null>(null);
-  const [hargaPerBulan, setHargaPerBulan] = useState<number | null>(null);
-
-  const handleSelectChange = (value: string) => {
-    const selected = options.find((option) => option.value === value);
-    setSelectedOption(selected);
-  };
-
-  const handleHargaPerHariChange = (value: number | null) => {
-    setHargaPerHari(value);
-  };
-
-  const handleHargaPerBulanChange = (value: number | null) => {
-    setHargaPerBulan(value);
-  };
-
-  // get value tipe produk
-  const optionsProduk: OptionType[] = [
-    { value: "kost", label: "Kost" },
-    { value: "gedung", label: "Gedung" },
-    { value: "hotel", label: "Hotel" },
-  ];
-
-  const defaultSelectedOptionProduk: OptionType = {
-    value: "kost",
-    label: "Kost",
-  };
-
-  const [selectedOptionProduk, setSelectedOptionProduk] = useState<
-    OptionType | undefined
-  >(defaultSelectedOptionProduk);
-
-  const handleSelectChangeProduk = (value: string) => {
-    const selected = optionsProduk.find((option) => option.value === value);
-    setSelectedOptionProduk(selected);
-  };
+    );
+  
+    const { TextArea } = Input;
+  
+    interface OptionType {
+      value: string;
+      label: string;
+    }
+  
+    const { Option } = Select;
+  
+    //get value harga
+    const options: OptionType[] = [
+      { value: "campur", label: "Campur" },
+      { value: "perhari", label: "Perhari" },
+      { value: "perbulan", label: "Perbulan" },
+    ];
+  
+    const defaultSelectedOption: OptionType = {
+      value: "campur",
+      label: "Campur",
+    };
+  
+    const [selectedOption, setSelectedOption] = useState<OptionType | undefined>(
+      defaultSelectedOption
+    );
+  
+    const [hargaPerHari, setHargaPerHari] = useState<number | null>(null);
+    const [hargaPerBulan, setHargaPerBulan] = useState<number | null>(null);
+  
+    const handleSelectChange = (value: string) => {
+      const selected = options.find((option) => option.value === value);
+      setSelectedOption(selected);
+    };
+  
+    const handleHargaPerHariChange = (value: number | null) => {
+      setHargaPerHari(value);
+    };
+  
+    const handleHargaPerBulanChange = (value: number | null) => {
+      setHargaPerBulan(value);
+    };
+  
+    // get value tipe produk
+    const optionsProduk: OptionType[] = [
+      { value: "kost", label: "Kost" },
+      { value: "gedung", label: "Gedung" },
+      { value: "hotel", label: "Hotel" },
+    ];
+  
+    const defaultSelectedOptionProduk: OptionType = {
+      value: "kost",
+      label: "Kost",
+    };
+  
+    const [selectedOptionProduk, setSelectedOptionProduk] = useState<
+      OptionType | undefined
+    >(defaultSelectedOptionProduk);
+  
+    const handleSelectChangeProduk = (value: string) => {
+      const selected = optionsProduk.find((option) => option.value === value);
+      setSelectedOptionProduk(selected);
+    };
   return (
     <div>
       <Form name="createProduk">
@@ -154,7 +142,7 @@ function CreateProduct() {
           </a>
           <div className="produkOwner text-4xl font-bold bg-primary rounded-[10px] px-5 py-2.5 flex items-center mb-[30px]">
             <div className="w-full">
-              <p className="text-white w-full">Tambah Produk </p>
+              <p className="text-white w-full">Edit Produk </p>
             </div>
             <div className="flex gap-x-6 flex items-center">
               <div className="w-full list-produk">
@@ -761,8 +749,8 @@ function CreateProduct() {
           <div>
             <Form.Item>
               <ModalBerhasil
-              title="Berhasil Buat Produk"
-              content="Kamu telah berhasil membuat produk"
+              title="Berhasil Ubah Produk"
+              content="Kamu telah berhasil mengubah produk"
               buttonText="Buat"
               />
             </Form.Item>
@@ -770,7 +758,7 @@ function CreateProduct() {
         </div>
       </Form>
     </div>
-  );
+  )
 }
 
-export default CreateProduct;
+export default EditProduct

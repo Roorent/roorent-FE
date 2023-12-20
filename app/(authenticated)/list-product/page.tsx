@@ -23,7 +23,7 @@ const products = [
       />
     ),
     hrefDetail: "#",
-    hrefEdit: "#",
+    hrefEdit: "/edit-product",
   },
   {
     id: "2",
@@ -40,7 +40,7 @@ const products = [
       />
     ),
     hrefDetail: "#",
-    hrefEdit: "#",
+    hrefEdit: "/edit-product",
   },
   {
     id: "3",
@@ -57,7 +57,7 @@ const products = [
       />
     ),
     hrefDetail: "#",
-    hrefEdit: "#",
+    hrefEdit: "/edit-product",
   },
   {
     id: "4",
@@ -74,7 +74,7 @@ const products = [
       />
     ),
     hrefDetail: "#",
-    hrefEdit: "#",
+    hrefEdit: "/edit-product",
   },
 ];
 
@@ -129,8 +129,8 @@ function ListProduct() {
               label={product.label}
               content={product.content}
               hapus={product.hapus}
-              hrefDetail="#"
-              hrefEdit="#"
+              hrefDetail={product.hrefDetail}
+              hrefEdit={product.hrefEdit}
             />
           </div>
         ))}

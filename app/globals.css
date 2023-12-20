@@ -50,11 +50,6 @@
 	src: url("/fonts/PlusJakartaSans/PlusJakartaSans-Regular.ttf") format("ttf");
 }
 
-@font-face {
-	font-family: "Plus Jakarta Sans";
-	src: url("/fonts/PlusJakartaSans/PlusJakartaSans-Medium.ttf") format("ttf");
-}
-
 body {
 	font-family: "Plus Jakarta Sans", sans-serif;
 }
@@ -196,10 +191,6 @@ body {
 .modal-hapus .ant-btn-primary:not(:disabled):not(.ant-btn-disabled):hover {
     background-color: #e24444;
 }
-
-/* .ant-tabs .ant-tabs-tab{
-    width: 200px;
-} */
 
 .ant-tabs .ant-tabs-tab{
     width: 216px;
@@ -349,4 +340,7 @@ textarea:where(.css-dev-only-do-not-override-1dj4ii3).ant-input{
     margin-top: 20px;
     display: flex;
     justify-content: center;
+}
+:where(.css-dev-only-do-not-override-1dj4ii3).ant-layout-header{
+    padding: 0px;
 }
