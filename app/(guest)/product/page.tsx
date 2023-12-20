@@ -1,11 +1,9 @@
+'use client';
 
-// function Products() {
- 
-//   return (
-//     <div className="p-4">
-      
-//     </div>
-//   );
-// }
+import React from 'react';
 
-// export default Products
+function Products() {
+  return <div>Products</div>;
+}
+
+export default Products;

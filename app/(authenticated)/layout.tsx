@@ -1,16 +1,16 @@
-"use client";
+'use client';
 
-import React, { useState } from "react";
-import type { MenuProps } from "antd";
-import { Layout, Menu, theme } from "antd";
-import { useRouter } from "next/navigation";
-import MenuItem from "antd/es/menu/MenuItem";
-import { LogoutOutlined } from "@ant-design/icons";
-import Notifications from "#/components/Notifications";
-import Photo from "#/components/Photo";
-import { LOGO } from "#/constants/images";
-import Chats from "#/components/Chats";
-import { parseJwt } from "#/utils/convert";
+import React, { useState } from 'react';
+import type { MenuProps } from 'antd';
+import { Layout, Menu, theme } from 'antd';
+import { useRouter } from 'next/navigation';
+import MenuItem from 'antd/es/menu/MenuItem';
+import { LogoutOutlined } from '@ant-design/icons';
+import Notifications from '#/components/Notifications';
+import Photo from '#/components/Photo';
+import { LOGO } from '#/constants/images';
+import Chats from '#/components/Chats';
+import { parseJwt } from '#/utils/convert';
 
 interface AuthenticatedLayoutProps {
   children: React.ReactNode;
@@ -18,14 +18,14 @@ interface AuthenticatedLayoutProps {
 
 const { Header, Content, Sider } = Layout;
 
-type MenuItem = Required<MenuProps>["items"][number];
+type MenuItem = Required<MenuProps>['items'][number];
 
 function getItem(
   label: React.ReactNode,
   key?: React.Key | null,
   icon?: React.ReactNode,
   children?: MenuItem[],
-  type?: "group"
+  type?: 'group'
 ): MenuItem {
   return {
     key,
@@ -47,116 +47,115 @@ const AuthenticatedLayout: React.FC<AuthenticatedLayoutProps> = ({
     token: { colorBgContainer },
   } = theme.useToken();
 
-  const token = localStorage.getItem("access_token");
-  let role: string = "";
+  const token = localStorage.getItem('access_token');
+  let role: string = '';
 
   if (token) {
     role = parseJwt(token).role;
   }
-
   if (!token) {
-    router.push("/");
+    router.push('/');
   }
 
   const itemOwner: MenuItem[] = [
     getItem(
-      "Produk",
-      "/product",
+      'Produk',
+      '/product',
       null,
-      [getItem("Daftar Produk", "/list-produk", null)],
-      "group"
+      [getItem('Daftar Produk', '/list-produk', null)],
+      'group'
     ),
     {
-      type: "divider",
+      type: 'divider',
       style: {
-        marginTop: "20px",
-        marginBottom: "20px",
+        marginTop: '20px',
+        marginBottom: '20px',
       },
     },
     getItem(
-      "Riwayat Transaksi",
-      "/riwayat-transaksi",
+      'Riwayat Transaksi',
+      '/riwayat-transaksi',
       null,
       [
-        getItem("Transaksi Pending", "/trans-pending", null),
-        { type: "group" },
-        getItem("Transaksi Berhasil", "/trans-success", null),
+        getItem('Transaksi Pending', '/trans-pending', null),
+        { type: 'group' },
+        getItem('Transaksi Berhasil', '/trans-success', null),
       ],
-      "group"
+      'group'
     ),
     {
-      type: "divider",
+      type: 'divider',
       style: {
-        marginTop: "20px",
-        marginBottom: "20px",
+        marginTop: '20px',
+        marginBottom: '20px',
       },
     },
     getItem(
-      "Pembayaran",
-      "/payment",
+      'Pembayaran',
+      '/payment',
       null,
       [
-        getItem("Akun Bank", "/bank-account", null),
-        { type: "group" },
-        getItem("Laporan Transaksi", "/trans-report", null),
+        getItem('Akun Bank', '/bank-account', null),
+        { type: 'group' },
+        getItem('Laporan Transaksi', '/trans-report', null),
       ],
-      "group"
+      'group'
     ),
   ];
 
   const itemAdmin: MenuItem[] = [
     getItem(
-      "Utama",
-      "/adm/utama",
+      'Utama',
+      '/adm/utama',
       null,
-      [getItem("Dashboard", "/adm/dashboard", null)],
-      "group"
+      [getItem('Dashboard', '/adm/dashboard', null)],
+      'group'
     ),
     {
-      type: "divider",
+      type: 'divider',
       style: {
-        marginTop: "20px",
-        marginBottom: "20px",
+        marginTop: '20px',
+        marginBottom: '20px',
       },
     },
     getItem(
-      "Manajemen",
-      "/adm/manajemen",
+      'Manajemen',
+      '/adm/manajemen',
       null,
       [
-        getItem("Pengguna", "/adm/pengguna", null),
-        { type: "group" },
-        getItem("Akun Bank", "/adm/bank-account", null),
+        getItem('Pengguna', '/adm/pengguna', null),
+        { type: 'group' },
+        getItem('Akun Bank', '/adm/bank-account', null),
       ],
-      "group"
+      'group'
     ),
     {
-      type: "divider",
+      type: 'divider',
       style: {
-        marginTop: "20px",
-        marginBottom: "20px",
+        marginTop: '20px',
+        marginBottom: '20px',
       },
     },
     getItem(
-      "Pembayaran",
-      "/adm/pembayaran",
+      'Pembayaran',
+      '/adm/pembayaran',
       null,
       [
-        getItem("Pembayaran Renter", "/adm/renter-payment", null),
-        { type: "group" },
-        getItem("Pembayaran Owner", "/adm/owner-payment", null),
+        getItem('Pembayaran Renter', '/adm/renter-payment', null),
+        { type: 'group' },
+        getItem('Pembayaran Owner', '/adm/owner-payment', null),
       ],
-      "group"
+      'group'
     ),
   ];
 
-  const [currAdmin, setCurrAdmin] = useState("/adm/dashboard");
-  const [currOwner, setCurrOwner] = useState("/list-produk");
+  const [currAdmin, setCurrAdmin] = useState('/adm/dashboard');
+  const [currOwner, setCurrOwner] = useState('/list-produk');
 
-  const onClickAdmin: MenuProps["onClick"] = (e) => {
+  const onClickAdmin: MenuProps['onClick'] = (e) => {
     setCurrAdmin(e.key);
   };
-  const onClickOwner: MenuProps["onClick"] = (e) => {
+  const onClickOwner: MenuProps['onClick'] = (e) => {
     setCurrOwner(e.key);
   };
 
