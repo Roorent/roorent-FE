@@ -171,7 +171,7 @@ const AuthenticatedLayout: React.FC<AuthenticatedLayoutProps> = ({
             >
               <div className="py-5 flex justify-center items-center">
                 <a href="/">
-                  <img src={LOGO} alt="Roorent" className="w-[160px]" />
+                  <LOGO className="w-[160px]"/>
                 </a>
               </div>
               {role == "admin" ? (
@@ -246,7 +246,7 @@ const AuthenticatedLayout: React.FC<AuthenticatedLayoutProps> = ({
             }
           >
             <div className="w-full">
-              <img src={LOGO} alt="Roorent" className="w-[160px]" />
+              <LOGO className="w-[160px]"/>
             </div>
             <div className="flex gap-6 items-center">
               {role == "admin" ? (
