@@ -9,7 +9,7 @@ import RenterStep1 from "./step1_renter";
 import RenterStep2 from "./step2_renter";
 
 function RegisRenter() {
-    const [dataInput, setData] = useState<Register>({
+    const [data, setData] = useState<Register>({
         level: "",
         first_name: "",
         last_name: "",
@@ -30,14 +30,14 @@ function RegisRenter() {
         title: 'Biodata',
         content: <RenterStep1 
         setData={setData}
-        dataInput={dataInput}
+        data={data}
         formStep1={formStep1}/>
         },
         {
         title: 'Akun',
         content: <RenterStep2
         setData={setData}
-        dataInput={dataInput}
+        data={data}
         formStep2={formStep2}/>
         }
     ];
@@ -94,13 +94,13 @@ function RegisRenter() {
                         {current === steps.length - 1 && (
                             <Button type="primary" htmlType="submit"
                             disabled={
-                                dataInput.first_name.length <= 1 ||
-                                dataInput.last_name.length <= 1 ||
-                                dataInput.phone.length <= 1 ||
-                                typeof dataInput.birth_date !== "object" ||
-                                dataInput.gender.length <= 1 ||
-                                dataInput.email.length <= 1 ||
-                                dataInput.password.length <= 1 
+                                data.first_name.length <= 1 ||
+                                data.last_name.length <= 1 ||
+                                data.phone.length <= 1 ||
+                                typeof data.birth_date !== "object" ||
+                                data.gender.length <= 1 ||
+                                data.email.length <= 1 ||
+                                data.password.length <= 1 
                             }
                             onClick={() => message.success('Anda Telah Berhasil Registrasi!')} className="bg-primary rounded-[20px] px-8 py-2.5 text-xl font-bold regis w-full mt-[38px] h-max regis">
                                 Daftar

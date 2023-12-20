@@ -5,11 +5,11 @@ import { FormInstance } from "antd/lib";
 
 type Props = {
 	setData: any;
-	dataInput: Register;
+	data: Register;
 	formStep3: FormInstance<any>
 }
 
-function OwnerStep3({setData, dataInput, formStep3}: Props){
+function OwnerStep3({setData, data, formStep3}: Props){
     return(
     <Form name="step3Owner" form={formStep3}>
     <div>
@@ -23,7 +23,7 @@ function OwnerStep3({setData, dataInput, formStep3}: Props){
 				rules={[{ required: true, message: 'Harap masukan email anda!' }]}
 			>
 				<Input onChange={(e) => {
-                    setData({ ...dataInput, email: e.target.value })}}
+                    setData({ ...data, email: e.target.value })}}
                     size="large" placeholder="Masukan email" className=" p-[10px] rounded-[10px] border border-rstroke regis text-xl" />
 			</Form.Item>
 			</div>
@@ -38,7 +38,7 @@ function OwnerStep3({setData, dataInput, formStep3}: Props){
                 rules={[{ required: true, message: 'Harap masukan password anda!' }]}
             >
                 <Input.Password onChange={(e) => {
-                    setData({ ...dataInput, password: e.target.value })}} size="large" placeholder="Masukan Password" className="p-[10px] rounded-[10px] border border-rstroke regis text-xl"
+                    setData({ ...data, password: e.target.value })}} size="large" placeholder="Masukan Password" className="p-[10px] rounded-[10px] border border-rstroke regis text-xl"
                     iconRender={(visible) => (visible ? <EyeTwoTone/> : <EyeInvisibleOutlined/>)}/>
             </Form.Item>
             </div>

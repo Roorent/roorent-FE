@@ -8,12 +8,12 @@ import moment from "moment";
 
 type Props = {
 	setData: any;
-	dataInput: Register;
+	data: Register;
 	formStep1: FormInstance<any>
 }
 
-function OwnerStep1({ setData, dataInput, formStep1}: Props){
-	// const date = dataInput.birth_date
+function OwnerStep1({ setData, data, formStep1}: Props){
+	// const date = data.birth_date
 	// const dateDefault = moment('2023-12-12')
     return (
     <Form name="step1Owner" form={formStep1}>
@@ -28,7 +28,7 @@ function OwnerStep1({ setData, dataInput, formStep1}: Props){
 				rules={[{ required: true, message: 'Harap masukan nama depan anda!' }]}
 			>
 				<Input onChange={(e) => {
-					setData({ ...dataInput, first_name: e.target.value })
+					setData({ ...data, first_name: e.target.value })
 				}} size="large" placeholder="Masukan nama depan" className=" p-[10px] rounded-[10px] border border-rstroke regis text-xl" />
 			</Form.Item>
 			</div>
@@ -43,7 +43,7 @@ function OwnerStep1({ setData, dataInput, formStep1}: Props){
 				rules={[{ required: true, message: 'Harap masukan nama belakang anda!' }]}
 				>
 				<Input onChange={(e) => {
-					setData({ ...dataInput, last_name: e.target.value })}}
+					setData({ ...data, last_name: e.target.value })}}
 					size="large" placeholder="Masukan nama belakang" className=" p-[10px] rounded-[10px] border border-rstroke regis text-xl" />
 			</Form.Item>
 			</div>
@@ -58,7 +58,7 @@ function OwnerStep1({ setData, dataInput, formStep1}: Props){
 				rules={[{ required: true, message: 'Harap masukan nama belakang anda!' }]}
 			>
 				<Input onChange={(e) => {
-					setData({ ...dataInput, phone: e.target.value })}} 
+					setData({ ...data, phone: e.target.value })}} 
 					addonBefore="+62" placeholder="Masukan nomor telepon" maxLength={11} className="regis" />
 			</Form.Item>
 			</div>
@@ -74,7 +74,7 @@ function OwnerStep1({ setData, dataInput, formStep1}: Props){
 					rules={[{ required: true, message: 'Harap masukan tanggal lahir anda!' }]}
 				>
 					<DatePicker onChange={(e: any) => {
-					setData({ ...dataInput, birth_date: e?.$d.toString() })
+					setData({ ...data, birth_date: e?.$d.toString() })
 					// console.log(e.toString());
 					
 				}} placeholder="Pilih tanggal" className="w-full regis" />
@@ -90,7 +90,7 @@ function OwnerStep1({ setData, dataInput, formStep1}: Props){
 					name="gender"
 					rules={[{ required: true, message: 'Harap masukan nama belakang anda!' }]}
 				>
-					<Select onChange={(e) => {setData({ ...dataInput, gender: e })}}
+					<Select onChange={(e) => {setData({ ...data, gender: e })}}
 					 placeholder="Pilih jenis kelamin" className="w-full regis">
 						<Option value="pria">Pria</Option>
 						<Option value="wanita">Wanita</Option>

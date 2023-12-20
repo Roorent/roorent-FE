@@ -36,7 +36,6 @@ const Login = () => {
     const router = useRouter()
 
     const onFinish = async (values: any) => {
-        console.log('Received values of form: ', values);
         try {
             const data = {
                 email: values?.email,
@@ -44,13 +43,10 @@ const Login = () => {
             }
 
             const login = await authRepository.manipulatedata.login(data)
-            // const token = (login as SuccessLogin)?.body?.data 
 
             localStorage.setItem("access_token", login?.body?.data?.access_token)
-            // setLoading(false)
             router.push("/adm/dashboard")
         } catch (err) {
-            // console.log(err.response.body?.error);
             message.error(err.response.body?.error)
         }
     }

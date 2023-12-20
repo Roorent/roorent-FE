@@ -10,7 +10,7 @@ import Regis from "#/components/auth/img_regis";
 import { Button, message } from "antd/lib/index";
 
 function RegisOwner() {
-  const [dataInput, setData] = useState<Register>({
+  const [data, setData] = useState<Register>({
     level: "",
     first_name: "",
     last_name: "",
@@ -33,7 +33,7 @@ function RegisOwner() {
       content: (
         <OwnerStep1
           setData={setData}
-          dataInput={dataInput}
+          data={data}
           formStep1={formStep1}
         />
       ),
@@ -43,7 +43,7 @@ function RegisOwner() {
       content: (
         <OwnerStep2
           setData={setData}
-          dataInput={dataInput}
+          data={data}
           formStep2={formStep2}
         />
       ),
@@ -53,7 +53,7 @@ function RegisOwner() {
       content: (
         <OwnerStep3
           setData={setData}
-          dataInput={dataInput}
+          data={data}
           formStep3={formStep3}
         />
       ),
@@ -118,15 +118,15 @@ function RegisOwner() {
                 type="primary"
                 htmlType="submit"
                 disabled={
-                    dataInput.first_name.length <= 1 ||
-                    dataInput.last_name.length <= 1 ||
-                    dataInput.phone.length <= 1 ||
-                    typeof dataInput.birth_date !== "object" || 
-                    dataInput.gender.length <= 1||
-                    dataInput.nik.length <= 1||
-                    dataInput.photo_ktp.length <= 1||
-                    dataInput.email.length <= 1 ||
-                    dataInput.password.length <= 1
+                    data.first_name.length <= 1 ||
+                    data.last_name.length <= 1 ||
+                    data.phone.length <= 1 ||
+                    typeof data.birth_date !== "object" || 
+                    data.gender.length <= 1||
+                    data.nik.length <= 1||
+                    data.photo_ktp.length <= 1||
+                    data.email.length <= 1 ||
+                    data.password.length <= 1
                 }
                 onClick={() => message.success('Anda Telah Berhasil Registrasi!')}
                 className="bg-primary rounded-[20px] px-8 py-2.5 text-xl font-bold regis w-full mt-[38px] h-max"

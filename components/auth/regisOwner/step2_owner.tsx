@@ -6,20 +6,11 @@ import { FormInstance } from "antd/lib";
 
 type Props = {
   setData: any;
-  dataInput: Register;
+  data: Register;
   formStep2: FormInstance<any>;
 };
 
-// const handleChange = async (args){
-//   try {
-//     const data = {File};
-//     const processUpload = await
-//   } catch (err) {
-
-//   }
-// }
-
-function OwnerStep2({ setData, dataInput, formStep2 }: Props) {
+function OwnerStep2({ setData, data, formStep2 }: Props) {
   const beforeUpload = (file: RcFile) => {
     const isJpgOrPng =
       file.type === "image/jpeg" ||
@@ -53,7 +44,7 @@ function OwnerStep2({ setData, dataInput, formStep2 }: Props) {
             >
               <Input
                 onChange={(e) => {
-                  setData({ ...dataInput, nik: e.target.value });
+                  setData({ ...data, nik: e.target.value });
                 }}
                 size="large"
                 placeholder="Masukan no nik"
@@ -83,7 +74,7 @@ function OwnerStep2({ setData, dataInput, formStep2 }: Props) {
                 listType="picture"
                 maxCount={1}
               >
-                <Button className=" p-[10px] rounded-[10px] border border-rstroke text-xl h-max w-full btn-upload border-dashed border">
+                <Button className=" p-[10px] rounded-[10px] border-rstroke text-xl h-max w-full btn-upload border-dashed border">
                   <div className="p-5">
                     <div>
                       <CameraOutlined className="text-5xl mb-3" />

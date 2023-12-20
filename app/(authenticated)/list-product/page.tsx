@@ -93,7 +93,7 @@ function ListProduct() {
         <div className="w-full">
           <p className="text-white w-full">List Produk </p>
         </div>
-        <div className="flex gap-x-6 flex items-center">
+        <div className="flex gap-x-6 items-center">
           <div className="w-full">
             <Select
               defaultValue="semua"

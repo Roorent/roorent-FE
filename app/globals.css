@@ -129,6 +129,15 @@ body {
     font-size: large !important;
     @apply border-rstroke
 }
+.search .ant-input-group .ant-input-group-addon {
+    padding-inline: 25px !important;
+    color: white !important;
+    border-start-start-radius: 0px !important;
+    border-end-end-radius: 10px !important;
+    background-color: #4065DA !important;
+    font-size: large !important;
+    @apply border-rstroke
+}
 
 .ant-picker {
     @apply border-rstroke;
@@ -290,6 +299,11 @@ button, [type='button']{
     border-radius: 10px;
     @apply border-rstroke;
 }
+.search .ant-input-affix-wrapper{
+    border-radius: 10px;
+    @apply border-rstroke;
+    box-shadow: inset 4px 4px 4px 0 rgba(0, 0, 0, 0.137);
+}
 textarea:where(.css-dev-only-do-not-override-1dj4ii3).ant-input{
     border-radius: 10px;
 }
@@ -343,4 +357,15 @@ textarea:where(.css-dev-only-do-not-override-1dj4ii3).ant-input{
 }
 :where(.css-dev-only-do-not-override-1dj4ii3).ant-layout-header{
     padding: 0px;
+}
+
+:where(.css-dev-only-do-not-override-1dj4ii3).ant-btn >span{
+    font-weight: bold;
+    font-size: larger;
+}
+.search .anticon svg{
+    font-size: 30px;
+}
+:where(.css-dev-only-do-not-override-1dj4ii3).ant-radio-button-wrapper >.ant-radio-button{
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.267), 0 8px 10px -6px rgb(0, 0, 0)
 }
