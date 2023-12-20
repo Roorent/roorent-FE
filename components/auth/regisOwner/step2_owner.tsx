@@ -85,7 +85,7 @@ function OwnerStep2({ setData, dataInput, formStep2 }: Props) {
                 maxCount={1}
                 onChange={handleUploadKtp}
               >
-                <Button className=' p-[10px] rounded-[10px] border border-rstroke text-xl h-max w-full btn-upload border-dashed border'>
+                <Button className='h-max w-full p-[10px] rounded-[10px] border border-rstroke border-dashed text-xl btn-upload'>
                   <div className='p-5'>
                     <div>
                       <CameraOutlined className='text-5xl mb-3' />
