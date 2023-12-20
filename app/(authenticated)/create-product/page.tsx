@@ -5,7 +5,6 @@ import {
   ArrowLeftOutlined,
   CameraOutlined,
   ExclamationCircleFilled,
-<<<<<<< HEAD
 } from "@ant-design/icons";
 import {
   Form,
@@ -19,13 +18,6 @@ import {
 import { UploadFile } from "antd/es/upload/interface";
 import { RcFile, UploadProps } from "antd/lib/upload";
 import React, { useState } from "react";
-=======
-} from '@ant-design/icons';
-import { Form, Input, InputNumber, Modal, Select, Upload, message } from 'antd';
-import { UploadFile } from 'antd/es/upload/interface';
-import { RcFile, UploadProps } from 'antd/lib/upload';
-import React, { useState } from 'react';
->>>>>>> fe6e6a389a6e33f84820645e32effe11e6b48404
 
 
 const getBase64 = (file: RcFile): Promise<string> =>
@@ -152,20 +144,13 @@ function CreateProduct() {
   };
   return (
     <div>
-<<<<<<< HEAD
       <Form name="createProduk">
         <div className="w-full grid gap-y-[20px] grid-cols-1">
           <a href="/list-product" className="w-fit hover:text-teks flex font-bold text-xl gap-3">
-=======
-      <Form name='createProduk'>
-        <div className='w-full grid gap-y-[20px] grid-cols-1'>
-          <div className='flex font-bold text-xl gap-3'>
->>>>>>> fe6e6a389a6e33f84820645e32effe11e6b48404
             <div>
               <ArrowLeftOutlined />
             </div>
             <div>Kembali</div>
-<<<<<<< HEAD
           </a>
           <div className="produkOwner text-4xl font-bold bg-primary rounded-[10px] px-5 py-2.5 flex items-center mb-[30px]">
             <div className="w-full">
@@ -176,28 +161,6 @@ function CreateProduct() {
                 <Form.Item
                   name="type"
                 >
-=======
-          </div>
-          <div className='produkOwner text-4xl font-bold bg-primary rounded-[10px] px-5 py-2.5 flex items-center mb-[30px]'>
-            <div className='w-full'>
-              <p className='text-white w-full'>Tambah Produk </p>
-            </div>
-            <div className='flex gap-x-6 items-center'>
-              <div className='w-full list-produk'>
-                <Form.Item name='type'>
-                  {/* <Select
-                    //   defaultValue="kost"
-                    placeholder="Pilih Produk"
-                    style={{ width: 170 }}
-                    className="produkOwner flex items-center"
-                    onChange={handleChangeProduk}
-                    options={[
-                      { value: "kost", label: "Kost" },
-                      { value: "gedung", label: "Gedung" },
-                      { value: "hotel", label: "Hotel" },
-                    ]}
-                  /> */}
->>>>>>> fe6e6a389a6e33f84820645e32effe11e6b48404
                   <Select
                     value={selectedOptionProduk?.value}
                     onChange={handleSelectChangeProduk}
@@ -312,12 +275,8 @@ function CreateProduct() {
                     <TextArea
                       showCount
                       maxLength={225}
-<<<<<<< HEAD
-                      placeholder="Masukan alamat produk"
-=======
                       // onChange={onChange}
                       placeholder='Masukan alamat produk'
->>>>>>> fe6e6a389a6e33f84820645e32effe11e6b48404
                       style={{
                         height: 120,
                         resize: 'none',
@@ -658,12 +617,8 @@ function CreateProduct() {
                     <TextArea
                       showCount
                       maxLength={225}
-<<<<<<< HEAD
-                      placeholder="Masukan spesifikasi produk "
-=======
                       // onChange={onChange}
                       placeholder='Masukan spesifikasi produk '
->>>>>>> fe6e6a389a6e33f84820645e32effe11e6b48404
                       style={{
                         height: 120,
                         resize: 'none',
@@ -690,12 +645,7 @@ function CreateProduct() {
                     <TextArea
                       showCount
                       maxLength={225}
-<<<<<<< HEAD
                       placeholder="Masukan fasilitas produk "
-=======
-                      // onChange={onChange}
-                      placeholder='Masukan fasilitas produk '
->>>>>>> fe6e6a389a6e33f84820645e32effe11e6b48404
                       style={{
                         height: 120,
                         resize: 'none',
@@ -722,12 +672,8 @@ function CreateProduct() {
                     <TextArea
                       showCount
                       maxLength={225}
-<<<<<<< HEAD
-                      placeholder="Masukan catatan pemilik"
-=======
                       // onChange={onChange}
                       placeholder='Masukan catatan pemilik'
->>>>>>> fe6e6a389a6e33f84820645e32effe11e6b48404
                       style={{
                         height: 120,
                         resize: 'none',
@@ -803,12 +749,8 @@ function CreateProduct() {
                     <TextArea
                       showCount
                       maxLength={225}
-<<<<<<< HEAD
-                      placeholder="Masukan catatan pemilik"
-=======
                       // onChange={onChange}
                       placeholder='Masukan catatan pemilik'
->>>>>>> fe6e6a389a6e33f84820645e32effe11e6b48404
                       style={{
                         height: 120,
                         resize: 'none',
