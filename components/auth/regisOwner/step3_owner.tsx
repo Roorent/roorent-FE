@@ -4,12 +4,12 @@ import { Form, Input } from 'antd';
 import { FormInstance } from 'antd/lib';
 
 type Props = {
-  setData: any;
-  dataInput: Register;
-  formStep3: FormInstance<any>;
-};
+	setData: any;
+	data: Register;
+	formStep3: FormInstance<any>
+}
 
-function OwnerStep3({ setData, dataInput, formStep3 }: Props) {
+function OwnerStep3({ setData, data, formStep3 }: Props) {
   return (
     <Form name='step3Owner' form={formStep3}>
       <div>
@@ -24,7 +24,7 @@ function OwnerStep3({ setData, dataInput, formStep3 }: Props) {
             >
               <Input
                 onChange={(e) => {
-                  setData({ ...dataInput, email: e.target.value });
+                  setData({ ...data, email: e.target.value });
                 }}
                 size='large'
                 placeholder='Masukan email'
@@ -46,7 +46,7 @@ function OwnerStep3({ setData, dataInput, formStep3 }: Props) {
             >
               <Input.Password
                 onChange={(e) => {
-                  setData({ ...dataInput, password: e.target.value });
+                  setData({ ...data, password: e.target.value });
                 }}
                 size='large'
                 placeholder='Masukan Password'

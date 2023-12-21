@@ -4,13 +4,14 @@ import { Form, Input } from "antd/lib/index";
 import { FormInstance } from "antd";
 import { Register } from "#/types/typeRegis";
 
+
 type Props = {
 	setData: any;
-	dataInput: Register;
-	formStep1: FormInstance<any>;
-};
+	data: Register;
+	formStep1: FormInstance<any>
+}
 
-function RenterStep1({ setData, dataInput, formStep1 }: Props) {
+function RenterStep1({ setData, data, formStep1 }: Props) {
 	return (
 		<Form name="step1Renter" form={formStep1}>
 			<div>
@@ -27,7 +28,7 @@ function RenterStep1({ setData, dataInput, formStep1 }: Props) {
 						>
 							<Input
 								onChange={(e) => {
-									setData({ ...dataInput, first_name: e.target.value });
+									setData({ ...data, first_name: e.target.value });
 								}}
 								size="large"
 								placeholder="Masukan nama depan"
@@ -52,7 +53,7 @@ function RenterStep1({ setData, dataInput, formStep1 }: Props) {
 						>
 							<Input
 								onChange={(e) => {
-									setData({ ...dataInput, last_name: e.target.value });
+									setData({ ...data, last_name: e.target.value });
 								}}
 								size="large"
 								placeholder="Masukan nama belakang"
@@ -72,7 +73,7 @@ function RenterStep1({ setData, dataInput, formStep1 }: Props) {
 						>
 							<Input
 								onChange={(e) => {
-									setData({ ...dataInput, nik: e.target.value });
+									setData({ ...data, nik: e.target.value });
 								}}
 								size="large"
 								placeholder="Masukan no nik"
@@ -98,7 +99,7 @@ function RenterStep1({ setData, dataInput, formStep1 }: Props) {
 						>
 							<Input
 								onChange={(e) => {
-									setData({ ...dataInput, phone: e.target.value });
+									setData({ ...data, phone: e.target.value });
 								}}
 								addonBefore="+62"
 								placeholder="Masukan nomor telepon"
@@ -125,7 +126,7 @@ function RenterStep1({ setData, dataInput, formStep1 }: Props) {
 							>
 								<DatePicker
 									onChange={(e: any) => {
-										setData({ ...dataInput, birth_date: e?.$d });
+										setData({ ...data, birth_date: e?.$d });
 										console.log(e);
 									}}
 									placeholder="Pilih tanggal"
@@ -150,7 +151,7 @@ function RenterStep1({ setData, dataInput, formStep1 }: Props) {
 							>
 								<Select
 									onChange={(e) => {
-										setData({ ...dataInput, gender: e });
+										setData({ ...data, gender: e });
 									}}
 									placeholder="Pilih jenis kelamin"
 									className="w-full regis"

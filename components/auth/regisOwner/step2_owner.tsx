@@ -8,11 +8,11 @@ import { useState } from "react";
 
 type Props = {
   setData: any;
-  dataInput: Register;
+  data: Register;
   formStep2: FormInstance<any>;
 };
 
-function OwnerStep2({ setData, dataInput, formStep2 }: Props) {
+function OwnerStep2({ setData, data, formStep2 }: Props) {
   const [photoKtp, setPhotoKtp] = useState<string | null>(null);
 
 	const handleUploadKtp = async (args: UploadChangeParam<UploadFile<any>>) => {
@@ -30,7 +30,7 @@ function OwnerStep2({ setData, dataInput, formStep2 }: Props) {
 					);
 					console.log(response.body.filename, "hasilnya");          
 					setPhotoKtp(response.body.filename);
-					setData({ ...dataInput, photo_ktp: response.body.filename})					
+					setData({ ...data, photo_ktp: response.body.filename})					
 				} else {
 					message.error("Extensi file tidak diketahui");
 				}
@@ -54,7 +54,7 @@ function OwnerStep2({ setData, dataInput, formStep2 }: Props) {
 						>
 							<Input
 								onChange={(e) => {
-									setData({ ...dataInput, nik: e.target.value });
+									setData({ ...data, nik: e.target.value });
 								}}
 								size="large"
 								placeholder="Masukan no nik"

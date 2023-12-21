@@ -5,11 +5,11 @@ import { FormInstance } from "antd/lib";
 
 type Props = {
 	setData: any;
-	dataInput: Register;
-	formStep2: FormInstance<any>;
-};
+	data: Register;
+	formStep2: FormInstance<any>
+}
 
-function RenterStep2({ setData, dataInput, formStep2 }: Props) {
+function RenterStep2({ setData, data, formStep2 }: Props) {
 	return (
 		<Form name="step2Renter" form={formStep2}>
 			<div>
@@ -24,7 +24,7 @@ function RenterStep2({ setData, dataInput, formStep2 }: Props) {
 						>
 							<Input
 								onChange={(e) => {
-									setData({ ...dataInput, email: e.target.value });
+									setData({ ...data, email: e.target.value });
 								}}
 								size="large"
 								placeholder="Masukan email"
@@ -46,7 +46,7 @@ function RenterStep2({ setData, dataInput, formStep2 }: Props) {
 						>
 							<Input.Password
 								onChange={(e) => {
-									setData({ ...dataInput, password: e.target.value });
+									setData({ ...data, password: e.target.value });
 								}}
 								size="large"
 								placeholder="Masukan kata sandi"

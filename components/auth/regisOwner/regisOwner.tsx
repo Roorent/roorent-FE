@@ -14,7 +14,7 @@ import { authRepository } from "#/repository/auth";
 function RegisOwner() {
   const router = useRouter();
   
-  const [dataInput, setData] = useState<Register>({
+  const [data, setData] = useState<Register>({
     level: '',
     first_name: '',
     last_name: '',
@@ -37,7 +37,7 @@ function RegisOwner() {
       content: (
         <OwnerStep1
           setData={setData}
-          dataInput={dataInput}
+          data={data}
           formStep1={formStep1}
         />
       ),
@@ -47,7 +47,7 @@ function RegisOwner() {
       content: (
         <OwnerStep2
           setData={setData}
-          dataInput={dataInput}
+          data={data}
           formStep2={formStep2}
         />
       ),
@@ -57,7 +57,7 @@ function RegisOwner() {
       content: (
         <OwnerStep3
           setData={setData}
-          dataInput={dataInput}
+          data={data}
           formStep3={formStep3}
         />
       ),
@@ -78,18 +78,18 @@ function RegisOwner() {
 
   const onFinish = async () => {
 		const role = 'owner';
-			const data = {
-				first_name: dataInput?.first_name,
-				last_name: dataInput?.last_name,
-				phone: "+62" + dataInput?.phone,
-				birth_date: dataInput?.birth_date,
-				gender: dataInput?.gender,
-				email: dataInput?.email,
-				password: dataInput?.password,
-				nik: dataInput?.nik,
-        photo_ktp: dataInput?.photo_ktp
+			const dataOwner = {
+				first_name: data?.first_name,
+				last_name: data?.last_name,
+				phone: "+62" + data?.phone,
+				birth_date: data?.birth_date,
+				gender: data?.gender,
+				email: data?.email,
+				password: data?.password,
+				nik: data?.nik,
+        photo_ktp: data?.photo_ktp
 			};
-      await authRepository.manipulatedata.register(data,role);
+      await authRepository.manipulatedata.register(dataOwner,role);
 			setTimeout(message.success('Anda Telah Berhasil Registrasi!'), 5000)
 			router.push("/auth/login");
 	};
@@ -139,17 +139,17 @@ function RegisOwner() {
               <Button
                 type="primary"
                 htmlType="submit"
-                // disabled={
-                //     dataInput.first_name.length <= 1 ||
-                //     dataInput.last_name.length <= 1 ||
-                //     dataInput.phone.length <= 1 ||
-                //     typeof dataInput.birth_date !== "object" || 
-                //     dataInput.gender.length <= 1||
-                //     dataInput.nik.length <= 1||
-                //     dataInput.photo_ktp.length <= 1||
-                //     dataInput.email.length <= 1 ||
-                //     dataInput.password.length <= 1
-                // }
+                disabled={
+                    data.first_name.length <= 1 ||
+                    data.last_name.length <= 1 ||
+                    data.phone.length <= 1 ||
+                    typeof data.birth_date !== "object" || 
+                    data.gender.length <= 1||
+                    data.nik.length <= 1||
+                    data.photo_ktp.length <= 1||
+                    data.email.length <= 1 ||
+                    data.password.length <= 1
+                }
                 onClick={onFinish}
                 className="bg-primary rounded-[20px] px-8 py-2.5 text-xl font-bold regis w-full mt-[38px] h-max"
               >
