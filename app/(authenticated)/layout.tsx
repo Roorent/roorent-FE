@@ -52,13 +52,20 @@ const AuthenticatedLayout: React.FC<AuthenticatedLayoutProps> = ({
 
   const token = localStorage.getItem('access_token');
   let role: string = '';
+  let firstName: string = '';
 
   if (token) {
     role = parseJwt(token).role;
+    firstName = parseJwt(token).firstname;
   }
   if (!token) {
     router.push('/');
   }
+
+  const handleLogout = () => {
+    localStorage.removeItem('access_token');
+    router.push('/');
+  };
 
   const itemOwner: MenuItem[] = [
     getItem(
@@ -198,32 +205,32 @@ const AuthenticatedLayout: React.FC<AuthenticatedLayoutProps> = ({
                   className='sidebar flex flex-col gap-1 justify-center px-8'
                 />
               )}
-              <a
-                href='#'
-                className='text-slate-600 text-2xl font-bold flex gap-4 justify-center items-center hover:text-primary absolute left-[25%] bottom-16'
+              <div
+                onClick={handleLogout}
+                className='text-slate-600 text-2xl font-bold flex gap-4 justify-center items-center hover:text-primary absolute left-[25%] bottom-16 cursor-pointer'
               >
                 <LogoutOutlined />
-                <p>Logout</p>
-              </a>
+                <p>Keluar</p>
+              </div>
             </Sider>
           )}
         </>
       )}
       <Layout>
-        {role !== "renter" ? (
+        {role !== 'renter' ? (
           <>
             {!cruProduk ? (
               <Header style={{ background: colorBgContainer }}>
                 <Menu
-                  mode="horizontal"
+                  mode='horizontal'
                   defaultSelectedKeys={[]}
-                  style={{ borderBottomWidth: "2px" }}
+                  style={{ borderBottomWidth: '2px' }}
                   className={
-                    "absolute border-slate-200 left-[300px] w-[calc(100%-300px)] py-[12px] px-[120px] gap-10 justify-end items-center"
+                    'absolute border-slate-200 left-[300px] w-[calc(100%-300px)] py-[12px] px-[120px] gap-10 justify-end items-center'
                   }
                 >
-                  <div className="flex gap-6 items-center">
-                    {role == "admin" ? (
+                  <div className='flex gap-6 items-center'>
+                    {role == 'admin' ? (
                       <>
                         <Notifications />
                       </>
@@ -234,9 +241,9 @@ const AuthenticatedLayout: React.FC<AuthenticatedLayoutProps> = ({
                       </>
                     )}
                   </div>
-                  <div className="flex items-center gap-8">
-                    <p className="text-xl font-bold flex w-max flex justify-end">
-                      Halo, Maulana
+                  <div className='flex items-center gap-8'>
+                    <p className='text-xl font-bold flex w-max justify-end'>
+                      Halo, {firstName}
                     </p>
                     <Photo />
                   </div>
@@ -245,18 +252,18 @@ const AuthenticatedLayout: React.FC<AuthenticatedLayoutProps> = ({
             ) : (
               <Header style={{ background: colorBgContainer }}>
                 <Menu
-                  mode="horizontal"
+                  mode='horizontal'
                   defaultSelectedKeys={[]}
-                  style={{ borderBottomWidth: "2px" }}
+                  style={{ borderBottomWidth: '2px' }}
                   className={
-                    "absolute border-slate-200 flex justify-start py-[12px] px-[120px] gap-10 w-full items-center"
+                    'absolute border-slate-200 flex justify-start py-[12px] px-[120px] gap-10 w-full items-center'
                   }
                 >
-                  <div className="w-full">
-                    <LOGO className="w-[160px]"/>
+                  <div className='w-full'>
+                    <LOGO className='w-[160px]' />
                   </div>
-                  <div className="flex gap-6 items-center">
-                    {role == "admin" ? (
+                  <div className='flex gap-6 items-center'>
+                    {role == 'admin' ? (
                       <>
                         <Notifications />
                       </>
@@ -267,9 +274,9 @@ const AuthenticatedLayout: React.FC<AuthenticatedLayoutProps> = ({
                       </>
                     )}
                   </div>
-                  <div className="flex items-center gap-6 w-fit">
-                    <p className="text-xl font-bold flex w-max flex justify-end">
-                      Halo, Maulana
+                  <div className='flex items-center gap-6 w-fit'>
+                    <p className='text-xl font-bold flex w-max justify-end'>
+                      Halo, {firstName}
                     </p>
                     <Photo />
                   </div>
@@ -281,24 +288,24 @@ const AuthenticatedLayout: React.FC<AuthenticatedLayoutProps> = ({
           <>
             <Header style={{ background: colorBgContainer }}>
               <Menu
-                mode="horizontal"
+                mode='horizontal'
                 defaultSelectedKeys={[]}
-                style={{ borderBottomWidth: "2px" }}
+                style={{ borderBottomWidth: '2px' }}
                 className={
-                  "absolute border-slate-200 flex justify-start py-[12px] px-[150px] gap-10 w-full items-center"
+                  'absolute border-slate-200 flex justify-start py-[12px] px-[150px] gap-10 w-full items-center'
                 }
               >
-                <div className="w-full">
-                  <LOGO className="w-[160px]"/>
+                <div className='w-full'>
+                  <LOGO className='w-[160px]' />
                 </div>
-                <div className="flex gap-6 items-center">
+                <div className='flex gap-6 items-center'>
                   <Favorite />
                   <Chats />
                   <Notifications />
                 </div>
-                <div className="flex items-center gap-6 w-fit">
-                  <p className="text-xl font-bold flex w-max flex justify-end">
-                    Halo, Maulana
+                <div className='flex items-center gap-6 w-fit'>
+                  <p className='text-xl font-bold flex w-max justify-end'>
+                    Halo, {firstName}
                   </p>
                   <Photo />
                 </div>
@@ -306,7 +313,7 @@ const AuthenticatedLayout: React.FC<AuthenticatedLayoutProps> = ({
             </Header>
           </>
         )}
-        {role !== "renter" ? (
+        {role !== 'renter' ? (
           <>
             {cruProduk ? (
               <Content
@@ -347,17 +354,17 @@ const AuthenticatedLayout: React.FC<AuthenticatedLayoutProps> = ({
         ) : (
           <>
             <Content
-              style={{ margin: "10px 0 0 0" }}
-              className="text-slate-800 bg-white"
+              style={{ margin: '10px 0 0 0' }}
+              className='text-slate-800 bg-white'
             >
               <div
                 style={{
-                  padding: "40px 190px 0 190px",
+                  padding: '40px 190px 0 190px',
                   minHeight: 360,
-                  height: "100%",
+                  height: '100%',
                   background: colorBgContainer,
                 }}
-                className="overflow-auto"
+                className='overflow-auto'
               >
                 {children}
               </div>
