@@ -1,14 +1,14 @@
-import { LOGO } from "#/constants/images";
-import { Steps } from "antd";
-import { useState } from "react";
-import { Form } from "antd";
-import { Register } from "#/types/typeRegis";
-import Regis from "#/components/auth/img_regis";
-import { Button, message } from "antd/lib/index";
-import RenterStep1 from "./step1_renter";
-import RenterStep2 from "./step2_renter";
-import { useRouter } from "next/navigation";
-import { authRepository } from "#/repository/auth";
+import { LOGO } from '#/constants/images';
+import { Steps } from 'antd';
+import { useState } from 'react';
+import { Form } from 'antd';
+import { Register } from '#/types/typeRegis';
+import Regis from '#/components/auth/img_regis';
+import { Button, message } from 'antd/lib/index';
+import RenterStep1 from './step1_renter';
+import RenterStep2 from './step2_renter';
+import { useRouter } from 'next/navigation';
+import { authRepository } from '#/repository/auth';
 
 function RegisRenter() {
 	const router = useRouter();
@@ -25,8 +25,8 @@ function RegisRenter() {
 		password: "",
 	});
 
-	const [formStep1] = Form.useForm();
-	const [formStep2] = Form.useForm();
+  const [formStep1] = Form.useForm();
+  const [formStep2] = Form.useForm();
 
 	const steps = [
 		{
@@ -51,15 +51,15 @@ function RegisRenter() {
 		},
 	];
 
-	const [current, setCurrent] = useState(0);
+  const [current, setCurrent] = useState(0);
 
-	const next = () => {
-		setCurrent(current + 1);
-	};
+  const next = () => {
+    setCurrent(current + 1);
+  };
 
-	const prev = () => {
-		setCurrent(current - 1);
-	};
+  const prev = () => {
+    setCurrent(current - 1);
+  };
 
 	const items = steps.map((item) => ({ key: item.title, title: item.title }));
 	const onFinish = async () => {
@@ -76,9 +76,9 @@ function RegisRenter() {
 		};
 		await authRepository.manipulatedata.register(dataRenter, role);
 
-		setTimeout(message.success("Anda Telah Berhasil Registrasi!"), 5000);
-		router.push("/auth/login");
-	};
+    setTimeout(message.success('Anda Telah Berhasil Registrasi!'), 5000);
+    router.push('/auth/login');
+  };
 
 	return (
 		<div className="w-full min-h-screen flex justify-center relative">

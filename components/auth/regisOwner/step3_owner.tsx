@@ -20,14 +20,16 @@ function OwnerStep3({ setData, data, formStep3 }: Props) {
           <div className='w-full'>
             <Form.Item
               name='email'
-              rules={[{ required: true, message: 'Harap masukan email anda!' }]}
+              rules={[
+                { required: true, message: 'Harap masukkan email anda!' },
+              ]}
             >
               <Input
                 onChange={(e) => {
                   setData({ ...data, email: e.target.value });
                 }}
                 size='large'
-                placeholder='Masukan email'
+                placeholder='Masukkan email'
                 className=' p-[10px] rounded-[10px] border border-rstroke regis text-xl'
               />
             </Form.Item>
@@ -35,13 +37,13 @@ function OwnerStep3({ setData, data, formStep3 }: Props) {
         </div>
         <div className='grid gap-y-4 grid-cols-1'>
           <div>
-            <p className='text-teks text-2xl font-bold'>Password</p>
+            <p className='text-teks text-2xl font-bold'>Kata Sandi</p>
           </div>
           <div className='w-full'>
             <Form.Item
               name='password'
               rules={[
-                { required: true, message: 'Harap masukan password anda!' },
+                { required: true, message: 'Harap masukkan kata sandi anda!' },
               ]}
             >
               <Input.Password
@@ -49,7 +51,7 @@ function OwnerStep3({ setData, data, formStep3 }: Props) {
                   setData({ ...data, password: e.target.value });
                 }}
                 size='large'
-                placeholder='Masukan Password'
+                placeholder='Masukkan kata sandi'
                 className='p-[10px] rounded-[10px] border border-rstroke regis text-xl'
                 iconRender={(visible) =>
                   visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />
@@ -60,7 +62,9 @@ function OwnerStep3({ setData, data, formStep3 }: Props) {
         </div>
         <div className='grid gap-y-4 grid-cols-1'>
           <div>
-            <p className='text-teks text-2xl font-bold'>Konfirmasi Password</p>
+            <p className='text-teks text-2xl font-bold'>
+              Konfirmasi Kata Sandi
+            </p>
           </div>
           <div className='w-full'>
             <Form.Item
@@ -70,7 +74,7 @@ function OwnerStep3({ setData, data, formStep3 }: Props) {
               rules={[
                 {
                   required: true,
-                  message: 'Harap konfirmasi password anda!',
+                  message: 'Harap konfirmasi kata sandi anda!',
                 },
                 ({ getFieldValue }) => ({
                   validator(_, value) {
@@ -78,9 +82,7 @@ function OwnerStep3({ setData, data, formStep3 }: Props) {
                       return Promise.resolve();
                     }
                     return Promise.reject(
-                      new Error(
-                        'Kata sandi baru yang Anda masukkan tidak cocok!'
-                      )
+                      new Error('Kata sandi yang Anda masukkan tidak cocok!')
                     );
                   },
                 }),
@@ -88,7 +90,7 @@ function OwnerStep3({ setData, data, formStep3 }: Props) {
             >
               <Input.Password
                 size='large'
-                placeholder='Masukan Kembali Password'
+                placeholder='Masukkan kembali kata sandi'
                 className='p-[10px] rounded-[10px] border border-rstroke regis text-xl'
                 iconRender={(visible) =>
                   visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />
