@@ -44,7 +44,7 @@ function CreateProduct() {
   const [previewTitle, setPreviewTitle] = useState('');
   const [fileList, setFileList] = useState<UploadFile[]>([]);
   const handleCancel = () => setPreviewOpen(false);
-  const [photoProducts, setPhotoProducts] = useState<string | null>(null);
+  const [photoProductsArray, setPhotoProducts] = useState<string[]| []>([]);
 
   const [datas, setDatas] = useState({
     name: '',
@@ -55,7 +55,7 @@ function CreateProduct() {
     address: '',
     location: '',
     city: '',
-    photo: '',
+    photo: [],
     specifications: '',
     facilities: '',
     note: '',
@@ -80,7 +80,7 @@ function CreateProduct() {
       gender: datas?.gender,
       notes: datas?.notes,
     };
-    console.log(datas, 'isi datas');
+
     await productsRepository.manipulatedata.createProducts(dataProducts);
 
     Modal.success({
@@ -121,9 +121,9 @@ function CreateProduct() {
             await productsRepository.manipulatedata.uploadPhotoProducts(
               photoProducts?.originFileObj
             );
-          console.log(response.body.filename, 'hasilnya');
-          setPhotoProducts(response.body.filename);
-          setDatas({ ...datas, photo: response.body.filename });
+
+          setPhotoProducts([...photoProductsArray, response.body.filename]);
+          setDatas({ ...datas, photo: [...photoProductsArray, response.body.filename] });
         } else {
           message.error('Extensi file tidak diketahui');
         }
