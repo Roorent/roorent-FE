@@ -63,7 +63,7 @@ function ListProduct() {
         {data?.data.map((product: any) => (
           <div key={product.id}>
             <CardProduk
-              image={`http://localhost:3222/products/images/${product.photo}`}
+              image={product.photo}
               label={product.type}
               title={product.name}
             />

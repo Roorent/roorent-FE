@@ -12,7 +12,7 @@ function CardProduk({ image, label, title }: any) {
           <div className='flex gap-x-5 grid-cols-2 border-b border-slate-200 pb-5'>
             <div className='w-1/2 h-[180px]'>
               <img
-                src={image}
+                src={`http://localhost:3222/products/images/${image}`}
                 alt='produk'
                 className='object-cover object-center w-full h-full rounded-xl'
               />

@@ -8,6 +8,7 @@ import { CloseOutlined } from '@ant-design/icons';
 import Button from '../Button';
 import { parseJwt } from '#/utils/convert';
 import { notifRepository } from '#/repository/notification';
+import { convertTime } from '#/utils/convertTime';
 
 function ListNotifications({ openNotification, isOpen }: any) {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -121,7 +122,7 @@ function ListNotifications({ openNotification, isOpen }: any) {
                         {data?.data?.content}
                       </p>
                       <p className='text-[10px] absolute text-slate-800 right-2 bottom-1'>
-                        18:28 {data?.data?.createdAt}
+                        {convertTime(data?.data?.createdAt)}
                       </p>
                     </div>
                   </div>
