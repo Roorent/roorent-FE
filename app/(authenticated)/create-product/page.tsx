@@ -150,7 +150,7 @@ function CreateProduct() {
             <div className='w-full'>
               <p className='text-white w-full'>Tambah Produk </p>
             </div>
-            <div className='flex gap-x-6 flex items-center'>
+            <div className='flex gap-x-6 items-center'>
               <div className='w-full list-produk'>
                 <Form.Item name='type'>
                   <Select
