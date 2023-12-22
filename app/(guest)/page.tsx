@@ -404,7 +404,7 @@ function Home() {
         </Swiper>
       </div>
       <div>
-        <Footer/>
+        <Footer />
       </div>
     </div>
   );

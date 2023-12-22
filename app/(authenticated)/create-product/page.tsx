@@ -5,20 +5,11 @@ import {
   ArrowLeftOutlined,
   CameraOutlined,
   ExclamationCircleFilled,
-} from "@ant-design/icons";
-import {
-  Form,
-  Input,
-  InputNumber,
-  Modal,
-  Select,
-  Upload,
-  message,
-} from "antd";
-import { UploadFile } from "antd/es/upload/interface";
-import { RcFile, UploadProps } from "antd/lib/upload";
-import React, { useState } from "react";
-
+} from '@ant-design/icons';
+import { Form, Input, InputNumber, Modal, Select, Upload, message } from 'antd';
+import { UploadFile } from 'antd/es/upload/interface';
+import { RcFile, UploadProps } from 'antd/lib/upload';
+import React, { useState } from 'react';
 
 const getBase64 = (file: RcFile): Promise<string> =>
   new Promise((resolve, reject) => {
@@ -144,23 +135,24 @@ function CreateProduct() {
   };
   return (
     <div>
-      <Form name="createProduk">
-        <div className="w-full grid gap-y-[20px] grid-cols-1">
-          <a href="/list-product" className="w-fit hover:text-teks flex font-bold text-xl gap-3">
+      <Form name='createProduk'>
+        <div className='w-full grid gap-y-[20px] grid-cols-1'>
+          <a
+            href='/list-product'
+            className='w-fit hover:text-teks flex font-bold text-xl gap-3'
+          >
             <div>
               <ArrowLeftOutlined />
             </div>
             <div>Kembali</div>
           </a>
-          <div className="produkOwner text-4xl font-bold bg-primary rounded-[10px] px-5 py-2.5 flex items-center mb-[30px]">
-            <div className="w-full">
-              <p className="text-white w-full">Tambah Produk </p>
+          <div className='produkOwner text-4xl font-bold bg-primary rounded-[10px] px-5 py-2.5 flex items-center mb-[30px]'>
+            <div className='w-full'>
+              <p className='text-white w-full'>Tambah Produk </p>
             </div>
-            <div className="flex gap-x-6 flex items-center">
-              <div className="w-full list-produk">
-                <Form.Item
-                  name="type"
-                >
+            <div className='flex gap-x-6 flex items-center'>
+              <div className='w-full list-produk'>
+                <Form.Item name='type'>
                   <Select
                     value={selectedOptionProduk?.value}
                     onChange={handleSelectChangeProduk}
@@ -645,7 +637,7 @@ function CreateProduct() {
                     <TextArea
                       showCount
                       maxLength={225}
-                      placeholder="Masukan fasilitas produk "
+                      placeholder='Masukan fasilitas produk '
                       style={{
                         height: 120,
                         resize: 'none',

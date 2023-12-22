@@ -7,6 +7,8 @@ import { Radio } from 'antd';
 import { CloseOutlined } from '@ant-design/icons';
 import Button from '../Button';
 import { parseJwt } from '#/utils/convert';
+import { notifRepository } from '#/repository/notification';
+import { convertTime } from '#/utils/convertTime';
 
 function ListNotifications({ openNotification, isOpen }: any) {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -26,11 +28,17 @@ function ListNotifications({ openNotification, isOpen }: any) {
   }, [isOpen]);
 
   const token = localStorage.getItem('access_token');
+  let id: string = '';
   let role: string = '';
 
   if (token) {
     role = parseJwt(token).role;
+    id = parseJwt(token).id;
   }
+
+  const { data, error, isLoading } = notifRepository.hooks.getNotifByUser(id);
+  // console.log('data ', data.data.content);
+
   return (
     <>
       <ConfigProvider
@@ -86,70 +94,39 @@ function ListNotifications({ openNotification, isOpen }: any) {
           <div className='flex flex-col gap-4 my-2 h-[280px]'>
             {readable ? (
               <>
-                <div>
-                  <p className='font-bold text-[18px] mb-1 text-slate-800'>
-                    25 November
-                  </p>
-                  <div className='p-1 px-2 relative border-2 border-slate-300 rounded-md'>
-                    <p className='text-[15px] mb-4 text-slate-700'>
-                      Pembayaran berhasil !
+                {data?.data?.readable && (
+                  <div>
+                    <p className='font-bold text-[18px] mb-1 text-slate-800'>
+                      25 November
                     </p>
-                    <p className='text-[10px] text-slate-700 absolute right-2 bottom-1'>
-                      18:28
-                    </p>
+                    <div className='p-1 px-2 relative border-2 border-slate-300 rounded-md'>
+                      <p className='text-[15px] mb-4 text-slate-700'>
+                        {data?.data?.title}
+                      </p>
+                      <p className='text-[10px] text-slate-700 absolute right-2 bottom-1'>
+                        18:28
+                      </p>
+                    </div>
                   </div>
-                </div>
-                <div>
-                  <p className='font-bold text-[18px] mb-1 text-slate-800'>
-                    26 November
-                  </p>
-                  <div className='p-1 px-2 relative border-2 border-slate-300 rounded-md'>
-                    <p className='text-[15px] mb-4 text-slate-700'>
-                      Pembayaran gagal !
-                    </p>
-                    <p className='text-[10px] text-slate-700 absolute right-2 bottom-1'>
-                      18:28
-                    </p>
-                  </div>
-                </div>
-                <div>
-                  <p className='font-bold text-[18px] mb-1 text-slate-800'>
-                    27 November
-                  </p>
-                  <div className='p-1 px-2 relative border-2 border-slate-300 rounded-md'>
-                    <p className='text-[15px] mb-4 text-slate-700'>
-                      Pembayaran berhasil !
-                    </p>
-                    <p className='text-[10px] text-slate-700 absolute right-2 bottom-1'>
-                      18:28
-                    </p>
-                  </div>
-                </div>
+                )}
               </>
             ) : (
               <>
-                <div className='font-bold'>
-                  <p className='text-[18px] mb-1 text-slate-800'>25 November</p>
-                  <div className='p-1 px-2 relative border-2 border-primary rounded-md'>
-                    <p className='text-[15px] mb-4 text-slate-800'>
-                      Pembayaran berhasil !
+                {!data?.data?.readable && (
+                  <div className='font-bold'>
+                    <p className='text-[18px] mb-1 text-slate-800'>
+                      25 November
                     </p>
-                    <p className='text-[10px] absolute text-slate-800 right-2 bottom-1'>
-                      18:28
-                    </p>
+                    <div className='p-1 px-2 relative border-2 border-primary rounded-md'>
+                      <p className='text-[15px] mb-4 text-slate-800'>
+                        {data?.data?.content}
+                      </p>
+                      <p className='text-[10px] absolute text-slate-800 right-2 bottom-1'>
+                        {convertTime(data?.data?.createdAt)}
+                      </p>
+                    </div>
                   </div>
-                </div>
-                <div className='font-bold'>
-                  <p className='text-[18px] mb-1 text-slate-800'>26 November</p>
-                  <div className='p-1 px-2 relative border-2 border-primary rounded-md'>
-                    <p className='text-[15px] mb-4 text-slate-800'>
-                      Pembayaran gagal !
-                    </p>
-                    <p className='text-[10px] absolute text-slate-800 right-2 bottom-1'>
-                      18:28
-                    </p>
-                  </div>
-                </div>
+                )}
               </>
             )}
           </div>

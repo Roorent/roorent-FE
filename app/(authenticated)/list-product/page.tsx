@@ -1,92 +1,30 @@
 'use client';
 
-import { HomeFilled, QuestionCircleFilled } from '@ant-design/icons';
-import { Icon } from '@iconify/react';
+import React, { useEffect } from 'react';
 import { Pagination, Select } from 'antd';
 import Button from '#/components/Button';
-import React, { useEffect } from 'react';
 import CardProduk from '#/components/Card';
-import ModalDelete from '#/components/Modal/modalDelete';
-
-const products = [
-  {
-    id: '1',
-    image: '/assets/images/Kost.png',
-    icon: <HomeFilled />,
-    label: 'Kost',
-    content: 'Kost Apik Pikitdro 22 Tipe C Cibeunying Kaler Bandung',
-    hapus: (
-      <ModalDelete
-        title='Hapus Produk'
-        content='Apakah anda yakin ingin hapus ?'
-        icon={<QuestionCircleFilled />}
-        buttonText='Hapus'
-      />
-    ),
-    hrefDetail: "#",
-    hrefEdit: "/edit-product",
-  },
-  {
-    id: '2',
-    image: '/assets/images/Gedung.png',
-    icon: <Icon icon='mingcute:building-1-fill' className='text-xl' />,
-    label: 'Gedung',
-    content: 'Gedung Apik Pikitdro 22 Tipe C Cibeunying Kaler Bandung',
-    hapus: (
-      <ModalDelete
-        title='Hapus Produk'
-        content='Apakah anda yakin ingin hapus ?'
-        icon={<QuestionCircleFilled />}
-        buttonText='Hapus'
-      />
-    ),
-    hrefDetail: "#",
-    hrefEdit: "/edit-product",
-  },
-  {
-    id: '3',
-    image: '/assets/images/Hotel.png',
-    icon: <Icon icon='fa6-solid:hotel' />,
-    label: 'Hotel',
-    content: 'Hotel Apik Pikitdro 22 Tipe C Cibeunying Kaler Bandung',
-    hapus: (
-      <ModalDelete
-        title='Hapus Produk'
-        content='Apakah anda yakin ingin hapus ?'
-        icon={<QuestionCircleFilled />}
-        buttonText='Hapus'
-      />
-    ),
-    hrefDetail: "#",
-    hrefEdit: "/edit-product",
-  },
-  {
-    id: '4',
-    image: '/assets/images/Kost.png',
-    icon: <HomeFilled />,
-    label: 'Kost',
-    content: 'Kost Apik Pikitdro 22 Tipe C Cibeunying Kaler Bandung',
-    hapus: (
-      <ModalDelete
-        title='Hapus Produk'
-        content='Apakah anda yakin ingin hapus ?'
-        icon={<QuestionCircleFilled />}
-        buttonText='Hapus'
-      />
-    ),
-    hrefDetail: "#",
-    hrefEdit: "/edit-product",
-  },
-];
+import { productRepository } from '#/repository/product';
+import { parseJwt } from '#/utils/convert';
 
 function ListProduct() {
   useEffect(() => {
     document.title = 'List Product';
   }, []);
 
+  const token = localStorage.getItem('access_token');
+  let id: string = '';
+
+  if (token) {
+    id = parseJwt(token).id;
+  }
+
   const handleChange = (value: string) => {
     console.log(`selected ${value}`);
   };
+
+  const { data, error, isLoading } =
+    productRepository.hooks.getListProductByOwner(id);
 
   return (
     <div>
@@ -122,16 +60,12 @@ function ListProduct() {
         </div>
       </div>
       <div className='grid gap-5 grid-cols-3'>
-        {products.map((product) => (
+        {data?.data.map((product: any) => (
           <div key={product.id}>
             <CardProduk
-              image={product.image}
-              icon={product.icon}
-              label={product.label}
-              content={product.content}
-              hapus={product.hapus}
-              hrefDetail={product.hrefDetail}
-              hrefEdit={product.hrefEdit}
+              image={product.photo}
+              label={product.type}
+              title={product.name}
             />
           </div>
         ))}
