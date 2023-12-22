@@ -1,6 +1,6 @@
 "use client";
 import Regis from "#/components/auth/img_regis";
-import Logo from "#/components/logo/logo";
+import { LOGO } from "#/constants/images";
 import {
   CameraOutlined,
   EyeInvisibleOutlined,
@@ -32,7 +32,7 @@ function ReactiveAccount() {
       <div className="w-1/2 flex justify-center min-h-screen relative">
         <div className="w-[653px] py-5">
           <div className="mb-[50px]">
-            <Logo />
+            <LOGO className='w-[300px]' />
           </div>
           <div className="text-teks text-4xl font-bold flex justify-center mb-[45px]">
             <p>Aktivasi Akun Kembali Pemilik</p>
@@ -89,11 +89,7 @@ function ReactiveAccount() {
               </div>
               <div className="grid gap-y-4 grid-cols-1">
                 <div>
-                  <p className="text-teks text-2xl font-bold">Foto</p>
-                  <p className="text-teks text-md">
-                    <WarningFilled className="text-[#FFCC00] text-xl pr-2" />
-                    Foto diri dengan KTP
-                  </p>
+                  <p className="text-teks text-2xl font-bold">Foto KTP</p>
                 </div>
                 <div className="w-full btn-upload">
                   <Form.Item

@@ -12,6 +12,7 @@ import { LOGO } from '#/constants/images';
 import Chats from '#/components/Chats';
 import { parseJwt } from '#/utils/convert';
 import Favorite from '#/components/Favorite';
+import Footer from '#/components/Footer';
 
 interface AuthenticatedLayoutProps {
   children: React.ReactNode;
@@ -362,6 +363,7 @@ const AuthenticatedLayout: React.FC<AuthenticatedLayoutProps> = ({
                 {children}
               </div>
             </Content>
+            {/* <Footer/> */}
           </>
         )}
       </Layout>

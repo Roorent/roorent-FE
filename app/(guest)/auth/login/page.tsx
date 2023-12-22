@@ -42,10 +42,10 @@ const Login = () => {
         router.push('/list-product');
       }
       if (role === 'renter') {
-        router.push('/');
+        router.push('/home');
       }
     } catch (err: any) {
-      message.error(err.response.body?.error);
+        message.error(err.response.body?.error);
     }
   };
 
@@ -66,7 +66,7 @@ const Login = () => {
                       kamu bisa
                       <a
                         href='/auth/register'
-                        className='ml-2 font-bold text-2xl no-underline hover:underline hover:text-green-400'
+                        className='ml-2 font-bold text-2xl no-underline hover:underline'
                       >
                         Daftar disini!
                       </a>
@@ -127,7 +127,7 @@ const Login = () => {
                   <div className='text-white text-xl font-bold'>
                     <a
                       href='/account/re-active'
-                      className='font-bold no-underline hover:underline hover:text-green-400'
+                      className='font-bold no-underline hover:underline'
                     >
                       Aktifkan akun kembali!
                     </a>

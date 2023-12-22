@@ -89,6 +89,7 @@ function RegisOwner() {
 				nik: data?.nik,
         photo_ktp: data?.photo_ktp
 			};
+      
       await authRepository.manipulatedata.register(dataOwner,role);
 			setTimeout(message.success('Anda Telah Berhasil Registrasi!'), 5000)
 			router.push("/auth/login");
@@ -142,10 +143,10 @@ function RegisOwner() {
                     data.first_name.length <= 1 ||
                     data.last_name.length <= 1 ||
                     data.phone.length <= 1 ||
-                    typeof data.birth_date !== "object" || 
+                    data.birth_date.length <= 1 || 
                     data.gender.length <= 1||
                     data.nik.length <= 1||
-                    data.photo_ktp.length <= 1||
+                    data.photo_ktp.length < 1||
                     data.email.length <= 1 ||
                     data.password.length <= 1
                 }

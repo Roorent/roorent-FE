@@ -196,7 +196,7 @@ body {
 	color: white;
 	font-size: 20px;
 }
-.regis .ant-select-single {
+.regis .ant-select-single, .home-produk .ant-select-single {
 	height: auto;
 }
 .produkOwner .ant-select-single {
@@ -365,6 +365,9 @@ textarea:where(.css-dev-only-do-not-override-1dj4ii3).ant-input{
 .ant-select-single .ant-select-selector {
 	font-size: 20px;
 }
+.home-produk .ant-select-single .ant-select-selector {
+	font-size: 36px;
+}
 .ant-input-number-affix-wrapper input.ant-input-number-input {
 	padding: 0px;
 	font-size: 20px;
@@ -404,5 +407,33 @@ textarea:where(.css-dev-only-do-not-override-1dj4ii3).ant-input{
     font-size: 30px;
 }
 :where(.css-dev-only-do-not-override-1dj4ii3).ant-radio-button-wrapper >.ant-radio-button{
-    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.267), 0 8px 10px -6px rgb(0, 0, 0)
+    box-shadow: 6px 8px 4px -3px rgba(0, 0, 0, 25%), 0 4px 6px -4px rgb(0, 0, 0, 25%);
+}
+:where(.css-dev-only-do-not-override-1dj4ii3).ant-radio-button-wrapper{
+	background: #ffffff;
+    border: 1px solid #ffffff;
+}
+.ant-radio-button-wrapper:first-child {
+	border-inline-start: 0px
+}
+:where(.css-dev-only-do-not-override-1dj4ii3).ant-radio-button-wrapper:first-child:last-child {
+    box-shadow: 0 1px 8px rgba(36,36,36,.14);
+}
+.home-produk :where(.css-dev-only-do-not-override-1dj4ii3).ant-select .ant-select-selection-placeholder{
+	color: #4065DA;
+}
+.home-produk .ant-select .ant-select-arrow{
+	height: 25px;
+	font-size: 36px;
+	color: #4065DA;
+}
+.home-produk .ant-select-single.ant-select-show-arrow .ant-select-selection-placeholder, .home-produk .ant-select-single.ant-select-show-arrow .ant-select-selection-item{
+	padding-inline-end: 48px;
+}
+.home-produk :where(.css-dev-only-do-not-override-1dj4ii3).ant-select .ant-select-selection-item{
+	font-weight: bold;
+	color: #4065DA;
+}
+.home-produk .ant-select-single .ant-select-selector .ant-select-selection-item, .home-produk .ant-select-single .ant-select-selector .ant-select-selection-placeholder{
+	line-height: normal;
 }

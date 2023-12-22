@@ -4,5 +4,5 @@ export const config = {
 			? (window as any).serverEnv?.DYNAMIC_ENV_BASE_URL
 			: "") ||
 		process.env.NEXT_PUBLIC_BASE_URL ||
-		"http://172.17.0.103:3222",
+		"http://localhost:3222",
 };

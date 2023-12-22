@@ -49,7 +49,7 @@ function Review() {
               <div>
                 <SummaryProducts
                   isType='Gedung'
-                  isLabel='campuran'
+                  // isLabel='campuran'
                   address='Jl. Bandeng No.2'
                   image='/assets/images/Kost.png'
                 />

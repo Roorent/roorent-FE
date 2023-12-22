@@ -91,7 +91,7 @@ function RegisRenter() {
 			<div className="w-1/2 flex justify-center min-h-screen relative">
 				<div className="w-[653px] py-5">
 					<div className="mb-[50px] flex justify-end">
-						<LOGO />
+						<LOGO className='w-[300px]' />
 					</div>
 					<div className="text-teks text-4xl font-bold flex justify-center mb-[45px]">
 						<p>Daftar Akun Penyewa</p>
@@ -135,7 +135,7 @@ function RegisRenter() {
 									data.first_name.length <= 1 ||
 									data.last_name.length <= 1 ||
 									data.phone.length <= 1 ||
-									typeof data.birth_date !== "object" ||
+									data.birth_date.length <= 1 ||
 									data.gender.length <= 1 ||
 									data.email.length <= 1 ||
 									data.password.length <= 1
@@ -152,7 +152,7 @@ function RegisRenter() {
 							Sudah punya akun?
 							<a
 								href="/auth/login"
-								className="font-bold no-underline hover:underline"
+								className="ml-2 font-bold no-underline hover:underline"
 							>
 								Masuk disini!
 							</a>
