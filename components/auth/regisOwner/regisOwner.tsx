@@ -139,17 +139,17 @@ function RegisOwner() {
               <Button
                 type="primary"
                 htmlType="submit"
-                disabled={
-                    data.first_name.length <= 1 ||
-                    data.last_name.length <= 1 ||
-                    data.phone.length <= 1 ||
-                    data.birth_date.length <= 1 || 
-                    data.gender.length <= 1||
-                    data.nik.length <= 1||
-                    data.photo_ktp.length < 1||
-                    data.email.length <= 1 ||
-                    data.password.length <= 1
-                }
+                // disabled={
+                //     data.first_name.length <= 1 ||
+                //     data.last_name.length <= 1 ||
+                //     data.phone.length <= 1 ||
+                //     typeof data.birth_date !== "object" || 
+                //     data.gender.length <= 1||
+                //     data.nik.length <= 1||
+                //     data.photo_ktp.length <= 1||
+                //     data.email.length <= 1 ||
+                //     data.password.length <= 1
+                // }
                 onClick={onFinish}
                 className='bg-primary rounded-[20px] px-8 py-2.5 text-xl font-bold regis w-full mt-[38px] h-max'
               >
