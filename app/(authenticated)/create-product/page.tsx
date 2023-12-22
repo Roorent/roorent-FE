@@ -1,12 +1,16 @@
 'use client';
 
 import ModalBerhasil from '#/components/Modal/modalBerhasil';
+import { cityRepository } from '#/repository/city';
+import { productsRepository } from '#/repository/products';
 import {
   ArrowLeftOutlined,
   CameraOutlined,
+  CheckCircleFilled,
   ExclamationCircleFilled,
-} from "@ant-design/icons";
+} from '@ant-design/icons';
 import {
+  Button,
   Form,
   Input,
   InputNumber,
@@ -14,11 +18,11 @@ import {
   Select,
   Upload,
   message,
-} from "antd";
-import { UploadFile } from "antd/es/upload/interface";
-import { RcFile, UploadProps } from "antd/lib/upload";
-import React, { useState } from "react";
-
+} from 'antd';
+import { UploadChangeParam, UploadFile } from 'antd/es/upload/interface';
+import { RcFile, UploadProps } from 'antd/lib/upload';
+import { useRouter } from 'next/navigation';
+import React, { useEffect, useState } from 'react';
 
 const getBase64 = (file: RcFile): Promise<string> =>
   new Promise((resolve, reject) => {
@@ -34,11 +38,101 @@ const filterOption = (
 ) => (option?.label ?? '').toLowerCase().includes(input.toLowerCase());
 
 function CreateProduct() {
+  const router = useRouter();
   const [previewOpen, setPreviewOpen] = useState(false);
   const [previewImage, setPreviewImage] = useState('');
   const [previewTitle, setPreviewTitle] = useState('');
   const [fileList, setFileList] = useState<UploadFile[]>([]);
   const handleCancel = () => setPreviewOpen(false);
+  const [photoProducts, setPhotoProducts] = useState<string | null>(null);
+
+  const [datas, setDatas] = useState({
+    name: '',
+    type: 'kost',
+    stock: 1,
+    daily_price: 1000,
+    monthly_price: 1000,
+    address: '',
+    location: '',
+    city: '',
+    photo: '',
+    specifications: '',
+    facilities: '',
+    note: '',
+    gender: 'campur',
+    notes: '',
+  });
+
+  const onFinish = async () => {
+    const dataProducts = {
+      name: datas?.name,
+      type: datas?.type,
+      stock: datas?.stock,
+      daily_price: datas?.daily_price,
+      monthly_price: datas?.monthly_price,
+      address: datas?.address,
+      location: datas?.location,
+      city: datas?.city,
+      photo: datas?.photo,
+      specifications: datas?.specifications,
+      facilities: datas?.facilities,
+      note: datas?.note,
+      gender: datas?.gender,
+      notes: datas?.notes,
+    };
+    console.log(datas, 'isi datas');
+    await productsRepository.manipulatedata.createProducts(dataProducts);
+
+    Modal.success({
+      icon: (
+        <div className='modal-hapus mb-[10px] flex justify-center'>
+          <CheckCircleFilled />
+        </div>
+      ),
+      title: (
+        <div className='text-3xl font-bold flex justify-center'>Berhasil Buat Produk</div>
+      ),
+      content: (
+        <div className='text-xl font-semibold flex justify-center mb-[25px]'>
+          Kamu telah berhasil membuat produk
+        </div>
+      ),
+    });
+    router.push("/list-product");
+  };
+
+  const { data } = cityRepository.hooks.allCity();
+
+  const handleUploadPhoto: UploadProps['onChange'] = async (
+    args: UploadChangeParam<UploadFile<any>>
+  ) => {
+    // Fungsi uploadProducts
+    const photoProducts = args?.file;
+    if (photoProducts.status === 'done') {
+      if (photoProducts.size && photoProducts.size > 2097152) {
+        message.error('ukuran photoProducts terlalu besar');
+      } else {
+        if (
+          photoProducts.type === 'image/png' ||
+          photoProducts.type === 'image/jpg' ||
+          photoProducts.type === 'image/jpeg'
+        ) {
+          const response =
+            await productsRepository.manipulatedata.uploadPhotoProducts(
+              photoProducts?.originFileObj
+            );
+          console.log(response.body.filename, 'hasilnya');
+          setPhotoProducts(response.body.filename);
+          setDatas({ ...datas, photo: response.body.filename });
+        } else {
+          message.error('Extensi file tidak diketahui');
+        }
+      }
+    }
+    // Fungsi handleChangeUpload
+    const { fileList: newFileList } = args;
+    setFileList(newFileList);
+  };
 
   const handlePreview = async (file: UploadFile) => {
     if (!file.url && !file.preview) {
@@ -51,10 +145,6 @@ function CreateProduct() {
       file.name || file.url!.substring(file.url!.lastIndexOf('/') + 1)
     );
   };
-
-  const handleChangeUpload: UploadProps['onChange'] = ({
-    fileList: newFileList,
-  }) => setFileList(newFileList);
 
   const beforeUpload = (file: RcFile) => {
     const isJpgOrPng =
@@ -116,10 +206,12 @@ function CreateProduct() {
 
   const handleHargaPerHariChange = (value: number | null) => {
     setHargaPerHari(value);
+    setDatas({ ...datas, daily_price: value || 1000 });
   };
 
   const handleHargaPerBulanChange = (value: number | null) => {
     setHargaPerBulan(value);
+    setDatas({ ...datas, monthly_price: value || 1000 });
   };
 
   // get value tipe produk
@@ -141,26 +233,28 @@ function CreateProduct() {
   const handleSelectChangeProduk = (value: string) => {
     const selected = optionsProduk.find((option) => option.value === value);
     setSelectedOptionProduk(selected);
+    setDatas({ ...datas, type: value });
   };
   return (
     <div>
-      <Form name="createProduk">
-        <div className="w-full grid gap-y-[20px] grid-cols-1">
-          <a href="/list-product" className="w-fit hover:text-teks flex font-bold text-xl gap-3">
+      <Form name='createProduk'>
+        <div className='w-full grid gap-y-[20px] grid-cols-1'>
+          <a
+            href='/list-product'
+            className='w-fit hover:text-teks flex font-bold text-xl gap-3'
+          >
             <div>
               <ArrowLeftOutlined />
             </div>
             <div>Kembali</div>
           </a>
-          <div className="produkOwner text-4xl font-bold bg-primary rounded-[10px] px-5 py-2.5 flex items-center mb-[30px]">
-            <div className="w-full">
-              <p className="text-white w-full">Tambah Produk </p>
+          <div className='produkOwner text-4xl font-bold bg-primary rounded-[10px] px-5 py-2.5 flex items-center mb-[30px]'>
+            <div className='w-full'>
+              <p className='text-white w-full'>Tambah Produk </p>
             </div>
-            <div className="flex gap-x-6 flex items-center">
-              <div className="w-full list-produk">
-                <Form.Item
-                  name="type"
-                >
+            <div className='flex gap-x-6 items-center'>
+              <div className='w-full list-produk'>
+                <Form.Item name='type'>
                   <Select
                     value={selectedOptionProduk?.value}
                     onChange={handleSelectChangeProduk}
@@ -180,10 +274,8 @@ function CreateProduct() {
           </div>
           <div className='flex gap-x-[70px]'>
             <div className='w-1/2'>
-              <div className='grid gap-y-4 grid-cols-1'>
-                <div>
-                  <p className='text-teks text-2xl font-bold'>Foto Produk</p>
-                </div>
+              <div className='my-4'>
+                <p className='mb-4 text-teks text-2xl font-bold'>Foto Produk</p>
                 <div>
                   <Form.Item
                     name='photo'
@@ -198,9 +290,10 @@ function CreateProduct() {
                       action='https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188'
                       listType='picture-card'
                       fileList={fileList}
+                      multiple={true}
                       onPreview={handlePreview}
                       beforeUpload={beforeUpload}
-                      onChange={handleChangeUpload}
+                      onChange={handleUploadPhoto}
                     >
                       {fileList.length >= 10 ? null : uploadButton}
                     </Upload>
@@ -219,10 +312,8 @@ function CreateProduct() {
                   </Form.Item>
                 </div>
               </div>
-              <div className='grid gap-y-4 grid-cols-1'>
-                <div>
-                  <p className='text-teks text-2xl font-bold'>Nama Produk</p>
-                </div>
+              <div className='my-4'>
+                <p className='mb-4 text-teks text-2xl font-bold'>Nama Produk</p>
                 <div>
                   <Form.Item
                     name='name'
@@ -234,6 +325,9 @@ function CreateProduct() {
                     ]}
                   >
                     <Input
+                      onChange={(e) => {
+                        setDatas({ ...datas, name: e.target.value });
+                      }}
                       size='small'
                       placeholder='Masukan nama produk'
                       className=' p-[10px] rounded-[10px] border border-rstroke regis text-xl'
@@ -241,10 +335,8 @@ function CreateProduct() {
                   </Form.Item>
                 </div>
               </div>
-              <div className='grid gap-y-4 grid-cols-1'>
-                <div>
-                  <p className='text-teks text-2xl font-bold'>Stok Produk</p>
-                </div>
+              <div className='my-4'>
+                <p className='mb-4 text-teks text-2xl font-bold'>Stok Produk</p>
                 <div>
                   <Form.Item name='stock'>
                     <InputNumber
@@ -254,14 +346,15 @@ function CreateProduct() {
                       max={10000}
                       defaultValue={1}
                       className=' py-[10px] px-[3px] rounded-[10px] border border-rstroke regis text-xl'
+                      onChange={(e) => {
+                        setDatas({ ...datas, stock: e || 1 });
+                      }}
                     />
                   </Form.Item>
                 </div>
               </div>
-              <div className='grid gap-y-4 grid-cols-1'>
-                <div>
-                  <p className='text-teks text-2xl font-bold'>Alamat</p>
-                </div>
+              <div className='my-4'>
+                <p className='mb-4 text-teks text-2xl font-bold'>Alamat</p>
                 <div className='textarea-produk'>
                   <Form.Item
                     name='address'
@@ -275,21 +368,21 @@ function CreateProduct() {
                     <TextArea
                       showCount
                       maxLength={225}
-                      // onChange={onChange}
                       placeholder='Masukan alamat produk'
                       style={{
                         height: 120,
                         resize: 'none',
                         fontSize: '20px',
                       }}
+                      onChange={(e) => {
+                        setDatas({ ...datas, address: e.target.value });
+                      }}
                     />
                   </Form.Item>
                 </div>
               </div>
-              <div className='grid gap-y-4 grid-cols-1'>
-                <div>
-                  <p className='text-teks text-2xl font-bold'>Kota</p>
-                </div>
+              <div className='my-4'>
+                <p className='mb-4 text-teks text-2xl font-bold'>Kota</p>
                 <div className='create-produk'>
                   <Form.Item
                     name='city'
@@ -303,32 +396,22 @@ function CreateProduct() {
                     <Select
                       showSearch
                       placeholder='Pilih kota'
-                      // optionFilterProp="children"
-                      // onChange={onChange}
-                      // onSearch={onSearch}
                       filterOption={filterOption}
-                      options={[
-                        {
-                          value: 'jack',
-                          label: 'Jack',
-                        },
-                        {
-                          value: 'lucy',
-                          label: 'Lucy',
-                        },
-                        {
-                          value: 'tom',
-                          label: 'Tom',
-                        },
-                      ]}
+                      options={data?.data.map((val: any) => {
+                        return {
+                          value: val.name,
+                          label: val.name,
+                        };
+                      })}
+                      onChange={(e) => {
+                        setDatas({ ...datas, city: e });
+                      }}
                     />
                   </Form.Item>
                 </div>
               </div>
-              <div className='grid gap-y-4 grid-cols-1'>
-                <div>
-                  <p className='text-teks text-2xl font-bold'>Lokasi</p>
-                </div>
+              <div className='my-4'>
+                <p className='mb-4 text-teks text-2xl font-bold'>Lokasi</p>
                 <div>
                   <Form.Item
                     name='location'
@@ -343,6 +426,9 @@ function CreateProduct() {
                       size='small'
                       placeholder='Masukan link google maps'
                       className=' p-[10px] rounded-[10px] border border-rstroke regis text-xl'
+                      onChange={(e) => {
+                        setDatas({ ...datas, location: e.target.value });
+                      }}
                     />
                   </Form.Item>
                 </div>
@@ -373,12 +459,10 @@ function CreateProduct() {
                     </div>
                   </div>
                   {selectedOption?.value === 'perhari' && (
-                    <div className='grid gap-y-4 grid-cols-1'>
-                      <div>
-                        <p className='text-teks text-2xl font-bold'>
-                          Harga Perhari
-                        </p>
-                      </div>
+                    <div className='my-4'>
+                      <p className='mb-4 text-teks text-2xl font-bold'>
+                        Harga Perhari
+                      </p>
                       <div>
                         <Form.Item
                           name='daily_price'
@@ -404,12 +488,10 @@ function CreateProduct() {
                     </div>
                   )}
                   {selectedOption?.value === 'perbulan' && (
-                    <div className='grid gap-y-4 grid-cols-1'>
-                      <div>
-                        <p className='text-teks text-2xl font-bold'>
-                          Harga Perbulan
-                        </p>
-                      </div>
+                    <div className='my-4'>
+                      <p className='mb-4 text-teks text-2xl font-bold'>
+                        Harga Perbulan
+                      </p>
                       <div>
                         <Form.Item
                           name='monthly_price'
@@ -436,12 +518,10 @@ function CreateProduct() {
                   )}
                   {selectedOption?.value === 'campur' && (
                     <>
-                      <div className='grid gap-y-4 grid-cols-1'>
-                        <div>
-                          <p className='text-teks text-2xl font-bold'>
-                            Harga Perhari
-                          </p>
-                        </div>
+                      <div className='my-4'>
+                        <p className='mb-4 text-teks text-2xl font-bold'>
+                          Harga Perhari
+                        </p>
                         <div>
                           <Form.Item
                             name='daily_price'
@@ -465,12 +545,10 @@ function CreateProduct() {
                           </Form.Item>
                         </div>
                       </div>
-                      <div className='grid gap-y-4 grid-cols-1'>
-                        <div>
-                          <p className='text-teks text-2xl font-bold'>
-                            Harga Perbulan
-                          </p>
-                        </div>
+                      <div className='my-4'>
+                        <p className='mb-4 text-teks text-2xl font-bold'>
+                          Harga Perbulan
+                        </p>
                         <div>
                           <Form.Item
                             name='monthly_price'
@@ -507,12 +585,10 @@ function CreateProduct() {
                       </p>
                     </div>
                   </div>
-                  <div className='grid gap-y-4 grid-cols-1'>
-                    <div>
-                      <p className='text-teks text-2xl font-bold'>
-                        Harga Perhari
-                      </p>
-                    </div>
+                  <div className='my-4'>
+                    <p className='mb-4 text-teks text-2xl font-bold'>
+                      Harga Perhari
+                    </p>
                     <div>
                       <Form.Item
                         name='daily_price'
@@ -547,12 +623,10 @@ function CreateProduct() {
                       </p>
                     </div>
                   </div>
-                  <div className='grid gap-y-4 grid-cols-1'>
-                    <div>
-                      <p className='text-teks text-2xl font-bold'>
-                        Harga Perhari
-                      </p>
-                    </div>
+                  <div className='my-4'>
+                    <p className='mb-4 text-teks text-2xl font-bold'>
+                      Harga Perhari
+                    </p>
                     <div>
                       <Form.Item
                         name='daily_price'
@@ -598,12 +672,10 @@ function CreateProduct() {
                   </p>
                 </div>
               </div>
-              <div className='grid gap-y-4 grid-cols-1'>
-                <div>
-                  <p className='text-teks text-2xl font-bold'>
-                    Spesifikasi Produk
-                  </p>
-                </div>
+              <div className='my-4'>
+                <p className='mb-4 text-teks text-2xl font-bold'>
+                  Spesifikasi Produk
+                </p>
                 <div className='textarea-produk'>
                   <Form.Item
                     name='specifications'
@@ -617,21 +689,21 @@ function CreateProduct() {
                     <TextArea
                       showCount
                       maxLength={225}
-                      // onChange={onChange}
                       placeholder='Masukan spesifikasi produk '
                       style={{
                         height: 120,
                         resize: 'none',
                         fontSize: '20px',
                       }}
+                      onChange={(e) => {
+                        setDatas({ ...datas, specifications: e.target.value });
+                      }}
                     />
                   </Form.Item>
                 </div>
               </div>
-              <div className='grid gap-y-4 grid-cols-1'>
-                <div>
-                  <p className='text-teks text-2xl font-bold'>Fasilitas</p>
-                </div>
+              <div className='my-4'>
+                <p className='mb-4 text-teks text-2xl font-bold'>Fasilitas</p>
                 <div className='textarea-produk'>
                   <Form.Item
                     name='facilities'
@@ -645,20 +717,21 @@ function CreateProduct() {
                     <TextArea
                       showCount
                       maxLength={225}
-                      placeholder="Masukan fasilitas produk "
+                      placeholder='Masukan fasilitas produk '
                       style={{
                         height: 120,
                         resize: 'none',
                         fontSize: '20px',
                       }}
+                      onChange={(e) => {
+                        setDatas({ ...datas, facilities: e.target.value });
+                      }}
                     />
                   </Form.Item>
                 </div>
               </div>
-              <div className='grid gap-y-4 grid-cols-1'>
-                <div>
-                  <p className='text-teks text-2xl font-bold'>Catatan</p>
-                </div>
+              <div className='my-4'>
+                <p className='mb-4 text-teks text-2xl font-bold'>Catatan</p>
                 <div className='textarea-produk'>
                   <Form.Item
                     name='note'
@@ -672,12 +745,14 @@ function CreateProduct() {
                     <TextArea
                       showCount
                       maxLength={225}
-                      // onChange={onChange}
                       placeholder='Masukan catatan pemilik'
                       style={{
                         height: 120,
                         resize: 'none',
                         fontSize: '20px',
+                      }}
+                      onChange={(e) => {
+                        setDatas({ ...datas, note: e.target.value });
                       }}
                     />
                   </Form.Item>
@@ -690,52 +765,29 @@ function CreateProduct() {
                   </p>
                 </div>
               </div>
-              <div className='grid gap-y-4 grid-cols-1'>
-                <div>
-                  <p className='text-teks text-2xl font-bold'>Maksimal orang</p>
-                </div>
-                <div>
-                  <Form.Item
-                    name='max_person'
-                    rules={[
-                      {
-                        required: true,
-                        message: 'Harap tentukan maks.orang!',
-                      },
-                    ]}
-                  >
-                    <Input
-                      size='small'
-                      placeholder='Tentukan maksimal orang'
-                      className=' p-[10px] rounded-[10px] border border-rstroke regis text-xl'
-                    />
-                  </Form.Item>
-                </div>
-              </div>
-              <div className='grid gap-y-4 grid-cols-1'>
-                <div>
-                  <p className='text-teks text-2xl font-bold'>Tipe</p>
-                </div>
+              <div className='my-4'>
+                <p className='mb-4 text-teks text-2xl font-bold'>Tipe</p>
                 <div className='w-full create-produk'>
                   <Form.Item name='gender'>
                     <Select
-                      placeholder='Pilih Tipe'
+                      // placeholder='Pilih Tipe'
                       style={{ width: '100%' }}
                       defaultValue={'campur'}
-                      // onChange={handleChange}
                       options={[
                         { value: 'campur', label: 'Campur' },
                         { value: 'pria', label: 'Pria' },
                         { value: 'wanita', label: 'Wanita' },
                       ]}
+                      onChange={(e) => {
+                        setDatas({ ...datas, gender: e });
+                        console.log(e, 'tes');
+                      }}
                     />
                   </Form.Item>
                 </div>
               </div>
-              <div className='grid gap-y-4 grid-cols-1'>
-                <div>
-                  <p className='text-teks text-2xl font-bold'>Catatan</p>
-                </div>
+              <div className='my-4'>
+                <p className='mb-4 text-teks text-2xl font-bold'>Catatan</p>
                 <div className='textarea-produk'>
                   <Form.Item
                     name='notes'
@@ -749,12 +801,14 @@ function CreateProduct() {
                     <TextArea
                       showCount
                       maxLength={225}
-                      // onChange={onChange}
                       placeholder='Masukan catatan pemilik'
                       style={{
                         height: 120,
                         resize: 'none',
                         fontSize: '20px',
+                      }}
+                      onChange={(e) => {
+                        setDatas({ ...datas, notes: e.target.value });
                       }}
                     />
                   </Form.Item>
@@ -764,11 +818,15 @@ function CreateProduct() {
           </div>
           <div>
             <Form.Item>
-              <ModalBerhasil
-                title='Berhasil Buat Produk'
-                content='Kamu telah berhasil membuat produk'
-                buttonText='Buat'
-              />
+              <Button
+                type='primary'
+                htmlType='submit'
+                block
+                className='bg-primary border border-white !rounded-full text-2xl font-bold py-3 h-max'
+                onClick={onFinish}
+              >
+                Buat
+              </Button>
             </Form.Item>
           </div>
         </div>

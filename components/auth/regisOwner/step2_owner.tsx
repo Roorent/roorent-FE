@@ -17,6 +17,7 @@ function OwnerStep2({ setData, data, formStep2 }: Props) {
 
 	const handleUploadKtp = async (args: UploadChangeParam<UploadFile<any>>) => {
 		const photoKtp = args?.file;
+		if(photoKtp.status === 'done'){
 			if (photoKtp.size && photoKtp.size > 2097152) {
 				message.error("ukuran photoKtp terlalu besar");
 			} else {
@@ -35,6 +36,7 @@ function OwnerStep2({ setData, data, formStep2 }: Props) {
 					message.error("Extensi file tidak diketahui");
 				}
 			}
+		}
 	};
 	return (
 		<Form name="step2Owner" form={formStep2}>
@@ -84,7 +86,7 @@ function OwnerStep2({ setData, data, formStep2 }: Props) {
 								maxCount={1}
 								onChange={handleUploadKtp}
 							>
-								<Button className=" p-[10px] rounded-[10px] border border-rstroke text-xl h-max w-full btn-upload border-dashed border">
+								<Button className=" p-[10px] rounded-[10px] border-rstroke text-xl h-max w-full btn-upload border-dashed border">
 									<div className="p-5">
 										<div>
 											<CameraOutlined className="text-5xl mb-3" />
