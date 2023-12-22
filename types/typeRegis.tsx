@@ -1,4 +1,4 @@
-export type Data = {
+export type Register = {
     level: string;
     first_name: string;
     last_name: string;
