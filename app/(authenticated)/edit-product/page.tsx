@@ -1,9 +1,10 @@
 "use client";
 
 import ModalBerhasil from '#/components/Modal/modalBerhasil';
+import { productsRepository } from '#/repository/products';
 import { ArrowLeftOutlined, CameraOutlined, ExclamationCircleFilled } from '@ant-design/icons';
-import { Form, Input, InputNumber, Modal, Select, message } from 'antd';
-import { RcFile } from 'antd/es/upload';
+import { Button, Form, Input, InputNumber, Modal, Select, message } from 'antd';
+import { RcFile, UploadChangeParam } from 'antd/es/upload';
 import { Upload, UploadFile, UploadProps } from 'antd/lib';
 import React, { useState } from 'react'
 
@@ -15,18 +16,43 @@ const getBase64 = (file: RcFile): Promise<string> =>
     reader.onerror = (error) => reject(error);
   });
 
-const filterOption = (
-  input: string,
-  option?: { label: string; value: string }
-) => (option?.label ?? "").toLowerCase().includes(input.toLowerCase());
-
-
 function EditProduct() {
     const [previewOpen, setPreviewOpen] = useState(false);
     const [previewImage, setPreviewImage] = useState("");
     const [previewTitle, setPreviewTitle] = useState("");
     const [fileList, setFileList] = useState<UploadFile[]>([]);
     const handleCancel = () => setPreviewOpen(false);
+    const [photoProducts, setPhotoProducts] = useState<string | null>(null);
+
+    const handleUploadPhoto: UploadProps['onChange'] = async (
+      args: UploadChangeParam<UploadFile<any>>
+    ) => {
+      // Fungsi uploadProducts
+      const photoProducts = args?.file;
+      if (photoProducts.status === 'done') {
+        if (photoProducts.size && photoProducts.size > 2097152) {
+          message.error('ukuran photoProducts terlalu besar');
+        } else {
+          if (
+            photoProducts.type === 'image/png' ||
+            photoProducts.type === 'image/jpg' ||
+            photoProducts.type === 'image/jpeg'
+          ) {
+            const response = await productsRepository.manipulatedata.uploadPhotoProducts(
+              photoProducts?.originFileObj
+            );
+            console.log(response.body.filename, 'hasilnya');
+            setPhotoProducts(response.body.filename);
+            // setDatas({ ...datas, photo: response.body.filename})
+          } else {
+            message.error('Extensi file tidak diketahui');
+          }
+        }
+      }
+      // Fungsi handleChangeUpload
+      const { fileList: newFileList } = args;
+      setFileList(newFileList);
+    };
   
     const handlePreview = async (file: UploadFile) => {
       if (!file.url && !file.preview) {
@@ -39,10 +65,6 @@ function EditProduct() {
         file.name || file.url!.substring(file.url!.lastIndexOf("/") + 1)
       );
     };
-  
-    const handleChangeUpload: UploadProps["onChange"] = ({
-      fileList: newFileList,
-    }) => setFileList(newFileList);
   
     const beforeUpload = (file: RcFile) => {
       const isJpgOrPng =
@@ -130,9 +152,31 @@ function EditProduct() {
       const selected = optionsProduk.find((option) => option.value === value);
       setSelectedOptionProduk(selected);
     };
+
+    const onFinish = async (values: any) => {
+      // const role = 'owner';
+        const dataProducts = {
+          name: values?.name,
+          type: values?.type,
+          stock: values?.stock,
+          daily_price: values?.daily_price,
+          monthly_price: values?.monthly_price,
+          address: values?.address,
+          location: values?.location,
+          photo: values?.photo,
+          specifications: values?.specifications,
+          facilities: values?.facilities,
+          note: values?.note,
+          gender: values?.gender,
+          notes: values?.notes,
+        };
+        await productsRepository.manipulatedata.updateProducts(dataProducts);
+        setTimeout(message.success('Anda Telah Berhasil Registrasi!'), 5000)
+        // router.push("/auth/login");
+    };
   return (
     <div>
-      <Form name="createProduk">
+      <Form name="createProduk" onFinish={onFinish}>
         <div className="w-full grid gap-y-[20px] grid-cols-1">
           <a href="/list-product" className="w-fit hover:text-teks flex font-bold text-xl gap-3">
             <div>
@@ -144,7 +188,7 @@ function EditProduct() {
             <div className="w-full">
               <p className="text-white w-full">Edit Produk </p>
             </div>
-            <div className="flex gap-x-6 flex items-center">
+            <div className="flex gap-x-6 items-center">
               <div className="w-full list-produk">
                 <Form.Item
                   name="type"
@@ -168,10 +212,8 @@ function EditProduct() {
           </div>
           <div className="flex gap-x-[70px]">
             <div className="w-1/2">
-              <div className="grid gap-y-4 grid-cols-1">
-                <div>
-                  <p className="text-teks text-2xl font-bold">Foto Produk</p>
-                </div>
+              <div className="my-4">
+                  <p className="mb-4 text-teks text-2xl font-bold">Foto Produk</p>
                 <div>
                   <Form.Item
                     name="photo"
@@ -186,9 +228,10 @@ function EditProduct() {
                       action="https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188"
                       listType="picture-card"
                       fileList={fileList}
+                      multiple={true}
                       onPreview={handlePreview}
                       beforeUpload={beforeUpload}
-                      onChange={handleChangeUpload}
+                      onChange={handleUploadPhoto}
                     >
                       {fileList.length >= 10 ? null : uploadButton}
                     </Upload>
@@ -207,10 +250,8 @@ function EditProduct() {
                   </Form.Item>
                 </div>
               </div>
-              <div className="grid gap-y-4 grid-cols-1">
-                <div>
-                  <p className="text-teks text-2xl font-bold">Nama Produk</p>
-                </div>
+              <div className="my-4">
+                  <p className="mb-4 text-teks text-2xl font-bold">Nama Produk</p>
                 <div>
                   <Form.Item
                     name="name"
@@ -229,10 +270,8 @@ function EditProduct() {
                   </Form.Item>
                 </div>
               </div>
-              <div className="grid gap-y-4 grid-cols-1">
-                <div>
-                  <p className="text-teks text-2xl font-bold">Stok Produk</p>
-                </div>
+              <div className="my-4">
+                  <p className="mb-4 text-teks text-2xl font-bold">Stok Produk</p>
                 <div>
                   <Form.Item
                     name="stock"
@@ -248,10 +287,8 @@ function EditProduct() {
                   </Form.Item>
                 </div>
               </div>
-              <div className="grid gap-y-4 grid-cols-1">
-                <div>
-                  <p className="text-teks text-2xl font-bold">Alamat</p>
-                </div>
+              <div className="my-4">
+                  <p className="mb-4 text-teks text-2xl font-bold">Alamat</p>
                 <div className="textarea-produk">
                   <Form.Item
                     name="address"
@@ -275,49 +312,8 @@ function EditProduct() {
                   </Form.Item>
                 </div>
               </div>
-              <div className="grid gap-y-4 grid-cols-1">
-                <div>
-                  <p className="text-teks text-2xl font-bold">Kota</p>
-                </div>
-                <div className="create-produk">
-                  <Form.Item
-                    name="city"
-                    rules={[
-                      {
-                        required: true,
-                        message: "Harap masukan kota!",
-                      },
-                    ]}
-                  >
-                    <Select
-                      showSearch
-                      placeholder="Pilih kota"
-                      // optionFilterProp="children"
-                      // onChange={onChange}
-                      // onSearch={onSearch}
-                      filterOption={filterOption}
-                      options={[
-                        {
-                          value: "jack",
-                          label: "Jack",
-                        },
-                        {
-                          value: "lucy",
-                          label: "Lucy",
-                        },
-                        {
-                          value: "tom",
-                          label: "Tom",
-                        },
-                      ]}
-                    />
-                  </Form.Item>
-                </div>
-              </div>
-              <div className="grid gap-y-4 grid-cols-1">
-                <div>
-                  <p className="text-teks text-2xl font-bold">Lokasi</p>
-                </div>
+              <div className="my-4">
+                  <p className="mb-4 text-teks text-2xl font-bold">Lokasi</p>
                 <div>
                   <Form.Item
                     name="location"
@@ -342,7 +338,7 @@ function EditProduct() {
                     <div className="w-full">
                       <p className="text-white w-full ">Harga Produk</p>
                     </div>
-                    <div className="flex gap-x-6 flex">
+                    <div className="gap-x-6 flex">
                       <div className="w-full list-produk">
                         <Form.Item>
                           <Select
@@ -362,12 +358,10 @@ function EditProduct() {
                     </div>
                   </div>
                   {selectedOption?.value === "perhari" && (
-                    <div className="grid gap-y-4 grid-cols-1">
-                      <div>
-                        <p className="text-teks text-2xl font-bold">
+                    <div className="my-4">
+                        <p className="mb-4 text-teks text-2xl font-bold">
                           Harga Perhari
                         </p>
-                      </div>
                       <div>
                         <Form.Item
                           name="daily_price"
@@ -393,12 +387,10 @@ function EditProduct() {
                     </div>
                   )}
                   {selectedOption?.value === "perbulan" && (
-                    <div className="grid gap-y-4 grid-cols-1">
-                      <div>
-                        <p className="text-teks text-2xl font-bold">
+                    <div className="my-4">
+                        <p className="mb-4 text-teks text-2xl font-bold">
                           Harga Perbulan
                         </p>
-                      </div>
                       <div>
                         <Form.Item
                           name="monthly_price"
@@ -425,12 +417,10 @@ function EditProduct() {
                   )}
                   {selectedOption?.value === "campur" && (
                     <>
-                      <div className="grid gap-y-4 grid-cols-1">
-                        <div>
-                          <p className="text-teks text-2xl font-bold">
+                      <div className="my-4">
+                          <p className="mb-4 text-teks text-2xl font-bold">
                             Harga Perhari
                           </p>
-                        </div>
                         <div>
                           <Form.Item
                             name="daily_price"
@@ -454,12 +444,10 @@ function EditProduct() {
                           </Form.Item>
                         </div>
                       </div>
-                      <div className="grid gap-y-4 grid-cols-1">
-                        <div>
-                          <p className="text-teks text-2xl font-bold">
+                      <div className="my-4">
+                          <p className="mb-4 text-teks text-2xl font-bold">
                             Harga Perbulan
                           </p>
-                        </div>
                         <div>
                           <Form.Item
                             name="monthly_price"
@@ -494,12 +482,10 @@ function EditProduct() {
                         <p className="text-white w-full flex justify-center">Harga Produk</p>
                       </div>
                     </div>
-                    <div className="grid gap-y-4 grid-cols-1">
-                      <div>
-                        <p className="text-teks text-2xl font-bold">
+                    <div className="my-4">
+                        <p className="mb-4 text-teks text-2xl font-bold">
                           Harga Perhari
                         </p>
-                      </div>
                       <div>
                         <Form.Item
                           name="daily_price"
@@ -532,12 +518,10 @@ function EditProduct() {
                         <p className="text-white w-full flex justify-center">Harga Produk</p>
                       </div>
                     </div>
-                    <div className="grid gap-y-4 grid-cols-1">
-                      <div>
-                        <p className="text-teks text-2xl font-bold">
+                    <div className="my-4">
+                        <p className="mb-4 text-teks text-2xl font-bold">
                           Harga Perhari
                         </p>
-                      </div>
                       <div>
                         <Form.Item
                           name="daily_price"
@@ -583,12 +567,10 @@ function EditProduct() {
                   </p>
                 </div>
               </div>
-              <div className="grid gap-y-4 grid-cols-1">
-                <div>
-                  <p className="text-teks text-2xl font-bold">
+              <div className="my-4">
+                  <p className="mb-4 text-teks text-2xl font-bold">
                     Spesifikasi Produk
                   </p>
-                </div>
                 <div className="textarea-produk">
                   <Form.Item
                     name="specifications"
@@ -612,10 +594,8 @@ function EditProduct() {
                   </Form.Item>
                 </div>
               </div>
-              <div className="grid gap-y-4 grid-cols-1">
-                <div>
-                  <p className="text-teks text-2xl font-bold">Fasilitas</p>
-                </div>
+              <div className="my-4">
+                  <p className="mb-4 text-teks text-2xl font-bold">Fasilitas</p>
                 <div className="textarea-produk">
                   <Form.Item
                     name="facilities"
@@ -639,10 +619,8 @@ function EditProduct() {
                   </Form.Item>
                 </div>
               </div>
-              <div className="grid gap-y-4 grid-cols-1">
-                <div>
-                  <p className="text-teks text-2xl font-bold">Catatan</p>
-                </div>
+              <div className="my-4">
+                  <p className="mb-4 text-teks text-2xl font-bold">Catatan</p>
                 <div className="textarea-produk">
                   <Form.Item
                     name="note"
@@ -673,32 +651,8 @@ function EditProduct() {
                   </p>
                 </div>
               </div>
-              <div className="grid gap-y-4 grid-cols-1">
-                <div>
-                  <p className="text-teks text-2xl font-bold">Maksimal orang</p>
-                </div>
-                <div>
-                  <Form.Item
-                    name="max_person"
-                    rules={[
-                      {
-                        required: true,
-                        message: "Harap tentukan maks.orang!",
-                      },
-                    ]}
-                  >
-                    <Input
-                      size="small"
-                      placeholder="Tentukan maksimal orang"
-                      className=" p-[10px] rounded-[10px] border border-rstroke regis text-xl"
-                    />
-                  </Form.Item>
-                </div>
-              </div>
-              <div className="grid gap-y-4 grid-cols-1">
-                <div>
-                  <p className="text-teks text-2xl font-bold">Tipe</p>
-                </div>
+              <div className="my-4">
+                  <p className="mb-4 text-teks text-2xl font-bold">Tipe</p>
                 <div className="w-full create-produk">
                   <Form.Item
                     name="gender"
@@ -717,10 +671,8 @@ function EditProduct() {
                   </Form.Item>
                 </div>
               </div>
-              <div className="grid gap-y-4 grid-cols-1">
-                <div>
-                  <p className="text-teks text-2xl font-bold">Catatan</p>
-                </div>
+              <div className="my-4">
+                  <p className="mb-4 text-teks text-2xl font-bold">Catatan</p>
                 <div className="textarea-produk">
                   <Form.Item
                     name="notes"
@@ -748,11 +700,20 @@ function EditProduct() {
           </div>
           <div>
             <Form.Item>
-              <ModalBerhasil
+              {/* <ModalBerhasil
               title="Berhasil Ubah Produk"
               content="Kamu telah berhasil mengubah produk"
               buttonText="Buat"
-              />
+              /> */}
+               <Button
+                type='primary'
+                htmlType='submit'
+                block
+                className='bg-primary border border-white !rounded-full text-2xl font-bold py-3 h-max'
+                // onClick={onFinish}
+              >
+                Buat
+              </Button>
             </Form.Item>
           </div>
         </div>
