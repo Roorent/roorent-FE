@@ -77,22 +77,26 @@ function RegisOwner() {
   const items = steps.map((item) => ({ key: item.title, title: item.title }));
 
   const onFinish = async () => {
-		const role = 'owner';
-			const dataOwner = {
-				first_name: data?.first_name,
-				last_name: data?.last_name,
-				phone: "+62" + data?.phone,
-				birth_date: data?.birth_date,
-				gender: data?.gender,
-				email: data?.email,
-				password: data?.password,
-				nik: data?.nik,
-        photo_ktp: data?.photo_ktp
-			};
-      
-      await authRepository.manipulatedata.register(dataOwner,role);
-			setTimeout(message.success('Anda Telah Berhasil Registrasi!'), 5000)
-			router.push("/auth/login");
+    try {
+      const role = 'owner';
+        const dataOwner = {
+          first_name: data?.first_name,
+          last_name: data?.last_name,
+          phone: "+62" + data?.phone,
+          birth_date: data?.birth_date,
+          gender: data?.gender,
+          email: data?.email,
+          password: data?.password,
+          nik: data?.nik,
+          photo_ktp: data?.photo_ktp
+        };
+        
+        await authRepository.manipulatedata.register(dataOwner,role);
+        setTimeout(message.success('Anda Telah Berhasil Registrasi!'), 5000)
+        router.push("/auth/login");      
+    } catch (err:any) {
+      message.error(err.response.body?.error);
+    }
 	};
 
   return (

@@ -17,25 +17,29 @@ function OwnerStep2({ setData, data, formStep2 }: Props) {
 
 	const handleUploadKtp = async (args: UploadChangeParam<UploadFile<any>>) => {
 		const photoKtp = args?.file;
-		if(photoKtp.status === 'done'){
-			if (photoKtp.size && photoKtp.size > 2097152) {
-				message.error("ukuran photoKtp terlalu besar");
-			} else {
-				if (
-					photoKtp.type === "image/png" ||
-					photoKtp.type === "image/jpg" ||
-					photoKtp.type === "image/jpeg"
-				) {
-					const response = await authRepository.manipulatedata.uploadKtp(
-						photoKtp?.originFileObj
-					);
-					console.log(response.body.filename, "hasilnya");          
-					setPhotoKtp(response.body.filename);
-					setData({ ...data, photo_ktp: response.body.filename})					
+		try {
+			if(photoKtp.status === 'done'){
+				if (photoKtp.size && photoKtp.size > 2097152) {
+					message.error("ukuran photoKtp terlalu besar");
 				} else {
-					message.error("Extensi file tidak diketahui");
+					if (
+						photoKtp.type === "image/png" ||
+						photoKtp.type === "image/jpg" ||
+						photoKtp.type === "image/jpeg"
+					) {
+						const response = await authRepository.manipulatedata.uploadKtp(
+							photoKtp?.originFileObj
+						);
+						console.log(response.body.filename, "hasilnya");          
+						setPhotoKtp(response.body.filename);
+						setData({ ...data, photo_ktp: response.body.filename})					
+					} else {
+						message.error("Anda hanya dapat mengunggah file JPG/JPEG/PNG!");
+					}
 				}
-			}
+			}			
+		} catch (err:any) {
+			message.error(err.response.body?.error);
 		}
 	};
 	return (

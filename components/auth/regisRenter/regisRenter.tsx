@@ -63,21 +63,25 @@ function RegisRenter() {
 
 	const items = steps.map((item) => ({ key: item.title, title: item.title }));
 	const onFinish = async () => {
-		const role = "renter";
-		const dataRenter = {
-			first_name: data?.first_name,
-			last_name: data?.last_name,
-			phone: "+62" + data?.phone,
-			birth_date: data?.birth_date,
-			gender: data?.gender,
-			email: data?.email,
-			password: data?.password,
-			nik: data?.nik,
-		};
-		await authRepository.manipulatedata.register(dataRenter, role);
-
-    setTimeout(message.success('Anda Telah Berhasil Registrasi!'), 5000);
-    router.push('/auth/login');
+		try {
+			const role = "renter";
+			const dataRenter = {
+				first_name: data?.first_name,
+				last_name: data?.last_name,
+				phone: "+62" + data?.phone,
+				birth_date: data?.birth_date,
+				gender: data?.gender,
+				email: data?.email,
+				password: data?.password,
+				nik: data?.nik,
+			};
+			await authRepository.manipulatedata.register(dataRenter, role);
+	
+			setTimeout(message.success('Anda Telah Berhasil Registrasi!'), 5000);
+			router.push('/auth/login');
+		} catch (err:any) {
+			message.error(err.response.body?.error);
+		}
   };
 
 	return (
