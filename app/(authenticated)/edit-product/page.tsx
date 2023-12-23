@@ -1,7 +1,6 @@
 'use client';
 
 import TypeRadio from '#/components/TypeButton';
-import { cityRepository } from '#/repository/city';
 import { productsRepository } from '#/repository/products';
 import {
   ArrowLeftOutlined,
@@ -23,7 +22,7 @@ import {
 } from 'antd';
 import { UploadChangeParam, UploadFile } from 'antd/es/upload/interface';
 import { RcFile, UploadProps } from 'antd/lib/upload';
-import { useRouter } from 'next/navigation';
+import {useRouter,  useSearchParams } from 'next/navigation';
 import React, { useState } from 'react';
 
 const getBase64 = (file: RcFile): Promise<string> =>
@@ -39,8 +38,15 @@ const filterOption = (
   option?: { label: string; value: string }
 ) => (option?.label ?? '').toLowerCase().includes(input.toLowerCase());
 
-function CreateProduct() {
+function EditProduct(data:any) {
   const router = useRouter();
+  const searchParams = useSearchParams()
+  const productId = searchParams?.get('id')
+  const product = productId
+  ? data.find((item:any) => item.productId === productId)
+  : null;
+  
+
   const [previewOpen, setPreviewOpen] = useState(false);
   const [previewImage, setPreviewImage] = useState('');
   const [previewTitle, setPreviewTitle] = useState('');
@@ -56,7 +62,6 @@ function CreateProduct() {
     monthly_price: 1000,
     address: '',
     location: '',
-    city: '',
     photo: [],
     specifications: '',
     facilities: '',
@@ -74,7 +79,6 @@ function CreateProduct() {
       monthly_price: datas?.monthly_price,
       address: datas?.address,
       location: datas?.location,
-      city: datas?.city,
       photo: datas?.photo,
       specifications: datas?.specifications,
       facilities: datas?.facilities,
@@ -82,8 +86,6 @@ function CreateProduct() {
       gender: datas?.gender,
       notes: datas?.notes,
     };
-
-    await productsRepository.manipulatedata.createProducts(dataProducts);
 
     Modal.success({
       icon: (
@@ -105,7 +107,6 @@ function CreateProduct() {
     router.push('/list-product');
   };
 
-  const { data } = cityRepository.hooks.allCity();
 
   const handleUploadPhoto: UploadProps['onChange'] = async (
     args: UploadChangeParam<UploadFile<any>>
@@ -380,35 +381,6 @@ function CreateProduct() {
                       }}
                       onChange={(e) => {
                         setDatas({ ...datas, address: e.target.value });
-                      }}
-                    />
-                  </Form.Item>
-                </div>
-              </div>
-              <div className='my-4'>
-                <p className='mb-4 text-teks text-2xl font-bold'>Kota</p>
-                <div className='create-produk'>
-                  <Form.Item
-                    name='city'
-                    rules={[
-                      {
-                        required: true,
-                        message: 'Harap masukan kota!',
-                      },
-                    ]}
-                  >
-                    <Select
-                      showSearch
-                      placeholder='Pilih kota'
-                      filterOption={filterOption}
-                      options={data?.data.map((val: any) => {
-                        return {
-                          value: val.name,
-                          label: val.name,
-                        };
-                      })}
-                      onChange={(e) => {
-                        setDatas({ ...datas, city: e });
                       }}
                     />
                   </Form.Item>
@@ -885,4 +857,4 @@ function CreateProduct() {
   );
 }
 
-export default CreateProduct;
+export default EditProduct;

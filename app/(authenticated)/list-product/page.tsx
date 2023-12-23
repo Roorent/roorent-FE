@@ -20,7 +20,7 @@ function ListProduct() {
   }
 
   const handleChange = (value: string) => {
-    console.log(`selected ${value}`);
+    // console.log(`selected ${value}`);
   };
 
   const { data, error, isLoading } =
@@ -66,7 +66,7 @@ function ListProduct() {
           data?.data?.map((product: any) => (
             <div key={product.id}>
               <CardProduk
-              idProducts= {product.id}
+                idProducts= {product.id}
                 image={product.photo}
                 label={product.type}
                 title={product.name}

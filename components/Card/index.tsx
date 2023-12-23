@@ -46,14 +46,14 @@ function CardProduk({ image, label, title, idProducts }: any) {
               <Button
                 type='primary'
                 htmlType='submit'
-                href='/edit-product'
-                className='w-1/2 hover:text-white hover:!bg-[#7291F5] bg-primary rounded-[10px] text-base font-bold py-3 w-[110px] h-max !mt-0'
+                href= {`/edit-product?id=${idProducts}`}
+                className=' hover:text-white hover:!bg-[#7291F5] bg-primary rounded-[10px] text-base font-bold py-3 w-[110px] h-max !mt-0'
               >
                 Edit
               </Button>
               <div className='w-1/2 modal-hapus h-max'>
                 <ModalDelete
-                  id= {idProducts}
+                  id={idProducts}
                   title='Hapus Produk'
                   content='Apakah anda yakin ingin hapus ?'
                   icon={<QuestionCircleFilled />}
