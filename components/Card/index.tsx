@@ -31,13 +31,13 @@ function CardProduk({ image, label, title }: any) {
               <p className='mt-2 text-lg font-bold'>{title}</p>
             </div>
           </div>
-          <div className='flex items-center gap-4'>
+          <div className='w-full flex items-center gap-4'>
             <div className='lihat-detail'>
               <Button
                 type='primary'
                 htmlType='submit'
                 href='#'
-                className='lihat-detail hover:bg-primary hover:!text-white !text-primary bg-transparent rounded-[10px] text-base font-bold py-3 px-2 border-2 border-primary w-[140px] h-max !mt-0'
+                className='lihat-detail hover:!bg-primary hover:!text-white !text-primary bg-transparent rounded-[10px] text-base font-bold py-3 px-2 border-2 border-primary w-[140px] h-max !mt-0'
               >
                 Lihat Detail
               </Button>
@@ -47,11 +47,11 @@ function CardProduk({ image, label, title }: any) {
                 type='primary'
                 htmlType='submit'
                 href='/edit-product'
-                className='hover:text-white hover:bg-[#7291F5] bg-primary rounded-[10px] text-base font-bold py-3 w-[110px] h-max !mt-0'
+                className='w-1/2 hover:text-white hover:!bg-[#7291F5] bg-primary rounded-[10px] text-base font-bold py-3 w-[110px] h-max !mt-0'
               >
                 Edit
               </Button>
-              <div className='modal-hapus h-max'>
+              <div className='w-1/2 modal-hapus h-max'>
                 <ModalDelete
                   title='Hapus Produk'
                   content='Apakah anda yakin ingin hapus ?'

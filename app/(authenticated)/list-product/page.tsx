@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Pagination, Select } from 'antd';
 import Button from '#/components/Button';
 import CardProduk from '#/components/Card';
@@ -25,6 +25,8 @@ function ListProduct() {
 
   const { data, error, isLoading } =
     productRepository.hooks.getListProductByOwner(id);
+
+  const [filterType, setFilterType] = useState(null);
 
   return (
     <div>
@@ -60,15 +62,16 @@ function ListProduct() {
         </div>
       </div>
       <div className='grid gap-5 grid-cols-3'>
-        {data?.data.map((product: any) => (
-          <div key={product.id}>
-            <CardProduk
-              image={product.photo}
-              label={product.type}
-              title={product.name}
-            />
-          </div>
-        ))}
+        {Array.isArray(data?.data) &&
+          data?.data?.map((product: any) => (
+            <div key={product.id}>
+              <CardProduk
+                image={product.photo}
+                label={product.type}
+                title={product.name}
+              />
+            </div>
+          ))}
       </div>
       <div className='w-full py-[20px] flex justify-end'>
         <Pagination

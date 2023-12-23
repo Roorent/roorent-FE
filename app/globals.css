@@ -168,9 +168,13 @@ body {
 	border-width: 2px;
 	font-size: 20px;
 	color: white;
-	border: none;
+	border: 2;
+	border-color: white;
 }
-
+.ant-select-focused:where(.css-dev-only-do-not-override-1dj4ii3).ant-select:not(.ant-select-disabled):not(.ant-select-customize-input):not(.ant-pagination-size-changer) .ant-select-selector{
+	border: 2;
+	border-color: white;
+}
 .regis
 	.ant-select-single:not(.ant-select-customize-input)
 	.ant-select-selector {
@@ -436,4 +440,9 @@ textarea:where(.css-dev-only-do-not-override-1dj4ii3).ant-input{
 }
 .home-produk .ant-select-single .ant-select-selector .ant-select-selection-item, .home-produk .ant-select-single .ant-select-selector .ant-select-selection-placeholder{
 	line-height: normal;
+}
+.ant-upload-wrapper.ant-upload-picture-card-wrapper .ant-upload.ant-upload-select{
+	height: 120px;
+	margin-inline-end: 0px;
+    margin-bottom: 0px;
 }
