@@ -4,7 +4,7 @@ import Button from '#/components/Button';
 import Searchs from '#/components/Search';
 import { HomeFilled } from '@ant-design/icons';
 import { Icon } from '@iconify/react';
-import { Radio, Select } from 'antd';
+import { Menu, Radio, Select } from 'antd';
 import React, { useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper/modules';
@@ -13,6 +13,8 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import Product from '#/components/Product';
 import Footer from '#/components/Footer';
+import { Header } from 'antd/es/layout/layout';
+import { LOGO } from '#/constants/images';
 
 const products = [
   {
@@ -171,237 +173,276 @@ function Home() {
   ];
   return (
     <div>
-      <div className='flex'>
-        <div className='w-1/2 flex items-center'>
-          <div>
-            <div className='text-6xl font-semibold mb-5'>Mau cari apa?</div>
-            <div className='text-4xl mb-20'>
-              Dapatkan informasi dan lakukan penyewaan
+      {/* <Header >
+        <Menu
+          mode='horizontal'
+          defaultSelectedKeys={[]}
+          style={{ borderBottomWidth: '2px' }}
+          className={
+            'border-slate-200 flex justify-start py-[12px] px-[120px] gap-10 w-full items-center'
+          }
+        >
+          <div className='w-full'>
+            <LOGO className='w-[160px]' />
+          </div>
+          
+          <div className='flex items-center gap-6 w-fit'>
+            <p className='text-xl font-bold flex w-max justify-end'>
+              Halo
+            </p>
+           
+          </div>
+        </Menu>
+      </Header> */}
+      <div className='w-full px-[190px] py-5 flex items-center border-b border-primary'>
+        <div className='w-full'>
+          <LOGO className='w-[200px]' />
+        </div>
+        <div className='flex'>
+          <Button
+            type='primary'
+            htmlType='submit'
+            href='/auth/login'
+            className='w-max hover:!text-white hover:!bg-primary !bg-white !text-primary border-2 border-primary rounded-[10px] text-[20px] font-bold !mt-0 px-10 shadow-md shadow-primary hover:!shadow-lg'
+          >
+            Masuk
+          </Button>
+        </div>
+      </div>
+      <div className='px-[190px]'>
+        <div className='flex'>
+          <div className='w-1/2 flex items-center'>
+            <div>
+              <div className='text-6xl font-semibold mb-5'>Mau cari apa?</div>
+              <div className='text-4xl mb-20'>
+                Dapatkan informasi dan lakukan penyewaan
+              </div>
+              <div>
+                <Searchs />
+              </div>
+            </div>
+          </div>
+          <div className='w-1/2'>
+            <img
+              src='/assets/images/Home.svg'
+              alt='Roorent'
+              className='w-11/12'
+            />
+          </div>
+        </div>
+        <div className='flex justify-center mt-[54px]'>
+          <Radio.Group
+            defaultValue='kost'
+            buttonStyle='solid'
+            value={typeFilter}
+            onChange={handleChange}
+            className='flex gap-x-28'
+          >
+            <div>
+              <Radio.Button
+                value='kost'
+                className='w-[166px] py-[20px] h-max font-bold flex justify-center text-2xl text-primary'
+              >
+                <div className='w-full flex items-center'>
+                  <HomeFilled className='mr-2' />
+                  Kost
+                </div>
+              </Radio.Button>
+            </div>
+            <div className='flex'>
+              <Radio.Button
+                value='gedung'
+                className='w-[166px] py-[20px] h-max font-bold flex justify-center text-2xl text-primary'
+              >
+                <div className='w-full flex items-center'>
+                  <Icon icon='mingcute:building-1-fill' className='mr-2' />{' '}
+                  Gedung
+                </div>
+              </Radio.Button>
             </div>
             <div>
-              <Searchs />
+              <Radio.Button
+                value='hotel'
+                className='w-[166px] py-[20px] h-max font-bold flex justify-center text-2xl text-primary'
+              >
+                <div className='w-full flex items-center'>
+                  <Icon icon='fa6-solid:hotel' className='mr-2' />
+                  Hotel
+                </div>
+              </Radio.Button>
+            </div>
+          </Radio.Group>
+        </div>
+        {typeFilter === 'kost' && (
+          <div className='flex items-center py-10 mt-[25px]'>
+            <div className='w-full text-4xl font-bold'>Kost Populer</div>
+            <div className='flex'>
+              <Button
+                type='primary'
+                htmlType='submit'
+                href='#'
+                className='w-max hover:!text-white hover:!bg-primary !bg-white !text-primary border-2 border-primary rounded-[10px] text-[20px] font-bold !mt-0 px-7 shadow-md shadow-primary hover:!shadow-lg'
+              >
+                Lihat Semua
+              </Button>
             </div>
           </div>
-        </div>
-        <div className='w-1/2'>
-          <img
-            src='/assets/images/Home.svg'
-            alt='Roorent'
-            className='w-11/12'
-          />
-        </div>
-      </div>
-      <div className='flex justify-center mt-[54px]'>
-        <Radio.Group
-          defaultValue='kost'
-          buttonStyle='solid'
-          value={typeFilter}
-          onChange={handleChange}
-          className='flex gap-x-28'
-        >
-          <div>
-            <Radio.Button
-              value='kost'
-              className='w-[166px] py-[20px] h-max font-bold flex justify-center text-2xl text-primary'
-            >
-              <div className='w-full flex items-center'>
-                <HomeFilled className='mr-2' />
-                Kost
-              </div>
-            </Radio.Button>
-          </div>
-          <div className='flex'>
-            <Radio.Button
-              value='gedung'
-              className='w-[166px] py-[20px] h-max font-bold flex justify-center text-2xl text-primary'
-            >
-              <div className='w-full flex items-center'>
-                <Icon icon='mingcute:building-1-fill' className='mr-2' /> Gedung
-              </div>
-            </Radio.Button>
-          </div>
-          <div>
-            <Radio.Button
-              value='hotel'
-              className='w-[166px] py-[20px] h-max font-bold flex justify-center text-2xl text-primary'
-            >
-              <div className='w-full flex items-center'>
-                <Icon icon='fa6-solid:hotel' className='mr-2' />
-                Hotel
-              </div>
-            </Radio.Button>
-          </div>
-        </Radio.Group>
-      </div>
-      {typeFilter === 'kost' && (
-        <div className='flex items-center py-10 mt-[25px]'>
-          <div className='w-full text-4xl font-bold'>Kost Populer</div>
-          <div className='flex'>
-            <Button
-              type='primary'
-              htmlType='submit'
-              href='#'
-              className='w-max hover:!text-white hover:!bg-primary !bg-white !text-primary border-2 border-primary rounded-[10px] text-[20px] font-bold !mt-0 px-7 shadow-md shadow-primary hover:!shadow-lg'
-            >
-              Lihat Semua
-            </Button>
-          </div>
-        </div>
-      )}
-      {typeFilter === 'gedung' && (
-        <div className='flex items-center py-10 mt-[25px]'>
-          <div className='w-full text-4xl font-bold'>Gedung Populer</div>
-          <div className='flex'>
-            <Button
-              type='primary'
-              htmlType='submit'
-              href='#'
-              className='w-max hover:!text-white hover:!bg-primary !bg-white !text-primary border-2 border-primary rounded-[10px] text-[20px] font-bold !mt-0 px-7 shadow-md shadow-primary hover:!shadow-lg'
-            >
-              Lihat Semua
-            </Button>
-          </div>
-        </div>
-      )}
-      {typeFilter === 'hotel' && (
-        <div className='flex items-center py-10 mt-[25px]'>
-          <div className='w-full text-4xl font-bold'>Hotel Populer</div>
-          <div className='flex'>
-            <Button
-              type='primary'
-              htmlType='submit'
-              href='#'
-              className='w-max hover:!text-white hover:!bg-primary !bg-white !text-primary border-2 border-primary rounded-[10px] text-[20px] font-bold !mt-0 px-7 shadow-md shadow-primary hover:!shadow-lg'
-            >
-              Lihat Semua
-            </Button>
-          </div>
-        </div>
-      )}
-      <div className='mt-[45px]'>
-        <Swiper navigation={true} modules={[Navigation]} className='mySwiper'>
-          {groupedProducts.map((group, index) => (
-            <SwiperSlide key={index}>
-              <div className='flex justify-start px-[135px] gap-x-8 grid-cols-4'>
-                {group.map((product) => (
-                  <div key={product.id}>
-                    <Product
-                      image={product.image}
-                      isType={product.isType}
-                      isgender={product.isgender}
-                      rating={product.rating}
-                      namaProduk={product.namaProduk}
-                      // kota={product.kota}
-                      stok={product.stok}
-                      hargaPerbulan={product.hargaPerbulan}
-                      hargaPerhari={product.hargaPerhari}
-                    />
-                  </div>
-                ))}
-              </div>
-            </SwiperSlide>
-          ))}
-        </Swiper>
-      </div>
-      {typeFilter === 'kost' && (
-        <div className='flex items-center py-10 mt-[25px]'>
-          <div className='flex w-full items-center'>
-            <div className='text-4xl font-bold'>Rekomendasi Kost di</div>
-            <div className='font-bold home-produk items-center'>
-              <Select
-                placeholder='Pilih Kota'
-                style={{ width: 'max-content', alignItems: 'center' }}
-                bordered={false}
-                options={items}
-              />
+        )}
+        {typeFilter === 'gedung' && (
+          <div className='flex items-center py-10 mt-[25px]'>
+            <div className='w-full text-4xl font-bold'>Gedung Populer</div>
+            <div className='flex'>
+              <Button
+                type='primary'
+                htmlType='submit'
+                href='#'
+                className='w-max hover:!text-white hover:!bg-primary !bg-white !text-primary border-2 border-primary rounded-[10px] text-[20px] font-bold !mt-0 px-7 shadow-md shadow-primary hover:!shadow-lg'
+              >
+                Lihat Semua
+              </Button>
             </div>
           </div>
-          <div className='flex'>
-            <Button
-              type='primary'
-              htmlType='submit'
-              href='#'
-              className='w-max hover:!text-white hover:!bg-primary !bg-white !text-primary border-2 border-primary rounded-[10px] text-[20px] font-bold !mt-0 px-7 shadow-md shadow-primary hover:!shadow-lg'
-            >
-              Lihat Semua
-            </Button>
-          </div>
-        </div>
-      )}
-      {typeFilter === 'gedung' && (
-        <div className='flex items-center py-10 mt-[25px]'>
-          <div className='flex w-full items-center'>
-            <div className='text-4xl font-bold'>Rekomendasi Gedung di</div>
-            <div className='font-bold home-produk items-center'>
-              <Select
-                placeholder='Pilih Kota'
-                style={{ width: 'max-content', alignItems: 'center' }}
-                bordered={false}
-                options={items}
-              />
+        )}
+        {typeFilter === 'hotel' && (
+          <div className='flex items-center py-10 mt-[25px]'>
+            <div className='w-full text-4xl font-bold'>Hotel Populer</div>
+            <div className='flex'>
+              <Button
+                type='primary'
+                htmlType='submit'
+                href='#'
+                className='w-max hover:!text-white hover:!bg-primary !bg-white !text-primary border-2 border-primary rounded-[10px] text-[20px] font-bold !mt-0 px-7 shadow-md shadow-primary hover:!shadow-lg'
+              >
+                Lihat Semua
+              </Button>
             </div>
           </div>
-          <div className='flex'>
-            <Button
-              type='primary'
-              htmlType='submit'
-              href='#'
-              className='w-max hover:!text-white hover:!bg-primary !bg-white !text-primary border-2 border-primary rounded-[10px] text-[20px] font-bold !mt-0 px-7 shadow-md shadow-primary hover:!shadow-lg'
-            >
-              Lihat Semua
-            </Button>
-          </div>
+        )}
+        <div className='mt-[45px]'>
+          <Swiper navigation={true} modules={[Navigation]} className='mySwiper'>
+            {groupedProducts.map((group, index) => (
+              <SwiperSlide key={index}>
+                <div className='flex justify-start px-[135px] gap-x-8 grid-cols-4'>
+                  {group.map((product) => (
+                    <div key={product.id}>
+                      <Product
+                        image={product.image}
+                        isType={product.isType}
+                        isgender={product.isgender}
+                        rating={product.rating}
+                        namaProduk={product.namaProduk}
+                        // kota={product.kota}
+                        stok={product.stok}
+                        hargaPerbulan={product.hargaPerbulan}
+                        hargaPerhari={product.hargaPerhari}
+                      />
+                    </div>
+                  ))}
+                </div>
+              </SwiperSlide>
+            ))}
+          </Swiper>
         </div>
-      )}
-      {typeFilter === 'hotel' && (
-        <div className='flex items-center py-10 mt-[25px]'>
-          <div className='flex w-full items-center'>
-            <div className='text-4xl font-bold'>Rekomendasi Hotel di</div>
-            <div className='font-bold home-produk items-center'>
-              <Select
-                placeholder='Pilih Kota'
-                style={{ width: 'max-content', alignItems: 'center' }}
-                bordered={false}
-                options={items}
-              />
-            </div>
-          </div>
-          <div className='flex'>
-            <Button
-              type='primary'
-              htmlType='submit'
-              href='#'
-              className='w-max hover:!text-white hover:!bg-primary !bg-white !text-primary border-2 border-primary rounded-[10px] text-[20px] font-bold !mt-0 px-7 shadow-md shadow-primary hover:!shadow-lg'
-            >
-              Lihat Semua
-            </Button>
-          </div>
-        </div>
-      )}
-      <div className='mt-[45px]'>
-        <Swiper navigation={true} modules={[Navigation]} className='mySwiper'>
-          {groupedProducts.map((group, index) => (
-            <SwiperSlide key={index}>
-              <div className='flex justify-start px-[135px] gap-x-8 grid-cols-4'>
-                {group.map((product) => (
-                  <div key={product.id}>
-                    <Product
-                      image={product.image}
-                      isType={product.isType}
-                      isgender={product.isgender}
-                      rating={product.rating}
-                      namaProduk={product.namaProduk}
-                      kota={product.kota}
-                      stok={product.stok}
-                      hargaPerbulan={product.hargaPerbulan}
-                      hargaPerhari={product.hargaPerhari}
-                    />
-                  </div>
-                ))}
+        {typeFilter === 'kost' && (
+          <div className='flex items-center py-10 mt-[25px]'>
+            <div className='flex w-full items-center'>
+              <div className='text-4xl font-bold'>Rekomendasi Kost di</div>
+              <div className='font-bold home-produk items-center'>
+                <Select
+                  placeholder='Pilih Kota'
+                  style={{ width: 'max-content', alignItems: 'center' }}
+                  bordered={false}
+                  options={items}
+                />
               </div>
-            </SwiperSlide>
-          ))}
-        </Swiper>
+            </div>
+            <div className='flex'>
+              <Button
+                type='primary'
+                htmlType='submit'
+                href='#'
+                className='w-max hover:!text-white hover:!bg-primary !bg-white !text-primary border-2 border-primary rounded-[10px] text-[20px] font-bold !mt-0 px-7 shadow-md shadow-primary hover:!shadow-lg'
+              >
+                Lihat Semua
+              </Button>
+            </div>
+          </div>
+        )}
+        {typeFilter === 'gedung' && (
+          <div className='flex items-center py-10 mt-[25px]'>
+            <div className='flex w-full items-center'>
+              <div className='text-4xl font-bold'>Rekomendasi Gedung di</div>
+              <div className='font-bold home-produk items-center'>
+                <Select
+                  placeholder='Pilih Kota'
+                  style={{ width: 'max-content', alignItems: 'center' }}
+                  bordered={false}
+                  options={items}
+                />
+              </div>
+            </div>
+            <div className='flex'>
+              <Button
+                type='primary'
+                htmlType='submit'
+                href='#'
+                className='w-max hover:!text-white hover:!bg-primary !bg-white !text-primary border-2 border-primary rounded-[10px] text-[20px] font-bold !mt-0 px-7 shadow-md shadow-primary hover:!shadow-lg'
+              >
+                Lihat Semua
+              </Button>
+            </div>
+          </div>
+        )}
+        {typeFilter === 'hotel' && (
+          <div className='flex items-center py-10 mt-[25px]'>
+            <div className='flex w-full items-center'>
+              <div className='text-4xl font-bold'>Rekomendasi Hotel di</div>
+              <div className='font-bold home-produk items-center'>
+                <Select
+                  placeholder='Pilih Kota'
+                  style={{ width: 'max-content', alignItems: 'center' }}
+                  bordered={false}
+                  options={items}
+                />
+              </div>
+            </div>
+            <div className='flex'>
+              <Button
+                type='primary'
+                htmlType='submit'
+                href='#'
+                className='w-max hover:!text-white hover:!bg-primary !bg-white !text-primary border-2 border-primary rounded-[10px] text-[20px] font-bold !mt-0 px-7 shadow-md shadow-primary hover:!shadow-lg'
+              >
+                Lihat Semua
+              </Button>
+            </div>
+          </div>
+        )}
+        <div className='mt-[45px]'>
+          <Swiper navigation={true} modules={[Navigation]} className='mySwiper'>
+            {groupedProducts.map((group, index) => (
+              <SwiperSlide key={index}>
+                <div className='flex justify-start px-[135px] gap-x-8 grid-cols-4'>
+                  {group.map((product) => (
+                    <div key={product.id}>
+                      <Product
+                        image={product.image}
+                        isType={product.isType}
+                        isgender={product.isgender}
+                        rating={product.rating}
+                        namaProduk={product.namaProduk}
+                        kota={product.kota}
+                        stok={product.stok}
+                        hargaPerbulan={product.hargaPerbulan}
+                        hargaPerhari={product.hargaPerhari}
+                      />
+                    </div>
+                  ))}
+                </div>
+              </SwiperSlide>
+            ))}
+          </Swiper>
+        </div>
       </div>
       <div>
         <Footer />

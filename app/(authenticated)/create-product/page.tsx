@@ -665,9 +665,9 @@ function CreateProduct() {
               </div>
             </div>
             <div className='w-1/2'>
-              <div className='produkOwner text-xl font-bold bg-primary rounded-[10px] px-5 py-2.5 flex items-center mb-[30px]'>
+              <div className='produkOwner text-xl font-bold bg-[#ECF0FB] rounded-[10px] px-5 py-2.5 flex items-center mb-[30px]'>
                 <div className='w-full'>
-                  <p className='text-white w-full flex justify-center'>
+                  <p className='text-primary w-full flex justify-center'>
                     Deskripsi Produk
                   </p>
                 </div>
@@ -758,9 +758,9 @@ function CreateProduct() {
                   </Form.Item>
                 </div>
               </div>
-              <div className='produkOwner text-xl font-bold bg-primary rounded-[10px] px-5 py-2.5 flex items-center mb-[30px]'>
+              <div className='produkOwner text-xl font-bold bg-[#ECF0FB] rounded-[10px] px-5 py-2.5 flex items-center mb-[30px]'>
                 <div className='w-full'>
-                  <p className='text-white w-full flex justify-center'>
+                  <p className='text-primary w-full flex justify-center'>
                     Peraturan Khusus
                   </p>
                 </div>
@@ -787,7 +787,7 @@ function CreateProduct() {
                 </div>
               </div>
               <div className='my-4'>
-                <p className='mb-4 text-teks text-2xl font-bold'>Catatan</p>
+                <p className='mb-4 text-teks text-2xl font-bold'>Peraturan</p>
                 <div className='textarea-produk'>
                   <Form.Item
                     name='notes'

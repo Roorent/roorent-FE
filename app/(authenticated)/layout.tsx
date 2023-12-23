@@ -174,7 +174,8 @@ const AuthenticatedLayout: React.FC<AuthenticatedLayoutProps> = ({
     <Layout style={{ height: '100%' }}>
       {role !== 'renter' && (
         <>
-          {!cruProduk && (
+          {cruProduk ? 
+          <div></div> :(
             <Sider
               width={300}
               style={{ background: colorBgContainer }}
@@ -309,6 +310,7 @@ const AuthenticatedLayout: React.FC<AuthenticatedLayoutProps> = ({
                     Halo, {firstName}
                   </p>
                   <Photo />
+                  <div onClick={handleLogout} className='bg-primary rounded-lg p-4'>Logout</div>
                 </div>
               </Menu>
             </Header>
