@@ -4,7 +4,7 @@ import ModalDelete from '../Modal/modalDelete';
 import { HomeFilled, QuestionCircleFilled } from '@ant-design/icons';
 import { Icon } from '@iconify/react';
 
-function CardProduk({ image, label, title }: any) {
+function CardProduk({ image, label, title, idProducts }: any) {
   return (
     <div>
       <div className='p-7 rounded-[10px] border border-[#858585]'>
@@ -53,6 +53,7 @@ function CardProduk({ image, label, title }: any) {
               </Button>
               <div className='w-1/2 modal-hapus h-max'>
                 <ModalDelete
+                  id= {idProducts}
                   title='Hapus Produk'
                   content='Apakah anda yakin ingin hapus ?'
                   icon={<QuestionCircleFilled />}

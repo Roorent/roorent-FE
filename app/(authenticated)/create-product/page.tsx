@@ -66,43 +66,47 @@ function CreateProduct() {
   });
 
   const onFinish = async () => {
-    const dataProducts = {
-      name: datas?.name,
-      type: datas?.type,
-      stock: datas?.stock,
-      daily_price: datas?.daily_price,
-      monthly_price: datas?.monthly_price,
-      address: datas?.address,
-      location: datas?.location,
-      city: datas?.city,
-      photo: datas?.photo,
-      specifications: datas?.specifications,
-      facilities: datas?.facilities,
-      note: datas?.note,
-      gender: datas?.gender,
-      notes: datas?.notes,
-    };
-
-    await productsRepository.manipulatedata.createProducts(dataProducts);
-
-    Modal.success({
-      icon: (
-        <div className='modal-hapus mb-[10px] flex justify-center'>
-          <CheckCircleFilled />
-        </div>
-      ),
-      title: (
-        <div className='text-3xl font-bold flex justify-center'>
+    try {
+      const dataProducts = {
+        name: datas?.name,
+        type: datas?.type,
+        stock: datas?.stock,
+        daily_price: datas?.daily_price,
+        monthly_price: datas?.monthly_price,
+        address: datas?.address,
+        location: datas?.location,
+        city: datas?.city,
+        photo: datas?.photo,
+        specifications: datas?.specifications,
+        facilities: datas?.facilities,
+        note: datas?.note,
+        gender: datas?.gender,
+        notes: datas?.notes,
+      };
+  
+      await productsRepository.manipulatedata.createProducts(dataProducts);
+  
+      Modal.success({
+        icon: (
+          <div className='modal-hapus mb-[10px] flex justify-center'>
+            <CheckCircleFilled />
+          </div>
+        ),
+        title: (
+          <div className='text-3xl font-bold flex justify-center'>
           Berhasil Buat Produk
         </div>
-      ),
-      content: (
-        <div className='text-xl font-semibold flex justify-center mb-[25px]'>
-          Kamu telah berhasil membuat produk
-        </div>
-      ),
-    });
-    router.push('/list-product');
+        ),
+        content: (
+          <div className='text-xl font-semibold flex justify-center mb-[25px]'>
+            Kamu telah berhasil membuat produk
+          </div>
+        ),
+      });
+      router.push('/list-product');      
+    } catch (err:any) {
+      message.error(err.response.body?.error);
+    }
   };
 
   const { data } = cityRepository.hooks.allCity();
@@ -112,33 +116,37 @@ function CreateProduct() {
   ) => {
     // Fungsi uploadProducts
     const photoProducts = args?.file;
-    if (photoProducts.status === 'done') {
-      if (photoProducts.size && photoProducts.size > 2097152) {
-        message.error('ukuran photoProducts terlalu besar');
-      } else {
-        if (
-          photoProducts.type === 'image/png' ||
-          photoProducts.type === 'image/jpg' ||
-          photoProducts.type === 'image/jpeg'
-        ) {
-          const response =
-            await productsRepository.manipulatedata.uploadPhotoProducts(
-              photoProducts?.originFileObj
-            );
-
-          setPhotoProducts([...photoProductsArray, response.body.filename]);
-          setDatas({
+    try {
+      if (photoProducts.status === 'done') {
+        if (photoProducts.size && photoProducts.size > 2097152) {
+          message.error('ukuran photoProducts terlalu besar');
+        } else {
+          if (
+            photoProducts.type === 'image/png' ||
+            photoProducts.type === 'image/jpg' ||
+            photoProducts.type === 'image/jpeg'
+          ) {
+            const response =
+              await productsRepository.manipulatedata.uploadPhotoProducts(
+                photoProducts?.originFileObj
+              );
+  
+            setPhotoProducts([...photoProductsArray, response.body.filename]);
+            setDatas({
             ...datas,
             photo: [...photoProductsArray, response.body.filename],
           });
-        } else {
-          message.error('Extensi file tidak diketahui');
+          } else {
+            message.error('Anda hanya dapat mengunggah file JPG/JPEG/PNG !');
+          }
         }
       }
+      // Fungsi handleChangeUpload
+      const { fileList: newFileList } = args;
+      setFileList(newFileList);      
+    } catch (err:any) {
+      message.error(err.response.body?.error);
     }
-    // Fungsi handleChangeUpload
-    const { fileList: newFileList } = args;
-    setFileList(newFileList);
   };
 
   const handlePreview = async (file: UploadFile) => {
@@ -151,21 +159,6 @@ function CreateProduct() {
     setPreviewTitle(
       file.name || file.url!.substring(file.url!.lastIndexOf('/') + 1)
     );
-  };
-
-  const beforeUpload = (file: RcFile) => {
-    const isJpgOrPng =
-      file.type === 'image/jpeg' ||
-      file.type === 'image/png' ||
-      file.type === 'image/jpg';
-    if (!isJpgOrPng) {
-      message.error('Anda hanya dapat mengunggah file JPG/JPEG/PNG!');
-    }
-    const isLt2M = file.size / 1024 / 1024 < 2;
-    if (!isLt2M) {
-      message.error('Gambar harus lebih kecil dari 2MB!');
-    }
-    return isJpgOrPng && isLt2M;
   };
 
   const uploadButton = (
@@ -296,7 +289,6 @@ function CreateProduct() {
                       fileList={fileList}
                       multiple={true}
                       onPreview={handlePreview}
-                      beforeUpload={beforeUpload}
                       onChange={handleUploadPhoto}
                     >
                       {fileList.length >= 10 ? null : uploadButton}

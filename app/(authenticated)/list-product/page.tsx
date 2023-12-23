@@ -4,14 +4,14 @@ import React, { useEffect, useState } from 'react';
 import { Pagination, Select } from 'antd';
 import Button from '#/components/Button';
 import CardProduk from '#/components/Card';
-import { productRepository } from '#/repository/product';
+import { productsRepository } from '#/repository/products';
 import { parseJwt } from '#/utils/convert';
 
 function ListProduct() {
+  
   useEffect(() => {
     document.title = 'List Product';
   }, []);
-
   const token = localStorage.getItem('access_token');
   let id: string = '';
 
@@ -24,7 +24,7 @@ function ListProduct() {
   };
 
   const { data, error, isLoading } =
-    productRepository.hooks.getListProductByOwner(id);
+  productsRepository.hooks.getListProductByOwner(id);
 
   const [filterType, setFilterType] = useState(null);
 
@@ -66,6 +66,7 @@ function ListProduct() {
           data?.data?.map((product: any) => (
             <div key={product.id}>
               <CardProduk
+              idProducts= {product.id}
                 image={product.photo}
                 label={product.type}
                 title={product.name}

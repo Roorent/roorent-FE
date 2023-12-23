@@ -1,8 +1,12 @@
+import { productsRepository } from '#/repository/products';
 import { Button, Modal } from 'antd';
+import { useRouter } from 'next/navigation';
 import React from 'react';
 
-function ModalDelete({ title, content, icon, buttonText }: any) {
+function ModalDelete({ title, content, icon, buttonText, id }: any) {
   const { confirm } = Modal;
+  const router = useRouter()
+  const data = productsRepository.manipulatedata.deleteProducts(id)
 
   const showDeleteConfirm = () => {
     confirm({
@@ -21,8 +25,11 @@ function ModalDelete({ title, content, icon, buttonText }: any) {
         <div className='modal-hapus text-xl font-bold text-white'>Ya</div>
       ),
       cancelText: <div className='text-xl font-bold text-white'>Batal</div>,
-      onOk() {
-        console.log('OK');
+      onOk() {        
+        data.then((del) => {
+          return del
+        });
+        router.refresh()
       },
       onCancel() {
         console.log('Cancel');
