@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import type { MenuProps } from 'antd';
 import { Layout, Menu, theme } from 'antd';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import MenuItem from 'antd/es/menu/MenuItem';
 import { LogoutOutlined } from '@ant-design/icons';
 import Notifications from '#/components/Notifications';
@@ -42,10 +42,10 @@ const AuthenticatedLayout: React.FC<AuthenticatedLayoutProps> = ({
   children,
 }) => {
   const router = useRouter();
+  const pathname = usePathname();
 
   const cruProduk =
-    window.location.pathname.includes('/create-product') ||
-    window.location.pathname.includes('/edit-product');
+    pathname === '/create-product' || pathname === '/edit-product';
 
   const {
     token: { colorBgContainer },
@@ -174,8 +174,9 @@ const AuthenticatedLayout: React.FC<AuthenticatedLayoutProps> = ({
     <Layout style={{ height: '100%' }}>
       {role !== 'renter' && (
         <>
-          {cruProduk ? 
-          <div></div> :(
+          {cruProduk ? (
+            <></>
+          ) : (
             <Sider
               width={300}
               style={{ background: colorBgContainer }}
@@ -310,7 +311,12 @@ const AuthenticatedLayout: React.FC<AuthenticatedLayoutProps> = ({
                     Halo, {firstName}
                   </p>
                   <Photo />
-                  <div onClick={handleLogout} className='bg-primary rounded-lg p-4'>Logout</div>
+                  <div
+                    onClick={handleLogout}
+                    className='bg-primary rounded-lg p-4'
+                  >
+                    Logout
+                  </div>
                 </div>
               </Menu>
             </Header>

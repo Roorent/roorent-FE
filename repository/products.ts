@@ -5,8 +5,8 @@ const url = {
   createProduct: () => '/products',
   uploadProduct: () => '/photo-products/upload-photo-products',
   updateProduct: (id: any) => `/products/${id}`,
-  getListProductByOwner(id: string) {
-    return `/products/find-owner/${id}`;
+  getListProductByOwner(id: string, type?: string) {
+    return `/products/find-owner/${id}?type=${type}`;
   },
   deleteProductById(id: string) {
     return `/products/${id}`;
@@ -25,21 +25,21 @@ const manipulatedata = {
   updateProducts(id: any) {
     return http.put(url.updateProduct(id)).send(id);
   },
-  deleteProducts(id: string){
+  deleteProducts(id: string) {
     return http.del(url.deleteProductById(id)).send(id);
-  }
+  },
   // updatePhoto(data: any) {
-    //   const formData = new FormData();
-    //   formData.append('photo-products', data);
-    //   return http.put(url.uploadProduct()).send(formData);
-    // },
-  };
-  
-  const hooks = {
-    getListProductByOwner(id: string) {
-      return useSWR(url.getListProductByOwner(id), http.fetcher);
-    },
-  };
+  //   const formData = new FormData();
+  //   formData.append('photo-products', data);
+  //   return http.put(url.uploadProduct()).send(formData);
+  // },
+};
+
+const hooks = {
+  getListProductByOwner(id: string, type?: string) {
+    return useSWR(url.getListProductByOwner(id, type), http.fetcher);
+  },
+};
 
 export const productsRepository = {
   url,
