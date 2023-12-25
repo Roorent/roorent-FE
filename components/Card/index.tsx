@@ -47,7 +47,7 @@ function CardProduk({ image, label, title }: any) {
                 type='primary'
                 htmlType='submit'
                 href='/edit-product'
-                className='w-1/2 hover:text-white hover:!bg-[#7291F5] bg-primary rounded-[10px] text-base font-bold py-3 w-[110px] h-max !mt-0'
+                className='w-1/2 hover:text-white hover:!bg-[#7291F5] bg-primary rounded-[10px] text-base font-bold py-3 h-max !mt-0'
               >
                 Edit
               </Button>
