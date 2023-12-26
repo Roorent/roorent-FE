@@ -45,7 +45,7 @@ const AuthenticatedLayout: React.FC<AuthenticatedLayoutProps> = ({
   const pathname = usePathname();
 
   const cruProduk =
-    pathname === '/create-product' || pathname === '/edit-product';
+    pathname === '/create-product' || pathname === '/edit-product' || pathname === '/detail-product';
 
   const {
     token: { colorBgContainer },

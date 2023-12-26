@@ -70,7 +70,7 @@ function Product({
             </div>
             <div className='flex items-center gap-x-2'>
               <StarFilled className='text-[#FFCC00] text-[26px]' />
-              <p className='font-bold text-xl'>{rating}</p>
+              <p className='font-bold text-xl text-rstroke'>{rating}</p>
             </div>
           </div>
           <div className='text-[#DA3438] font-semibold text-lg'>

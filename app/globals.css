@@ -410,9 +410,6 @@ textarea:where(.css-dev-only-do-not-override-1dj4ii3).ant-input{
 .search .anticon svg{
     font-size: 30px;
 }
-:where(.css-dev-only-do-not-override-1dj4ii3).ant-radio-button-wrapper >.ant-radio-button{
-    box-shadow: 6px 8px 4px -3px rgba(0, 0, 0, 25%), 0 4px 6px -4px rgb(0, 0, 0, 25%);
-}
 :where(.css-dev-only-do-not-override-1dj4ii3).ant-radio-button-wrapper{
 	background: #ffffff;
     border: 1px solid #ffffff;

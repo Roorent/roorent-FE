@@ -173,28 +173,7 @@ function Home() {
   ];
   return (
     <div>
-      {/* <Header >
-        <Menu
-          mode='horizontal'
-          defaultSelectedKeys={[]}
-          style={{ borderBottomWidth: '2px' }}
-          className={
-            'border-slate-200 flex justify-start py-[12px] px-[120px] gap-10 w-full items-center'
-          }
-        >
-          <div className='w-full'>
-            <LOGO className='w-[160px]' />
-          </div>
-          
-          <div className='flex items-center gap-6 w-fit'>
-            <p className='text-xl font-bold flex w-max justify-end'>
-              Halo
-            </p>
-           
-          </div>
-        </Menu>
-      </Header> */}
-      <div className='w-full px-[190px] py-5 flex items-center border-b border-primary'>
+      <div className='sticky top-0 w-full px-[190px] py-5 flex items-center border-b border-primary bg-white z-99999'>
         <div className='w-full'>
           <LOGO className='w-[200px]' />
         </div>
@@ -209,7 +188,7 @@ function Home() {
           </Button>
         </div>
       </div>
-      <div className='px-[190px]'>
+      <div className='-z-9999 px-[190px]'>
         <div className='flex'>
           <div className='w-1/2 flex items-center'>
             <div>

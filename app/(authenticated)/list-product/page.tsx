@@ -6,6 +6,7 @@ import Button from '#/components/Button';
 import CardProduk from '#/components/Card';
 import { productsRepository } from '#/repository/products';
 import { parseJwt } from '#/utils/convert';
+import TypeRadio from '#/components/TypeButton';
 
 function ListProduct() {
   const [filterType, setFilterType] = useState('semua');
@@ -36,18 +37,7 @@ function ListProduct() {
         </div>
         <div className='flex gap-x-6 items-center'>
           <div className='w-full'>
-            <Select
-              defaultValue='semua'
-              style={{ width: 120 }}
-              className='produkOwner'
-              onChange={handleChange}
-              options={[
-                { value: 'semua', label: 'Semua' },
-                { value: 'kost', label: 'Kost' },
-                { value: 'gedung', label: 'Gedung' },
-                { value: 'hotel', label: 'Hotel' },
-              ]}
-            />
+            <TypeRadio/>
           </div>
           <div className='w-full'>
             <Button
