@@ -11,6 +11,9 @@ const url = {
   deleteProductById(id: string) {
     return `/products/${id}`;
   },
+  getProductsById(id: string) {
+    return `/products/${id}`;
+  },
 };
 
 const manipulatedata = {
@@ -22,8 +25,8 @@ const manipulatedata = {
     formData.append('photo-products', data);
     return http.post(url.uploadProduct()).send(formData);
   },
-  updateProducts(id: any) {
-    return http.put(url.updateProduct(id)).send(id);
+  updateProducts(id: any, data: any) {
+    return http.put(url.updateProduct(id)).send(data);
   },
   deleteProducts(id: string){
     return http.del(url.deleteProductById(id)).send(id);
@@ -39,6 +42,9 @@ const manipulatedata = {
     getListProductByOwner(id: string) {
       return useSWR(url.getListProductByOwner(id), http.fetcher);
     },
+    getProductsById(id:any){
+      return useSWR(url.getProductsById(id), http.fetcher)
+  }
   };
 
 export const productsRepository = {

@@ -1,5 +1,6 @@
 'use client';
 
+import React, { useEffect, useState } from 'react';
 import TypeRadio from '#/components/TypeButton';
 import { productsRepository } from '#/repository/products';
 import {
@@ -7,7 +8,6 @@ import {
   CameraOutlined,
   CheckCircleFilled,
   ExclamationCircleFilled,
-  HomeFilled,
 } from '@ant-design/icons';
 import {
   Button,
@@ -15,15 +15,14 @@ import {
   Input,
   InputNumber,
   Modal,
-  Radio,
   Select,
   Upload,
   message,
 } from 'antd';
 import { UploadChangeParam, UploadFile } from 'antd/es/upload/interface';
 import { RcFile, UploadProps } from 'antd/lib/upload';
-import {useRouter,  useSearchParams } from 'next/navigation';
-import React, { useState } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { config } from '#/config/app';
 
 const getBase64 = (file: RcFile): Promise<string> =>
   new Promise((resolve, reject) => {
@@ -38,37 +37,83 @@ const filterOption = (
   option?: { label: string; value: string }
 ) => (option?.label ?? '').toLowerCase().includes(input.toLowerCase());
 
-function EditProduct(data:any) {
-  const router = useRouter();
-  const searchParams = useSearchParams()
-  const productId = searchParams?.get('id')
-  const product = productId
-  ? data.find((item:any) => item.productId === productId)
-  : null;
-  
-
+function EditProduct() {
   const [previewOpen, setPreviewOpen] = useState(false);
   const [previewImage, setPreviewImage] = useState('');
   const [previewTitle, setPreviewTitle] = useState('');
   const [fileList, setFileList] = useState<UploadFile[]>([]);
-  const handleCancel = () => setPreviewOpen(false);
   const [photoProductsArray, setPhotoProducts] = useState<string[] | []>([]);
+
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const productId = searchParams?.get('id');
+  const { data, error, isLoading } =
+    productsRepository.hooks.getProductsById(productId);
+
+  const handleCancel = () => setPreviewOpen(false);
+  const [form] = Form.useForm();
+  const imgProduct = (img: string) =>
+    `${config.baseUrl}/products/images/${img}`;
 
   const [datas, setDatas] = useState({
     name: '',
     type: 'kost',
     stock: 1,
-    daily_price: 1000,
-    monthly_price: 1000,
+    daily_price: 0,
+    monthly_price: 0,
     address: '',
     location: '',
-    photo: [],
     specifications: '',
     facilities: '',
     note: '',
     gender: 'campur',
     notes: '',
   });
+
+  useEffect(() => {
+    if (!isLoading) {
+      setDatas({
+        name: data?.data?.name,
+        type: data?.data?.type,
+        stock: data?.data?.stock,
+        daily_price: data?.data?.daily_price,
+        monthly_price: data?.data?.monthly_price,
+        address: data?.data?.address,
+        location: data?.data?.location,
+        specifications: data?.data?.productDescriptions?.specifications,
+        facilities: data?.data?.productDescriptions?.facilities,
+        note: data?.data?.productDescriptions?.note,
+        gender: data?.data?.specialRules?.gender,
+        notes: data?.data?.specialRules?.notes,
+      });
+      setPhotoProducts(
+        data?.data?.photoProducts.map((item: any) => item.photo)
+      );
+      form.setFieldsValue({
+        name: data?.data?.name,
+        type: data?.data?.type,
+        stock: data?.data?.stock,
+        daily_price: data?.data?.daily_price,
+        monthly_price: data?.data?.monthly_price,
+        address: data?.data?.address,
+        location: data?.data?.location,
+        photo: data?.data?.photo,
+        specifications: data?.data?.productDescriptions?.specifications,
+        facilities: data?.data?.productDescriptions?.facilities,
+        note: data?.data?.productDescriptions?.note,
+        gender: data?.data?.specialRules?.gender,
+        notes: data?.data?.specialRules?.notes,
+      });
+      setFileList(
+        data?.data?.photoProducts?.map((item: any) => {
+          return {
+            url: imgProduct(item.photo),
+            name: item.photo,
+          };
+        })
+      );
+    }
+  }, [isLoading]);
 
   const onFinish = async () => {
     const dataProducts = {
@@ -79,13 +124,18 @@ function EditProduct(data:any) {
       monthly_price: datas?.monthly_price,
       address: datas?.address,
       location: datas?.location,
-      photo: datas?.photo,
+      photo: photoProductsArray,
       specifications: datas?.specifications,
       facilities: datas?.facilities,
       note: datas?.note,
       gender: datas?.gender,
       notes: datas?.notes,
     };
+
+    await productsRepository.manipulatedata.updateProducts(
+      productId,
+      dataProducts
+    );
 
     Modal.success({
       icon: (
@@ -95,18 +145,17 @@ function EditProduct(data:any) {
       ),
       title: (
         <div className='text-3xl font-bold flex justify-center'>
-          Berhasil Buat Produk
+          Berhasil Edit Produk
         </div>
       ),
       content: (
         <div className='text-xl font-semibold flex justify-center mb-[25px]'>
-          Kamu telah berhasil membuat produk
+          Kamu telah berhasil mengubah produk
         </div>
       ),
     });
     router.push('/list-product');
   };
-
 
   const handleUploadPhoto: UploadProps['onChange'] = async (
     args: UploadChangeParam<UploadFile<any>>
@@ -126,12 +175,13 @@ function EditProduct(data:any) {
             await productsRepository.manipulatedata.uploadPhotoProducts(
               photoProducts?.originFileObj
             );
-
+          console.log(response);
+          // setFileList((state)=> [...state, response.body.filename])
           setPhotoProducts([...photoProductsArray, response.body.filename]);
-          setDatas({
-            ...datas,
-            photo: [...photoProductsArray, response.body.filename],
-          });
+          // setDatas({
+          //   ...datas,
+          //   photo: [...photoProductsArray, response.body.filename],
+          // });
         } else {
           message.error('Extensi file tidak diketahui');
         }
@@ -245,7 +295,7 @@ function EditProduct(data:any) {
   };
   return (
     <div>
-      <Form name='createProduk'>
+      <Form name='createProduk' form={form}>
         <div className='w-full grid gap-y-[20px] grid-cols-1'>
           <a
             href='/list-product'
@@ -268,9 +318,12 @@ function EditProduct(data:any) {
                 <div>
                   <Form.Item name='type'>
                     <TypeRadio
-                    onChange={(e: any) => handleSelectChangeProduk(e.target.value)}
-                    value={selectedOptionProduk?.value}
-                    defaultValue={defaultSelectedOptionProduk.value}
+                      onChange={(e: any) =>
+                        handleSelectChangeProduk(e.target.value)
+                      }
+                      // value={selectedOptionProduk?.value}
+                      // value = {data?.product.type}
+                      // defaultValue={defaultSelectedOptionProduk.value}
                     />
                   </Form.Item>
                 </div>
@@ -328,6 +381,7 @@ function EditProduct(data:any) {
                         message: 'Harap masukan nama produk!',
                       },
                     ]}
+                    // initialValue={data?.data?.name}
                   >
                     <Input
                       onChange={(e) => {
@@ -349,7 +403,8 @@ function EditProduct(data:any) {
                       size='small'
                       min={1}
                       max={10000}
-                      defaultValue={1}
+                      // defaultValue={1}
+                      // value={data?.data.stock}
                       className=' py-[10px] px-[3px] rounded-[10px] border border-rstroke regis text-xl'
                       onChange={(e) => {
                         setDatas({ ...datas, stock: e || 1 });
@@ -535,7 +590,6 @@ function EditProduct(data:any) {
                         ]}
                         onChange={(e) => {
                           setDatas({ ...datas, gender: e });
-                          console.log(e, 'tes');
                         }}
                       />
                     </Form.Item>
@@ -662,63 +716,63 @@ function EditProduct(data:any) {
                     )}
                     {selectedOption?.value === 'campur' && (
                       <>
-                      <div className='flex gap-5'>
-                        <div className='w-1/2 my-4'>
-                          <p className='mb-4 text-teks text-2xl font-bold'>
-                            Harga Perhari
-                          </p>
-                          <div>
-                            <Form.Item
-                              name='daily_price'
-                              rules={[
-                                {
-                                  required: true,
-                                  message: 'Harap masukan harga produk!',
-                                },
-                              ]}
-                            >
-                              <InputNumber
-                                style={{ width: '100%' }}
-                                size='small'
-                                defaultValue={1000}
-                                placeholder='Masukan harga'
-                                prefix='Rp.'
-                                min={1000}
-                                className=' p-[10px] rounded-[10px] border border-rstroke regis text-xl items-center'
-                                value={hargaPerHari}
-                                onChange={handleHargaPerHariChange}
-                              />
-                            </Form.Item>
+                        <div className='flex gap-5'>
+                          <div className='w-1/2 my-4'>
+                            <p className='mb-4 text-teks text-2xl font-bold'>
+                              Harga Perhari
+                            </p>
+                            <div>
+                              <Form.Item
+                                name='daily_price'
+                                rules={[
+                                  {
+                                    required: true,
+                                    message: 'Harap masukan harga produk!',
+                                  },
+                                ]}
+                              >
+                                <InputNumber
+                                  style={{ width: '100%' }}
+                                  size='small'
+                                  defaultValue={1000}
+                                  placeholder='Masukan harga'
+                                  prefix='Rp.'
+                                  min={1000}
+                                  className=' p-[10px] rounded-[10px] border border-rstroke regis text-xl items-center'
+                                  value={hargaPerHari}
+                                  onChange={handleHargaPerHariChange}
+                                />
+                              </Form.Item>
+                            </div>
                           </div>
-                        </div>
-                        <div className='w-1/2 my-4'>
-                          <p className='mb-4 text-teks text-2xl font-bold'>
-                            Harga Perbulan
-                          </p>
-                          <div>
-                            <Form.Item
-                              name='monthly_price'
-                              rules={[
-                                {
-                                  required: true,
-                                  message: 'Harap masukan harga produk!',
-                                },
-                              ]}
-                            >
-                              <InputNumber
-                                style={{ width: '100%' }}
-                                size='small'
-                                defaultValue={1000}
-                                placeholder='Masukan harga'
-                                prefix='Rp.'
-                                min={1000}
-                                className=' p-[10px] rounded-[10px] border border-rstroke regis text-xl items-center'
-                                value={hargaPerBulan}
-                                onChange={handleHargaPerBulanChange}
-                              />
-                            </Form.Item>
+                          <div className='w-1/2 my-4'>
+                            <p className='mb-4 text-teks text-2xl font-bold'>
+                              Harga Perbulan
+                            </p>
+                            <div>
+                              <Form.Item
+                                name='monthly_price'
+                                rules={[
+                                  {
+                                    required: true,
+                                    message: 'Harap masukan harga produk!',
+                                  },
+                                ]}
+                              >
+                                <InputNumber
+                                  style={{ width: '100%' }}
+                                  size='small'
+                                  defaultValue={1000}
+                                  placeholder='Masukan harga'
+                                  prefix='Rp.'
+                                  min={1000}
+                                  className=' p-[10px] rounded-[10px] border border-rstroke regis text-xl items-center'
+                                  value={hargaPerBulan}
+                                  onChange={handleHargaPerBulanChange}
+                                />
+                              </Form.Item>
+                            </div>
                           </div>
-                        </div>
                         </div>
                       </>
                     )}
