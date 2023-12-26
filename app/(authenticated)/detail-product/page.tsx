@@ -4,6 +4,7 @@ import Button from '#/components/Button';
 import ListReview from '#/components/List-Review';
 import Photo from '#/components/Photo';
 import { GMAPS } from '#/constants/images';
+import { parseJwt } from '#/utils/convert';
 import {
   ArrowLeftOutlined,
   CommentOutlined,
@@ -15,18 +16,30 @@ import {
 } from '@ant-design/icons';
 import { Icon } from '@iconify/react';
 import { Carousel, DatePicker, Form, Radio } from 'antd';
-import React, { useState } from 'react';
-
-// const contentStyle: React.CSSProperties = {
-//   margin: 0,
-//   height: '351px',
-//   color: '#fff',
-//   lineHeight: '160px',
-//   textAlign: 'center',
-//   background: '#364d79',
-// };
+import dayjs from 'dayjs';
+import moment from 'moment';
+import { useRouter } from 'next/navigation';
+import React, { useEffect, useState } from 'react';
 
 function DetailProduct() {
+  useEffect(() => {
+    document.title = 'Detail Product';
+  }, []);
+  const router = useRouter();
+
+  const token = localStorage.getItem('access_token');
+  let role: string = '';
+
+  if (token) {
+    role = parseJwt(token).role;
+  }
+  if (!token) {
+    router.push('/');
+  }
+  if (role == 'admin'){
+    router.push('/adm/dashboard')
+  }
+
   const { RangePicker } = DatePicker;
 
   const onChange = (currentSlide: number) => {
@@ -43,8 +56,10 @@ function DetailProduct() {
       photo1: 'assets/images/Hotel.png',
       photo2: 'assets/images/Gedung.png',
       photo3: 'assets/images/Kost.png',
-      ReviewPenyewa: 'Di sekitar kost banyak resto dan coffe shop. Pemiliknya baik, tempatnya juga nyaman dan bersih',
-      BalasanReview: 'Halo, Kak Clara. Terima kasih atas reviewny dan ratingnya.',
+      ReviewPenyewa:
+        'Di sekitar kost banyak resto dan coffe shop. Pemiliknya baik, tempatnya juga nyaman dan bersih',
+      BalasanReview:
+        'Halo, Kak Clara. Terima kasih atas reviewny dan ratingnya.',
     },
     {
       id: '2',
@@ -53,8 +68,10 @@ function DetailProduct() {
       photo1: 'assets/images/Hotel.png',
       photo2: 'assets/images/Gedung.png',
       photo3: 'assets/images/Kost.png',
-      ReviewPenyewa: 'Di sekitar kost banyak resto dan coffe shop. Pemiliknya baik, tempatnya juga nyaman dan bersih',
-      BalasanReview: 'Halo, Kak Clara. Terima kasih atas reviewny dan ratingnya.',
+      ReviewPenyewa:
+        'Di sekitar kost banyak resto dan coffe shop. Pemiliknya baik, tempatnya juga nyaman dan bersih',
+      BalasanReview:
+        'Halo, Kak Clara. Terima kasih atas reviewny dan ratingnya.',
     },
     {
       id: '3',
@@ -63,8 +80,10 @@ function DetailProduct() {
       photo1: 'assets/images/Hotel.png',
       photo2: 'assets/images/Gedung.png',
       photo3: 'assets/images/Kost.png',
-      ReviewPenyewa: 'Di sekitar kost banyak resto dan coffe shop. Pemiliknya baik, tempatnya juga nyaman dan bersih',
-      BalasanReview: 'Halo, Kak Clara. Terima kasih atas reviewny dan ratingnya.',
+      ReviewPenyewa:
+        'Di sekitar kost banyak resto dan coffe shop. Pemiliknya baik, tempatnya juga nyaman dan bersih',
+      BalasanReview:
+        'Halo, Kak Clara. Terima kasih atas reviewny dan ratingnya.',
     },
     {
       id: '4',
@@ -73,14 +92,16 @@ function DetailProduct() {
       photo1: 'assets/images/Hotel.png',
       photo2: 'assets/images/Gedung.png',
       photo3: 'assets/images/Kost.png',
-      ReviewPenyewa: 'Di sekitar kost banyak resto dan coffe shop. Pemiliknya baik, tempatnya juga nyaman dan bersih',
-      BalasanReview: 'Halo, Kak Clara. Terima kasih atas reviewny dan ratingnya.',
+      ReviewPenyewa:
+        'Di sekitar kost banyak resto dan coffe shop. Pemiliknya baik, tempatnya juga nyaman dan bersih',
+      BalasanReview:
+        'Halo, Kak Clara. Terima kasih atas reviewny dan ratingnya.',
     },
   ];
 
   const limitedReviews = showAllReviews ? reviews : reviews.slice(0, 3);
 
-  const today = new Date();
+  const [defaultStartDate, setDefaultStartDate] = useState(dayjs());
   return (
     <div>
       <div className='w-full grid gap-y-[20px] grid-cols-1'>
@@ -138,58 +159,61 @@ function DetailProduct() {
             <div className='grid gap-y-3 grid-cols-1 pb-[30px] border-b border-slate-300'>
               <div className='font-semibold text-3xl'>Fasilitas</div>
               <div className='text-xl leading-normal text-rstroke'>
-                Terdapat AC, Meja, Kursi, Cermin, Kasur, Lemari Baju, Bantal, Guling, Kamar Mandi Dalam, Shower, Kloset Duduk, dan Air Panas
+                Terdapat AC, Meja, Kursi, Cermin, Kasur, Lemari Baju, Bantal,
+                Guling, Kamar Mandi Dalam, Shower, Kloset Duduk, dan Air Panas
               </div>
             </div>
             <div className='grid gap-y-3 grid-cols-1 pb-[30px] border-b border-slate-300'>
               <div className='font-semibold text-3xl'>Peraturan</div>
               <div className='text-xl leading-normal text-rstroke'>
-                Maks. 2 orang/ kamar, Dilarang merokok di kamar, Kamar hanya bagi penyewa, Ada jam malam
+                Maks. 2 orang/ kamar, Dilarang merokok di kamar, Kamar hanya
+                bagi penyewa, Ada jam malam
               </div>
             </div>
             <div className='grid gap-y-3 grid-cols-1 pb-[30px] border-b border-slate-300'>
               <div className='font-semibold text-3xl'>Deskripsi Product</div>
               <div className='text-xl leading-normal text-rstroke'>
-                Kost ini terdiri dari 2 lantai. Tipe kamar A berada di lantai 2 dengan jendela menghadap ke arah koridor.
-                Terdapat layanan pembersihan AC secara rutin setiap 3 bulan sekali. Apabila Anda membutuhkan bantuan, Anda dapat menghubungi penjaga yang bertugas dari pukul 09.00-17.00 WIB.
-                Daya listrik : 900 VA (Token)
-                Sumber air : Sumur
-                Wifi : Indihome up to 60 Mbps
-                Kapasitas parkir : 6 motor dan 2 sepeda
-                Bisa BERDUA +400 Ribu
+                Kost ini terdiri dari 2 lantai. Tipe kamar A berada di lantai 2
+                dengan jendela menghadap ke arah koridor. Terdapat layanan
+                pembersihan AC secara rutin setiap 3 bulan sekali. Apabila Anda
+                membutuhkan bantuan, Anda dapat menghubungi penjaga yang
+                bertugas dari pukul 09.00-17.00 WIB. Daya listrik : 900 VA
+                (Token) Sumber air : Sumur Wifi : Indihome up to 60 Mbps
+                Kapasitas parkir : 6 motor dan 2 sepeda Bisa BERDUA +400 Ribu
               </div>
             </div>
             <div className='grid gap-y-3 grid-cols-1 pb-[30px] border-b border-slate-300'>
               <div className='font-semibold text-3xl'>Lokasi</div>
               <div className='relative overflow-hidden brightness-100 '>
                 <GMAPS />
-                <div className="absolute inset-0 border-4 border-white "></div>
+                <div className='absolute inset-0 border-4 border-white '></div>
                 <div className='absolute top-[40%] left-[40%] font-bold'>
-                  <Button href="#" className="px-5 bg-transparent !border !border-white hover:bg-white hover:!text-rstroke">
+                  <Button
+                    href='https://maps.app.goo.gl/C8vrhHjQdkye7SDp8?g_st=ic '
+                    className='px-5 bg-transparent !border !border-white hover:bg-white hover:!text-rstroke'
+                  >
                     Lihat Peta
                   </Button>
                 </div>
               </div>
             </div>
-            {/* kasih kondisi jika renter akan tampil di bawah ini */}
-
-            {/* <div className='grid gap-y-3 grid-cols-1 pb-[30px] border-b border-slate-300'>
-              <div className='text-xl flex gap-5 items-center'>
-                <div>
-                  <Photo />
-                </div>
-                <div className='w-full grid gap-y-1 grid-cols-1'>
-                  <p className='font-semibold'>M Danar Kahfi</p>
-                  <p className='text-lg text-rstroke'>Pemilik Kost</p>
-                </div>
-                <div className='w-full flex justify-end items-center gap-x-2'>
-                  <ReconciliationFilled className='text-primary text-[26px]' />
-                  <p className='text-xl'>
-                    31 transaksi berhasil
-                  </p>
+            {role == 'renter' && (
+              <div className='grid gap-y-3 grid-cols-1 pb-[30px] border-b border-slate-300'>
+                <div className='text-xl flex gap-5 items-center'>
+                  <div>
+                    <Photo />
+                  </div>
+                  <div className='w-full grid gap-y-1 grid-cols-1'>
+                    <p className='font-semibold'>M Danar Kahfi</p>
+                    <p className='text-lg text-rstroke'>Pemilik Kost</p>
+                  </div>
+                  <div className='w-full flex justify-end items-center gap-x-2'>
+                    <ReconciliationFilled className='text-primary text-[26px]' />
+                    <p className='text-xl'>31 transaksi berhasil</p>
+                  </div>
                 </div>
               </div>
-            </div> */}
+            )}
             <div className='grid gap-y-6 grid-cols-1 pb-[30px] border-b border-slate-300'>
               <div className='font-semibold text-3xl flex items-center gap-4'>
                 <StarFilled className='text-[#FFCC00] text-[50px]' />
@@ -213,7 +237,7 @@ function DetailProduct() {
               {!showAllReviews && reviews.length > 3 && (
                 <Button
                   onClick={() => setShowAllReviews(true)}
-                  className="w-fit px-7 hover:bg-transparent !text-rstroke text-xl font-bold border border-rstroke bg-transparent cursor-pointer"
+                  className='w-fit px-7 hover:bg-transparent !text-rstroke text-xl font-bold border border-rstroke bg-transparent cursor-pointer'
                 >
                   Lihat semua review
                 </Button>
@@ -240,9 +264,7 @@ function DetailProduct() {
               </div>
               <div className='flex items-center gap-x-2'>
                 <ReconciliationFilled className='text-rstroke text-[26px]' />
-                <p className='text-xl'>
-                  31 transaksi berhasil
-                </p>
+                <p className='text-xl'>31 transaksi berhasil</p>
               </div>
             </div>
             <div className='flex items-center gap-x-2 text-rstroke'>
@@ -256,85 +278,114 @@ function DetailProduct() {
                   sisa <span className='font-bold'>2</span> kamar
                 </p>
               </div>
-              <div className='rounded-[10px] flex items-center h-12 gap-x-2 px-3 border border-rstroke text-rstroke text-xl cursor-default'>
-                <HeartOutlined />
-                <p className='font-semibold'>Simpan</p>
-              </div>
+              {role == 'renter' && (
+                <div className='rounded-[10px] flex items-center h-12 gap-x-2 px-3 border border-rstroke text-rstroke text-xl cursor-default'>
+                  <HeartOutlined />
+                  <p className='font-semibold'>Simpan</p>
+                </div>
+              )}
             </div>
           </div>
-          {/* <div className='rounded-[10px] bg-white h-[212px] p-[15px] sticky top-5' style={{ boxShadow: '0 -2px 40px rgba(0,0,0,.04), 0 16px 40px rgba(0,0,0,.06)' }}>
-            <div className='text-xl font-bold bg-primary rounded-[10px] px-5 py-2.5 flex items-center mb-[30px] text-white w-full justify-center'>
-              Harga Produk
-            </div>
-            <div className='grid gap-y-5 grid-cols-1'>
-              <div className='flex text-3xl justify-between'>
-                <div>Bulan Pertama :</div>
-                <div className='font-bold'> Rp. 600.000.000</div>
+          {role == 'owner' && (
+            <div
+              className='rounded-[10px] bg-white h-[212px] p-[15px] sticky top-5'
+              style={{
+                boxShadow:
+                  '0 -2px 40px rgba(0,0,0,.04), 0 16px 40px rgba(0,0,0,.06)',
+              }}
+            >
+              <div className='text-xl font-bold bg-primary rounded-[10px] px-5 py-2.5 flex items-center mb-[30px] text-white w-full justify-center'>
+                Harga Produk
               </div>
-              <div className='flex text-3xl justify-between'>
-                <div>Hari Pertama :</div>
-                <div className='font-bold'> Rp. 600.000.000</div>
-              </div>
-            </div>
-          </div> */}
-
-          {/* untuk renter */}
-          <div className='rounded-[10px] bg-white h-fit p-[15px] sticky top-5' style={{ boxShadow: '0 -2px 40px rgba(0,0,0,.04), 0 16px 40px rgba(0,0,0,.06)' }}>
-            <Form className="detail-product">
               <div className='grid gap-y-5 grid-cols-1'>
-                <div className='flex text-3xl gap-x-3 items-center'>
+                <div className='flex text-3xl justify-between'>
+                  <div>Bulan Pertama :</div>
                   <div className='font-bold'> Rp. 600.000.000</div>
-                  <div>(Bulan Pertama)</div>
                 </div>
-                <div className='w-full flex justify-center'>
-                  <Radio.Group defaultValue="perhari" size="large" buttonStyle="solid" className='font-bold border-2 border-primary rounded-[11px]'>
-                    <Radio.Button value="perhari" className='px-6'>Perhari</Radio.Button>
-                    <Radio.Button value="perbulan">Perbulan</Radio.Button>
-                  </Radio.Group>
+                <div className='flex text-3xl justify-between'>
+                  <div>Hari Pertama :</div>
+                  <div className='font-bold'> Rp. 600.000.000</div>
                 </div>
-                <div className='grid gap-y-4 grid-cols-1'>
-                  <div className='w-full'>
-                    <Form.Item
-                      name='lease_start'
-                      rules={[
-                        {
-                          required: true,
-                          message: 'Harap masukan tanggal lahir anda!',
-                        },
-                      ]}
+              </div>
+            </div>
+          )}
+          {role == 'renter' && (
+            <div
+              className='rounded-[10px] bg-white h-fit p-[15px] sticky top-5'
+              style={{
+                boxShadow:
+                  '0 -2px 40px rgba(0,0,0,.04), 0 16px 40px rgba(0,0,0,.06)',
+              }}
+            >
+              <Form className='detail-product'>
+                <div className='grid gap-y-5 grid-cols-1'>
+                  <div className='flex text-3xl gap-x-3 items-center'>
+                    <div className='font-bold'> Rp. 600.000.000</div>
+                    <div>(Bulan Pertama)</div>
+                  </div>
+                  <div className='w-full flex justify-center'>
+                    <Radio.Group
+                      defaultValue='perhari'
+                      size='large'
+                      buttonStyle='solid'
+                      className='font-bold border-2 border-primary rounded-[11px]'
                     >
-                      <RangePicker
-                        // onChange={(e: any) => {
-                        //   setData({ ...data, birth_date: e?.$d.toString() });
-                        // }}
-                        // download module moment ya
-                        // defaultValue={[moment(today), null]}
-                        placeholder={['Tanggal Awal Sewa', 'Tanggal Akhir Sewa']}
-                        className='w-full regis'
-                      />
+                      <Radio.Button value='perhari' className='px-6'>
+                        Perhari
+                      </Radio.Button>
+                      <Radio.Button value='perbulan'>Perbulan</Radio.Button>
+                    </Radio.Group>
+                  </div>
+                  <div className='grid gap-y-4 grid-cols-1'>
+                    <div className='w-full'>
+                      <Form.Item
+                      //nanti di onfinish panggil name dan isi [lease_date.0, lease_date.1]
+                        name='lease_date'
+                        rules={[
+                          {
+                            required: true,
+                            message: 'Harap masukan tanggal lahir anda!',
+                          },
+                        ]}
+                      >
+                        <RangePicker
+                          defaultValue={[defaultStartDate, null]}
+                          placeholder={[
+                            'Tanggal Awal Sewa',
+                            'Tanggal Akhir Sewa',
+                          ]}
+                          className='w-full regis'
+                          onChange={(e: any) => {
+                            // setData({ ...data, birth_date: e?.$d.toString() });
+                            console.log(e)
+                          }}
+                        />
+                      </Form.Item>
+                    </div>
+                  </div>
+                  <div>
+                    <Button className='!mt-0 !bg-transparent !border-2 !border-primary !text-primary !font-bold !text-xl !flex !items-center hover:!bg-primary hover:!text-white'>
+                      <div className='flex items-center'>
+                        <CommentOutlined className='text-3xl font-bold mr-3' />
+                        Tanya Pemilik
+                      </div>
+                    </Button>
+                  </div>
+                  <div>
+                    <Form.Item>
+                      <Button
+                        type='primary'
+                        htmlType='submit'
+                        className='!mt-0 !font-bold !text-2xl !py-3'
+                      >
+                        Ajukan Sewa
+                      </Button>
                     </Form.Item>
                   </div>
                 </div>
-                <div>
-                  <Button className="!mt-0 !bg-transparent !border-2 !border-primary !text-primary !font-bold !text-xl !flex !items-center hover:!bg-primary hover:!text-white">
-                    <div className='flex items-center'>
-                      <CommentOutlined className='text-3xl font-bold mr-3' />
-                      Tanya Pemilik
-                    </div>
-                  </Button>
-                </div>
-                <div>
-                  <Form.Item>
-                    <Button
-                      type='primary'
-                      htmlType='submit' className="!mt-0 !font-bold !text-2xl !py-3">
-                      Ajukan Sewa
-                    </Button>
-                  </Form.Item>
-                </div>
-              </div>
-            </Form>
-          </div>
+              </Form>
+            </div>
+          )}
         </div>
       </div>
     </div>

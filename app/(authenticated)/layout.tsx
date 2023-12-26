@@ -45,8 +45,8 @@ const AuthenticatedLayout: React.FC<AuthenticatedLayoutProps> = ({
 
   const cruProduk =
     window.location.pathname.includes('/create-product') ||
-    window.location.pathname.includes('/edit-product');
-    // window.location.pathname.includes('/detail-product');
+    window.location.pathname.includes('/edit-product') ||
+    window.location.pathname.includes('/detail-product');
 
   const {
     token: { colorBgContainer },

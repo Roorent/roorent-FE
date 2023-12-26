@@ -690,7 +690,7 @@ function CreateProduct() {
                     )}
                     {selectedOption?.value === 'campur' && (
                       <>
-                      <div className='flex gap-5'>
+                      <div className='flex gap-[70px]'>
                         <div className='w-1/2 my-4'>
                           <p className='mb-4 text-teks text-2xl font-bold'>
                             Harga Perhari
