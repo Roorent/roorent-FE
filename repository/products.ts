@@ -8,6 +8,9 @@ const url = {
   getListProductByOwner(id: string, type?: string) {
     return `/products/find-owner/${id}?type=${type}`;
   },
+  getProductById(id: string) {
+    return `/products/${id}`;
+  },
   deleteProductById(id: string) {
     return `/products/${id}`;
   },
@@ -28,16 +31,14 @@ const manipulatedata = {
   deleteProducts(id: string) {
     return http.del(url.deleteProductById(id)).send(id);
   },
-  // updatePhoto(data: any) {
-  //   const formData = new FormData();
-  //   formData.append('photo-products', data);
-  //   return http.put(url.uploadProduct()).send(formData);
-  // },
 };
 
 const hooks = {
   getListProductByOwner(id: string, type?: string) {
     return useSWR(url.getListProductByOwner(id, type), http.fetcher);
+  },
+  getProductById(id: string) {
+    return useSWR(url.getProductById(id), http.fetcher);
   },
 };
 

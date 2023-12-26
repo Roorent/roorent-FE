@@ -6,6 +6,9 @@ import { Icon } from '@iconify/react';
 import { config } from '#/config/app';
 
 function CardProduk({ image, label, title, idProducts }: any) {
+  const imgProduct = (img: string) =>
+    `${config.baseUrl}/images/photo-products/${img}`;
+
   return (
     <div>
       <div className='p-7 rounded-[10px] border border-[#858585]'>
@@ -13,7 +16,7 @@ function CardProduk({ image, label, title, idProducts }: any) {
           <div className='flex gap-x-5 grid-cols-2 border-b border-slate-200 pb-5'>
             <div className='w-1/2 h-[180px]'>
               <img
-                src={`${config.baseUrl}/products/images/${image}`}
+                src={`${imgProduct(image)}`}
                 alt='produk'
                 className='object-cover object-center w-full h-full rounded-xl'
               />
@@ -37,7 +40,7 @@ function CardProduk({ image, label, title, idProducts }: any) {
               <Button
                 type='primary'
                 htmlType='submit'
-                href='/detail-product'
+                href={`/detail-product?id=${idProducts}`}
                 className='lihat-detail hover:!bg-primary hover:!text-white !text-primary bg-transparent rounded-[10px] text-base font-bold py-3 px-2 border-2 border-primary w-[140px] h-max !mt-0'
               >
                 Lihat Detail

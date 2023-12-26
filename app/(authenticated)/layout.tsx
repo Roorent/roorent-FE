@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import { isRole } from '#/constants/general';
 import type { MenuProps } from 'antd';
 import { Layout, Menu, theme } from 'antd';
 import { usePathname, useRouter } from 'next/navigation';
@@ -45,7 +46,9 @@ const AuthenticatedLayout: React.FC<AuthenticatedLayoutProps> = ({
   const pathname = usePathname();
 
   const cruProduk =
-    pathname === '/create-product' || pathname === '/edit-product' || pathname === '/detail-product';
+    pathname === '/create-product' ||
+    pathname === '/edit-product' ||
+    pathname === '/detail-product';
 
   const {
     token: { colorBgContainer },
@@ -54,10 +57,12 @@ const AuthenticatedLayout: React.FC<AuthenticatedLayoutProps> = ({
   const token = localStorage.getItem('access_token');
   let role: string = '';
   let firstName: string = '';
+  let photo: string = '';
 
   if (token) {
     role = parseJwt(token).role;
     firstName = parseJwt(token).firstname;
+    photo = parseJwt(token).photo;
   }
   if (!token) {
     router.push('/');
@@ -172,7 +177,7 @@ const AuthenticatedLayout: React.FC<AuthenticatedLayoutProps> = ({
 
   return (
     <Layout style={{ height: '100%' }}>
-      {role !== 'renter' && (
+      {role !== isRole.renter && (
         <>
           {cruProduk ? (
             <></>
@@ -187,7 +192,7 @@ const AuthenticatedLayout: React.FC<AuthenticatedLayoutProps> = ({
                   <LOGO className='w-[160px]' />
                 </a>
               </div>
-              {role == 'admin' ? (
+              {role === isRole.admin ? (
                 <Menu
                   onClick={onClickAdmin}
                   mode='inline'
@@ -220,7 +225,7 @@ const AuthenticatedLayout: React.FC<AuthenticatedLayoutProps> = ({
         </>
       )}
       <Layout>
-        {role !== 'renter' ? (
+        {role !== isRole.renter ? (
           <>
             {!cruProduk ? (
               <Header style={{ background: colorBgContainer }}>
@@ -233,7 +238,7 @@ const AuthenticatedLayout: React.FC<AuthenticatedLayoutProps> = ({
                   }
                 >
                   <div className='flex gap-6 items-center'>
-                    {role == 'admin' ? (
+                    {role === isRole.admin ? (
                       <>
                         <Notifications />
                       </>
@@ -248,7 +253,7 @@ const AuthenticatedLayout: React.FC<AuthenticatedLayoutProps> = ({
                     <p className='text-xl font-bold flex w-max justify-end'>
                       Halo, {firstName}
                     </p>
-                    <Photo />
+                    <Photo src={photo} />
                   </div>
                 </Menu>
               </Header>
@@ -266,7 +271,7 @@ const AuthenticatedLayout: React.FC<AuthenticatedLayoutProps> = ({
                     <LOGO className='w-[160px]' />
                   </div>
                   <div className='flex gap-6 items-center'>
-                    {role == 'admin' ? (
+                    {role === isRole.admin ? (
                       <>
                         <Notifications />
                       </>
@@ -281,7 +286,7 @@ const AuthenticatedLayout: React.FC<AuthenticatedLayoutProps> = ({
                     <p className='text-xl font-bold flex w-max justify-end'>
                       Halo, {firstName}
                     </p>
-                    <Photo />
+                    <Photo src={photo} />
                   </div>
                 </Menu>
               </Header>
@@ -310,7 +315,7 @@ const AuthenticatedLayout: React.FC<AuthenticatedLayoutProps> = ({
                   <p className='text-xl font-bold flex w-max justify-end'>
                     Halo, {firstName}
                   </p>
-                  <Photo />
+                  <Photo src={photo} />
                   <div
                     onClick={handleLogout}
                     className='bg-primary rounded-lg p-4'
@@ -322,7 +327,7 @@ const AuthenticatedLayout: React.FC<AuthenticatedLayoutProps> = ({
             </Header>
           </>
         )}
-        {role !== 'renter' ? (
+        {role !== isRole.renter ? (
           <>
             {cruProduk ? (
               <Content
