@@ -8,6 +8,9 @@ const url = {
   getListProductByOwner(id: string, type?: string) {
     return `/products/find-owner/${id}?type=${type}`;
   },
+  getProductById(id: string) {
+    return `/products/${id}`;
+  },
   deleteProductById(id: string) {
     return `/products/${id}`;
   },
@@ -31,11 +34,6 @@ const manipulatedata = {
   deleteProducts(id: string) {
     return http.del(url.deleteProductById(id)).send(id);
   },
-  // updatePhoto(data: any) {
-  //   const formData = new FormData();
-  //   formData.append('photo-products', data);
-  //   return http.put(url.uploadProduct()).send(formData);
-  // },
 };
 
 const hooks = {
