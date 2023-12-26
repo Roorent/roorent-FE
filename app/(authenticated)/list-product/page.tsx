@@ -56,7 +56,7 @@ function ListProduct() {
           data?.data?.map((product: any) => (
             <div key={product.id}>
               <CardProduk
-                idProducts={product.id}
+              idProducts= {product.id}
                 image={product.photo}
                 label={product.type}
                 title={product.name}

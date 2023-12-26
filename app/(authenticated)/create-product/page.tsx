@@ -103,9 +103,9 @@ function CreateProduct() {
           </div>
         ),
       });
-      router.push('/list-product');      
+      setTimeout(() => router.push('/list-product'), 3000);      
     } catch (err:any) {
-      message.error(err.response.body?.error);
+      message.error('Gagal membuat produk');
     }
   };
 

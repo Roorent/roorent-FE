@@ -50,8 +50,8 @@ function CardProduk({ image, label, title, idProducts }: any) {
               <Button
                 type='primary'
                 htmlType='submit'
-                href='/edit-product'
-                className='w-1/2 hover:text-white hover:!bg-[#7291F5] bg-primary rounded-[10px] text-base font-bold py-3 h-max !mt-0'
+                href= {`/edit-product?id=${idProducts}`}
+                className=' hover:text-white hover:!bg-[#7291F5] bg-primary rounded-[10px] text-base font-bold py-3 h-max !mt-0'
               >
                 Edit
               </Button>
