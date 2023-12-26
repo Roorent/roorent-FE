@@ -3,6 +3,7 @@ import Button from '../Button';
 import ModalDelete from '../Modal/modalDelete';
 import { HomeFilled, QuestionCircleFilled } from '@ant-design/icons';
 import { Icon } from '@iconify/react';
+import { config } from '#/config/app';
 
 function CardProduk({ image, label, title, idProducts }: any) {
   return (
@@ -12,7 +13,7 @@ function CardProduk({ image, label, title, idProducts }: any) {
           <div className='flex gap-x-5 grid-cols-2 border-b border-slate-200 pb-5'>
             <div className='w-1/2 h-[180px]'>
               <img
-                src={`${process.env.NEXT_PUBLIC_BASE_URL}/products/images/${image}`}
+                src={`${config.baseUrl}/products/images/${image}`}
                 alt='produk'
                 className='object-cover object-center w-full h-full rounded-xl'
               />
@@ -53,7 +54,7 @@ function CardProduk({ image, label, title, idProducts }: any) {
               </Button>
               <div className='w-1/2 modal-hapus h-max'>
                 <ModalDelete
-                  id= {idProducts}
+                  id={idProducts}
                   title='Hapus Produk'
                   content='Apakah anda yakin ingin hapus ?'
                   icon={<QuestionCircleFilled />}

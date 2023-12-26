@@ -8,10 +8,12 @@ import { productsRepository } from '#/repository/products';
 import { parseJwt } from '#/utils/convert';
 
 function ListProduct() {
-  
+  const [filterType, setFilterType] = useState('semua');
+
   useEffect(() => {
     document.title = 'List Product';
   }, []);
+
   const token = localStorage.getItem('access_token');
   let id: string = '';
 
@@ -20,13 +22,11 @@ function ListProduct() {
   }
 
   const handleChange = (value: string) => {
-    console.log(`selected ${value}`);
+    setFilterType(value);
   };
 
   const { data, error, isLoading } =
-  productsRepository.hooks.getListProductByOwner(id);
-
-  const [filterType, setFilterType] = useState(null);
+    productsRepository.hooks.getListProductByOwner(id, filterType);
 
   return (
     <div>
@@ -66,7 +66,7 @@ function ListProduct() {
           data?.data?.map((product: any) => (
             <div key={product.id}>
               <CardProduk
-              idProducts= {product.id}
+                idProducts={product.id}
                 image={product.photo}
                 label={product.type}
                 title={product.name}
