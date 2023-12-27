@@ -10,7 +10,7 @@ import React from 'react';
 
 function Footer() {
   return (
-    <div className='h-[300px] items-center flex justify-between border-t border-primary  mt-[100px]'>
+    <div className='h-[300px] items-center flex justify-between border-t border-slate-200  mt-[100px]'>
       <div className='w-full px-[190px] items-center flex justify-between'>
         <div className='w-[288px] grid gap-y-[15px] grid-cols-1'>
           <div>

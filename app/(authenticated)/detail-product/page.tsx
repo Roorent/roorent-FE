@@ -121,7 +121,7 @@ function DetailProduct() {
   const limitedReviews = showAllReviews ? reviews : reviews.slice(0, 3);
 
   return (
-    <div>
+    <div className='w-full'>
       <div className='w-full grid gap-y-[20px] grid-cols-1'>
         <a
           href='/list-product'

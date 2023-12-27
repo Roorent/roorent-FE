@@ -46,9 +46,7 @@ const AuthenticatedLayout: React.FC<AuthenticatedLayoutProps> = ({
   const pathname = usePathname();
 
   const cruProduk =
-    pathname === '/create-product' ||
-    pathname === '/edit-product' ||
-    pathname === '/detail-product';
+    pathname === '/create-product' || pathname === '/edit-product' || pathname === '/detail-product' || pathname === '/payment';
 
   const {
     token: { colorBgContainer },
@@ -264,7 +262,7 @@ const AuthenticatedLayout: React.FC<AuthenticatedLayoutProps> = ({
                   defaultSelectedKeys={[]}
                   style={{ borderBottomWidth: '2px' }}
                   className={
-                    'absolute border-slate-200 flex justify-start py-[12px] px-[120px] gap-10 w-full items-center'
+                    'absolute border-slate-200 flex justify-start py-[12px] px-[120px] gap-10 w-full -ml-14 items-center'
                   }
                 >
                   <div className='w-full'>
