@@ -80,14 +80,14 @@ function EditProduct() {
         monthly_price: data?.data?.monthly_price,
         address: data?.data?.address,
         location: data?.data?.location,
-        specifications: data?.data?.productDescriptions?.specifications,
-        facilities: data?.data?.productDescriptions?.facilities,
-        note: data?.data?.productDescriptions?.note,
-        gender: data?.data?.specialRules?.gender,
-        notes: data?.data?.specialRules?.notes,
+        specifications: data?.data?.specifications,
+        facilities: data?.data?.facilities,
+        note: data?.data?.note,
+        gender: data?.data?.sr_gender,
+        notes: data?.data?.sr_notes,
       });
       setPhotoProducts(
-        data?.data?.photoProducts.map((item: any) => item.photo)
+        data?.data?.photoProducts?.map((item: any) => item.photo)
       );
       form.setFieldsValue({
         name: data?.data?.name,
@@ -98,11 +98,11 @@ function EditProduct() {
         address: data?.data?.address,
         location: data?.data?.location,
         photo: data?.data?.photo,
-        specifications: data?.data?.productDescriptions?.specifications,
-        facilities: data?.data?.productDescriptions?.facilities,
-        note: data?.data?.productDescriptions?.note,
-        gender: data?.data?.specialRules?.gender,
-        notes: data?.data?.specialRules?.notes,
+        specifications: data?.data?.specifications,
+        facilities: data?.data?.facilities,
+        note: data?.data?.note,
+        gender:data?.data?.sr_gender,
+        notes: data?.data?.sr_notes,
       });
       setFileList(
         data?.data?.photoProducts?.map((item: any) => {
@@ -114,6 +114,8 @@ function EditProduct() {
       );
     }
   }, [isLoading]);
+
+  console.log(data?.data?.photo)
 
   const onFinish = async () => {
     const dataProducts = {
@@ -353,7 +355,7 @@ function EditProduct() {
                       beforeUpload={beforeUpload}
                       onChange={handleUploadPhoto}
                     >
-                      {fileList.length >= 10 ? null : uploadButton}
+                      {fileList && fileList.length >= 10 ? null : uploadButton}
                     </Upload>
                     <Modal
                       open={previewOpen}
