@@ -65,9 +65,9 @@ function EditProduct() {
     location: '',
     specifications: '',
     facilities: '',
-    note: '',
+    descriptions: '',
     gender: 'campur',
-    notes: '',
+    rules: '',
   });
 
   useEffect(() => {
@@ -82,9 +82,9 @@ function EditProduct() {
         location: data?.data?.location,
         specifications: data?.data?.specifications,
         facilities: data?.data?.facilities,
-        note: data?.data?.note,
+        descriptions: data?.data?.descriptions,
         gender: data?.data?.sr_gender,
-        notes: data?.data?.sr_notes,
+        rules: data?.data?.sr_rules,
       });
       setPhotoProducts(
         data?.data?.photoProducts?.map((item: any) => item.photo)
@@ -100,9 +100,9 @@ function EditProduct() {
         photo: data?.data?.photo,
         specifications: data?.data?.specifications,
         facilities: data?.data?.facilities,
-        note: data?.data?.note,
+        descriptions: data?.data?.descriptions,
         gender:data?.data?.sr_gender,
-        notes: data?.data?.sr_notes,
+        rules: data?.data?.sr_rules,
       });
       setFileList(
         data?.data?.photoProducts?.map((item: any) => {
@@ -129,9 +129,9 @@ function EditProduct() {
       photo: photoProductsArray,
       specifications: datas?.specifications,
       facilities: datas?.facilities,
-      note: datas?.note,
+      descriptions: datas?.descriptions,
       gender: datas?.gender,
-      notes: datas?.notes,
+      rules: datas?.rules,
     };
 
     await productsRepository.manipulatedata.updateProducts(
@@ -521,7 +521,7 @@ function EditProduct() {
                 </p>
                 <div className='textarea-produk'>
                   <Form.Item
-                    name='note'
+                    name='descriptions'
                     rules={[
                       {
                         required: true,
@@ -539,7 +539,7 @@ function EditProduct() {
                         fontSize: '20px',
                       }}
                       onChange={(e) => {
-                        setDatas({ ...datas, note: e.target.value });
+                        setDatas({ ...datas, descriptions: e.target.value });
                       }}
                     />
                   </Form.Item>
@@ -602,7 +602,7 @@ function EditProduct() {
                 <p className='mb-4 text-teks text-2xl font-bold'>Peraturan</p>
                 <div className='textarea-produk'>
                   <Form.Item
-                    name='notes'
+                    name='rules'
                     rules={[
                       {
                         required: true,
@@ -620,7 +620,7 @@ function EditProduct() {
                         fontSize: '20px',
                       }}
                       onChange={(e) => {
-                        setDatas({ ...datas, notes: e.target.value });
+                        setDatas({ ...datas, rules: e.target.value });
                       }}
                     />
                   </Form.Item>

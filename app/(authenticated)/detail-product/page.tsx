@@ -52,7 +52,7 @@ function DetailProduct() {
   const searchParams = useSearchParams();
   const productId: any = searchParams?.get('id');
   const { data, error, isLoading } =
-    productsRepository.hooks.getProductById(productId);
+    productsRepository.hooks.getProductsById(productId);
 
   if (!data) {
     return <div>Loading...</div>;

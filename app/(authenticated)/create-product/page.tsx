@@ -60,9 +60,9 @@ function CreateProduct() {
     photo: [],
     specifications: '',
     facilities: '',
-    note: '',
+    descriptions: '',
     gender: 'campur',
-    notes: '',
+    rules: '',
   });
 
   const onFinish = async () => {
@@ -79,9 +79,9 @@ function CreateProduct() {
         photo: datas?.photo,
         specifications: datas?.specifications,
         facilities: datas?.facilities,
-        note: datas?.note,
+        descriptions: datas?.descriptions,
         gender: datas?.gender,
-        notes: datas?.notes,
+        rules: datas?.rules,
       };
   
       await productsRepository.manipulatedata.createProducts(dataProducts);
@@ -484,7 +484,7 @@ function CreateProduct() {
                 </p>
                 <div className='textarea-produk'>
                   <Form.Item
-                    name='note'
+                    name='descriptions'
                     rules={[
                       {
                         required: true,
@@ -502,7 +502,7 @@ function CreateProduct() {
                         fontSize: '20px',
                       }}
                       onChange={(e) => {
-                        setDatas({ ...datas, note: e.target.value });
+                        setDatas({ ...datas, descriptions: e.target.value });
                       }}
                     />
                   </Form.Item>
@@ -566,7 +566,7 @@ function CreateProduct() {
                 <p className='mb-4 text-teks text-2xl font-bold'>Peraturan</p>
                 <div className='textarea-produk'>
                   <Form.Item
-                    name='notes'
+                    name='rules'
                     rules={[
                       {
                         required: true,
@@ -584,7 +584,7 @@ function CreateProduct() {
                         fontSize: '20px',
                       }}
                       onChange={(e) => {
-                        setDatas({ ...datas, notes: e.target.value });
+                        setDatas({ ...datas, rules: e.target.value });
                       }}
                     />
                   </Form.Item>
