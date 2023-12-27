@@ -435,7 +435,7 @@ function CreateProduct() {
                 </div>
                 <div className='w-full'>
                   <p className='w-full '>
-                    Harga yang di input akan dikenakan biaya admin sebesar 5%
+                    Pastikan anda memasukan link lokasi dengan benar
                   </p>
                 </div>
               </div>

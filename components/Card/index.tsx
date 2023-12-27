@@ -28,11 +28,11 @@ function CardProduk({ image, label, title, idProducts }: any) {
                   {label === 'hotel' && <Icon icon='fa6-solid:hotel' />}
                 </>
                 <p className='font-semibold'>{label}</p>
-              </div>
+              </div>                                                                                                             
               <p className='mt-2 text-lg font-bold'>{title}</p>
             </div>
           </div>
-          <div className='w-full flex items-center gap-4'>
+          <div className='flex gap-4 justify-between'>
             <div className='lihat-detail'>
               <Button
                 type='primary'
@@ -43,15 +43,17 @@ function CardProduk({ image, label, title, idProducts }: any) {
                 Lihat Detail
               </Button>
             </div>
-            <div className='flex gap-2 items-center'>
-              <Button
-                type='primary'
-                htmlType='submit'
-                href='/edit-product'
-                className='w-1/2 hover:text-white hover:!bg-[#7291F5] bg-primary rounded-[10px] text-base font-bold py-3 h-max !mt-0'
-              >
-                Edit
-              </Button>
+            <div className='flex gap-2 items-center justify-end'>
+              <div className='w-1/2'>
+                <Button
+                  type='primary'
+                  htmlType='submit'
+                  href='/edit-product'
+                  className='hover:text-white hover:!bg-[#7291F5] bg-primary rounded-[10px] text-base font-bold py-3 h-max !mt-0 !px-10'
+                >
+                  Edit
+                </Button>
+              </div>
               <div className='w-1/2 modal-hapus h-max'>
                 <ModalDelete
                   id={idProducts}

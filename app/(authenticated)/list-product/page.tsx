@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { Pagination, Select } from 'antd';
+import { Pagination } from 'antd';
 import Button from '#/components/Button';
 import CardProduk from '#/components/Card';
 import { productsRepository } from '#/repository/products';
@@ -26,19 +26,43 @@ function ListProduct() {
     setFilterType(value);
   };
 
+  // const [currentPage, setCurrentPage] = useState(1);
+  // const itemsPerPage = 9;
+
   const { data, error, isLoading } =
     productsRepository.hooks.getListProductByOwner(id, filterType);
 
+  // const totalProducts = data?.data?.length || 0;
+  // const totalPages = Math.ceil(totalProducts / itemsPerPage);
+
+  // const handlePageChange = (pageNumber: any) => {
+  //   setCurrentPage(pageNumber);
+  // };
+
+  // const renderProducts = () => {
+  //   const startIndex = (currentPage - 1) * itemsPerPage;
+  //   const endIndex = startIndex + itemsPerPage;
+  //   const currentProducts = data?.data?.slice(startIndex, endIndex) || [];
+  //   return currentProducts.map((product: any) => (
+  //     {Array.isArray(data?.data) && data?.data?.map((product: any) => (
+  //     <div key={product.id}>
+  //       <CardProduk
+  //         idProducts={product.id}
+  //         image={product.photo}
+  //         label={product.type}
+  //         title={product.name}
+  //       />
+  //     </div>
+  //     ))}
+  //   ));
+  // };
   return (
     <div>
       <div className='produkOwner text-4xl font-bold bg-primary rounded-[10px] px-5 py-2.5 flex items-center mb-[30px]'>
         <div className='w-full'>
-          <p className='text-white w-full'>List Produk </p>
+          <p className='text-white w-full'>Daftar Produk </p>
         </div>
         <div className='flex gap-x-6 items-center'>
-          <div className='w-full'>
-            <TypeRadio/>
-          </div>
           <div className='w-full'>
             <Button
               type='primary'
@@ -51,7 +75,10 @@ function ListProduct() {
           </div>
         </div>
       </div>
-      <div className='grid gap-5 grid-cols-3'>
+      <div className='w-full py-10'>
+        <TypeRadio />
+      </div>
+      <div className='grid gap-5 grid-cols-3 mb-10'>
         {Array.isArray(data?.data) &&
           data?.data?.map((product: any) => (
             <div key={product.id}>
@@ -64,13 +91,22 @@ function ListProduct() {
             </div>
           ))}
       </div>
+
+      {/* <div className='grid gap-5 grid-cols-3 mb-10'>{renderProducts()}</div>
+
+      {totalPages > 1 && ( */}
       <div className='w-full py-[20px] flex justify-end'>
         <Pagination
+          // current={currentPage}
+          // total={totalProducts}
+          // pageSize={itemsPerPage}
+          // onChange={handlePageChange}
           defaultCurrent={1}
-          total={50}
+          total={50} 
           className='text-2xl font-semibold'
         />
       </div>
+      {/* )} */}
     </div>
   );
 }

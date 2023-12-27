@@ -17,7 +17,6 @@ import {
 import { Icon } from '@iconify/react';
 import { Carousel, DatePicker, Form, Radio } from 'antd';
 import dayjs from 'dayjs';
-import moment from 'moment';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 
@@ -103,7 +102,7 @@ function DetailProduct() {
 
   const [defaultStartDate, setDefaultStartDate] = useState(dayjs());
   return (
-    <div>
+    <div className='w-full'>
       <div className='w-full grid gap-y-[20px] grid-cols-1'>
         <a
           href='/list-product'

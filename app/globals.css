@@ -188,7 +188,7 @@ body {
 	border-radius: 10px !important;
 	background-color: transparent;
 }
-.produkOwner .ant-select .ant-select-selection-item {
+.produkOwner .ant-select .ant-select-selection-item, .home-produk .ant-select .ant-select-selection-item {
 	font-weight: bold;
 	margin-right: 10px;
 	display: flex;
@@ -437,9 +437,14 @@ textarea:where(.css-dev-only-do-not-override-1dj4ii3).ant-input{
 }
 .home-produk .ant-select-single .ant-select-selector .ant-select-selection-item, .home-produk .ant-select-single .ant-select-selector .ant-select-selection-placeholder{
 	line-height: normal;
+	color: #4065DA;
 }
 .ant-upload-wrapper.ant-upload-picture-card-wrapper .ant-upload.ant-upload-select{
 	height: 120px;
 	margin-inline-end: 0px;
     margin-bottom: 0px;
 }
+.ant-statistic .ant-statistic-content {
+	color: white;
+}
+
