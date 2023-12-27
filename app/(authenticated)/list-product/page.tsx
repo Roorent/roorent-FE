@@ -28,6 +28,12 @@ function ListProduct() {
 
   const { data, error, isLoading } =
     productsRepository.hooks.getListProductByOwner(id, filterType);
+  if (!data) {
+    return <div>Loading...</div>;
+  }
+  const datas = data?.data;
+
+  console.log(datas);
 
   return (
     <div>
@@ -37,7 +43,7 @@ function ListProduct() {
         </div>
         <div className='flex gap-x-6 items-center'>
           <div className='w-full'>
-            <TypeRadio/>
+            <TypeRadio />
           </div>
           <div className='w-full'>
             <Button
@@ -52,17 +58,17 @@ function ListProduct() {
         </div>
       </div>
       <div className='grid gap-5 grid-cols-3'>
-        {Array.isArray(data?.data) &&
-          data?.data?.map((product: any) => (
-            <div key={product.id}>
-              <CardProduk
-              idProducts= {product.id}
-                image={product.photo}
-                label={product.type}
-                title={product.name}
-              />
-            </div>
-          ))}
+        {datas?.map((product: any) => (
+          <div key={product.id}>
+            <CardProduk
+              idProducts={product.id}
+              image={product.photo}
+              label={product.type}
+              title={product.name}
+              address={product.address}
+            />
+          </div>
+        ))}
       </div>
       <div className='w-full py-[20px] flex justify-end'>
         <Pagination
