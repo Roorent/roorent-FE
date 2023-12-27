@@ -53,7 +53,7 @@ function EditProduct() {
   const handleCancel = () => setPreviewOpen(false);
   const [form] = Form.useForm();
   const imgProduct = (img: string) =>
-    `${config.baseUrl}/products/images/${img}`;
+    `${config.baseUrl}/images/photo-products/${img}`;
 
   const [datas, setDatas] = useState({
     name: '',
@@ -101,7 +101,7 @@ function EditProduct() {
         specifications: data?.data?.specifications,
         facilities: data?.data?.facilities,
         descriptions: data?.data?.descriptions,
-        gender:data?.data?.sr_gender,
+        gender: data?.data?.sr_gender,
         rules: data?.data?.sr_rules,
       });
       setFileList(
@@ -114,8 +114,6 @@ function EditProduct() {
       );
     }
   }, [isLoading]);
-
-  console.log(data?.data?.photo)
 
   const onFinish = async () => {
     const dataProducts = {

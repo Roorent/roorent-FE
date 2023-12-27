@@ -5,7 +5,7 @@ import { HomeFilled, QuestionCircleFilled } from '@ant-design/icons';
 import { Icon } from '@iconify/react';
 import { config } from '#/config/app';
 
-function CardProduk({ image, label, title, idProducts }: any) {
+function CardProduk({ image, label, title, address, idProducts }: any) {
   const imgProduct = (img: string) =>
     `${config.baseUrl}/images/photo-products/${img}`;
 
@@ -33,9 +33,10 @@ function CardProduk({ image, label, title, idProducts }: any) {
                 <p className='font-semibold'>{label}</p>
               </div>
               <p className='mt-2 text-lg font-bold'>{title}</p>
+              <p className='mt-8 text-md'>{address}</p>
             </div>
           </div>
-          <div className='w-full flex items-center gap-4'>
+          <div className='flex items-center gap-4 justify-between'>
             <div className='lihat-detail'>
               <Button
                 type='primary'
@@ -50,8 +51,8 @@ function CardProduk({ image, label, title, idProducts }: any) {
               <Button
                 type='primary'
                 htmlType='submit'
-                href= {`/edit-product?id=${idProducts}`}
-                className=' hover:text-white hover:!bg-[#7291F5] bg-primary rounded-[10px] text-base font-bold py-3 h-max !mt-0'
+                href={`/edit-product?id=${idProducts}`}
+                className=' hover:text-white hover:!bg-[#7291F5] bg-primary rounded-[10px] text-base font-bold px-10 py-3 h-max !mt-0'
               >
                 Edit
               </Button>

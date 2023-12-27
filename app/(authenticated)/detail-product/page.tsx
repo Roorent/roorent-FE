@@ -137,39 +137,41 @@ function DetailProduct() {
         <div className='w-1/2'>
           <div className='mb-8'>
             <Carousel afterChange={onChange}>
-              <div>
-                <img
-                  src={imgProduct(datas?.photo)}
-                  alt={`Photo product ${datas?.name}`}
-                  className='object-cover object-center w-full h-full rounded-xl'
-                />
-              </div>
+              {datas?.photoProducts.map((item: any) => (
+                <div key={item.id}>
+                  <img
+                    src={imgProduct(item.photo)}
+                    alt={`Photo product ${datas?.name}`}
+                    className='object-cover object-center w-full h-full rounded-xl'
+                  />
+                </div>
+              ))}
             </Carousel>
           </div>
           <div className='grid gap-y-[40px] grid-cols-1'>
             <div className='grid gap-y-3 grid-cols-1 pb-[30px] border-b border-slate-300'>
               <div className='font-semibold text-3xl'>Spesifikasi</div>
-              <div className='text-xl leading-normal text-rstroke'>
+              <pre className='preStyle text-xl leading-normal text-rstroke'>
                 {datas?.specifications}
-              </div>
+              </pre>
             </div>
             <div className='grid gap-y-3 grid-cols-1 pb-[30px] border-b border-slate-300'>
               <div className='font-semibold text-3xl'>Deskripsi Product</div>
-              <div className='text-xl leading-normal text-rstroke'>
+              <pre className='preStyle text-xl leading-normal text-rstroke'>
                 {datas?.descriptions}
-              </div>
+              </pre>
             </div>
             <div className='grid gap-y-3 grid-cols-1 pb-[30px] border-b border-slate-300'>
               <div className='font-semibold text-3xl'>Fasilitas</div>
-              <div className='text-xl leading-normal text-rstroke'>
+              <pre className='preStyle text-xl leading-normal text-rstroke'>
                 {datas?.facilities}
-              </div>
+              </pre>
             </div>
             <div className='grid gap-y-3 grid-cols-1 pb-[30px] border-b border-slate-300'>
               <div className='font-semibold text-3xl'>Peraturan</div>
-              <div className='text-xl leading-normal text-rstroke'>
+              <pre className='preStyle text-xl leading-normal text-rstroke'>
                 {datas?.rules}
-              </div>
+              </pre>
             </div>
             <div className='grid gap-y-3 grid-cols-1 pb-[30px] border-b border-slate-300'>
               <div className='font-semibold text-3xl'>Lokasi</div>
