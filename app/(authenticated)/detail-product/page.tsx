@@ -156,7 +156,7 @@ function DetailProduct() {
             <div className='grid gap-y-3 grid-cols-1 pb-[30px] border-b border-slate-300'>
               <div className='font-semibold text-3xl'>Deskripsi Product</div>
               <div className='text-xl leading-normal text-rstroke'>
-                {datas?.description}
+                {datas?.descriptions}
               </div>
             </div>
             <div className='grid gap-y-3 grid-cols-1 pb-[30px] border-b border-slate-300'>
@@ -168,7 +168,7 @@ function DetailProduct() {
             <div className='grid gap-y-3 grid-cols-1 pb-[30px] border-b border-slate-300'>
               <div className='font-semibold text-3xl'>Peraturan</div>
               <div className='text-xl leading-normal text-rstroke'>
-                {datas?.rule}
+                {datas?.rules}
               </div>
             </div>
             <div className='grid gap-y-3 grid-cols-1 pb-[30px] border-b border-slate-300'>
