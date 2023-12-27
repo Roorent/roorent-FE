@@ -232,7 +232,7 @@ const AuthenticatedLayout: React.FC<AuthenticatedLayoutProps> = ({
                   defaultSelectedKeys={[]}
                   style={{ borderBottomWidth: '2px' }}
                   className={
-                    'absolute border-slate-200 left-[300px] w-[calc(100%-300px)] py-[12px] px-[120px] gap-10 justify-end items-center'
+                    'absolute z-50 border-slate-200 left-[300px] w-[calc(100%-300px)] py-[12px] px-[120px] gap-10 justify-end items-center'
                   }
                 >
                   <div className='flex gap-6 items-center'>
@@ -262,7 +262,7 @@ const AuthenticatedLayout: React.FC<AuthenticatedLayoutProps> = ({
                   defaultSelectedKeys={[]}
                   style={{ borderBottomWidth: '2px' }}
                   className={
-                    'absolute border-slate-200 flex justify-start py-[12px] px-[120px] gap-10 w-full -ml-14 items-center'
+                    'absolute z-50 border-slate-200 flex justify-start py-[12px] px-[120px] gap-10 w-full -ml-14 items-center'
                   }
                 >
                   <div className='w-full'>
@@ -298,7 +298,7 @@ const AuthenticatedLayout: React.FC<AuthenticatedLayoutProps> = ({
                 defaultSelectedKeys={[]}
                 style={{ borderBottomWidth: '2px' }}
                 className={
-                  'absolute border-slate-200 flex justify-start py-[12px] px-[150px] gap-10 w-full items-center'
+                  'absolute z-50 border-slate-200 flex justify-start py-[12px] px-[150px] gap-10 w-full items-center'
                 }
               >
                 <div className='w-full'>
@@ -316,7 +316,7 @@ const AuthenticatedLayout: React.FC<AuthenticatedLayoutProps> = ({
                   <Photo src={photo} />
                   <div
                     onClick={handleLogout}
-                    className='bg-primary rounded-lg p-4'
+                    className='bg-primary flex items-center text-md rounded-lg p-4 h-10 text-white font-bold'
                   >
                     Logout
                   </div>
