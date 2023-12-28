@@ -1,6 +1,6 @@
 import { HomeFilled } from '@ant-design/icons';
 import { Icon } from '@iconify/react';
-import { Radio } from 'antd';
+import { Radio, RadioChangeEvent } from 'antd';
 import { usePathname } from 'next/navigation';
 import React from 'react';
 
@@ -9,11 +9,15 @@ function TypeRadio({ onChange, value, defaultValue }: any) {
 
   const kategori = pathname === '/list-product';
 
+  const handleChange = (e: RadioChangeEvent) => {
+    onChange(e.target.value);
+  };
+
   return (
     <div>
       <Radio.Group
         buttonStyle='solid'
-        onChange={onChange}
+        onChange={handleChange}
         value={value}
         defaultValue={defaultValue}
         className='w-full flex gap-x-5'

@@ -142,7 +142,7 @@ function DetailProduct() {
                   <img
                     src={imgProduct(item.photo)}
                     alt={`Photo product ${datas?.name}`}
-                    className='object-cover object-center w-full h-full rounded-xl'
+                    className='object-cover object-center w-full h-[450px] rounded-xl'
                   />
                 </div>
               ))}
