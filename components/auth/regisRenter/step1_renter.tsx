@@ -128,7 +128,6 @@ function RenterStep1({ setData, data, formStep1 }: Props) {
                 <DatePicker
                   onChange={(e: any) => {
                     setData({ ...data, birth_date: e?.$d });
-                    console.log(e);
                   }}
                   placeholder='Pilih tanggal'
                   className='w-full regis'

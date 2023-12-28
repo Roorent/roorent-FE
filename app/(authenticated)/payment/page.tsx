@@ -171,7 +171,7 @@ function Payment() {
                     </div>
                   </div>
                 </div>
-                <div className='grid gap-y-[30px] pb-[30px] border-b border-slate-300'>
+                <div className='flex gap-y-[30px] pb-[30px] border-b border-slate-300'>
                   {currentStep === 1 ? (
                     <>
                       <div className='gap-y-5 justify-center text-2xl text-rstroke font-semibold flex items-center mt-[30px]'>

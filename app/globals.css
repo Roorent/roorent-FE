@@ -145,15 +145,6 @@ body {
   font-size: large !important;
   @apply border-rstroke;
 }
-.search .ant-input-group .ant-input-group-addon {
-  padding-inline: 25px !important;
-  color: white !important;
-  border-start-start-radius: 0px !important;
-  border-end-end-radius: 10px !important;
-  background-color: #4065da !important;
-  font-size: large !important;
-  @apply border-rstroke;
-}
 
 .ant-picker {
   @apply border-rstroke;
@@ -474,4 +465,16 @@ textarea:where(.css-dev-only-do-not-override-1dj4ii3).ant-input {
   display: flex;
   align-items: center;
 }
-
+.ant-btn >span {
+  font-weight: bold;
+}
+.ant-input-group-wrapper-lg .ant-input-group-addon {
+  border-radius: 10px;
+}
+.ant-input-search :where(.css-dev-only-do-not-override-19l9cjq).ant-input-group .ant-input-affix-wrapper:not(:last-child) {
+  border-start-start-radius: 10px;
+  border-end-start-radius: 10px;
+}
+:where(.css-dev-only-do-not-override-19l9cjq).ant-radio-button-wrapper:first-child:last-child {
+  border-radius: 10px;
+}
