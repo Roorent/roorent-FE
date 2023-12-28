@@ -37,7 +37,6 @@ function ListNotifications({ openNotification, isOpen }: any) {
   }
 
   const { data, error, isLoading } = notifRepository.hooks.getNotifByUser(id);
-  // console.log('data ', data.data.content);
 
   return (
     <>

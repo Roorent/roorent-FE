@@ -1,9 +1,10 @@
 'use client';
 
+import React, { useState } from 'react';
 import Button from '#/components/Button';
-import Step1 from '#/components/payment/step1';
-import Step2 from '#/components/payment/step2';
-import Step3 from '#/components/payment/step3';
+import { Step1, Step2, Step3 } from '#/components/payment';
+import { RentAppRepository } from '#/repository/rent-application';
+import { toIDR } from '#/utils/convertCurrency';
 import {
   ArrowLeftOutlined,
   CheckCircleFilled,
@@ -11,14 +12,22 @@ import {
   ExclamationCircleFilled,
   HomeFilled,
 } from '@ant-design/icons';
+import { Icon } from '@iconify/react';
 import { Card, Modal, Statistic, Steps } from 'antd';
 import { CountdownProps } from 'antd/lib';
-import React, { useState } from 'react';
+import { useSearchParams } from 'next/navigation';
+import { imgProduct } from '#/constants/general';
 
 function Payment() {
+  const [currentStep, setCurrentStep] = useState(0);
+  const [uploadFile, setUploadFile] = useState(null);
+
+  const searchParams = useSearchParams();
+  const rentAppId: any = searchParams?.get('id');
+
   const { Countdown } = Statistic;
 
-  const deadline = Date.now() + 1000 * 60 * 60 * 24 * 2 + 1000 * 30;
+  const deadline = Date.now() + 60 * 60 * 1000 * 3;
 
   const onFinish: CountdownProps['onFinish'] = () => {
     console.log('finished!');
@@ -30,18 +39,24 @@ function Payment() {
     }
   };
 
-  const [currentStep, setCurrentStep] = useState(0);
-  const [uploadFile, setUploadFile] = useState(null);
+  const { data, error, isLoading } =
+    RentAppRepository.hooks.getRentAppById(rentAppId);
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  const datas = data?.data;
 
   const steps = [
     {
       title: 'Ajukan Sewa',
-      component: <Step1 onNext={() => setCurrentStep(1)} />,
+      component: <Step1 onNext={() => setCurrentStep(1)} data={datas} />,
       isValid: true,
     },
     {
       title: 'Bayar Sewa',
-      component: <Step2 onNext={() => setCurrentStep(2)} />,
+      component: <Step2 onNext={() => setCurrentStep(2)} data={datas} />,
       isValid: !!uploadFile,
     },
     {
@@ -78,6 +93,7 @@ function Payment() {
   const renderFormattedTime = ({ hours, minutes, seconds }: any) => {
     return `${hours}:${minutes}:${seconds}`;
   };
+
   return (
     <div>
       <div className='grid gap-y-[20px] grid-cols-1'>
@@ -112,10 +128,26 @@ function Payment() {
               )}
               <div
                 style={{ boxShadow: '0 6px 16px #0000001f' }}
-                className='rounded-[10px] flex justify-center items-center gap-x-2 p-1.5 border-2 border-primary text-primary text-2xl cursor-default py-[20px]'
+                className='rounded-[10px] flex justify-center items-center gap-4 p-2 py-[20px] border-2 border-primary text-primary text-2xl cursor-default'
               >
-                <HomeFilled />
-                <p className='font-bold'>Kost</p>
+                {datas?.product_type === 'kost' && (
+                  <>
+                    <HomeFilled />
+                    <p className='font-bold'>Kost</p>
+                  </>
+                )}
+                {datas?.product_type === 'gedung' && (
+                  <>
+                    <Icon fontSize={35} icon='mingcute:building-1-fill' />
+                    <p className='font-bold'>Gedung</p>
+                  </>
+                )}
+                {datas?.product_type === 'hotel' && (
+                  <>
+                    <Icon fontSize={25} icon='fa6-solid:hotel' />
+                    <p className='font-bold'>Hotel</p>
+                  </>
+                )}
               </div>
             </div>
             <div>
@@ -140,41 +172,77 @@ function Payment() {
                 <div className='flex items-center gap-x-[30px] pb-[30px] border-b border-slate-300'>
                   <div className='w-1/2 h-[190px]'>
                     <img
-                      src='assets/images/Hotel.png'
-                      alt='produk'
+                      src={imgProduct(datas?.product_photo)}
+                      alt={`produk ${datas?.product_name}`}
                       className='object-cover object-center w-full h-full rounded-xl'
                     />
                   </div>
                   <div className='w-1/2'>
-                    <div className='grid gap-y-3 w-[300px]'>
+                    <div className='flex flex-col gap-y-3 w-[300px]'>
                       <div className='flex gap-x-5'>
                         <div className='rounded-[10px] flex justify-center items-center gap-x-2 p-1.5 border border-rstroke text-rstroke text-xl cursor-default'>
-                          <HomeFilled />
-                          <p className='font-semibold'>Kost</p>
+                          {datas?.product_type === 'kost' && (
+                            <>
+                              <HomeFilled />
+                              <p className='font-semibold'>Kost</p>
+                            </>
+                          )}
+                          {datas?.product_type === 'gedung' && (
+                            <>
+                              <Icon
+                                fontSize={25}
+                                icon='mingcute:building-1-fill'
+                              />
+                              <p className='font-semibold'>Gedung</p>
+                            </>
+                          )}
+                          {datas?.product_type === 'hotel' && (
+                            <>
+                              <Icon fontSize={20} icon='fa6-solid:hotel' />
+                              <p className='font-semibold'>Hotel</p>
+                            </>
+                          )}
                         </div>
                         <div className='font-bold text-white text-xl'>
-                          <p className='bg-primary py-1.5 px-5 rounded-md'>
-                            Pria
-                          </p>
+                          {datas?.product_label === 'pria' && (
+                            <>
+                              <p className='bg-primary py-1.5 px-5 rounded-md'>
+                                Pria
+                              </p>
+                            </>
+                          )}
+                          {datas?.product_label === 'wanita' && (
+                            <>
+                              <p className='bg-labelWanita py-1.5 px-5 rounded-md'>
+                                Wanita
+                              </p>
+                            </>
+                          )}
+                          {datas?.product_label === 'campuran' && (
+                            <>
+                              <p className='bg-orange-400 py-1.5 px-5 rounded-md'>
+                                Campuran
+                              </p>
+                            </>
+                          )}
                         </div>
                       </div>
-                      <div className='flex items-center gap-x-2 text-rstroke'>
-                        <EnvironmentFilled className='text-[26px]' />
-                        <p className='text-2xl'>Bintara 14, Kota Bekasi</p>
+                      <div className='w-[300px] text-2xl font-semibold'>
+                        <p className='truncate'>{datas?.product_name}</p>
                       </div>
-                      <div className='text-2xl'>
-                        <p className='w-[300px] truncate'>
-                          Kost Singgahsini MnV Co-Living Tipe B Bendungan Hilir
-                          Jakarta Pusat
+                      <div className='flex items-center gap-x-2 text-rstroke w-[300px]'>
+                        <EnvironmentFilled className='text-[26px]' />
+                        <p className='text-2xl truncate'>
+                          {datas?.product_address}
                         </p>
                       </div>
                     </div>
                   </div>
                 </div>
-                <div className='flex gap-y-[30px] pb-[30px] border-b border-slate-300'>
-                  {currentStep === 1 ? (
+                <div className='flex flex-col gap-y-[30px] pb-[30px] border-b border-slate-300'>
+                  {currentStep === 1 && (
                     <>
-                      <div className='gap-y-5 justify-center text-2xl text-rstroke font-semibold flex items-center mt-[30px]'>
+                      <div className='gap-y-5 justify-center text-2xl text-rstroke font-semibold flex flex-col items-center mt-[30px]'>
                         <div className='text-xl'>Akan berakhir dalam</div>
                         <div>
                           <Card
@@ -189,30 +257,32 @@ function Payment() {
                           </Card>
                         </div>
                       </div>
-
-                      <div className='text-3xl font-bold flex items-center mt-[30px]'>
-                        <p>Rincian Pembayaran </p>
-                      </div>
                     </>
-                  ) : (
-                    <div className='text-3xl font-bold flex items-center mt-[30px]'>
-                      <p>Rincian Pembayaran </p>
-                    </div>
                   )}
+                  <div className='text-3xl font-bold flex items-center mt-[30px]'>
+                    <p>Rincian Pembayaran </p>
+                  </div>
                   <div className='grid gap-y-5 grid-cols-1 font-semibold text-rstroke underline underline-offset-2'>
                     <div className='flex text-2xl justify-between'>
                       <div>Biaya sewa</div>
-                      <div> Rp. 600.000</div>
+                      <div>{toIDR(datas?.price)}</div>
                     </div>
                     <div className='flex text-2xl justify-between'>
-                      <div>Biaya admin</div>
-                      <div> Rp. 30.000</div>
+                      <div>Lama Sewa</div>
+                      <div className='flex gap-2'>
+                        <p>{datas?.amount}</p>
+                        {datas?.rental_type === 'bulanan' ? (
+                          <p>bulan</p>
+                        ) : (
+                          <p>hari</p>
+                        )}
+                      </div>
                     </div>
                   </div>
                 </div>
                 <div className='flex font-bold justify-between text-3xl py-10'>
-                  <div>Total Pembayaran</div>
-                  <div>Rp. 630.000</div>
+                  <div>Total</div>
+                  <div>{toIDR(datas?.total_price)}</div>
                 </div>
               </div>
               {currentStep === 2 && (

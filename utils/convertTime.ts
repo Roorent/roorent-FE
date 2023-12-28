@@ -1,7 +1,11 @@
 import moment from 'moment';
+import 'moment-timezone';
+import 'moment/locale/id';
 
 export const convertTime = (inputString: any) => {
-  const inputDate = moment(inputString);
+  moment.locale('id');
+
+  const inputDate = moment(inputString).tz('Asia/Jakarta');
   const currentDate = moment();
 
   const diffInDays = currentDate.diff(inputDate, 'days');

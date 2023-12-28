@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { HomeFilled } from '@ant-design/icons';
 import { Icon } from '@iconify/react';
+import { imgProduct } from '#/constants/general';
 
 function SummaryProducts({ isType, isLabel, address, image }: any) {
   const [type, setType] = useState('');
@@ -16,11 +17,15 @@ function SummaryProducts({ isType, isLabel, address, image }: any) {
   return (
     <div className='flex gap-4 items-center mb-4'>
       <div className='w-[40%] bg-red-400 rounded-xl'>
-        <img className='object-none rounded-xl' src={image} alt='Images' />
+        <img
+          className='object-none rounded-xl'
+          src={imgProduct(image)}
+          alt='Images'
+        />
       </div>
       <div className='text-slate-600'>
         <div className='flex gap-2 items-center mb-3'>
-          {type === 'Kos' && (
+          {type === 'Kost' && (
             <>
               <div className='border border-slate-700 px-2 rounded-md flex gap-2 items-center'>
                 <HomeFilled />
@@ -28,7 +33,7 @@ function SummaryProducts({ isType, isLabel, address, image }: any) {
               </div>
             </>
           )}
-          {type === 'Gedung' && (
+          {type === 'gedung' && (
             <>
               <div className='border border-slate-700 px-2 rounded-md flex gap-2 items-center'>
                 <Icon fontSize={20} icon='mingcute:building-1-fill' />
@@ -36,7 +41,7 @@ function SummaryProducts({ isType, isLabel, address, image }: any) {
               </div>
             </>
           )}
-          {type === 'Hotel' && (
+          {type === 'hotel' && (
             <>
               <div className='border border-slate-700 px-2 rounded-md flex gap-2 items-center'>
                 <Icon fontSize={20} icon='fa6-solid:hotel' />

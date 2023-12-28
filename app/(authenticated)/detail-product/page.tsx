@@ -20,7 +20,7 @@ import { Icon } from '@iconify/react';
 import { Carousel, Button, DatePicker, Form, Radio, message } from 'antd';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { toIDR } from '#/utils/convertCurrency';
-import { config } from '#/config/app';
+import { imgProduct } from '#/constants/general';
 import { RentAppRepository } from '#/repository/rent-application';
 
 function DetailProduct() {
@@ -28,6 +28,9 @@ function DetailProduct() {
   const [filterPrice, setFilterPrice] = useState('perbulan');
 
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const productId: any = searchParams?.get('id');
+
   const { RangePicker } = DatePicker;
 
   const token = localStorage.getItem('access_token');
@@ -47,8 +50,6 @@ function DetailProduct() {
     document.title = 'Detail Product';
   }, []);
 
-  const searchParams = useSearchParams();
-  const productId: any = searchParams?.get('id');
   const { data, error, isLoading } =
     productsRepository.hooks.getProductsById(productId);
 
@@ -81,9 +82,6 @@ function DetailProduct() {
       message.error(err.response.data.message);
     }
   };
-
-  const imgProduct = (img: string) =>
-    `${config.baseUrl}/images/photo-products/${img}`;
 
   const reviews = [
     {
@@ -292,37 +290,39 @@ function DetailProduct() {
             </div>
           </div>
           {role === isRole.owner && (
-          <div
-            className='rounded-[10px] bg-white h-[212px] p-[15px] sticky top-5'
-            style={{
-              boxShadow:
-                '0 -2px 40px rgba(0,0,0,.04), 0 16px 40px rgba(0,0,0,.06)',
-            }}
-          >
-            <div className='text-xl font-bold bg-primary rounded-[10px] px-5 py-2.5 flex items-center mb-[30px] text-white w-full justify-center'>
-              Harga Produk
-            </div>
-            <div className='grid gap-y-5 grid-cols-1'>
-              <div className='flex text-3xl justify-between'>
-                {datas?.monthly_price !== 0 ? (
-                  <>
-                    <div>Harga perbulan :</div>
-                    <div className='font-bold'>
-                      {toIDR(datas?.monthly_price)}
-                    </div>
-                  </>
-                ) : null}
+            <div
+              className='rounded-[10px] bg-white h-[212px] p-[15px] sticky top-5'
+              style={{
+                boxShadow:
+                  '0 -2px 40px rgba(0,0,0,.04), 0 16px 40px rgba(0,0,0,.06)',
+              }}
+            >
+              <div className='text-xl font-bold bg-primary rounded-[10px] px-5 py-2.5 flex items-center mb-[30px] text-white w-full justify-center'>
+                Harga Produk
               </div>
-              <div className='flex text-3xl justify-between'>
-                {datas?.daily_price !== 0 ? (
-                   <>
-                <div>Harga perhari :</div>
-                  <div className='font-bold'>{toIDR(datas?.daily_price)}</div>
-                  </>
-                ) : null}
+              <div className='grid gap-y-5 grid-cols-1'>
+                <div className='flex text-3xl justify-between'>
+                  {datas?.monthly_price !== 0 ? (
+                    <>
+                      <div>Harga perbulan :</div>
+                      <div className='font-bold'>
+                        {toIDR(datas?.monthly_price)}
+                      </div>
+                    </>
+                  ) : null}
+                </div>
+                <div className='flex text-3xl justify-between'>
+                  {datas?.daily_price !== 0 ? (
+                    <>
+                      <div>Harga perhari :</div>
+                      <div className='font-bold'>
+                        {toIDR(datas?.daily_price)}
+                      </div>
+                    </>
+                  ) : null}
+                </div>
               </div>
             </div>
-          </div>
           )}
           {role === isRole.renter && (
             <div
