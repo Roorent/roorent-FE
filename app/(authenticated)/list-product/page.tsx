@@ -9,7 +9,7 @@ import { parseJwt } from '#/utils/convert';
 import TypeRadio from '#/components/TypeButton';
 
 function ListProduct() {
-  const [filterType, setFilterType] = useState('semua');
+  const [filterType, setFilterType] = useState('kost');
 
   useEffect(() => {
     document.title = 'List Product';
@@ -32,12 +32,11 @@ function ListProduct() {
   //disini di tambahin mutate
   const { data, error, isLoading, mutate} =
     productsRepository.hooks.getListProductByOwner(id, filterType);
-    if (!data) {
-      return <div>Loading...</div>;
-    }
-    const datas = data?.data;
-  
-    console.log(datas);
+  if (!data) {
+    return <div>Loading...</div>;
+  }
+  const datas = data?.data;
+
   return (
     <div>
       <div className='produkOwner text-4xl font-bold bg-primary rounded-[10px] px-5 py-2.5 flex items-center mb-[30px]'>
@@ -46,7 +45,11 @@ function ListProduct() {
         </div>
         <div className='flex gap-x-6 items-center'>
           <div className='w-full'>
-            <TypeRadio />
+            <TypeRadio
+              defaultValue='kost'
+              value={filterType}
+              onChange={handleChange}
+            />
           </div>
           <div className='w-full'>
             <Button
@@ -86,7 +89,7 @@ function ListProduct() {
           // pageSize={itemsPerPage}
           // onChange={handlePageChange}
           defaultCurrent={1}
-          total={50} 
+          total={50}
           className='text-2xl font-semibold'
         />
       </div>

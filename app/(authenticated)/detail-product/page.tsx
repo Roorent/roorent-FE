@@ -2,7 +2,6 @@
 
 import React, { useEffect, useState } from 'react';
 import { isRole } from '#/constants/general';
-import Button from '#/components/Button';
 import ListReview from '#/components/List-Review';
 import Photo from '#/components/Photo';
 import { GMAPS } from '#/constants/images';
@@ -18,15 +17,14 @@ import {
   StarFilled,
 } from '@ant-design/icons';
 import { Icon } from '@iconify/react';
-import { Carousel, DatePicker, Form, Radio } from 'antd';
-import dayjs from 'dayjs';
+import { Carousel, Button, DatePicker, Form, Radio, message } from 'antd';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { toIDR } from '#/utils/convertCurrency';
 import { config } from '#/config/app';
+import { RentAppRepository } from '#/repository/rent-application';
 
 function DetailProduct() {
   const [showAllReviews, setShowAllReviews] = useState(false);
-  const [defaultStartDate, setDefaultStartDate] = useState(dayjs());
   const [filterPrice, setFilterPrice] = useState('perbulan');
 
   const router = useRouter();
@@ -62,6 +60,26 @@ function DetailProduct() {
 
   const onChange = (currentSlide: number) => {
     console.log(currentSlide);
+  };
+
+  const onFinish = async (val: any) => {
+    try {
+      const rentApp = {
+        lease_start: val.lease_date[0].toISOString(),
+        lease_expiration: val.lease_date[1].toISOString(),
+        rental_type: filterPrice === 'perbulan' ? 'bulanan' : 'harian',
+      };
+
+      const dataRentApp = await RentAppRepository.manipulatedata.createRentApp(
+        productId,
+        rentApp
+      );
+      const rentAppId = dataRentApp.body.data.id;
+
+      router.push(`/payment?id=${rentAppId}`);
+    } catch (err: any) {
+      message.error(err.response.data.message);
+    }
   };
 
   const imgProduct = (img: string) =>
@@ -134,7 +152,7 @@ function DetailProduct() {
                   <img
                     src={imgProduct(item.photo)}
                     alt={`Photo product ${datas?.name}`}
-                    className='object-cover object-center w-full h-full rounded-xl'
+                    className='object-cover object-center w-full h-[450px] rounded-xl'
                   />
                 </div>
               ))}
@@ -238,10 +256,10 @@ function DetailProduct() {
                 <p className='font-semibold'>{datas?.type}</p>
               </div>
               <div className='font-bold text-white'>
-                {datas?.sr_gender === 'pria' && (
+                {datas?.gender === 'pria' && (
                   <p className='bg-primary py-2 px-5 rounded-md'>Pria</p>
                 )}
-                {datas?.sr_gender === 'wanita' && (
+                {datas?.gender === 'wanita' && (
                   <p className='bg-labelWanita py-2 px-5 rounded-md'>Wanita</p>
                 )}
               </div>
@@ -314,7 +332,7 @@ function DetailProduct() {
                   '0 -2px 40px rgba(0,0,0,.04), 0 16px 40px rgba(0,0,0,.06)',
               }}
             >
-              <Form className='detail-product'>
+              <Form className='detail-product' onFinish={onFinish}>
                 <div className='grid gap-y-5 grid-cols-1'>
                   <div className='flex text-3xl gap-x-3 items-center'>
                     <div className='font-bold'>
@@ -324,7 +342,7 @@ function DetailProduct() {
                     </div>
                     <div>(Harga {filterPrice})</div>
                   </div>
-                  <div className='w-full flex justify-center'>
+                  <div className='w-full mt-4 flex justify-center'>
                     <Radio.Group
                       defaultValue={filterPrice}
                       onChange={(e) => setFilterPrice(e.target.value)}
@@ -341,32 +359,39 @@ function DetailProduct() {
                   <div className='grid gap-y-4 grid-cols-1'>
                     <div className='w-full'>
                       <Form.Item
-                        //nanti di onfinish panggil name dan isi [lease_date.0, lease_date.1]
                         name='lease_date'
                         rules={[
                           {
                             required: true,
-                            message: 'Harap masukan tanggal lahir anda!',
+                            message: 'Harap masukan tanggal sewa anda!',
                           },
                         ]}
                       >
-                        <RangePicker
-                          defaultValue={[defaultStartDate, null]}
-                          placeholder={[
-                            'Tanggal Awal Sewa',
-                            'Tanggal Akhir Sewa',
-                          ]}
-                          className='w-full regis'
-                          onChange={(e: any) => {
-                            // setData({ ...data, birth_date: e?.$d.toString() });
-                            console.log(e);
-                          }}
-                        />
+                        {filterPrice === 'perhari' ? (
+                          <RangePicker
+                            defaultValue={[null, null]}
+                            placeholder={[
+                              'Tanggal Awal Sewa',
+                              'Tanggal Akhir Sewa',
+                            ]}
+                            className='w-full regis'
+                          />
+                        ) : (
+                          <RangePicker
+                            picker='month'
+                            defaultValue={[null, null]}
+                            placeholder={[
+                              'Tanggal Awal Sewa',
+                              'Tanggal Akhir Sewa',
+                            ]}
+                            className='w-full regis'
+                          />
+                        )}
                       </Form.Item>
                     </div>
                   </div>
                   <div>
-                    <Button className='!mt-0 !bg-transparent !border-2 !border-primary !text-primary !font-bold !text-xl !flex !items-center hover:!bg-primary hover:!text-white'>
+                    <Button className='w-full p-[8px] h-14 rounded-2xl flex justify-center items-center !bg-transparent !border-2 !border-primary !text-primary !font-bold !text-xl hover:!bg-primary hover:!text-white'>
                       <div className='flex items-center'>
                         <CommentOutlined className='text-3xl font-bold mr-3' />
                         Tanya Pemilik
@@ -378,7 +403,7 @@ function DetailProduct() {
                       <Button
                         type='primary'
                         htmlType='submit'
-                        className='!mt-0 !font-bold !text-2xl !py-3'
+                        className='bg-primary w-full p-[8px] h-14 !-mt-2 rounded-2xl flex justify-center items-center text-white !font-bold !text-xl hover:!bg-rhover1 hover:text-white'
                       >
                         Ajukan Sewa
                       </Button>

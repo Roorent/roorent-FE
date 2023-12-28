@@ -45,7 +45,7 @@ const Login = () => {
         router.push('/home');
       }
     } catch (err: any) {
-        message.error(err.response.body?.error);
+      message.error(err.response.body?.error);
     }
   };
 
