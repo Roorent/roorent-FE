@@ -141,7 +141,7 @@ function OwnerStep1({ setData, data, formStep1 }: Props) {
           </div>
         </div>
       </div>
-    </Form>
+    </Form> 
   );
 }
 export default OwnerStep1;

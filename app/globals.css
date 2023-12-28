@@ -447,4 +447,9 @@ textarea:where(.css-dev-only-do-not-override-1dj4ii3).ant-input{
 .ant-statistic .ant-statistic-content {
 	color: white;
 }
+.ant-modal .ant-modal-content {
+  width: max-content;
+  display: flex;
+  align-items: center;
+}
 
