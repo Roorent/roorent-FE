@@ -71,50 +71,42 @@ function DetailProduct() {
     {
       id: '1',
       namaPemilik: 'M Danar Kahfi',
-      rating: '5.0',
+      rating: '0',
       photo1: 'assets/images/Hotel.png',
       photo2: 'assets/images/Gedung.png',
       photo3: 'assets/images/Kost.png',
       ReviewPenyewa:
         'Di sekitar kost banyak resto dan coffe shop. Pemiliknya baik, tempatnya juga nyaman dan bersih',
-      BalasanReview:
-        'Halo, Kak Clara. Terima kasih atas reviewny dan ratingnya.',
     },
     {
       id: '2',
       namaPemilik: 'M Danar Kahfi',
-      rating: '5.0',
+      rating: '0',
       photo1: 'assets/images/Hotel.png',
       photo2: 'assets/images/Gedung.png',
       photo3: 'assets/images/Kost.png',
       ReviewPenyewa:
         'Di sekitar kost banyak resto dan coffe shop. Pemiliknya baik, tempatnya juga nyaman dan bersih',
-      BalasanReview:
-        'Halo, Kak Clara. Terima kasih atas reviewny dan ratingnya.',
     },
     {
       id: '3',
       namaPemilik: 'M Danar Kahfi',
-      rating: '5.0',
+      rating: '0',
       photo1: 'assets/images/Hotel.png',
       photo2: 'assets/images/Gedung.png',
       photo3: 'assets/images/Kost.png',
       ReviewPenyewa:
         'Di sekitar kost banyak resto dan coffe shop. Pemiliknya baik, tempatnya juga nyaman dan bersih',
-      BalasanReview:
-        'Halo, Kak Clara. Terima kasih atas reviewny dan ratingnya.',
     },
     {
       id: '4',
       namaPemilik: 'M Danar Kahfi',
-      rating: '5.0',
+      rating: '0',
       photo1: 'assets/images/Hotel.png',
       photo2: 'assets/images/Gedung.png',
       photo3: 'assets/images/Kost.png',
       ReviewPenyewa:
         'Di sekitar kost banyak resto dan coffe shop. Pemiliknya baik, tempatnya juga nyaman dan bersih',
-      BalasanReview:
-        'Halo, Kak Clara. Terima kasih atas reviewny dan ratingnya.',
     },
   ];
 
@@ -200,7 +192,7 @@ function DetailProduct() {
                   </div>
                   <div className='w-full flex justify-end items-center gap-x-2'>
                     <ReconciliationFilled className='text-primary text-[26px]' />
-                    <p className='text-xl'>31 transaksi berhasil</p>
+                    <p className='text-xl'>0 transaksi berhasil</p>
                   </div>
                 </div>
               </div>
@@ -208,7 +200,7 @@ function DetailProduct() {
             <div className='grid gap-y-6 grid-cols-1 pb-[30px] border-b border-slate-300'>
               <div className='font-semibold text-3xl flex items-center gap-4'>
                 <StarFilled className='text-[#FFCC00] text-[50px]' />
-                <p>3.4 (2 review)</p>
+                <p>0 (0 review)</p>
               </div>
               {limitedReviews.map((review, index) => (
                 <div key={index}>
@@ -220,7 +212,6 @@ function DetailProduct() {
                       photo2={review.photo2}
                       photo3={review.photo3}
                       ReviewPenyewa={review.ReviewPenyewa}
-                      BalasanReview={review.BalasanReview}
                     />
                   </div>
                 </div>
@@ -256,11 +247,11 @@ function DetailProduct() {
               </div>
               <div className='flex items-center gap-x-2'>
                 <StarFilled className='text-[#FFCC00] text-[26px]' />
-                <p className='font-bold text-xl text-rstroke'>3.4</p>
+                <p className='font-bold text-xl text-rstroke'>0</p>
               </div>
               <div className='flex items-center gap-x-2'>
                 <ReconciliationFilled className='text-rstroke text-[26px]' />
-                <p className='text-xl'>31 transaksi berhasil</p>
+                <p className='text-xl'>0 transaksi berhasil</p>
               </div>
             </div>
             <div className='flex items-center gap-x-2 text-rstroke'>
@@ -282,6 +273,7 @@ function DetailProduct() {
               )}
             </div>
           </div>
+          {role === isRole.owner && (
           <div
             className='rounded-[10px] bg-white h-[212px] p-[15px] sticky top-5'
             style={{
@@ -294,15 +286,26 @@ function DetailProduct() {
             </div>
             <div className='grid gap-y-5 grid-cols-1'>
               <div className='flex text-3xl justify-between'>
-                <div>Harga perbulan :</div>
-                <div className='font-bold'>{toIDR(datas?.monthly_price)}</div>
+                {datas?.monthly_price !== 0 ? (
+                  <>
+                    <div>Harga perbulan :</div>
+                    <div className='font-bold'>
+                      {toIDR(datas?.monthly_price)}
+                    </div>
+                  </>
+                ) : null}
               </div>
               <div className='flex text-3xl justify-between'>
+                {datas?.daily_price !== 0 ? (
+                   <>
                 <div>Harga perhari :</div>
-                <div className='font-bold'>{toIDR(datas?.daily_price)}</div>
+                  <div className='font-bold'>{toIDR(datas?.daily_price)}</div>
+                  </>
+                ) : null}
               </div>
             </div>
           </div>
+          )}
           {role === isRole.renter && (
             <div
               className='mt-12 rounded-[10px] bg-white h-fit p-[15px] sticky top-5'

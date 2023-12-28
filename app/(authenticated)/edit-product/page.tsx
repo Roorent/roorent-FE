@@ -83,8 +83,8 @@ function EditProduct() {
         specifications: data?.data?.specifications,
         facilities: data?.data?.facilities,
         descriptions: data?.data?.descriptions,
-        gender: data?.data?.sr_gender,
-        rules: data?.data?.sr_rules,
+        gender: data?.data?.gender,
+        rules: data?.data?.rules,
       });
       setPhotoProducts(
         data?.data?.photoProducts?.map((item: any) => item.photo)
@@ -101,8 +101,8 @@ function EditProduct() {
         specifications: data?.data?.specifications,
         facilities: data?.data?.facilities,
         descriptions: data?.data?.descriptions,
-        gender: data?.data?.sr_gender,
-        rules: data?.data?.sr_rules,
+        gender:data?.data?.gender,
+        rules: data?.data?.rules,
       });
       setFileList(
         data?.data?.photoProducts?.map((item: any) => {
@@ -176,14 +176,14 @@ function EditProduct() {
               photoProducts?.originFileObj
             );
           console.log(response);
-          // setFileList((state)=> [...state, response.body.filename])
+          setFileList((state)=> [...state, response.body.filename])
           setPhotoProducts([...photoProductsArray, response.body.filename]);
           // setDatas({
           //   ...datas,
           //   photo: [...photoProductsArray, response.body.filename],
           // });
         } else {
-          message.error('Extensi file tidak diketahui');
+          message.error('Anda hanya dapat mengunggah file JPG/JPEG/PNG');
         }
       }
     }
@@ -202,21 +202,6 @@ function EditProduct() {
     setPreviewTitle(
       file.name || file.url!.substring(file.url!.lastIndexOf('/') + 1)
     );
-  };
-
-  const beforeUpload = (file: RcFile) => {
-    const isJpgOrPng =
-      file.type === 'image/jpeg' ||
-      file.type === 'image/png' ||
-      file.type === 'image/jpg';
-    if (!isJpgOrPng) {
-      message.error('Anda hanya dapat mengunggah file JPG/JPEG/PNG!');
-    }
-    const isLt2M = file.size / 1024 / 1024 < 2;
-    if (!isLt2M) {
-      message.error('Gambar harus lebih kecil dari 2MB!');
-    }
-    return isJpgOrPng && isLt2M;
   };
 
   const uploadButton = (
@@ -264,12 +249,12 @@ function EditProduct() {
 
   const handleHargaPerHariChange = (value: number | null) => {
     setHargaPerHari(value);
-    setDatas({ ...datas, daily_price: value || 1000 });
+    setDatas({ ...datas, daily_price: value || 0 });
   };
 
   const handleHargaPerBulanChange = (value: number | null) => {
     setHargaPerBulan(value);
-    setDatas({ ...datas, monthly_price: value || 1000 });
+    setDatas({ ...datas, monthly_price: value || 0 });
   };
 
   // get value tipe produk
@@ -350,7 +335,6 @@ function EditProduct() {
                       fileList={fileList}
                       multiple={true}
                       onPreview={handlePreview}
-                      beforeUpload={beforeUpload}
                       onChange={handleUploadPhoto}
                     >
                       {fileList && fileList.length >= 10 ? null : uploadButton}
@@ -381,7 +365,6 @@ function EditProduct() {
                         message: 'Harap masukan nama produk!',
                       },
                     ]}
-                    // initialValue={data?.data?.name}
                   >
                     <Input
                       onChange={(e) => {
@@ -403,8 +386,6 @@ function EditProduct() {
                       size='small'
                       min={1}
                       max={10000}
-                      // defaultValue={1}
-                      // value={data?.data.stock}
                       className=' py-[10px] px-[3px] rounded-[10px] border border-rstroke regis text-xl'
                       onChange={(e) => {
                         setDatas({ ...datas, stock: e || 1 });
@@ -476,13 +457,6 @@ function EditProduct() {
               </div>
             </div>
             <div className='w-1/2'>
-              {/* <div className='produkOwner text-xl font-bold bg-[#ECF0FB] rounded-[10px] px-5 py-2.5 flex items-center mb-[30px]'>
-                <div className='w-full'>
-                  <p className='text-primary w-full flex justify-center'>
-                    Deskripsi Produk
-                  </p>
-                </div>
-              </div> */}
               <div className='my-4'>
                 <p className='mb-4 text-teks text-2xl font-bold'>
                   Spesifikasi Produk
@@ -641,7 +615,7 @@ function EditProduct() {
                             <Select
                               value={selectedOption?.value}
                               onChange={handleSelectChange}
-                              defaultValue={defaultSelectedOption.value}
+                              // defaultValue={defaultSelectedOption.value}
                               className='flex items-center'
                             >
                               {options.map((option) => (

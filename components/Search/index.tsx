@@ -1,3 +1,4 @@
+import { productsRepository } from "#/repository/products";
 import { SearchOutlined } from "@ant-design/icons";
 import { SearchProps } from "antd/es/input";
 import { Input } from "antd/lib";
@@ -9,6 +10,9 @@ const onSearch: SearchProps["onSearch"] = (value, _e, info) =>
   console.log(info?.source, value);
 
 function Searchs() {
+  const search = ''
+  const { data, error, isLoading } = productsRepository.hooks.searchProducts(search);
+  
   return (
     <div className="search">
       <Search

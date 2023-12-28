@@ -17,6 +17,10 @@ const url = {
   getProductsById(id: string) {
     return `/products/${id}`;
   },
+  getAllKos:() => '/products/all',
+  searchProducts: (search:string) => {
+    return `/products/search?s=${search}`;
+  }
 };
 
 const manipulatedata = {
@@ -42,7 +46,13 @@ const hooks = {
   },
     getProductsById(id:any){
       return useSWR(url.getProductsById(id), http.fetcher)
-  }
+  },
+  getAllKos(){
+    return useSWR(url.getAllKos(), http.fetcher)
+  },
+  searchProducts(search:string){
+    return useSWR(url.searchProducts(search), http.fetcher);
+  },
 };
 
 export const productsRepository = {

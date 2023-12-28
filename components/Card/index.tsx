@@ -5,7 +5,8 @@ import { HomeFilled, QuestionCircleFilled } from '@ant-design/icons';
 import { Icon } from '@iconify/react';
 import { config } from '#/config/app';
 
-function CardProduk({ image, label, title, address, idProducts }: any) {
+//disini tambahin mutate
+function CardProduk({ image, label, title, address, idProducts, mutate }: any) {
   const imgProduct = (img: string) =>
     `${config.baseUrl}/images/photo-products/${img}`;
 
@@ -65,6 +66,8 @@ function CardProduk({ image, label, title, address, idProducts }: any) {
                   content='Apakah anda yakin ingin hapus ?'
                   icon={<QuestionCircleFilled />}
                   buttonText='Hapus'
+                  // mutate nya dipanggil disini
+                  mutate={mutate}
                 />
               </div>
             </div>

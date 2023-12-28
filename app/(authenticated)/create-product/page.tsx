@@ -8,7 +8,6 @@ import {
   CameraOutlined,
   CheckCircleFilled,
   ExclamationCircleFilled,
-  HomeFilled,
 } from '@ant-design/icons';
 import {
   Button,
@@ -16,7 +15,6 @@ import {
   Input,
   InputNumber,
   Modal,
-  Radio,
   Select,
   Upload,
   message,
@@ -52,8 +50,8 @@ function CreateProduct() {
     name: '',
     type: 'kost',
     stock: 1,
-    daily_price: 1000,
-    monthly_price: 1000,
+    daily_price: 0,
+    monthly_price: 0,
     address: '',
     location: '',
     city: '',
@@ -206,12 +204,12 @@ function CreateProduct() {
 
   const handleHargaPerHariChange = (value: number | null) => {
     setHargaPerHari(value);
-    setDatas({ ...datas, daily_price: value || 1000 });
+    setDatas({ ...datas, daily_price: value || 0 });
   };
 
   const handleHargaPerBulanChange = (value: number | null) => {
     setHargaPerBulan(value);
-    setDatas({ ...datas, monthly_price: value || 1000 });
+    setDatas({ ...datas, monthly_price: value || 0 });
   };
 
   // get value tipe produk
@@ -639,7 +637,7 @@ function CreateProduct() {
                               style={{ width: '100%' }}
                               size='small'
                               prefix='Rp.'
-                              defaultValue={1000}
+                              defaultValue={0}
                               placeholder='Masukan Harga'
                               min={1000}
                               className=' p-[10px] rounded-[10px] border border-rstroke regis text-xl items-center'
@@ -668,7 +666,7 @@ function CreateProduct() {
                             <InputNumber
                               style={{ width: '100%' }}
                               size='small'
-                              defaultValue={1000}
+                              defaultValue={0}
                               placeholder='Masukan Harga'
                               prefix='Rp.'
                               min={1000}
@@ -700,7 +698,7 @@ function CreateProduct() {
                               <InputNumber
                                 style={{ width: '100%' }}
                                 size='small'
-                                defaultValue={1000}
+                                defaultValue={0}
                                 placeholder='Masukan harga'
                                 prefix='Rp.'
                                 min={1000}
@@ -728,7 +726,7 @@ function CreateProduct() {
                               <InputNumber
                                 style={{ width: '100%' }}
                                 size='small'
-                                defaultValue={1000}
+                                defaultValue={0}
                                 placeholder='Masukan harga'
                                 prefix='Rp.'
                                 min={1000}
@@ -781,7 +779,7 @@ function CreateProduct() {
                           <InputNumber
                             style={{ width: '100%' }}
                             size='small'
-                            defaultValue={1000}
+                            defaultValue={0}
                             placeholder='Masukan harga'
                             prefix='Rp.'
                             min={1000}
@@ -832,7 +830,7 @@ function CreateProduct() {
                             style={{ width: '100%' }}
                             size='small'
                             placeholder='Masukan harga'
-                            defaultValue={1000}
+                            defaultValue={0}
                             prefix='Rp.'
                             min={1000}
                             className=' p-[10px] rounded-[10px] border border-rstroke regis text-xl items-center'

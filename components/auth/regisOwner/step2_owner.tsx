@@ -30,7 +30,6 @@ function OwnerStep2({ setData, data, formStep2 }: Props) {
             const response = await authRepository.manipulatedata.uploadKtp(
               photoKtp?.originFileObj
             );
-            console.log(response.body.filename, 'hasilnya');
             setPhotoKtp(response.body.filename);
             setData({ ...data, photo_ktp: response.body.filename });
           } else {
