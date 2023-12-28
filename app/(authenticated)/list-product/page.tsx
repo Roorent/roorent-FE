@@ -31,12 +31,10 @@ function ListProduct() {
 
   const { data, error, isLoading } =
     productsRepository.hooks.getListProductByOwner(id, filterType);
-    if (!data) {
-      return <div>Loading...</div>;
-    }
-    const datas = data?.data;
-  
-    console.log(datas);
+  if (!data) {
+    return <div>Loading...</div>;
+  }
+  const datas = data?.data;
   return (
     <div>
       <div className='produkOwner text-4xl font-bold bg-primary rounded-[10px] px-5 py-2.5 flex items-center mb-[30px]'>
@@ -83,7 +81,7 @@ function ListProduct() {
           // pageSize={itemsPerPage}
           // onChange={handlePageChange}
           defaultCurrent={1}
-          total={50} 
+          total={50}
           className='text-2xl font-semibold'
         />
       </div>

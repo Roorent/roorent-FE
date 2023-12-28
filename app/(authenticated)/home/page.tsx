@@ -2,9 +2,7 @@
 
 import Button from '#/components/Button';
 import Searchs from '#/components/Search';
-import { HomeFilled } from '@ant-design/icons';
-import { Icon } from '@iconify/react';
-import { Radio, Select } from 'antd';
+import { Select } from 'antd';
 import React, { useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper/modules';
@@ -13,13 +11,14 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import Product from '#/components/Product';
 import Footer from '#/components/Footer';
+import TypeRadio from '#/components/TypeButton';
 
 const products = [
   {
     id: '1',
     image: '/assets/images/Gedung.png',
     isType: 'hotel',
-    isgender: 'pria',
+    isgender: 'pria', 
     rating: '4.5',
     namaProduk:
       'Kost Singgahsini MnV Co-Living Tipe B Bendungan Hilir Jakarta Pusat',
@@ -179,7 +178,7 @@ function Home() {
               Dapatkan informasi dan lakukan penyewaan
             </div>
             <div>
-              <Searchs />
+              <Searchs placeholder={'Masukan nama lokasi/kota/alamat/produk'} />
             </div>
           </div>
         </div>
@@ -192,46 +191,11 @@ function Home() {
         </div>
       </div>
       <div className='flex justify-center mt-[54px]'>
-        <Radio.Group
-          defaultValue='kost'
-          buttonStyle='solid'
+        <TypeRadio
           value={typeFilter}
           onChange={handleChange}
-          className='flex gap-x-28'
-        >
-          <div>
-            <Radio.Button
-              value='kost'
-              className='w-[166px] py-[20px] h-max font-bold flex justify-center text-2xl text-primary'
-            >
-              <div className='w-full flex items-center'>
-                <HomeFilled className='mr-2' />
-                Kost
-              </div>
-            </Radio.Button>
-          </div>
-          <div className='flex'>
-            <Radio.Button
-              value='gedung'
-              className='w-[166px] py-[20px] h-max font-bold flex justify-center text-2xl text-primary'
-            >
-              <div className='w-full flex items-center'>
-                <Icon icon='mingcute:building-1-fill' className='mr-2' /> Gedung
-              </div>
-            </Radio.Button>
-          </div>
-          <div>
-            <Radio.Button
-              value='hotel'
-              className='w-[166px] py-[20px] h-max font-bold flex justify-center text-2xl text-primary'
-            >
-              <div className='w-full flex items-center'>
-                <Icon icon='fa6-solid:hotel' className='mr-2' />
-                Hotel
-              </div>
-            </Radio.Button>
-          </div>
-        </Radio.Group>
+          defaultValue='kost'
+        />
       </div>
       {typeFilter === 'kost' && (
         <div className='flex items-center py-10 mt-[25px]'>
@@ -404,7 +368,7 @@ function Home() {
         </Swiper>
       </div>
       <div>
-        <Footer/>
+        <Footer />
       </div>
     </div>
   );
