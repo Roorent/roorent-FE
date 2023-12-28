@@ -29,7 +29,8 @@ function ListProduct() {
   // const [currentPage, setCurrentPage] = useState(1);
   // const itemsPerPage = 9;
 
-  const { data, error, isLoading } =
+  //disini di tambahin mutate
+  const { data, error, isLoading, mutate} =
     productsRepository.hooks.getListProductByOwner(id, filterType);
     if (!data) {
       return <div>Loading...</div>;
@@ -68,6 +69,8 @@ function ListProduct() {
               label={product.type}
               title={product.name}
               address={product.address}
+              // disini tambah mutate
+              mutate={mutate}
             />
           </div>
         ))}

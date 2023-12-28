@@ -53,15 +53,6 @@ function ListReview({
                 <div className='text-xl text-rstroke leading-normal'>
                     {ReviewPenyewa}
                 </div>
-                <div className='grid gap-y-5 text-xl leading-normal border-l border-slate-300 pl-10'>
-                    <div className='w-full grid gap-y-1 grid-cols-1'>
-                        <p className='font-semibold'>Balasan dari Pemilik</p>
-                        <p className='text-lg text-rstroke'>1 bulan yang lalu</p>
-                    </div>
-                    <div>
-                        {BalasanReview}
-                    </div>
-                </div>
             </div>
         </div>
     )

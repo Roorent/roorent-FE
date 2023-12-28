@@ -15,6 +15,7 @@ import Product from '#/components/Product';
 import Footer from '#/components/Footer';
 import { Header } from 'antd/es/layout/layout';
 import { LOGO } from '#/constants/images';
+import { productsRepository } from '#/repository/products';
 
 const products = [
   {
@@ -138,19 +139,39 @@ const products = [
 
 function Home() {
   const [typeFilter, setTypeFilter] = useState('kost');
+  const [cityFilter, setCityFilter] = useState('');
 
-  const filteredProducts = typeFilter
-    ? products.filter((product) => product.isType === typeFilter)
-    : products;
+  const { data, error, isLoading } = productsRepository.hooks.getAllKos();
+
+  if (!data) {
+    return <div>Loading...</div>;
+  }
+
+  const datas = data?.data;
+  
+  const filterProducts = (products:any, filter:any) => {
+    return products.filter((product:any) => product.type === filter);
+  };
+  const filterProductsCity = (products:any, type:any, city:any) => {
+    let filtered = products.filter((product:any) => product.type === type);
+    if (city) {
+      filtered = filtered.filter((product:any) => product.cities?.name === city);
+    }
+    return filtered;
+  };
+
+  const handleChangeCity = (value:any) => {
+    setCityFilter(value); // Update nilai kota saat terjadi perubahan pada Select
+  };
+
+  const 
+  filteredProducts = typeFilter
+  ? filterProducts(datas, typeFilter)
+  : datas;
 
   const handleChange = (e: any) => {
     setTypeFilter(e.target.value);
   };
-  const groupedProducts = [];
-  const groupSize = 4;
-  for (let i = 0; i < filteredProducts.length; i += groupSize) {
-    groupedProducts.push(filteredProducts.slice(i, i + groupSize));
-  }
 
   interface OptionType {
     value: string;
@@ -159,16 +180,16 @@ function Home() {
 
   const items: OptionType[] = [
     {
-      value: '1',
-      label: 'Bekasi',
+      value: 'Kota Bekasi',
+      label: 'Kota Bekasi',
     },
     {
-      value: '2',
-      label: 'Jakarta',
+      value: 'Kota Jakarta Pusat',
+      label: 'Kota Jakarta Pusat',
     },
     {
-      value: '3',
-      label: 'Bogor',
+      value: 'Kota Tegal',
+      label: 'Kota Tegal',
     },
   ];
   return (
@@ -298,25 +319,28 @@ function Home() {
           </div>
         )}
         <div className='mt-[45px]'>
-          <Swiper navigation={true} modules={[Navigation]} className='mySwiper'>
-            {groupedProducts.map((group, index) => (
-              <SwiperSlide key={index}>
-                <div className='flex justify-start px-[135px] gap-x-8 grid-cols-4'>
-                  {group.map((product) => (
-                    <div key={product.id}>
-                      <Product
-                        image={product.image}
-                        isType={product.isType}
-                        isgender={product.isgender}
-                        rating={product.rating}
-                        namaProduk={product.namaProduk}
-                        // kota={product.kota}
-                        stok={product.stok}
-                        hargaPerbulan={product.hargaPerbulan}
-                        hargaPerhari={product.hargaPerhari}
-                      />
-                    </div>
-                  ))}
+          <Swiper
+            navigation={true}
+            slidesPerView={4}
+            modules={[Navigation]}
+            className='mySwiper'
+          >
+            {filteredProducts.map((product: any) => (
+              <SwiperSlide>
+                <div className='flex justify-center'>
+                  <div key={product.id}>
+                    <Product
+                      image={product.photoProducts[0]?.photo}
+                      isType={product.type}
+                      isgender={product.specialRules?.gender}
+                      rating={product.rating}
+                      namaProduk={product.name}
+                      kota={product.cities?.name}
+                      stok={product.stock}
+                      hargaPerbulan={product.monthly_price}
+                      hargaPerhari={product.daily_price}
+                    />
+                  </div>
                 </div>
               </SwiperSlide>
             ))}
@@ -332,6 +356,8 @@ function Home() {
                   style={{ width: 'max-content', alignItems: 'center' }}
                   bordered={false}
                   options={items}
+                  value={cityFilter}
+                  onChange={handleChangeCity}
                 />
               </div>
             </div>
@@ -357,6 +383,8 @@ function Home() {
                   style={{ width: 'max-content', alignItems: 'center' }}
                   bordered={false}
                   options={items}
+                  value={cityFilter}
+                  onChange={handleChangeCity}
                 />
               </div>
             </div>
@@ -382,6 +410,8 @@ function Home() {
                   style={{ width: 'max-content', alignItems: 'center' }}
                   bordered={false}
                   options={items}
+                  value={cityFilter}
+                  onChange={handleChangeCity}
                 />
               </div>
             </div>
@@ -398,25 +428,28 @@ function Home() {
           </div>
         )}
         <div className='mt-[45px]'>
-          <Swiper navigation={true} modules={[Navigation]} className='mySwiper'>
-            {groupedProducts.map((group, index) => (
-              <SwiperSlide key={index}>
-                <div className='flex justify-start px-[135px] gap-x-8 grid-cols-4'>
-                  {group.map((product) => (
-                    <div key={product.id}>
-                      <Product
-                        image={product.image}
-                        isType={product.isType}
-                        isgender={product.isgender}
-                        rating={product.rating}
-                        namaProduk={product.namaProduk}
-                        kota={product.kota}
-                        stok={product.stok}
-                        hargaPerbulan={product.hargaPerbulan}
-                        hargaPerhari={product.hargaPerhari}
-                      />
-                    </div>
-                  ))}
+          <Swiper
+            navigation={true}
+            slidesPerView={4}
+            modules={[Navigation]}
+            className='mySwiper'
+          >
+            {filterProductsCity(filteredProducts, typeFilter, cityFilter).map((product: any) => (
+              <SwiperSlide>
+                <div className='flex justify-center'>
+                  <div key={product.id}>
+                    <Product
+                      image={product.photoProducts[0]?.photo}
+                      isType={product.type}
+                      isgender={product.specialRules?.gender}
+                      rating={product.rating}
+                      namaProduk={product.name}
+                      kota={product.cities?.name}
+                      stok={product.stock}
+                      hargaPerbulan={product.monthly_price}
+                      hargaPerhari={product.daily_price}
+                    />
+                  </div>
                 </div>
               </SwiperSlide>
             ))}
