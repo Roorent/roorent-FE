@@ -46,23 +46,29 @@ function Payment() {
     },
     {
       title: 'Kwitansi',
-      component: <Step3 onFinish={() => (Modal.success({
-        icon: (
-          <div className='modal-hapus mb-[10px] flex justify-center'>
-            <CheckCircleFilled />
-          </div>
-        ),
-        title: (
-          <div className='text-3xl font-bold flex justify-center'>
-          Transaksi Anda Sudah Berhasil !
-        </div>
-        ),
-        content: (
-          <div className='text-xl font-semibold flex justify-center mb-[25px]'>
-            Semoga nyaman dengan pilihan anda
-          </div>
-        ),
-      }))} />,
+      component: (
+        <Step3
+          onFinish={() =>
+            Modal.success({
+              icon: (
+                <div className='modal-hapus mb-[10px] flex justify-center'>
+                  <CheckCircleFilled />
+                </div>
+              ),
+              title: (
+                <div className='text-3xl font-bold flex justify-center'>
+                  Transaksi Anda Sudah Berhasil !
+                </div>
+              ),
+              content: (
+                <div className='text-xl font-semibold flex justify-center mb-[25px]'>
+                  Semoga nyaman dengan pilihan anda
+                </div>
+              ),
+            })
+          }
+        />
+      ),
       isValid: true,
     },
   ];
@@ -70,7 +76,6 @@ function Payment() {
   const items = steps.map((item) => ({ key: item.title, title: item.title }));
 
   const renderFormattedTime = ({ hours, minutes, seconds }: any) => {
-    // Sesuaikan warna latar belakang sesuai kebutuhan Anda
     return `${hours}:${minutes}:${seconds}`;
   };
   return (
@@ -141,7 +146,7 @@ function Payment() {
                     />
                   </div>
                   <div className='w-1/2'>
-                    <div className='grid gap-y-3'>
+                    <div className='grid gap-y-3 w-[300px]'>
                       <div className='flex gap-x-5'>
                         <div className='rounded-[10px] flex justify-center items-center gap-x-2 p-1.5 border border-rstroke text-rstroke text-xl cursor-default'>
                           <HomeFilled />
@@ -158,7 +163,7 @@ function Payment() {
                         <p className='text-2xl'>Bintara 14, Kota Bekasi</p>
                       </div>
                       <div className='text-2xl'>
-                        <p className='w-[370px] overflow-hidden truncate'>
+                        <p className='w-[300px] truncate'>
                           Kost Singgahsini MnV Co-Living Tipe B Bendungan Hilir
                           Jakarta Pusat
                         </p>
