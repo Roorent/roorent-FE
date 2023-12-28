@@ -173,7 +173,7 @@ function Home() {
   ];
   return (
     <div>
-      <div className='sticky top-0 w-full px-[190px] py-5 flex items-center border-b border-slate-200 bg-white z-99999'>
+      <div className='sticky top-0 w-full px-[190px] py-5 flex items-center border-b border-slate-200 bg-white z-50'>
         <div className='w-full'>
           <LOGO className='w-[200px]' />
         </div>
