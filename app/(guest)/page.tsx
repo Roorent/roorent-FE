@@ -139,7 +139,7 @@ const products = [
 
 function Home() {
   const [typeFilter, setTypeFilter] = useState('kost');
-  const [cityFilter, setCityFilter] = useState('');
+  const [cityFilter, setCityFilter] = useState('Pilih Kota');
 
   const { data, error, isLoading } = productsRepository.hooks.getAllKos();
 
@@ -154,7 +154,7 @@ function Home() {
   };
   const filterProductsCity = (products:any, type:any, city:any) => {
     let filtered = products.filter((product:any) => product.type === type);
-    if (city) {
+    if (city && city !== 'Pilih Kota') {
       filtered = filtered.filter((product:any) => product.cities?.name === city);
     }
     return filtered;
@@ -330,6 +330,7 @@ function Home() {
                 <div className='flex justify-center'>
                   <div key={product.id}>
                     <Product
+                      idProducts={product.id}
                       image={product.photoProducts[0]?.photo}
                       isType={product.type}
                       isgender={product.specialRules?.gender}
