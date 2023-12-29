@@ -27,7 +27,7 @@ function ModalDelete({ title, content, icon, buttonText, id, mutate }: any) {
       ),
       cancelText: <div className='text-xl font-bold text-white'>Batal</div>,
       onOk() {        
-        data.then((del) => {
+        data.then((del:any) => {
           return del
         });
         //disini panggil mutate nya

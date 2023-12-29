@@ -21,7 +21,7 @@ import {
 } from 'antd';
 import { UploadChangeParam, UploadFile } from 'antd/es/upload/interface';
 import { RcFile, UploadProps } from 'antd/lib/upload';
-import { useRouter } from 'next/navigation';
+import {useRouter} from 'next/navigation';
 import React, { useState } from 'react';
 
 const getBase64 = (file: RcFile): Promise<string> =>
@@ -258,7 +258,10 @@ function CreateProduct() {
                 <div>
                   <Form.Item name='type'>
                     <TypeRadio
-                    onChange={(e: any) => handleSelectChangeProduk(e.target.value)}
+                    onChange={(e: any) => {
+                      console.log(e, 'here');
+                      handleSelectChangeProduk(e)
+                    }}
                     value={selectedOptionProduk?.value}
                     defaultValue={defaultSelectedOptionProduk.value}
                     />

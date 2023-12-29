@@ -5,7 +5,7 @@ import { usePathname } from 'next/navigation';
 import React from 'react';
 import { MASCOT_OWNER, MASCOT_RENTER } from '#/constants/images';
 
-function TypeRadio({ onChange, value, defaultValue }: any) {
+function TypeRadio({onChange, value, defaultValue}: any) {
   const pathname = usePathname();
 
   const kategori = pathname === '/adm/management-user';
@@ -28,7 +28,7 @@ function TypeRadio({ onChange, value, defaultValue }: any) {
             <div className='w-1/2'>
               <Radio.Button
                 value='owner'
-                className='h-max font-bold flex justify-center text-primary'
+                className='h-max font-bold flex justify-center text-primary '
               >
                 <div className='w-full flex items-center text-2xl'>
                   <img src={MASCOT_OWNER} alt='Mascot Owner' />

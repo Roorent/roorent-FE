@@ -1,18 +1,39 @@
-import React from 'react';
-import Photo from '../Photo';
+import React, { useState } from 'react';
+import Photo from '#/components/Photo';
 import {
   CheckCircleFilled,
   ClockCircleFilled,
   CloseCircleFilled,
   PauseCircleFilled,
 } from '@ant-design/icons';
+import { config } from '#/config/app';
+import Button from '../Button';
+import { adminRepository } from '#/repository/adm';
 
-function ListPengguna({ role, namaPengguna, status }: any) {
+function ListPengguna({ image, role, namaPengguna, status, idUsers  }: any) {
+  // const imgProfile = (img: string) => `${config.baseUrl}/images/profile/${img}`;
+  const [newStatus, setNewStatus] = useState<string>(status);
+  const handleApprove = async (value: any) => {
+    try {
+      // Call the repository function to approve the owner
+      await adminRepository.manipulatedata.approveOwner(idUsers);
+      setNewStatus('active');
+    } catch (error) {
+      console.error('Error approving owner:', error);
+      // Handle error if needed
+    }
+  };
+  let photo: string = '';
   return (
     <div>
       <div className='flex items-center gap-x-[24px] px-5 py-2.5 rounded-[10px] border border-rstroke'>
         <div>
-          <Photo />
+          {/* <img
+                src={`${imgProfile(image)}`}
+                alt='produk'
+                className='object-cover object-center w-full h-full rounded-xl'
+              /> */}
+          <Photo src={photo} />
         </div>
         <div className='font-bold text-white'>
           {role === 'owner' && (
@@ -23,6 +44,25 @@ function ListPengguna({ role, namaPengguna, status }: any) {
           )}
         </div>
         <div className='w-full text-xl font-bold'>{namaPengguna}</div>
+        {role === 'owner' && (
+          <div className='flex gap-x-3 items-center'>
+            {status === 'pending' && (
+              <>
+                <div>
+                  <Button className='!mt-0 !font-bold'
+                  // href={`/users/approve/${idUsers}`}
+                  onChange={handleApprove}
+                  >Konfirmasi</Button>
+                </div>
+                <div>
+                  <Button className='!mt-0 !px-6 !bg-merah !font-bold'>
+                    Tolak
+                  </Button>
+                </div>
+              </>
+            )}
+          </div>
+        )}
         {status === 'pending' && (
           <div className='w-1/5 text-xl bg-[#FFCC00] text-white font-bold rounded-[10px] px-3 py-2 flex items-center'>
             <div className='mr-5'>

@@ -304,7 +304,7 @@ function EditProduct() {
                   <Form.Item name='type'>
                     <TypeRadio
                       onChange={(e: any) =>
-                        handleSelectChangeProduk(e.target.value)
+                        handleSelectChangeProduk(e)
                       }
                       // value={selectedOptionProduk?.value}
                       // value = {data?.product.type}

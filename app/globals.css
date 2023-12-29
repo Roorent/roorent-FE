@@ -416,7 +416,12 @@ textarea:where(.css-dev-only-do-not-override-1dj4ii3).ant-input {
   border: 1px solid #ffffff;
 }
 .ant-radio-button-wrapper:first-child {
-  border-inline-start: 0px;
+  border-inline-start: -3px;
+  border-color: white;
+  box-shadow: 0 1px 8px rgba(36, 36, 36, 0.14);
+}
+.ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled){
+  box-shadow: 0 1px 8px rgba(36, 36, 36, 0.14);
 }
 :where(
     .css-dev-only-do-not-override-1dj4ii3
