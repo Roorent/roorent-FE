@@ -22,7 +22,7 @@
 		"locale-id": "^1.1.2",
 		"mobx": "^6.9.0",
 		"mobx-react-lite": "^4.0.1",
-		"moment": "^2.29.4",
+		"moment": "^2.30.1",
 		"moment-timezone": "^0.5.43",
 		"next": "13.4.9",
 		"next-navigation": "^1.0.6",
