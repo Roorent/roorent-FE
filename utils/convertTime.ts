@@ -5,7 +5,7 @@ import 'moment/locale/id';
 export const convertTime = (inputString: any) => {
   moment.locale('id');
 
-  const inputDate = moment(inputString).tz('Asia/Jakarta');
+  const inputDate = moment(inputString);
   const currentDate = moment();
 
   const diffInDays = currentDate.diff(inputDate, 'days');

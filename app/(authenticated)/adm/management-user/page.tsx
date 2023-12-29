@@ -3,8 +3,9 @@
 import ListPengguna from '#/components/Pengguna';
 import Searchs from '#/components/Search';
 import TypeRadio from '#/components/TypeButton';
+import { MASCOT_OWNER, MASCOT_RENTER } from '#/constants/images';
 import { adminRepository } from '#/repository/adm';
-import { Pagination } from 'antd';
+import { Pagination, Radio } from 'antd';
 import React, { useState } from 'react';
 
 const users = [
@@ -52,9 +53,9 @@ const users = [
   },
 ];
 function ManagementUser() {
-    const [typeFilter, setTypeFilter] = useState('owner');
+  const [typeFilter, setTypeFilter] = useState('owner');
 
-    const { data, error, isLoading } = adminRepository.hooks.getAllUsers();
+  const { data, error, isLoading } = adminRepository.hooks.getAllUsers();
 
   if (!data) {
     return <div>Loading...</div>;
@@ -62,13 +63,13 @@ function ManagementUser() {
 
   const datas = data?.data;
 
-    const filteredUsers = typeFilter
-      ? datas.filter((user:any) => user?.level?.name === typeFilter)
-      : datas;
-  
-    const handleChange = (e: any) => {
-      setTypeFilter(e);
-    };
+  const filteredUsers = typeFilter
+    ? datas.filter((user: any) => user?.level?.name === typeFilter)
+    : datas;
+
+  const handleChange = (e: any) => {
+    setTypeFilter(e.target.value);
+  };
 
   return (
     <div>
@@ -77,17 +78,47 @@ function ManagementUser() {
           <p>Pengguna</p>
         </div>
         <div>
-          <TypeRadio 
+          {/* <TypeRadio 
           value={typeFilter}
           onChange={handleChange}
           defaultValue='owner'
-          />
+          /> */}
+          <Radio.Group
+            buttonStyle='solid'
+            value={typeFilter}
+            onChange={handleChange}
+            defaultValue='owner'
+            className='w-full flex gap-x-5'
+          >
+            <div className='w-1/2'>
+              <Radio.Button
+                value='owner'
+                className='h-max font-bold flex justify-center text-primary'
+              >
+                <div className='w-full flex items-center text-2xl'>
+                  <img src={MASCOT_OWNER} alt='Mascot Owner' />
+                  Pemilik
+                </div>
+              </Radio.Button>
+            </div>
+            <div className='w-1/2'>
+              <Radio.Button
+                value='renter'
+                className='h-max font-bold flex justify-center text-primary'
+              >
+                <div className='w-full flex items-center text-2xl'>
+                  <img src={MASCOT_RENTER} alt='Mascot Owner' />
+                  Penyewa
+                </div>
+              </Radio.Button>
+            </div>
+          </Radio.Group>
         </div>
         <div>
           <Searchs placeholder={'Masukan nama'} />
         </div>
         <div className='grid gap-y-4'>
-        {filteredUsers?.map((user:any) => (
+          {filteredUsers?.map((user: any) => (
             <div key={user.id}>
               <ListPengguna
                 idUsers={user.id}
