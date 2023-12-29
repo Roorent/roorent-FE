@@ -132,17 +132,32 @@ function DetailProduct() {
 
   return (
     <div className='w-full'>
-      <div className='w-full grid gap-y-[20px] grid-cols-1'>
-        <a
-          href='/list-product'
-          className='w-fit hover:text-teks flex font-bold text-xl gap-3'
-        >
-          <div>
-            <ArrowLeftOutlined />
-          </div>
-          <div>Kembali</div>
-        </a>
-      </div>
+      {role === isRole.owner && (
+        <div className='w-full grid gap-y-[20px] grid-cols-1'>
+          <a
+            href='/list-product'
+            className='w-fit hover:text-teks flex font-bold text-xl gap-3'
+          >
+            <div>
+              <ArrowLeftOutlined />
+            </div>
+            <div>Kembali</div>
+          </a>
+        </div>
+      )}
+      {role === isRole.renter && (
+        <div className='w-full grid gap-y-[20px] grid-cols-1'>
+          <a
+            href='/home'
+            className='w-fit hover:text-teks flex font-bold text-xl gap-3'
+          >
+            <div>
+              <ArrowLeftOutlined />
+            </div>
+            <div>Kembali</div>
+          </a>
+        </div>
+      )}
       <div className='flex gap-x-[30px] mt-[20px]'>
         <div className='w-1/2'>
           <div className='mb-8'>
@@ -188,10 +203,10 @@ function DetailProduct() {
               <div className='relative overflow-hidden brightness-100 '>
                 <GMAPS />
                 <div className='absolute inset-0 border-4 border-white '></div>
-                <div className='absolute top-[40%] left-[40%] font-bold'>
+                <div className='absolute top-[45%] left-[42%] font-bold'>
                   <Button
                     href={datas?.location}
-                    className='px-5 bg-transparent !border !border-white hover:bg-white hover:!text-rstroke'
+                    className='h-full px-5 py-3 bg-transparent !border !border-white hover:bg-white hover:!text-rstroke !text-white'
                   >
                     Lihat Peta
                   </Button>
@@ -237,7 +252,7 @@ function DetailProduct() {
               {!showAllReviews && reviews.length > 3 && (
                 <Button
                   onClick={() => setShowAllReviews(true)}
-                  className='w-fit px-7 hover:bg-transparent !text-rstroke text-xl font-bold border border-rstroke bg-transparent cursor-pointer'
+                  className='w-fit h-max px-7 py-3 hover:bg-transparent hover:!text-primary !text-rstroke text-xl font-bold border border-rstroke bg-transparent cursor-pointer'
                 >
                   Lihat semua review
                 </Button>
@@ -250,19 +265,43 @@ function DetailProduct() {
             <div className='text-5xl font-semibold leading-snug'>
               {datas?.name}
             </div>
-            <div className='flex gap-x-[30px]'>
-              <div className='rounded-[10px] flex justify-center items-center gap-x-2 p-1.5 border border-rstroke text-rstroke text-base cursor-default'>
-                <HomeFilled />
-                <p className='font-semibold'>{datas?.type}</p>
-              </div>
-              <div className='font-bold text-white'>
-                {datas?.gender === 'pria' && (
-                  <p className='bg-primary py-2 px-5 rounded-md'>Pria</p>
-                )}
-                {datas?.gender === 'wanita' && (
-                  <p className='bg-labelWanita py-2 px-5 rounded-md'>Wanita</p>
-                )}
-              </div>
+            <div className='flex gap-x-[20px] items-center'>
+              {datas?.type === 'kost' && (
+                <div className='rounded-[10px] flex justify-center items-center gap-x-2 p-1.5 border border-rstroke text-rstroke text-xl cursor-default'>
+                  <HomeFilled />
+                  <p className='font-semibold'>Kost</p>
+                </div>
+              )}
+              {datas?.type === 'gedung' && (
+                <div className='rounded-[10px] flex justify-center items-center gap-x-2 p-1.5 border border-rstroke text-rstroke text-xl cursor-default'>
+                  <Icon icon='mingcute:building-1-fill' />
+                  <p className='font-semibold'>Gedung</p>
+                </div>
+              )}
+              {datas?.type === 'hotel' && (
+                <div className='rounded-[10px] flex justify-center items-center gap-x-2 p-1.5 border border-rstroke text-rstroke text-xl cursor-default'>
+                  <Icon icon='fa6-solid:hotel' />
+                  <p className='font-semibold'>Hotel</p>
+                </div>
+              )}
+              {datas?.type === 'kost' ? (
+                <div className='font-bold text-white flex items-center'>
+                  {datas?.gender === 'pria' && (
+                    <p className='bg-primary py-2 px-5 rounded-md'>Pria</p>
+                  )}
+                  {datas?.gender === 'wanita' && (
+                    <p className='bg-labelWanita py-2 px-5 rounded-md'>
+                      Wanita
+                    </p>
+                  )}
+                  \
+                  {datas?.gender === 'campur' && (
+                    <p className='bg-orange-400 py-2 px-5 rounded-md'>Campur</p>
+                  )}
+                </div>
+              ) : (
+                <></>
+              )}
               <div className='flex items-center gap-x-2'>
                 <StarFilled className='text-[#FFCC00] text-[26px]' />
                 <p className='font-bold text-xl text-rstroke'>0</p>
@@ -272,9 +311,11 @@ function DetailProduct() {
                 <p className='text-xl'>0 transaksi berhasil</p>
               </div>
             </div>
-            <div className='flex items-center gap-x-2 text-rstroke'>
+            <div className='flex items-start gap-x-2 text-rstroke'>
               <EnvironmentFilled className='text-[26px]' />
-              <p className='text-xl'>{datas?.address + ', ' + datas?.city}</p>
+              <p className='text-xl flex items-start'>
+                {datas?.address + ', ' + datas?.city}
+              </p>
             </div>
             <div className='flex'>
               <div className='w-full items-center flex gap-x-2 text-rstroke text-xl'>
@@ -292,37 +333,49 @@ function DetailProduct() {
             </div>
           </div>
           {role === isRole.owner && (
-          <div
-            className='rounded-[10px] bg-white h-[212px] p-[15px] sticky top-5'
-            style={{
-              boxShadow:
-                '0 -2px 40px rgba(0,0,0,.04), 0 16px 40px rgba(0,0,0,.06)',
-            }}
-          >
-            <div className='text-xl font-bold bg-primary rounded-[10px] px-5 py-2.5 flex items-center mb-[30px] text-white w-full justify-center'>
-              Harga Produk
-            </div>
-            <div className='grid gap-y-5 grid-cols-1'>
-              <div className='flex text-3xl justify-between'>
-                {datas?.monthly_price !== 0 ? (
-                  <>
-                    <div>Harga perbulan :</div>
-                    <div className='font-bold'>
-                      {toIDR(datas?.monthly_price)}
-                    </div>
-                  </>
-                ) : null}
+            <div
+              className='rounded-[10px] bg-white h-[188px] p-[15px] sticky top-5'
+              style={{
+                boxShadow:
+                  '0 -2px 40px rgba(0,0,0,.04), 0 16px 40px rgba(0,0,0,.06)',
+              }}
+            >
+              <div className='text-xl font-bold bg-primary rounded-[10px] px-5 py-2.5 flex items-center mb-[30px] text-white w-full justify-center'>
+                Harga Produk
               </div>
-              <div className='flex text-3xl justify-between'>
-                {datas?.daily_price !== 0 ? (
-                   <>
-                <div>Harga perhari :</div>
-                  <div className='font-bold'>{toIDR(datas?.daily_price)}</div>
-                  </>
-                ) : null}
-              </div>
+              {datas?.type === 'kost' && (
+                <div className='grid gap-y-5 grid-cols-1'>
+                  <div className='flex text-3xl justify-between'>
+                    {datas?.monthly_price !== 0 ? (
+                      <>
+                        <div>Harga perbulan :</div>
+                        <div className='font-bold'>
+                          {toIDR(datas?.monthly_price)}
+                        </div>
+                      </>
+                    ) : null}
+                  </div>
+                  <div className='flex text-3xl justify-between'>
+                    {datas?.daily_price !== 0 ? (
+                      <>
+                        <div>Harga perhari :</div>
+                        <div className='font-bold'>
+                          {toIDR(datas?.daily_price)}
+                        </div>
+                      </>
+                    ) : null}
+                  </div>
+                </div>
+              )}
+              {(datas?.type === 'gedung' || datas?.type === 'hotel') && (
+                <div className='grid gap-y-5 grid-cols-1'>
+                  <div className='flex text-3xl justify-between'>
+                    <div>Harga perhari :</div>
+                    <div className='font-bold'>{toIDR(datas?.daily_price)}</div>
+                  </div>
+                </div>
+              )}
             </div>
-          </div>
           )}
           {role === isRole.renter && (
             <div
@@ -334,62 +387,97 @@ function DetailProduct() {
             >
               <Form className='detail-product' onFinish={onFinish}>
                 <div className='grid gap-y-5 grid-cols-1'>
-                  <div className='flex text-3xl gap-x-3 items-center'>
-                    <div className='font-bold'>
-                      {filterPrice === 'perbulan'
-                        ? toIDR(datas?.monthly_price)
-                        : toIDR(datas?.daily_price)}
-                    </div>
-                    <div>(Harga {filterPrice})</div>
-                  </div>
-                  <div className='w-full mt-4 flex justify-center'>
-                    <Radio.Group
-                      defaultValue={filterPrice}
-                      onChange={(e) => setFilterPrice(e.target.value)}
-                      size='large'
-                      buttonStyle='solid'
-                      className='font-bold border-2 border-primary rounded-[11px]'
-                    >
-                      <Radio.Button value='perhari' className='px-6'>
-                        Perhari
-                      </Radio.Button>
-                      <Radio.Button value='perbulan'>Perbulan</Radio.Button>
-                    </Radio.Group>
-                  </div>
-                  <div className='grid gap-y-4 grid-cols-1'>
-                    <div className='w-full'>
-                      <Form.Item
-                        name='lease_date'
-                        rules={[
-                          {
-                            required: true,
-                            message: 'Harap masukan tanggal sewa anda!',
-                          },
-                        ]}
-                      >
-                        {filterPrice === 'perhari' ? (
-                          <RangePicker
-                            defaultValue={[null, null]}
-                            placeholder={[
-                              'Tanggal Awal Sewa',
-                              'Tanggal Akhir Sewa',
+                  {datas?.type === 'kost' ? (
+                    <>
+                      <div className='flex text-3xl gap-x-3 items-center'>
+                        <div className='font-bold'>
+                          {filterPrice === 'perbulan'
+                            ? toIDR(datas?.monthly_price)
+                            : toIDR(datas?.daily_price)}
+                        </div>
+                        <div>(Harga {filterPrice})</div>
+                      </div>
+                      <div className='w-full mt-4 flex justify-center'>
+                        <Radio.Group
+                          defaultValue={filterPrice}
+                          onChange={(e) => setFilterPrice(e.target.value)}
+                          size='large'
+                          buttonStyle='solid'
+                          className='font-bold border-2 border-primary rounded-[11px]'
+                        >
+                          <Radio.Button value='perhari' className='px-6'>
+                            Perhari
+                          </Radio.Button>
+                          <Radio.Button value='perbulan'>Perbulan</Radio.Button>
+                        </Radio.Group>
+                      </div>
+                      <div className='grid gap-y-4 grid-cols-1'>
+                        <div className='w-full'>
+                          <Form.Item
+                            name='lease_date'
+                            rules={[
+                              {
+                                required: true,
+                                message: 'Harap masukan tanggal sewa anda!',
+                              },
                             ]}
-                            className='w-full regis'
-                          />
-                        ) : (
-                          <RangePicker
-                            picker='month'
-                            defaultValue={[null, null]}
-                            placeholder={[
-                              'Tanggal Awal Sewa',
-                              'Tanggal Akhir Sewa',
+                          >
+                            {filterPrice === 'perhari' ? (
+                              <RangePicker
+                                defaultValue={[null, null]}
+                                placeholder={[
+                                  'Tanggal Awal Sewa',
+                                  'Tanggal Akhir Sewa',
+                                ]}
+                                className='w-full regis'
+                              />
+                            ) : (
+                              <RangePicker
+                                picker='month'
+                                defaultValue={[null, null]}
+                                placeholder={[
+                                  'Tanggal Awal Sewa',
+                                  'Tanggal Akhir Sewa',
+                                ]}
+                                className='w-full regis'
+                              />
+                            )}
+                          </Form.Item>
+                        </div>
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <div className='flex text-3xl gap-x-3 items-center mb-3'>
+                        <div className='font-bold'>
+                          {toIDR(datas?.daily_price)}
+                        </div>
+                        <div>(Harga Perhari)</div>
+                      </div>
+                      <div className='grid gap-y-4 grid-cols-1'>
+                        <div className='w-full'>
+                          <Form.Item
+                            name='lease_date'
+                            rules={[
+                              {
+                                required: true,
+                                message: 'Harap masukan tanggal sewa anda!',
+                              },
                             ]}
-                            className='w-full regis'
-                          />
-                        )}
-                      </Form.Item>
-                    </div>
-                  </div>
+                          >
+                            <RangePicker
+                              defaultValue={[null, null]}
+                              placeholder={[
+                                'Tanggal Awal Sewa',
+                                'Tanggal Akhir Sewa',
+                              ]}
+                              className='w-full regis'
+                            />
+                          </Form.Item>
+                        </div>
+                      </div>
+                    </>
+                  )}
                   <div>
                     <Button className='w-full p-[8px] h-14 rounded-2xl flex justify-center items-center !bg-transparent !border-2 !border-primary !text-primary !font-bold !text-xl hover:!bg-primary hover:!text-white'>
                       <div className='flex items-center'>

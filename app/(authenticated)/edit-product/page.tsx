@@ -8,6 +8,7 @@ import {
   CameraOutlined,
   CheckCircleFilled,
   ExclamationCircleFilled,
+  HomeFilled,
 } from '@ant-design/icons';
 import {
   Button,
@@ -15,6 +16,7 @@ import {
   Input,
   InputNumber,
   Modal,
+  Radio,
   Select,
   Upload,
   message,
@@ -23,6 +25,7 @@ import { UploadChangeParam, UploadFile } from 'antd/es/upload/interface';
 import { RcFile, UploadProps } from 'antd/lib/upload';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { config } from '#/config/app';
+import { Icon } from '@iconify/react';
 
 const getBase64 = (file: RcFile): Promise<string> =>
   new Promise((resolve, reject) => {
@@ -101,7 +104,7 @@ function EditProduct() {
         specifications: data?.data?.specifications,
         facilities: data?.data?.facilities,
         descriptions: data?.data?.descriptions,
-        gender:data?.data?.gender,
+        gender: data?.data?.gender,
         rules: data?.data?.rules,
       });
       setFileList(
@@ -176,7 +179,7 @@ function EditProduct() {
               photoProducts?.originFileObj
             );
           console.log(response);
-          setFileList((state)=> [...state, response.body.filename])
+          setFileList((state) => [...state, response.body.filename]);
           setPhotoProducts([...photoProductsArray, response.body.filename]);
           // setDatas({
           //   ...datas,
@@ -236,26 +239,64 @@ function EditProduct() {
   };
 
   const [selectedOption, setSelectedOption] = useState<OptionType | undefined>(
-    defaultSelectedOption
+    (defaultSelectedOption)
   );
 
   const [hargaPerHari, setHargaPerHari] = useState<number | null>(null);
   const [hargaPerBulan, setHargaPerBulan] = useState<number | null>(null);
 
+  // const handleSelectChange = (value: string) => {
+  //   const selected = options.find((option) => option.value === value);
+  //   setSelectedOption(selected);
+  // };
+
+  // const handleHargaPerHariChange = (value: number | null) => {
+  //   setHargaPerHari(value);
+  //   setDatas({ ...datas, daily_price: value || 0 });
+  // };
+
+  // const handleHargaPerBulanChange = (value: number | null) => {
+  //   setHargaPerBulan(value);
+  //   setDatas({ ...datas, monthly_price: value || 0 });
+  // };
+
   const handleSelectChange = (value: string) => {
     const selected = options.find((option) => option.value === value);
     setSelectedOption(selected);
+    localStorage.setItem('selectedOption', JSON.stringify(selected));
   };
 
   const handleHargaPerHariChange = (value: number | null) => {
     setHargaPerHari(value);
     setDatas({ ...datas, daily_price: value || 0 });
+    localStorage.setItem('perhari', JSON.stringify(value));
   };
 
   const handleHargaPerBulanChange = (value: number | null) => {
     setHargaPerBulan(value);
     setDatas({ ...datas, monthly_price: value || 0 });
+    localStorage.setItem('perbulan', JSON.stringify(value));
   };
+
+  useEffect(() => {
+    const storedSelectedOption = localStorage.getItem('selectedOption');
+
+    const storedHargaPerHari = localStorage.getItem('perhari');
+    const storedHargaPerBulan = localStorage.getItem('perbulan');
+
+    setSelectedOption(
+      storedSelectedOption ? JSON.parse(storedSelectedOption) : null
+    );
+
+    setHargaPerHari(storedHargaPerHari ? JSON.parse(storedHargaPerHari) : null);
+    setHargaPerBulan(
+      storedHargaPerBulan ? JSON.parse(storedHargaPerBulan) : null
+    );
+
+    // setDatas({
+    // daily_price: storedHargaPerHari ? (JSON.parse(storedHargaPerHari) || 0) : 0,
+    // monthly_price: storedHargaPerBulan ? (JSON.parse(storedHargaPerBulan) || 0) : 0,
+  }, []);
 
   // get value tipe produk
   const optionsProduk: OptionType[] = [
@@ -302,14 +343,56 @@ function EditProduct() {
                 </p>
                 <div>
                   <Form.Item name='type'>
-                    <TypeRadio
+                    {datas?.type === 'kost' && (
+                      <div className='w-full'>
+                        <Radio.Button
+                          value='kost'
+                          className='py-[20px] h-max font-bold flex justify-center text-primary'
+                        >
+                          <div className='w-full flex items-center text-2xl'>
+                            <HomeFilled className='mr-2' />
+                            Kost
+                          </div>
+                        </Radio.Button>
+                      </div>
+                    )}
+                    {datas?.type === 'gedung' && (
+                      <div className='w-full'>
+                        <Radio.Button
+                          value='gedung'
+                          className='py-[20px] h-max font-bold flex justify-center text-primary'
+                        >
+                          <div className='w-full flex items-center text-2xl'>
+                            <Icon
+                              icon='mingcute:building-1-fill'
+                              className='mr-2'
+                            />{' '}
+                            Gedung
+                          </div>
+                        </Radio.Button>
+                      </div>
+                    )}
+                    {datas?.type === 'hotel' && (
+                      <div className='w-full'>
+                        <Radio.Button
+                          value='hotel'
+                          className='py-[20px] h-max font-bold flex justify-center text-primary'
+                        >
+                          <div className='w-full flex items-center text-2xl'>
+                            <Icon icon='fa6-solid:hotel' className='mr-2' />
+                            Hotel
+                          </div>
+                        </Radio.Button>
+                      </div>
+                    )}
+                    {/* <TypeRadio
                       onChange={(e: any) =>
                         handleSelectChangeProduk(e)
                       }
                       // value={selectedOptionProduk?.value}
                       // value = {data?.product.type}
                       // defaultValue={defaultSelectedOptionProduk.value}
-                    />
+                    /> */}
                   </Form.Item>
                 </div>
               </div>
@@ -451,7 +534,7 @@ function EditProduct() {
                 </div>
                 <div className='w-full'>
                   <p className='w-full '>
-                    Harga yang di input akan dikenakan biaya admin sebesar 5%
+                    Pastikan anda memasukan link lokasi dengan benar
                   </p>
                 </div>
               </div>
@@ -556,7 +639,6 @@ function EditProduct() {
                       <Select
                         // placeholder='Pilih Tipe'
                         style={{ width: '100%' }}
-                        defaultValue={'campur'}
                         options={[
                           { value: 'campur', label: 'Campur' },
                           { value: 'pria', label: 'Pria' },
@@ -615,7 +697,7 @@ function EditProduct() {
                             <Select
                               value={selectedOption?.value}
                               onChange={handleSelectChange}
-                              // defaultValue={defaultSelectedOption.value}
+                              defaultValue={selectedOption ? selectedOption.value : defaultSelectedOption.value}
                               className='flex items-center'
                             >
                               {options.map((option) => (
@@ -647,7 +729,6 @@ function EditProduct() {
                               style={{ width: '100%' }}
                               size='small'
                               prefix='Rp.'
-                              defaultValue={1000}
                               placeholder='Masukan Harga'
                               min={1000}
                               className=' p-[10px] rounded-[10px] border border-rstroke regis text-xl items-center'

@@ -371,7 +371,7 @@ const AuthenticatedLayout: React.FC<AuthenticatedLayoutProps> = ({
             >
               <div
                 style={{
-                  padding: '40px 190px 0 190px',
+                  padding: '40px 30px 0 30px',
                   minHeight: 360,
                   height: '100%',
                   background: colorBgContainer,

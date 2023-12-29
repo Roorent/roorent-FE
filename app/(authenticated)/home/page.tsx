@@ -136,7 +136,7 @@ const products = [
 
 function Home() {
   const [typeFilter, setTypeFilter] = useState('kost');
-  const [cityFilter, setCityFilter] = useState('');
+  const [cityFilter, setCityFilter] = useState('Pilih Kota');
 
   const { data, error, isLoading } = productsRepository.hooks.getAllKos();
 
@@ -151,7 +151,7 @@ function Home() {
   };
   const filterProductsCity = (products: any, type: any, city: any) => {
     let filtered = products.filter((product: any) => product.type === type);
-    if (city) {
+    if (city && city !== 'Pilih Kota') {
       filtered = filtered.filter(
         (product: any) => product.cities?.name === city
       );
@@ -168,13 +168,8 @@ function Home() {
     : datas;
 
   const handleChange = (e: any) => {
-    setTypeFilter(e.target.value);
+    setTypeFilter(e);
   };
-  // const groupedProducts = [];
-  // const groupSize = 4;
-  // for (let i = 0; i < filteredProducts.length; i += groupSize) {
-  //   groupedProducts.push(filteredProducts.slice(i, i + groupSize));
-  // }
 
   interface OptionType {
     value: string;
@@ -281,7 +276,8 @@ function Home() {
           >
             {filteredProducts.map((product: any) => (
               <SwiperSlide>
-                <div className='flex justify-center'>
+                {/* <div className='flex justify-center'> */}
+                <div className='flex justify-start px-[135px] gap-x-8 grid-cols-4'>
                   <div key={product.id}>
                     <Product
                       idProducts={product.id}
@@ -361,10 +357,10 @@ function Home() {
               <div className='text-4xl font-bold'>Rekomendasi Hotel di</div>
               <div className='font-bold home-produk items-center'>
                 <Select
-                  placeholder='Pilih Kota'
                   style={{ width: 'max-content', alignItems: 'center' }}
                   bordered={false}
                   options={items}
+                  placeholder='Pilih Kota'
                   value={cityFilter}
                   onChange={handleChangeCity}
                 />
@@ -395,6 +391,7 @@ function Home() {
                   <div className='flex justify-center'>
                     <div key={product.id}>
                       <Product
+                        idProducts={product.id}
                         image={product.photoProducts[0]?.photo}
                         isType={product.type}
                         isgender={product.specialRules?.gender}

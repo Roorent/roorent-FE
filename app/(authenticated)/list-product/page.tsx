@@ -30,7 +30,7 @@ function ListProduct() {
   // const itemsPerPage = 9;
 
   //disini di tambahin mutate
-  const { data, error, isLoading, mutate} =
+  const { data, error, isLoading, mutate } =
     productsRepository.hooks.getListProductByOwner(id, filterType);
   if (!data) {
     return <div>Loading...</div>;
@@ -45,13 +45,6 @@ function ListProduct() {
         </div>
         <div className='flex gap-x-6 items-center'>
           <div className='w-full'>
-            <TypeRadio
-              defaultValue='kost'
-              value={filterType}
-              onChange={handleChange}
-            />
-          </div>
-          <div className='w-full'>
             <Button
               type='primary'
               htmlType='submit'
@@ -62,6 +55,13 @@ function ListProduct() {
             </Button>
           </div>
         </div>
+      </div>
+      <div className='w-full mb-[30px]'>
+        <TypeRadio
+          defaultValue='kost'
+          value={filterType}
+          onChange={handleChange}
+        />
       </div>
       <div className='grid gap-5 grid-cols-3'>
         {datas?.map((product: any) => (

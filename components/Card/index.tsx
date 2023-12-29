@@ -32,9 +32,11 @@ function CardProduk({ image, label, title, address, idProducts, mutate }: any) {
                   {label === 'hotel' && <Icon icon='fa6-solid:hotel' />}
                 </>
                 <p className='font-semibold'>{label}</p>
-              </div>                                                                                                             
-              <p className='mt-2 text-lg font-bold'>{title}</p>
-              <p className='mt-8 text-md'>{address}</p>
+              </div>
+              <p className='mt-2 text-xl font-bold'>{title}</p>
+              <p className='mt-3 text-lg font-semibold text-rstroke line-clamp-2'>
+                {address}
+              </p>
             </div>
           </div>
           <div className='flex gap-4 justify-between'>
