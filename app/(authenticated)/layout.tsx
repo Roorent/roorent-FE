@@ -46,7 +46,7 @@ const AuthenticatedLayout: React.FC<AuthenticatedLayoutProps> = ({
   const pathname = usePathname();
 
   const cruProduk =
-    pathname === '/create-product' || pathname === '/edit-product' || pathname === '/detail-product' || pathname === '/payment';
+    pathname === '/create-product' || pathname === '/edit-product' || pathname === '/detail-product' || pathname === '/payment' || pathname === '/adm/detail-pengguna';
 
   const {
     token: { colorBgContainer },
@@ -168,6 +168,7 @@ const AuthenticatedLayout: React.FC<AuthenticatedLayoutProps> = ({
 
   const onClickAdmin: MenuProps['onClick'] = (e) => {
     setCurrAdmin(e.key);
+    router.push(e.key)
   };
   const onClickOwner: MenuProps['onClick'] = (e) => {
     setCurrOwner(e.key);
