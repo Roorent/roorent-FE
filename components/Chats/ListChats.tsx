@@ -24,6 +24,8 @@ function ListChats({ openChat, isOpen }: any) {
           styles: {
             content: {
               position: 'absolute',
+              display: 'flex',
+              flexDirection: 'column',
               right: 0,
               top: 0,
               width: '80%',
@@ -36,7 +38,7 @@ function ListChats({ openChat, isOpen }: any) {
       >
         <Modal
           title={
-            <div>
+            <div className='w-[380px]'>
               <div className='ml-2 text-2xl font-bold text-slate-800'>
                 Pesan
               </div>
@@ -54,7 +56,7 @@ function ListChats({ openChat, isOpen }: any) {
           }
           footer={false}
         >
-          <div className='flex flex-col gap-4 my-2'>
+          <div className='flex flex-col gap-4 my-2 w-[380px]'>
             <div className='flex items-center'>
               <div className='w-[18%]'>
                 <Photo />

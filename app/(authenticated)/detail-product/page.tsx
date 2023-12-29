@@ -62,6 +62,9 @@ function DetailProduct() {
   const onChange = (currentSlide: number) => {
     console.log(currentSlide);
   };
+  const handleFilterPrice = (e: any) => {
+    setFilterPrice(e.target.value);
+  };
 
   const onFinish = async (val: any) => {
     try {
@@ -388,17 +391,29 @@ function DetailProduct() {
                   {datas?.type === 'kost' ? (
                     <>
                       <div className='flex text-3xl gap-x-3 items-center'>
-                        <div className='font-bold'>
-                          {filterPrice === 'perbulan'
-                            ? toIDR(datas?.monthly_price)
-                            : toIDR(datas?.daily_price)}
-                        </div>
-                        <div>(Harga {filterPrice})</div>
+                        {filterPrice === 'perbulan' &&
+                          datas?.monthly_price !== 0 && (
+                            <>
+                              <div className='font-bold'>
+                                {toIDR(datas?.monthly_price)}
+                              </div>
+                              <div>(Harga {filterPrice})</div>
+                            </>
+                          )}
+                        {filterPrice === 'perhari' &&
+                          datas?.daily_price !== 0 && (
+                            <>
+                              <div className='font-bold'>
+                                {toIDR(datas?.daily_price)}
+                              </div>
+                              <div>(Harga {filterPrice})</div>
+                            </>
+                          )}
                       </div>
                       <div className='w-full mt-4 flex justify-center'>
                         <Radio.Group
                           defaultValue={filterPrice}
-                          onChange={(e) => setFilterPrice(e.target.value)}
+                          onChange={handleFilterPrice}
                           size='large'
                           buttonStyle='solid'
                           className='font-bold border-2 border-primary rounded-[11px]'

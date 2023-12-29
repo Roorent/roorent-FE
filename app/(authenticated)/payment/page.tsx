@@ -102,7 +102,7 @@ function Payment() {
       <div className='grid gap-y-[20px] grid-cols-1'>
         {currentStep === 0 && (
           <a
-            href='/home'
+            href={`/detail-product?id=${datas?.product_id}`}
             className='w-fit hover:text-teks flex font-bold text-xl gap-3'
           >
             <div>

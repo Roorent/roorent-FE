@@ -46,7 +46,10 @@ const AuthenticatedLayout: React.FC<AuthenticatedLayoutProps> = ({
   const pathname = usePathname();
 
   const cruProduk =
-    pathname === '/create-product' || pathname === '/edit-product' || pathname === '/detail-product' || pathname === '/payment';
+    pathname === '/create-product' ||
+    pathname === '/edit-product' ||
+    pathname === '/detail-product' ||
+    pathname === '/payment';
 
   const {
     token: { colorBgContainer },
@@ -316,7 +319,7 @@ const AuthenticatedLayout: React.FC<AuthenticatedLayoutProps> = ({
                   <Photo src={photo} />
                   <div
                     onClick={handleLogout}
-                    className='bg-primary flex items-center text-md rounded-lg p-4 h-10 text-white font-bold'
+                    className='bg-primary flex items-center text-md rounded-lg p-4 h-10 text-white font-bold cursor-pointer'
                   >
                     Logout
                   </div>

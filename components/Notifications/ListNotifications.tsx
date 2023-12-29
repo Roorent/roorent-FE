@@ -37,6 +37,11 @@ function ListNotifications({ openNotification, isOpen }: any) {
   }
 
   const { data, error, isLoading } = notifRepository.hooks.getNotifByUser(id);
+  if (!data) {
+    return <div>Loading...</div>;
+  }
+
+  const datas = data?.data;
 
   return (
     <>
@@ -46,6 +51,8 @@ function ListNotifications({ openNotification, isOpen }: any) {
             content: {
               width: '80%',
               padding: '15px',
+              display: 'flex',
+              flexDirection: 'column',
               boxShadow: '0 25px 50px -12px rgb(0 0 0 / 0.5)',
             },
           },
@@ -53,7 +60,7 @@ function ListNotifications({ openNotification, isOpen }: any) {
       >
         <Modal
           title={
-            <div>
+            <div className='w-[380px]'>
               <div className='ml-2 text-2xl font-bold text-slate-800'>
                 Notifikasi
               </div>
@@ -70,8 +77,9 @@ function ListNotifications({ openNotification, isOpen }: any) {
             </div>
           }
           footer={
-            role == 'admin' ? (
+            role === 'admin' ? (
               <Button
+                className='w-[380px]'
                 onClick={() => {
                   openNotification('create');
                   setIsModalOpen(false);
@@ -84,23 +92,25 @@ function ListNotifications({ openNotification, isOpen }: any) {
             )
           }
         >
-          <div className='flex justify-end'>
+          <div className='w-[380px] flex justify-end'>
             <Radio.Group onChange={changeRadio} value={readable}>
               <Radio value={true}>Sudah Dibaca</Radio>
               <Radio value={false}>Belum Dibaca</Radio>
             </Radio.Group>
           </div>
-          <div className='flex flex-col gap-4 my-2 h-[280px]'>
-            {readable ? (
+          <div className='flex flex-col gap-4 my-2 w-[380px] h-[280px]'>
+            {datas.statusCode == 404 ? (
+              <div className='mt-6'>Belum ada notifikasi</div>
+            ) : readable ? (
               <>
-                {data?.data?.readable && (
+                {datas?.readable && (
                   <div>
                     <p className='font-bold text-[18px] mb-1 text-slate-800'>
                       25 November
                     </p>
                     <div className='p-1 px-2 relative border-2 border-slate-300 rounded-md'>
                       <p className='text-[15px] mb-4 text-slate-700'>
-                        {data?.data?.title}
+                        {datas?.title}
                       </p>
                       <p className='text-[10px] text-slate-700 absolute right-2 bottom-1'>
                         18:28
@@ -111,17 +121,17 @@ function ListNotifications({ openNotification, isOpen }: any) {
               </>
             ) : (
               <>
-                {!data?.data?.readable && (
+                {!datas?.readable && (
                   <div className='font-bold'>
                     <p className='text-[18px] mb-1 text-slate-800'>
                       25 November
                     </p>
                     <div className='p-1 px-2 relative border-2 border-primary rounded-md'>
                       <p className='text-[15px] mb-4 text-slate-800'>
-                        {data?.data?.content}
+                        {datas?.content}
                       </p>
                       <p className='text-[10px] absolute text-slate-800 right-2 bottom-1'>
-                        {convertTime(data?.data?.createdAt)}
+                        {convertTime(datas?.createdAt)}
                       </p>
                     </div>
                   </div>
