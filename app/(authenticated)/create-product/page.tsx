@@ -258,7 +258,7 @@ function CreateProduct() {
                 <div>
                   <Form.Item name='type'>
                     <TypeRadio
-                    onChange={(e: any) => handleSelectChangeProduk(e.target.value)}
+                    onChange={(e: any) => handleSelectChangeProduk(e)}
                     value={selectedOptionProduk?.value}
                     defaultValue={defaultSelectedOptionProduk.value}
                     />

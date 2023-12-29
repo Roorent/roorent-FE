@@ -3,6 +3,7 @@
 import ListPengguna from '#/components/Pengguna';
 import Searchs from '#/components/Search';
 import TypeRadio from '#/components/TypeButton';
+import { adminRepository } from '#/repository/adm';
 import { Pagination } from 'antd';
 import React, { useState } from 'react';
 
@@ -51,15 +52,23 @@ const users = [
   },
 ];
 function ManagementUser() {
-    const [typeFilter, setTypeFilter] = useState('owner');
-
-    const filteredUsers = typeFilter
-      ? users.filter((user) => user.role === typeFilter)
-      : users;
+  const { data, error, isLoading } = adminRepository.hooks.getAllUsers();
   
-    const handleChange = (e: any) => {
-      setTypeFilter(e.target.value);
-    };
+  if (!data) {
+    return <div>Loading...</div>;
+  }
+  const datas = data?.data;
+  console.log(data)
+  
+  const [typeFilter, setTypeFilter] = useState('owner');
+
+  const filteredUsers = typeFilter
+    ? datas.filter((user: any) => user.role === typeFilter)
+    : datas;
+
+  const handleChange = (e: any) => {
+    setTypeFilter(e.target.value);
+  };
 
   return (
     <div>
@@ -68,16 +77,17 @@ function ManagementUser() {
           <p>Pengguna</p>
         </div>
         <div>
-          <TypeRadio 
-          value={typeFilter}
-          onChange={handleChange}
-          defaultValue='owner'/>
+          <TypeRadio
+            value={typeFilter}
+            onChange={handleChange}
+            defaultValue='owner'
+          />
         </div>
         <div>
           <Searchs placeholder={'Masukan nama'} />
         </div>
         <div className='grid gap-y-4'>
-          {filteredUsers.map((user) => (
+          {filteredUsers.map((user: any) => (
             <div key={user.id}>
               <ListPengguna
                 role={user.role}
