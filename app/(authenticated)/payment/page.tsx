@@ -15,13 +15,14 @@ import {
 import { Icon } from '@iconify/react';
 import { Card, Modal, Statistic, Steps } from 'antd';
 import { CountdownProps } from 'antd/lib';
-import { useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { imgProduct } from '#/constants/general';
 
 function Payment() {
   const [currentStep, setCurrentStep] = useState(0);
   const [uploadFile, setUploadFile] = useState(null);
 
+  const router = useRouter();
   const searchParams = useSearchParams();
   const rentAppId: any = searchParams?.get('id');
 
@@ -63,7 +64,8 @@ function Payment() {
       title: 'Kwitansi',
       component: (
         <Step3
-          onFinish={() =>
+          data={datas}
+          onFinish={() => {
             Modal.success({
               icon: (
                 <div className='modal-hapus mb-[10px] flex justify-center'>
@@ -80,8 +82,9 @@ function Payment() {
                   Semoga nyaman dengan pilihan anda
                 </div>
               ),
-            })
-          }
+            });
+            router.push('/home');
+          }}
         />
       ),
       isValid: true,
@@ -99,7 +102,7 @@ function Payment() {
       <div className='grid gap-y-[20px] grid-cols-1'>
         {currentStep === 0 && (
           <a
-            href={'/home'}
+            href='/home'
             className='w-fit hover:text-teks flex font-bold text-xl gap-3'
           >
             <div>

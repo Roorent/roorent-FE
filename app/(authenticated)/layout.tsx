@@ -171,6 +171,7 @@ const AuthenticatedLayout: React.FC<AuthenticatedLayoutProps> = ({
   };
   const onClickOwner: MenuProps['onClick'] = (e) => {
     setCurrOwner(e.key);
+    router.push(e.key)
   };
 
   return (
@@ -298,7 +299,7 @@ const AuthenticatedLayout: React.FC<AuthenticatedLayoutProps> = ({
                 defaultSelectedKeys={[]}
                 style={{ borderBottomWidth: '2px' }}
                 className={
-                  'absolute z-50 border-slate-200 flex justify-start py-[12px] px-[150px] gap-10 w-full items-center'
+                  'absolute z-50 border-slate-200 flex justify-start py-[12px] px-[150px] gap-10 w-full items-center -ml-[50px]'
                 }
               >
                 <div className='w-full'>

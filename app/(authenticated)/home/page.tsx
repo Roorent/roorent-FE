@@ -2,7 +2,9 @@
 
 import Button from '#/components/Button';
 import Searchs from '#/components/Search';
-import { Select } from 'antd';
+import { HomeFilled } from '@ant-design/icons';
+import { Icon } from '@iconify/react';
+import { Menu, Radio, Select } from 'antd';
 import React, { useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper/modules';
@@ -11,8 +13,9 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import Product from '#/components/Product';
 import Footer from '#/components/Footer';
+import { Header } from 'antd/es/layout/layout';
+import { LOGO } from '#/constants/images';
 import { productsRepository } from '#/repository/products';
-import TypeRadio from '#/components/TypeButton';
 
 const products = [
   {
@@ -152,9 +155,7 @@ function Home() {
   const filterProductsCity = (products: any, type: any, city: any) => {
     let filtered = products.filter((product: any) => product.type === type);
     if (city && city !== 'Pilih Kota') {
-      filtered = filtered.filter(
-        (product: any) => product.cities?.name === city
-      );
+      filtered = filtered.filter((product: any) => product.cities?.name === city);
     }
     return filtered;
   };
@@ -163,12 +164,13 @@ function Home() {
     setCityFilter(value); // Update nilai kota saat terjadi perubahan pada Select
   };
 
-  const filteredProducts = typeFilter
-    ? filterProducts(datas, typeFilter)
-    : datas;
+  const
+    filteredProducts = typeFilter
+      ? filterProducts(datas, typeFilter)
+      : datas;
 
   const handleChange = (e: any) => {
-    setTypeFilter(e);
+    setTypeFilter(e.target.value);
   };
 
   interface OptionType {
@@ -201,9 +203,7 @@ function Home() {
                 Dapatkan informasi dan lakukan penyewaan
               </div>
               <div>
-                <Searchs
-                  placeholder={'Masukan nama lokasi/kota/alamat/produk'}
-                />
+                <Searchs placeholder={'Masukan nama lokasi/kota/alamat/produk'} />
               </div>
             </div>
           </div>
@@ -216,21 +216,57 @@ function Home() {
           </div>
         </div>
         <div className='flex justify-center mt-[54px]'>
-          <TypeRadio
+          <Radio.Group
+            defaultValue='kost'
+            buttonStyle='solid'
             value={typeFilter}
             onChange={handleChange}
-            defaultValue='kost'
-          />
+            className='flex gap-x-28'
+          >
+            <div>
+              <Radio.Button
+                value='kost'
+                className='w-[166px] py-[20px] h-max font-bold flex justify-center text-2xl text-primary'
+              >
+                <div className='w-full flex items-center'>
+                  <HomeFilled className='mr-2' />
+                  Kost
+                </div>
+              </Radio.Button>
+            </div>
+            <div className='flex'>
+              <Radio.Button
+                value='gedung'
+                className='w-[166px] py-[20px] h-max font-bold flex justify-center text-2xl text-primary'
+              >
+                <div className='w-full flex items-center'>
+                  <Icon icon='mingcute:building-1-fill' className='mr-2' />{' '}
+                  Gedung
+                </div>
+              </Radio.Button>
+            </div>
+            <div>
+              <Radio.Button
+                value='hotel'
+                className='w-[166px] py-[20px] h-max font-bold flex justify-center text-2xl text-primary'
+              >
+                <div className='w-full flex items-center'>
+                  <Icon icon='fa6-solid:hotel' className='mr-2' />
+                  Hotel
+                </div>
+              </Radio.Button>
+            </div>
+          </Radio.Group>
         </div>
         {typeFilter === 'kost' && (
           <div className='flex items-center py-10 mt-[25px]'>
             <div className='w-full text-4xl font-bold'>Kost Populer</div>
-            <div className='flex'>
+            <div className='flex bg-white rounded-[10px]' style={{ boxShadow: '0 1px 8px rgba(36, 36, 36, 0.14)' }}>
               <Button
                 type='primary'
                 htmlType='submit'
                 href='#'
-                className='w-max hover:!text-white hover:!bg-primary !bg-white !text-primary border-2 border-primary rounded-[10px] text-[20px] font-bold !mt-0 px-7 shadow-md shadow-primary hover:!shadow-lg'
+                className='w-max hover:!text-white hover:!bg-primary !bg-white !text-teks border-2 border-white hover:!border-primary rounded-[10px] text-[20px] !font-semibold !mt-0 px-7'
               >
                 Lihat Semua
               </Button>
@@ -240,12 +276,12 @@ function Home() {
         {typeFilter === 'gedung' && (
           <div className='flex items-center py-10 mt-[25px]'>
             <div className='w-full text-4xl font-bold'>Gedung Populer</div>
-            <div className='flex'>
+            <div className='flex bg-white rounded-[10px]' style={{ boxShadow: '0 1px 8px rgba(36, 36, 36, 0.14)' }}>
               <Button
                 type='primary'
                 htmlType='submit'
                 href='#'
-                className='w-max hover:!text-white hover:!bg-primary !bg-white !text-primary border-2 border-primary rounded-[10px] text-[20px] font-bold !mt-0 px-7 shadow-md shadow-primary hover:!shadow-lg'
+                className='w-max hover:!text-white hover:!bg-primary !bg-white !text-teks border-2 border-white hover:!border-primary rounded-[10px] text-[20px] !font-semibold !mt-0 px-7'
               >
                 Lihat Semua
               </Button>
@@ -255,12 +291,12 @@ function Home() {
         {typeFilter === 'hotel' && (
           <div className='flex items-center py-10 mt-[25px]'>
             <div className='w-full text-4xl font-bold'>Hotel Populer</div>
-            <div className='flex'>
+            <div className='flex bg-white rounded-[10px]' style={{ boxShadow: '0 1px 8px rgba(36, 36, 36, 0.14)' }}>
               <Button
                 type='primary'
                 htmlType='submit'
                 href='#'
-                className='w-max hover:!text-white hover:!bg-primary !bg-white !text-primary border-2 border-primary rounded-[10px] text-[20px] font-bold !mt-0 px-7 shadow-md shadow-primary hover:!shadow-lg'
+                className='w-max hover:!text-white hover:!bg-primary !bg-white !text-teks border-2 border-white hover:!border-primary rounded-[10px] text-[20px] font-semibold !mt-0 px-7'
               >
                 Lihat Semua
               </Button>
@@ -276,8 +312,7 @@ function Home() {
           >
             {filteredProducts.map((product: any) => (
               <SwiperSlide>
-                {/* <div className='flex justify-center'> */}
-                <div className='flex justify-start px-[135px] gap-x-8 grid-cols-4'>
+                <div className='flex justify-center'>
                   <div key={product.id}>
                     <Product
                       idProducts={product.id}
@@ -312,15 +347,17 @@ function Home() {
                 />
               </div>
             </div>
-            <div className='flex'>
-              <Button
-                type='primary'
-                htmlType='submit'
-                href='#'
-                className='w-max hover:!text-white hover:!bg-primary !bg-white !text-primary border-2 border-primary rounded-[10px] text-[20px] font-bold !mt-0 px-7 shadow-md shadow-primary hover:!shadow-lg'
-              >
-                Lihat Semua
-              </Button>
+            <div className='flex items-center py-10 mt-[25px]'>
+              <div className='flex bg-white rounded-[10px]' style={{ boxShadow: '0 1px 8px rgba(36, 36, 36, 0.14)' }}>
+                <Button
+                  type='primary'
+                  htmlType='submit'
+                  href='#'
+                  className='w-max hover:!text-white hover:!bg-primary !bg-white !text-teks border-2 border-white hover:!border-primary rounded-[10px] text-[20px] font-semibold !mt-0 px-7'
+                >
+                  Lihat Semua
+                </Button>
+              </div>
             </div>
           </div>
         )}
@@ -339,15 +376,17 @@ function Home() {
                 />
               </div>
             </div>
-            <div className='flex'>
-              <Button
-                type='primary'
-                htmlType='submit'
-                href='#'
-                className='w-max hover:!text-white hover:!bg-primary !bg-white !text-primary border-2 border-primary rounded-[10px] text-[20px] font-bold !mt-0 px-7 shadow-md shadow-primary hover:!shadow-lg'
-              >
-                Lihat Semua
-              </Button>
+            <div className='flex items-center py-10 mt-[25px]'>
+              <div className='flex bg-white rounded-[10px]' style={{ boxShadow: '0 1px 8px rgba(36, 36, 36, 0.14)' }}>
+                <Button
+                  type='primary'
+                  htmlType='submit'
+                  href='#'
+                  className='w-max hover:!text-white hover:!bg-primary !bg-white !text-teks border-2 border-white hover:!border-primary rounded-[10px] text-[20px] font-semibold !mt-0 px-7'
+                >
+                  Lihat Semua
+                </Button>
+              </div>
             </div>
           </div>
         )}
@@ -357,24 +396,26 @@ function Home() {
               <div className='text-4xl font-bold'>Rekomendasi Hotel di</div>
               <div className='font-bold home-produk items-center'>
                 <Select
+                  placeholder='Pilih Kota'
                   style={{ width: 'max-content', alignItems: 'center' }}
                   bordered={false}
                   options={items}
-                  placeholder='Pilih Kota'
                   value={cityFilter}
                   onChange={handleChangeCity}
                 />
               </div>
             </div>
-            <div className='flex'>
-              <Button
-                type='primary'
-                htmlType='submit'
-                href='#'
-                className='w-max hover:!text-white hover:!bg-primary !bg-white !text-primary border-2 border-primary rounded-[10px] text-[20px] font-bold !mt-0 px-7 shadow-md shadow-primary hover:!shadow-lg'
-              >
-                Lihat Semua
-              </Button>
+            <div className='flex items-center py-10 mt-[25px]'>
+              <div className='flex bg-white rounded-[10px]' style={{ boxShadow: '0 1px 8px rgba(36, 36, 36, 0.14)' }}>
+                <Button
+                  type='primary'
+                  htmlType='submit'
+                  href='#'
+                  className='w-max hover:!text-white hover:!bg-primary !bg-white !text-teks border-2 border-white hover:!border-primary rounded-[10px] text-[20px] font-semibold !mt-0 px-7'
+                >
+                  Lihat Semua
+                </Button>
+              </div>
             </div>
           </div>
         )}
@@ -385,33 +426,30 @@ function Home() {
             modules={[Navigation]}
             className='mySwiper'
           >
-            {filterProductsCity(filteredProducts, typeFilter, cityFilter).map(
-              (product: any) => (
-                <SwiperSlide>
-                  <div className='flex justify-center'>
-                    <div key={product.id}>
-                      <Product
-                        idProducts={product.id}
-                        image={product.photoProducts[0]?.photo}
-                        isType={product.type}
-                        isgender={product.specialRules?.gender}
-                        rating={product.rating}
-                        namaProduk={product.name}
-                        kota={product.cities?.name}
-                        stok={product.stock}
-                        hargaPerbulan={product.monthly_price}
-                        hargaPerhari={product.daily_price}
-                      />
-                    </div>
+            {filterProductsCity(filteredProducts, typeFilter, cityFilter).map((product: any) => (
+              <SwiperSlide>
+                <div className='flex justify-center'>
+                  <div key={product.id}>
+                    <Product
+                      image={product.photoProducts[0]?.photo}
+                      isType={product.type}
+                      isgender={product.specialRules?.gender}
+                      rating={product.rating}
+                      namaProduk={product.name}
+                      kota={product.cities?.name}
+                      stok={product.stock}
+                      hargaPerbulan={product.monthly_price}
+                      hargaPerhari={product.daily_price}
+                    />
                   </div>
-                </SwiperSlide>
-              )
-            )}
+                </div>
+              </SwiperSlide>
+            ))}
           </Swiper>
         </div>
-        <div>
-          <Footer />
-        </div>
+      </div>
+      <div>
+        <Footer />
       </div>
     </div>
   );

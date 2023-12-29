@@ -6,8 +6,16 @@ import {
 } from '@ant-design/icons';
 import React from 'react';
 import Button from '../Button';
+import { useSearchParams } from 'next/navigation';
+import { convertDate } from '#/utils/convertTime';
+import { toIDR } from '#/utils/convertCurrency';
 
-const Step3 = ({ onFinish }: any) => {
+const Step3 = ({ onFinish, data }: any) => {
+  const searchParams = useSearchParams();
+  const rentAppId: any = searchParams?.get('id');
+
+  const datas = data;
+
   return (
     <div className='pb-10'>
       <div
@@ -23,7 +31,9 @@ const Step3 = ({ onFinish }: any) => {
           </div>
           <div className='flex font-[650] gap-x-3 text-xl'>
             <p className=''>Tanggal :</p>
-            <p className='font-semibold text-rstroke'>28 Desember 2023</p>
+            <p className='font-semibold text-rstroke'>
+              {convertDate(datas?.createdAt)}
+            </p>
           </div>
         </div>
         <div className='grid gap-y-5 pb-5 border-b border-slate-300'>
@@ -31,44 +41,47 @@ const Step3 = ({ onFinish }: any) => {
             <p className='w-1/2 '>Nama Penyewa</p>
             <div className='w-1/2 flex font-semibold'>
               <p className='font-[650] mr-2'>:</p>
-              <p className='text-rstroke'>M Danar Kahfi</p>
+              <p className='text-rstroke'>{datas?.user_name}</p>
             </div>
           </div>
           <div className='flex font-[650] gap-x-3 text-2xl'>
             <p className='w-1/2 '>Tipe Pembayaran</p>
             <div className='w-1/2 flex font-semibold'>
               <p className='font-[650] mr-2'>:</p>
-              <p className='text-rstroke'>Perbulan</p>
+              <p className='text-rstroke'>{datas?.rental_type}</p>
             </div>
           </div>
           <div className='flex font-[650] gap-x-3 text-2xl'>
             <p className='w-1/2 '>Nama Produk</p>
             <div className='w-1/2 flex font-semibold'>
               <p className='font-[650] mr-2'>:</p>
-              <p className='text-rstroke'>
-                Kost Singgahsini Griya Athaya Tipe A Kartasura Sukoharjo
-              </p>
+              <p className='text-rstroke'>{datas?.product_address}</p>
             </div>
           </div>
           <div className='flex font-[650] gap-x-3 text-2xl'>
             <p className='w-1/2 '>Tanggal Awal Sewa</p>
             <div className='w-1/2 flex font-semibold'>
               <p className='font-[650] mr-2'>:</p>
-              <p className='text-rstroke'>26 November 2023</p>
+              <p className='text-rstroke'>{convertDate(datas?.lease_start)}</p>
             </div>
           </div>
           <div className='flex font-[650] gap-x-3 text-2xl'>
             <p className='w-1/2 '>Tanggal Akhir Sewa</p>
             <div className='w-1/2 flex font-semibold'>
               <p className='font-[650] mr-2'>:</p>
-              <p className='text-rstroke'>08 Februari 2024</p>
+              <p className='text-rstroke'>
+                {convertDate(datas?.lease_expiration)}
+              </p>
             </div>
           </div>
           <div className='flex font-[650] gap-x-3 text-2xl'>
             <p className='w-1/2 '>Durasi Sewa</p>
             <div className='w-1/2 flex font-semibold'>
               <p className='font-[650] mr-2'>:</p>
-              <p className='text-rstroke'>2 bulan</p>
+              <p className='text-rstroke flex gap-2'>
+                <p>{datas?.amount}</p>
+                {datas?.rental_type === 'bulanan' ? <p>bulan</p> : <p>hari</p>}
+              </p>
             </div>
           </div>
           <div className='flex font-[650] gap-x-3 text-2xl'>
@@ -81,7 +94,7 @@ const Step3 = ({ onFinish }: any) => {
           </div>
         </div>
         <div className='flex items-center font-bold justify-between text-3xl'>
-          <div>Rp. 630.000</div>
+          <div>{toIDR(datas?.total_price)}</div>
           {/* kasih kondisi jika berhasil akan tampil ini */}
           {/*<div className='w-1/5 text-xl bg-primary text-white font-bold rounded-[10px] px-2 py-2.5 flex items-center'>
             <div className='mr-5'>

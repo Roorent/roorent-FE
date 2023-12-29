@@ -30,3 +30,12 @@ export const convertTime = (inputString: any) => {
     return date;
   }
 };
+
+export const convertDate = (inputString: any) => {
+  moment.locale('id');
+
+  const inputDate = moment(inputString).tz('Asia/Jakarta');
+
+  const date = inputDate.format('DD MMMM YYYY');
+  return date;
+};

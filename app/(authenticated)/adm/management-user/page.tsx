@@ -78,16 +78,11 @@ function ManagementUser() {
           <p>Pengguna</p>
         </div>
         <div>
-          {/* <TypeRadio 
-          value={typeFilter}
-          onChange={handleChange}
-          defaultValue='owner'
-          /> */}
           <Radio.Group
             buttonStyle='solid'
-            value={typeFilter}
             onChange={handleChange}
-            defaultValue='owner'
+            value={typeFilter}
+            defaultValue={'owner'}
             className='w-full flex gap-x-5'
           >
             <div className='w-1/2'>
