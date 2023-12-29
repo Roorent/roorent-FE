@@ -63,6 +63,7 @@ function Payment() {
       title: 'Kwitansi',
       component: (
         <Step3
+          data={datas}
           onFinish={() =>
             Modal.success({
               icon: (
