@@ -29,9 +29,9 @@ function ListProduct() {
   // const [currentPage, setCurrentPage] = useState(1);
   // const itemsPerPage = 9;
 
-  //disini di tambahin mutate
   const { data, error, isLoading, mutate } =
     productsRepository.hooks.getListProductByOwner(id, filterType);
+
   if (!data) {
     return <div>Loading...</div>;
   }

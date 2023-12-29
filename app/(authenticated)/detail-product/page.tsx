@@ -20,7 +20,7 @@ import { Icon } from '@iconify/react';
 import { Carousel, Button, DatePicker, Form, Radio, message } from 'antd';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { toIDR } from '#/utils/convertCurrency';
-import { config } from '#/config/app';
+import { imgProduct } from '#/constants/general';
 import { RentAppRepository } from '#/repository/rent-application';
 
 function DetailProduct() {
@@ -28,6 +28,9 @@ function DetailProduct() {
   const [filterPrice, setFilterPrice] = useState('perbulan');
 
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const productId: any = searchParams?.get('id');
+
   const { RangePicker } = DatePicker;
 
   const token = localStorage.getItem('access_token');
@@ -47,8 +50,6 @@ function DetailProduct() {
     document.title = 'Detail Product';
   }, []);
 
-  const searchParams = useSearchParams();
-  const productId: any = searchParams?.get('id');
   const { data, error, isLoading } =
     productsRepository.hooks.getProductsById(productId);
 
@@ -81,9 +82,6 @@ function DetailProduct() {
       message.error(err.response.data.message);
     }
   };
-
-  const imgProduct = (img: string) =>
-    `${config.baseUrl}/images/photo-products/${img}`;
 
   const reviews = [
     {

@@ -1,7 +1,9 @@
 import { http } from '#/utils/http';
+import useSWR from 'swr';
 
 const url = {
   createRentApp: (id: string) => `/rent-applications/${id}`,
+  getRentAppById: (id: string) => `/rent-applications/${id}`,
 };
 
 const manipulatedata = {
@@ -10,7 +12,14 @@ const manipulatedata = {
   },
 };
 
+const hooks = {
+  getRentAppById(id: string) {
+    return useSWR(url.getRentAppById(id), http.fetcher);
+  },
+};
+
 export const RentAppRepository = {
   url,
   manipulatedata,
+  hooks,
 };
