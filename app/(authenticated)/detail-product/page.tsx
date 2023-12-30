@@ -335,7 +335,7 @@ function DetailProduct() {
           </div>
           {role === isRole.owner && (
             <div
-              className='rounded-[10px] bg-white h-[188px] p-[15px] sticky top-5'
+              className='rounded-[10px] bg-white h-[188px] p-[25px] sticky top-5'
               style={{
                 boxShadow:
                   '0 -2px 40px rgba(0,0,0,.04), 0 16px 40px rgba(0,0,0,.06)',
@@ -380,7 +380,7 @@ function DetailProduct() {
           )}
           {role === isRole.renter && (
             <div
-              className='mt-12 rounded-[10px] bg-white h-fit p-[15px] sticky top-5'
+              className='mt-12 rounded-[10px] bg-white h-fit p-[25px] sticky top-5'
               style={{
                 boxShadow:
                   '0 -2px 40px rgba(0,0,0,.04), 0 16px 40px rgba(0,0,0,.06)',
@@ -410,18 +410,33 @@ function DetailProduct() {
                             </>
                           )}
                       </div>
-                      <div className='w-full mt-4 flex justify-center'>
+                      <div className='w-full mt-4 flex justify-center py-5'>
                         <Radio.Group
+                          buttonStyle='solid'
                           defaultValue={filterPrice}
                           onChange={handleFilterPrice}
-                          size='large'
-                          buttonStyle='solid'
-                          className='font-bold border-2 border-primary rounded-[11px]'
+                          className='w-full flex justify-center'
                         >
-                          <Radio.Button value='perhari' className='px-6'>
-                            Perhari
-                          </Radio.Button>
-                          <Radio.Button value='perbulan'>Perbulan</Radio.Button>
+                          <div className='w-1/3'>
+                            <Radio.Button
+                              value='perhari'
+                              className='py-[10px] h-max font-bold flex justify-center text-primary !rounded-e-none'
+                            >
+                              <div className='w-full flex items-center text-2xl'>
+                                Perhari
+                              </div>
+                            </Radio.Button>
+                          </div>
+                          <div className='w-1/3'>
+                            <Radio.Button
+                              value='perbulan'
+                              className='py-[10px] h-max font-bold flex justify-center text-primary !rounded-s-none'
+                            >
+                              <div className='w-full flex items-center text-2xl'>
+                                Perbulan
+                              </div>
+                            </Radio.Button>
+                          </div>
                         </Radio.Group>
                       </div>
                       <div className='grid gap-y-4 grid-cols-1'>
@@ -449,8 +464,8 @@ function DetailProduct() {
                                 picker='month'
                                 defaultValue={[null, null]}
                                 placeholder={[
-                                  'Tanggal Awal Sewa',
-                                  'Tanggal Akhir Sewa',
+                                  'Bulan Awal Sewa',
+                                  'Bulan Akhir Sewa',
                                 ]}
                                 className='w-full regis'
                               />
@@ -492,7 +507,7 @@ function DetailProduct() {
                     </>
                   )}
                   <div>
-                    <Button className='w-full p-[8px] h-14 rounded-2xl flex justify-center items-center !bg-transparent !border-2 !border-primary !text-primary !font-bold !text-xl hover:!bg-primary hover:!text-white'>
+                    <Button className='w-full p-[8px] h-14 rounded-2xl flex justify-center items-center !bg-transparent !border-2 !border-primary !text-primary !font-bold !text-xl hover:!text-opacity-60'>
                       <div className='flex items-center'>
                         <CommentOutlined className='text-3xl font-bold mr-3' />
                         Tanya Pemilik

@@ -281,7 +281,7 @@ function Home() {
                 type='primary'
                 htmlType='submit'
                 href='#'
-                className='w-max hover:!text-white hover:!bg-primary !bg-white !text-primary border-2 border-primary rounded-[10px] text-[20px] font-bold !mt-0 px-7 shadow-md shadow-primary hover:!shadow-lg'
+                className='w-max hover:!text-white hover:!bg-primary !bg-white !text-primary border-2 border-white hover:!border-primary rounded-[10px] text-[20px] !font-semibold !mt-0 px-7'
               >
                 Lihat Semua
               </Button>
@@ -296,7 +296,7 @@ function Home() {
                 type='primary'
                 htmlType='submit'
                 href='#'
-                className='w-max hover:!text-white hover:!bg-primary !bg-white !text-primary border-2 border-primary rounded-[10px] text-[20px] font-bold !mt-0 px-7 shadow-md shadow-primary hover:!shadow-lg'
+                className='w-max hover:!text-white hover:!bg-primary !bg-white !text-primary border-2 border-white hover:!border-primary rounded-[10px] text-[20px] !font-semibold !mt-0 px-7'
               >
                 Lihat Semua
               </Button>
@@ -311,14 +311,14 @@ function Home() {
                 type='primary'
                 htmlType='submit'
                 href='#'
-                className='w-max hover:!text-white hover:!bg-primary !bg-white !text-primary border-2 border-primary rounded-[10px] text-[20px] font-bold !mt-0 px-7 shadow-md shadow-primary hover:!shadow-lg'
+                className='w-max hover:!text-white hover:!bg-primary !bg-white !text-primary border-2 border-white hover:!border-primary rounded-[10px] text-[20px] font-semibold !mt-0 px-7'
               >
                 Lihat Semua
               </Button>
             </div>
           </div>
         )}
-        <div className='mt-[45px]'>
+        <div>
           <Swiper
             navigation={true}
             slidesPerView={4}
@@ -362,15 +362,17 @@ function Home() {
                 />
               </div>
             </div>
-            <div className='flex'>
-              <Button
-                type='primary'
-                htmlType='submit'
-                href='#'
-                className='w-max hover:!text-white hover:!bg-primary !bg-white !text-primary border-2 border-primary rounded-[10px] text-[20px] font-bold !mt-0 px-7 shadow-md shadow-primary hover:!shadow-lg'
-              >
-                Lihat Semua
-              </Button>
+            <div className='flex items-center py-10 mt-[25px]'>
+              <div className='flex bg-white rounded-[10px]' style={{ boxShadow: '0 1px 8px rgba(36, 36, 36, 0.14)' }}>
+                <Button
+                  type='primary'
+                  htmlType='submit'
+                  href='#'
+                  className='w-max hover:!text-white hover:!bg-primary !bg-white !text-primary border-2 border-white hover:!border-primary rounded-[10px] text-[20px] font-bold !mt-0 px-7'
+                >
+                  Lihat Semua
+                </Button>
+              </div>
             </div>
           </div>
         )}
@@ -389,15 +391,17 @@ function Home() {
                 />
               </div>
             </div>
-            <div className='flex'>
-              <Button
-                type='primary'
-                htmlType='submit'
-                href='#'
-                className='w-max hover:!text-white hover:!bg-primary !bg-white !text-primary border-2 border-primary rounded-[10px] text-[20px] font-bold !mt-0 px-7 shadow-md shadow-primary hover:!shadow-lg'
-              >
-                Lihat Semua
-              </Button>
+            <div className='flex items-center py-10 mt-[25px]'>
+              <div className='flex bg-white rounded-[10px]' style={{ boxShadow: '0 1px 8px rgba(36, 36, 36, 0.14)' }}>
+                <Button
+                  type='primary'
+                  htmlType='submit'
+                  href='#'
+                  className='w-max hover:!text-white hover:!bg-primary !bg-white !text-primary border-2 border-white hover:!border-primary rounded-[10px] text-[20px] font-bold !mt-0 px-7'
+                >
+                  Lihat Semua
+                </Button>
+              </div>
             </div>
           </div>
         )}
@@ -416,15 +420,17 @@ function Home() {
                 />
               </div>
             </div>
-            <div className='flex'>
-              <Button
-                type='primary'
-                htmlType='submit'
-                href='#'
-                className='w-max hover:!text-white hover:!bg-primary !bg-white !text-primary border-2 border-primary rounded-[10px] text-[20px] font-bold !mt-0 px-7 shadow-md shadow-primary hover:!shadow-lg'
-              >
-                Lihat Semua
-              </Button>
+            <div className='flex items-center py-10 mt-[25px]'>
+              <div className='flex bg-white rounded-[10px]' style={{ boxShadow: '0 1px 8px rgba(36, 36, 36, 0.14)' }}>
+                <Button
+                  type='primary'
+                  htmlType='submit'
+                  href='#'
+                  className='w-max hover:!text-white hover:!bg-primary !bg-white !text-primary border-2 border-white hover:!border-primary rounded-[10px] text-[20px] font-bold !mt-0 px-7'
+                >
+                  Lihat Semua
+                </Button>
+              </div>
             </div>
           </div>
         )}

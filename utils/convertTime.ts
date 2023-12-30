@@ -34,7 +34,7 @@ export const convertTime = (inputString: any) => {
 export const convertDate = (inputString: any) => {
   moment.locale('id');
 
-  const inputDate = moment(inputString).tz('Asia/Jakarta');
+  const inputDate = moment(inputString);
 
   const date = inputDate.format('DD MMMM YYYY');
   return date;
