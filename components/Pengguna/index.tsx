@@ -6,34 +6,38 @@ import {
   CloseCircleFilled,
   PauseCircleFilled,
 } from '@ant-design/icons';
-import { config } from '#/config/app';
 import Button from '../Button';
 import { adminRepository } from '#/repository/adm';
+import { Input, Modal } from 'antd';
 
-function ListPengguna({ image, role, namaPengguna, status, idUsers  }: any) {
-  // const imgProfile = (img: string) => `${config.baseUrl}/images/profile/${img}`;
-  const [newStatus, setNewStatus] = useState<string>(status);
-  const handleApprove = async (value: any) => {
+function ListPengguna({ image, role, namaPengguna, status, idUsers }: any) {
+  const handleApprove = async () => {
     try {
-      // Call the repository function to approve the owner
       await adminRepository.manipulatedata.approveOwner(idUsers);
-      setNewStatus('active');
     } catch (error) {
       console.error('Error approving owner:', error);
-      // Handle error if needed
     }
   };
-  let photo: string = '';
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleOk = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
+
   return (
     <div>
       <div className='flex items-center gap-x-[24px] px-5 py-2.5 rounded-[10px] border border-rstroke'>
         <div>
-          {/* <img
-                src={`${imgProfile(image)}`}
-                alt='produk'
-                className='object-cover object-center w-full h-full rounded-xl'
-              /> */}
-          <Photo src={photo} />
+          <Photo src={image} />
         </div>
         <div className='font-bold text-white'>
           {role === 'owner' && (
@@ -49,15 +53,28 @@ function ListPengguna({ image, role, namaPengguna, status, idUsers  }: any) {
             {status === 'pending' && (
               <>
                 <div>
-                  <Button className='!mt-0 !font-bold'
-                  // href={`/users/approve/${idUsers}`}
-                  onChange={handleApprove}
-                  >Konfirmasi</Button>
+                  <Button className='!mt-0 !font-bold' onClick={handleApprove}>
+                    Konfirmasi
+                  </Button>
                 </div>
                 <div>
-                  <Button className='!mt-0 !px-6 !bg-merah !font-bold'>
+                  <Button
+                    className='!mt-0 !px-6 !bg-merah !font-bold'
+                    onClick={showModal}
+                  >
                     Tolak
                   </Button>
+                  <Modal
+                    // title='Tolak'
+                    open={isModalOpen}
+                    onOk={handleOk}
+                    onCancel={handleCancel}
+                  >
+                    <div className='flex flex-col space-y-2'>
+                      <p className='text-md'>alasan</p>
+                      <Input placeholder='reason' />
+                    </div>
+                  </Modal>
                 </div>
               </>
             )}

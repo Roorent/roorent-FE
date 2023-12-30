@@ -122,6 +122,7 @@ function ManagementUser() {
             <div key={user.id}>
               <ListPengguna
                 idUsers={user.id}
+                image={user?.biodata?.photo_profile}
                 role={user?.level?.name}
                 namaPengguna={user?.biodata?.first_name}
                 status={user?.biodata?.isActive}
