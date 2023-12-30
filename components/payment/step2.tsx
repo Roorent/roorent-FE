@@ -48,10 +48,10 @@ const Step2 = ({ onNext, data }: any) => {
   };
 
   const handleUpload = async (args: UploadChangeParam<UploadFile<any>>) => {
-    const photoTransactions = args?.file;
+    const photoTransactions: any = args?.file;
     try {
       if (photoTransactions.status === 'done') {
-        if (photoTransactions.size && photoTransactions.size > 2097152) {
+        if (photoTransactions?.size > 2097152) {
           message.error('ukuran photoTransactions terlalu besar');
         } else {
           if (

@@ -201,9 +201,9 @@ function DetailProduct() {
             </div>
             <div className='grid gap-y-3 grid-cols-1 pb-[30px] border-b border-slate-300'>
               <div className='font-semibold text-3xl'>Lokasi</div>
-              <div className='relative overflow-hidden brightness-100 '>
+              <div className='relative overflow-hidden brightness-100'>
                 <GMAPS />
-                <div className='absolute inset-0 border-4 border-white '></div>
+                <div className='absolute inset-0 border-4 border-white'></div>
                 <div className='absolute top-[45%] left-[42%] font-bold'>
                   <Button
                     href={datas?.location}

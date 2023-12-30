@@ -486,3 +486,12 @@ textarea:where(.css-dev-only-do-not-override-1dj4ii3).ant-input {
 :where(.css-dev-only-do-not-override-19l9cjq).ant-radio-button-wrapper:first-child:last-child {
   border-radius: 10px;
 }
+.ant-upload-wrapper .ant-upload-select {
+  width: -webkit-fill-available;
+}
+
+:where(.css-dev-only-do-not-override-gzal6t).ant-btn-primary{
+  background-color: #4065DA;
+  display: flex;
+  justify-content: center;
+}

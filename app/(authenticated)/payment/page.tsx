@@ -28,26 +28,27 @@ function Payment() {
 
   const { Countdown } = Statistic;
 
-  const deadline = Date.now() + 60 * 60 * 1000 * 3;
+  const deadline = Date.now() + 1000 * 60 * 60 * 3;
 
-  const onFinish: CountdownProps['onFinish'] = () => {
-    console.log('finished!');
-  };
-
+  
   const onChange: CountdownProps['onChange'] = (val) => {
     if (typeof val === 'number' && 4.95 * 1000 < val && val < 5 * 1000) {
       console.log('changed!');
     }
   };
-
+  
   const { data, error, isLoading } =
-    RentAppRepository.hooks.getRentAppById(rentAppId);
-
+  RentAppRepository.hooks.getRentAppById(rentAppId);
+  
   if (isLoading) {
     return <div>Loading...</div>;
   }
-
+  
   const datas = data?.data;
+  
+  const onFinish: CountdownProps['onFinish'] = () => {
+    router.push(`/detail-product?id=${datas?.product_id}`);
+  };
 
   const steps = [
     {

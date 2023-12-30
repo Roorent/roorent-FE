@@ -42,6 +42,7 @@ function ListNotifications({ openNotification, isOpen }: any) {
   }
 
   const datas = data?.data;
+  
 
   return (
     <>

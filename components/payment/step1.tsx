@@ -1,6 +1,6 @@
 import React from 'react';
 import Button from '../Button';
-import { convertTime } from '#/utils/convertTime';
+import { convertDate, convertTime } from '#/utils/convertTime';
 
 function Step1({ onNext, data }: any) {
   const datas = data;
@@ -49,13 +49,13 @@ function Step1({ onNext, data }: any) {
           <div className='text-2xl font-bold flex justify-between items-center mt-[30px] '>
             <p>Tanggal awal sewa</p>
             <p className='text-rstroke text-xl'>
-              {convertTime(datas?.lease_start)}
+              {convertDate(datas?.lease_start)}
             </p>
           </div>
           <div className='text-2xl font-bold flex justify-between items-center mt-[30px] '>
             <p>Tanggal akhir sewa</p>
             <p className='text-rstroke text-xl'>
-              {convertTime(datas?.lease_expiration)}
+              {convertDate(datas?.lease_expiration)}
             </p>
           </div>
         </div>

@@ -169,10 +169,10 @@ const AuthenticatedLayout: React.FC<AuthenticatedLayoutProps> = ({
   const [currAdmin, setCurrAdmin] = useState('/adm/dashboard');
   const [currOwner, setCurrOwner] = useState('/list-produk');
 
-  const onClickAdmin: MenuProps['onClick'] = (e) => {
+  const onClickAdmin: MenuProps['onClick'] = (e: any) => {
     setCurrAdmin(e.key);
   };
-  const onClickOwner: MenuProps['onClick'] = (e) => {
+  const onClickOwner: MenuProps['onClick'] = (e: any) => {
     setCurrOwner(e.key);
   };
 
@@ -301,7 +301,7 @@ const AuthenticatedLayout: React.FC<AuthenticatedLayoutProps> = ({
                 defaultSelectedKeys={[]}
                 style={{ borderBottomWidth: '2px' }}
                 className={
-                  'absolute z-50 border-slate-200 flex justify-start py-[12px] px-[150px] gap-10 w-full items-center'
+                  'absolute z-50 border-slate-200 flex justify-start py-[12px] px-[150px] gap-10 w-full -ml-14 items-center'
                 }
               >
                 <div className='w-full'>
@@ -368,23 +368,42 @@ const AuthenticatedLayout: React.FC<AuthenticatedLayoutProps> = ({
           </>
         ) : (
           <>
-            <Content
-              style={{ margin: '10px 0 0 0' }}
-              className='text-slate-800 bg-white'
-            >
-              <div
-                style={{
-                  padding: '40px 30px 0 30px',
-                  minHeight: 360,
-                  height: '100%',
-                  background: colorBgContainer,
-                }}
-                className='overflow-auto'
+            {cruProduk ? (
+              <Content
+                style={{ margin: '10px 0 0 0' }}
+                className='text-slate-800 bg-white'
               >
-                {children}
-              </div>
-            </Content>
-            {/* <Footer/> */}
+                <div
+                  style={{
+                    padding: '40px 185px 0 185px',
+                    minHeight: 360,
+                    height: '100%',
+                    background: colorBgContainer,
+                  }}
+                  className='overflow-auto'
+                >
+                  {children}
+                </div>
+              </Content>
+            ) : (
+              <Content
+                style={{ margin: '10px 0 0 0' }}
+                className='text-slate-800 bg-white'
+              >
+                <div
+                  style={{
+                    padding: '40px 0 0 0',
+                    minHeight: 360,
+                    height: '100%',
+                    background: colorBgContainer,
+                  }}
+                  className='overflow-auto'
+                >
+                  {children}
+                  <Footer />
+                </div>
+              </Content>
+            )}
           </>
         )}
       </Layout>

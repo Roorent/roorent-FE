@@ -37,35 +37,35 @@ const Step3 = ({ onFinish, data }: any) => {
           </div>
         </div>
         <div className='grid gap-y-5 pb-5 border-b border-slate-300'>
-          <div className='flex font-[650] gap-x-3 text-2xl'>
+          <div className='flex font-[650] gap-x-3 text-xl'>
             <p className='w-1/2 '>Nama Penyewa</p>
             <div className='w-1/2 flex font-semibold'>
               <p className='font-[650] mr-2'>:</p>
               <p className='text-rstroke'>{datas?.user_name}</p>
             </div>
           </div>
-          <div className='flex font-[650] gap-x-3 text-2xl'>
+          <div className='flex font-[650] gap-x-3 text-xl'>
             <p className='w-1/2 '>Tipe Pembayaran</p>
             <div className='w-1/2 flex font-semibold'>
               <p className='font-[650] mr-2'>:</p>
               <p className='text-rstroke'>{datas?.rental_type}</p>
             </div>
           </div>
-          <div className='flex font-[650] gap-x-3 text-2xl'>
+          <div className='flex font-[650] gap-x-3 text-xl'>
             <p className='w-1/2 '>Nama Produk</p>
             <div className='w-1/2 flex font-semibold'>
               <p className='font-[650] mr-2'>:</p>
               <p className='text-rstroke'>{datas?.product_address}</p>
             </div>
           </div>
-          <div className='flex font-[650] gap-x-3 text-2xl'>
+          <div className='flex font-[650] gap-x-3 text-xl'>
             <p className='w-1/2 '>Tanggal Awal Sewa</p>
             <div className='w-1/2 flex font-semibold'>
               <p className='font-[650] mr-2'>:</p>
               <p className='text-rstroke'>{convertDate(datas?.lease_start)}</p>
             </div>
           </div>
-          <div className='flex font-[650] gap-x-3 text-2xl'>
+          <div className='flex font-[650] gap-x-3 text-xl'>
             <p className='w-1/2 '>Tanggal Akhir Sewa</p>
             <div className='w-1/2 flex font-semibold'>
               <p className='font-[650] mr-2'>:</p>
@@ -74,7 +74,7 @@ const Step3 = ({ onFinish, data }: any) => {
               </p>
             </div>
           </div>
-          <div className='flex font-[650] gap-x-3 text-2xl'>
+          <div className='flex font-[650] gap-x-3 text-xl'>
             <p className='w-1/2 '>Durasi Sewa</p>
             <div className='w-1/2 flex font-semibold'>
               <p className='font-[650] mr-2'>:</p>
@@ -84,7 +84,7 @@ const Step3 = ({ onFinish, data }: any) => {
               </p>
             </div>
           </div>
-          <div className='flex font-[650] gap-x-3 text-2xl'>
+          <div className='flex font-[650] gap-x-3 text-xl'>
             <p className='w-1/2'>Catatan</p>
             {/* ksih kondisi kalo masih pending isiny "-" intinya selain reject "-" */}
             <div className='w-1/2 flex font-semibold'>
@@ -110,7 +110,7 @@ const Step3 = ({ onFinish, data }: any) => {
             <div className='w-full flex justify-center'>Ditolak</div>
           </div> */}
           {/* kasih kondisi jika pending akan tampil ini */}
-          <div className='w-1/5 text-xl bg-[#FFCC00] text-white font-bold rounded-[10px] px-3 py-2 flex items-center'>
+          <div className='w-1/3 text-xl bg-[#FFCC00] text-white font-bold rounded-[10px] px-3 py-2 flex items-center'>
             <div className='mr-5'>
               <ClockCircleFilled className='text-3xl' />
             </div>

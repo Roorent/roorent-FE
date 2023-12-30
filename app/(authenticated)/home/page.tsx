@@ -409,9 +409,6 @@ function Home() {
             )}
           </Swiper>
         </div>
-        <div>
-          <Footer />
-        </div>
       </div>
     </div>
   );

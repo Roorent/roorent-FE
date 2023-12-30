@@ -10,8 +10,9 @@ const PROFILE = () => {
   return <img src='/assets/images/profile.png' alt='Profile' />;
 };
 const GMAPS = () => {
-  return <img src='/assets/images/gmaps.png' alt='Google-Map' className='w-full rounded-[10px] object-cover object-center filter blur-xl'/>;
+  return <img src='/assets/images/gmaps.png' alt='Google-Map' className='w-full rounded-[10px] object-cover object-center filter blur-[2px]'/>;
 };
+
 const LOGO = ({ className }: any) => {
   const custClass = `w-[230px] ${className}`;
   return (
