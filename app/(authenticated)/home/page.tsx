@@ -4,7 +4,7 @@ import Button from '#/components/Button';
 import Searchs from '#/components/Search';
 import { HomeFilled } from '@ant-design/icons';
 import { Icon } from '@iconify/react';
-import { Menu, Radio, Select } from 'antd';
+import { Radio, Select } from 'antd';
 import React, { useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper/modules';
@@ -13,8 +13,6 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import Product from '#/components/Product';
 import Footer from '#/components/Footer';
-import { Header } from 'antd/es/layout/layout';
-import { LOGO } from '#/constants/images';
 import { productsRepository } from '#/repository/products';
 
 const products = [

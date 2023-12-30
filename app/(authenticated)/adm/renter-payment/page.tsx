@@ -1,96 +1,72 @@
 'use client';
-import React from 'react'
+import Button from '#/components/Button';
+import ListPayment from '#/components/List-Payment';
+import { Pagination } from 'antd';
+import React from 'react';
+
+const Payments = [
+  {
+    id: '1',
+    tanggal: '30 Desember 2023',
+    waktu: '18:14',
+    buktiPembayaran: '/assets/images/BuktiPembayaran.png',
+    renter: 'M Danar Kahfi',
+    namaProduk:
+      'Kost Singgahsini MnV Co-Living Tipe B Bendungan Hilir Jakarta Pusat',
+    biayaSewa: '200000000',
+    biayaAdmin: '20000',
+    totalPembayaran: '200020000',
+  },
+  {
+    id: '2',
+    tanggal: '30 Desember 2023',
+    waktu: '18:14',
+    buktiPembayaran: '/assets/images/BuktiPembayaran.png',
+    renter: 'Nazhwa Nur Syabrina',
+    namaProduk: 'Kost Sunter Jaya Gabus Tipe A Tanjung Priok Jakarta Utara ',
+    biayaSewa: '200000000',
+    biayaAdmin: '20000',
+    totalPembayaran: '200020000',
+  },
+];
 
 function RenterPayment() {
-    return (
-        <div>
-            <div
-                className='grid gap-y-[25px] border border-slate-300 rounded-[10px] p-5 mt-[30px]'
-                style={{
-                    boxShadow: '0 -1px 4px rgba(0,0,0,.04), 0 4px 8px rgba(0,0,0,.08)',
-                }}
-            >
-                <div className='flex justify-between pb-5 border-b border-slate-300'>
-                    <div className='flex font-[650] gap-x-3 text-xl'>
-                        <p className=''>Tanggal :</p>
-                        <p className='font-semibold text-rstroke'>
-                            29 Desember 2023
-                        </p>
-                    </div>
-                    <div className='flex font-[650] gap-x-3 text-xl'>
-                        <p className=''>Waktu :</p>
-                        <p className='font-semibold text-rstroke'>17:30</p>
-                    </div>
-                </div>
-                <div className='flex font-[650] gap-x-3 text-2xl'>
-                    <p className='w-1/2 '>Dari</p>
-                    <div className='w-1/2 flex font-semibold'>
-                        <p className='font-[650] mr-2'>:</p>
-                        <p className='text-rstroke'>M Danar Kahfi</p>
-                    </div>
-                </div>
-                <div className='flex font-[650] gap-x-3 text-2xl'>
-                    <p className='w-1/2 '>Kost Apik Pikitdro 22 Tipe C Cibeunying Kaler Bandung</p>
-                </div>
-                {/* <div className='grid gap-y-5 grid-cols-1 font-semibold text-rstroke underline underline-offset-2'>
-                    <div className='flex text-2xl justify-between'>
-                        <div>Biaya sewa</div>
-                        <div>{toIDR(datas?.price)}</div>
-                    </div>
-                    <div className='flex text-2xl justify-between'>
-                        <div>Lama Sewa</div>
-                        <div className='flex gap-2'>
-                            <p>{datas?.amount}</p>
-                            {datas?.rental_type === 'bulanan' ? (
-                                <p>bulan</p>
-                            ) : (
-                                <p>hari</p>
-                            )}
-                        </div>
-                    </div>
-                </div> */}
-                <div className='flex font-[650] gap-x-3 text-2xl font-semibold text-rstroke underline underline-offset-2'>
-                    <div className='flex text-2xl justify-between'>
-                        <div>Biaya sewa</div>
-                        <div>Rp.600.000</div>
-                    </div>
-                </div>
-                <div className='flex font-[650] gap-x-3 text-2xl'>
-                    <p className='w-1/2 '>Tanggal Awal Sewa</p>
-                    <div className='w-1/2 flex font-semibold'>
-                        <p className='font-[650] mr-2'>:</p>
-                        <p className='text-rstroke'>ff</p>
-                    </div>
-                </div>
-                <div className='flex font-[650] gap-x-3 text-2xl'>
-                    <p className='w-1/2 '>Tanggal Akhir Sewa</p>
-                    <div className='w-1/2 flex font-semibold'>
-                        <p className='font-[650] mr-2'>:</p>
-                        <p className='text-rstroke'>
-                            ff
-                        </p>
-                    </div>
-                </div>
-                <div className='flex font-[650] gap-x-3 text-2xl'>
-                    <p className='w-1/2 '>Durasi Sewa</p>
-                    <div className='w-1/2 flex font-semibold'>
-                        <p className='font-[650] mr-2'>:</p>
-                        <p className='text-rstroke flex gap-2'>
-                            <p>dd</p>
-                        </p>
-                    </div>
-                </div>
-                <div className='flex font-[650] gap-x-3 text-2xl'>
-                    <p className='w-1/2'>Catatan</p>
-                    {/* ksih kondisi kalo masih pending isiny "-" intinya selain reject "-" */}
-                    <div className='w-1/2 flex font-semibold'>
-                        <p className='font-[650] mr-2'>:</p>
-                        <p className='text-rstroke'>-</p>
-                    </div>
-                </div>
-            </div>
+  return (
+    <div>
+      <div className='w-full grid gap-y-[20px] grid-cols-1'>
+        <div className='produkOwner text-white text-4xl font-bold bg-primary rounded-[10px] px-5 py-3 flex justify-center items-center'>
+          <p>Pembayaran Renter</p>
         </div>
-    )
+        <div className='grid gap-10 grid-cols-2'>
+          {Payments.map((paymnet) => (
+            <div key={paymnet.id}>
+              <ListPayment
+                tanggal={paymnet.tanggal}
+                waktu={paymnet.waktu}
+                buktiPembayaran={paymnet.buktiPembayaran}
+                renter={paymnet.renter}
+                namaProduk={paymnet.namaProduk}
+                biayaSewa={paymnet.biayaSewa}
+                biayaAdmin={paymnet.biayaAdmin}
+                totalPembayaran={paymnet.totalPembayaran}
+              />
+            </div>
+          ))}
+        </div>
+      </div>
+      <div className='w-full py-[20px] flex justify-end'>
+        <Pagination
+          // current={currentPage}
+          // total={totalProducts}
+          // pageSize={itemsPerPage}
+          // onChange={handlePageChange}
+          defaultCurrent={1}
+          total={50}
+          className='text-2xl font-semibold'
+        />
+      </div>
+    </div>
+  );
 }
 
-export default RenterPayment
+export default RenterPayment;
