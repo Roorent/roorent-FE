@@ -9,12 +9,15 @@ import Button from '../Button';
 import { useSearchParams } from 'next/navigation';
 import { convertDate } from '#/utils/convertTime';
 import { toIDR } from '#/utils/convertCurrency';
+import { TransactionRepository } from '#/repository/transaction';
 
-const Step3 = ({ onFinish, data }: any) => {
+const Step3 = ({ onFinish, datas }: any) => {
   const searchParams = useSearchParams();
   const rentAppId: any = searchParams?.get('id');
 
-  const datas = data;
+  const { data, error, isLoading } =
+    TransactionRepository.hooks.getDetailRenter(rentAppId);
+  const trans = data?.data;
 
   return (
     <div className='pb-10'>
@@ -27,7 +30,7 @@ const Step3 = ({ onFinish, data }: any) => {
         <div className='flex justify-between pb-5 border-b border-slate-300'>
           <div className='flex font-[650] gap-x-3 text-xl'>
             <p className=''>No :</p>
-            <p className='font-semibold text-rstroke'>H86Kksdj7o2j9</p>
+            <p className='font-semibold text-rstroke'>{trans?.payment_code}</p>
           </div>
           <div className='flex font-[650] gap-x-3 text-xl'>
             <p className=''>Tanggal :</p>
@@ -86,36 +89,42 @@ const Step3 = ({ onFinish, data }: any) => {
           </div>
           <div className='flex font-[650] gap-x-3 text-xl'>
             <p className='w-1/2'>Catatan</p>
-            {/* ksih kondisi kalo masih pending isiny "-" intinya selain reject "-" */}
             <div className='w-1/2 flex font-semibold'>
               <p className='font-[650] mr-2'>:</p>
-              <p className='text-rstroke'>-</p>
+              {trans?.payment_status === 'reject' ? (
+                <p className='text-rstroke'>{trans?.reason}</p>
+              ) : (
+                <p className='text-rstroke'>-</p>
+              )}
             </div>
           </div>
         </div>
         <div className='flex items-center font-bold justify-between text-3xl'>
           <div>{toIDR(datas?.total_price)}</div>
-          {/* kasih kondisi jika berhasil akan tampil ini */}
-          {/*<div className='w-1/5 text-xl bg-primary text-white font-bold rounded-[10px] px-2 py-2.5 flex items-center'>
-            <div className='mr-5'>
-              <CheckCircleFilled className='text-3xl' />
+          {trans?.payment_status === 'pending' && (
+            <div className='text-xl bg-[#FFCC00] text-white font-bold rounded-[10px] px-3 py-2 flex items-center'>
+              <div className='mr-5'>
+                <ClockCircleFilled className='text-3xl' />
+              </div>
+              <p>Menunggu</p>
             </div>
-            <div className='w-full flex justify-center'>Terkonfirmasi</div>
-          </div> */}
-          {/* kasih kondisi jika gagal akan tampil ini */}
-          {/* <div className='w-1/5 text-xl bg-merah text-white font-bold rounded-[10px] px-3 py-2.5 flex items-center'>
-            <div className='mr-5'>
-              <CloseCircleFilled className='text-3xl' />
+          )}
+          {trans?.payment_status === 'approve' && (
+            <div className='text-xl bg-primary text-white font-bold rounded-[10px] px-2 py-2.5 flex items-center'>
+              <div className='mr-5'>
+                <CheckCircleFilled className='text-3xl' />
+              </div>
+              <p>Terkonfirmasi</p>
             </div>
-            <div className='w-full flex justify-center'>Ditolak</div>
-          </div> */}
-          {/* kasih kondisi jika pending akan tampil ini */}
-          <div className='w-1/3 text-xl bg-[#FFCC00] text-white font-bold rounded-[10px] px-3 py-2 flex items-center'>
-            <div className='mr-5'>
-              <ClockCircleFilled className='text-3xl' />
+          )}
+          {trans?.payment_status === 'reject' && (
+            <div className='text-xl bg-merah text-white font-bold rounded-[10px] px-3 py-2.5 flex items-center'>
+              <div className='mr-5'>
+                <CloseCircleFilled className='text-3xl' />
+              </div>
+              <p>Ditolak</p>
             </div>
-            <div className='w-full flex justify-center'>Menunggu</div>
-          </div>
+          )}
         </div>
       </div>
       <div>

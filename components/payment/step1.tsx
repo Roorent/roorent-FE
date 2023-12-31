@@ -2,9 +2,7 @@ import React from 'react';
 import Button from '../Button';
 import { convertDate, convertTime } from '#/utils/convertTime';
 
-function Step1({ onNext, data }: any) {
-  const datas = data;
-
+function Step1({ onNext, datas }: any) {
   return (
     <div className='grid gap-y-2 pb-10'>
       <div className=' pb-[50px] border-b border-slate-300'>

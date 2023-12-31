@@ -2,8 +2,10 @@ import { http } from '#/utils/http';
 import useSWR from 'swr';
 
 const url = {
-  createTransactionRenter: (id: string) => `/rent-applications/${id}`,
+  createTransactionRenter: (id: string) =>
+    `/transactions/renter-to-admin/${id}`,
   uploadPayment: () => '/transactions/upload-transactions',
+  getDetailRenter: (id: string) => `/transactions/renter/${id}`,
 };
 
 const manipulatedata = {
@@ -17,7 +19,11 @@ const manipulatedata = {
   },
 };
 
-const hooks = {};
+const hooks = {
+  getDetailRenter(id: string) {
+    return useSWR(url.getDetailRenter(id), http.fetcher);
+  },
+};
 
 export const TransactionRepository = {
   url,
