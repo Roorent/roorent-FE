@@ -30,22 +30,21 @@ function Payment() {
 
   const deadline = Date.now() + 1000 * 60 * 60 * 3;
 
-  
   const onChange: CountdownProps['onChange'] = (val) => {
     if (typeof val === 'number' && 4.95 * 1000 < val && val < 5 * 1000) {
       console.log('changed!');
     }
   };
-  
+
   const { data, error, isLoading } =
-  RentAppRepository.hooks.getRentAppById(rentAppId);
-  
+    RentAppRepository.hooks.getRentAppById(rentAppId);
+
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <p>Loading...</p>;
   }
-  
+
   const datas = data?.data;
-  
+
   const onFinish: CountdownProps['onFinish'] = () => {
     router.push(`/detail-product?id=${datas?.product_id}`);
   };
@@ -53,19 +52,19 @@ function Payment() {
   const steps = [
     {
       title: 'Ajukan Sewa',
-      component: <Step1 onNext={() => setCurrentStep(1)} data={datas} />,
+      component: <Step1 onNext={() => setCurrentStep(1)} datas={datas} />,
       isValid: true,
     },
     {
       title: 'Bayar Sewa',
-      component: <Step2 onNext={() => setCurrentStep(2)} data={datas} />,
+      component: <Step2 onNext={() => setCurrentStep(2)} datas={datas} />,
       isValid: !!uploadFile,
     },
     {
       title: 'Kwitansi',
       component: (
         <Step3
-          data={datas}
+          datas={datas}
           onFinish={() => {
             Modal.success({
               icon: (
@@ -291,21 +290,9 @@ function Payment() {
               </div>
               {currentStep === 2 && (
                 <div className='grid gap-y-5'>
-                  <div>
-                    <Button className='!font-bold !text-2xl !py-3'>
-                      Lepaskan Dana
-                    </Button>
-                  </div>
-                  <div className='text-xl border border-slate-300 rounded-[10px] px-5 py-2.5 flex items-center mb-[30px]'>
-                    <div className='mr-5'>
-                      <ExclamationCircleFilled className='text-3xl text-primary' />
-                    </div>
-                    <div className='w-full'>
-                      <p className='w-full '>
-                        Pastikan anda memasukan link lokasi dengan benar
-                      </p>
-                    </div>
-                  </div>
+                  <Button className='!font-bold !text-2xl !py-3'>
+                    Lepaskan Dana
+                  </Button>
                 </div>
               )}
             </div>

@@ -7,11 +7,10 @@ import { UploadFile } from 'antd/lib';
 import { TransactionRepository } from '#/repository/transaction';
 import { useSearchParams } from 'next/navigation';
 
-const Step2 = ({ onNext, data }: any) => {
+const Step2 = ({ onNext, datas }: any) => {
   const searchParams = useSearchParams();
   const rentAppId: any = searchParams?.get('id');
 
-  const datas = data;
   const { Option } = Select;
 
   interface OptionType {
@@ -22,8 +21,10 @@ const Step2 = ({ onNext, data }: any) => {
     number: string;
   }
 
-  const [uploadPembayaran, setUploadPembayaran] = useState<string | null>(null);
-  const [proofPayment, setProofPayment] = useState<string | null>(null);
+  const [uploadPembayaran, setUploadPembayaran] = useState<UploadFile[]>([]);
+  const [photoTransactions, setPhotoTransactions] = useState<
+    UploadFile<any> | any
+  >();
   const [bank, setBank] = useState<OptionType | undefined>({
     bank_id: datas?.adm_bank[0].bank_id,
     value: datas?.adm_bank[0].bank_name.toLowerCase(),
@@ -47,8 +48,7 @@ const Step2 = ({ onNext, data }: any) => {
     setBank(selected);
   };
 
-  const handleUpload = async (args: UploadChangeParam<UploadFile<any>>) => {
-    const photoTransactions: any = args?.file;
+  const handleUpload = async () => {
     try {
       if (photoTransactions.status === 'done') {
         if (photoTransactions?.size > 2097152) {
@@ -63,26 +63,27 @@ const Step2 = ({ onNext, data }: any) => {
               await TransactionRepository.manipulatedata.uploadPayment(
                 photoTransactions?.originFileObj
               );
-            setProofPayment(response.body.filename);
+
+            const sendData: any = {
+              transaction_proof: response.body.filename,
+              bank_id: bank?.bank_id,
+            };
+            setUploadPembayaran(photoTransactions);
+
+            await TransactionRepository.manipulatedata.createTransactionRenter(
+              rentAppId,
+              sendData
+            );
           } else {
             message.error('Anda hanya dapat mengunggah file JPG/JPEG/PNG!');
           }
         }
       }
+
+      uploadPembayaran && onNext();
     } catch (err: any) {
-      message.error(err.response.body?.error);
+      message.error('File tidak ditemukan!');
     }
-
-    const sendData: any = {
-      transaction_proof: proofPayment,
-      bank_id: bank?.bank_id,
-    };
-    setUploadPembayaran(sendData);
-
-    await TransactionRepository.manipulatedata.createTransactionRenter(
-      rentAppId,
-      uploadPembayaran
-    );
   };
 
   return (
@@ -149,7 +150,10 @@ const Step2 = ({ onNext, data }: any) => {
                     action='https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188'
                     listType='picture'
                     maxCount={1}
-                    onChange={handleUpload}
+                    // onChange={handleUpload}
+                    onChange={(info: any) => {
+                      setPhotoTransactions(info?.file);
+                    }}
                   >
                     <Button className='!bg-transparent !text-primary !p-[10px] !rounded-[10px] !border-rstroke !text-xl !h-max btn-upload !border-dashed !border hover:!border-primary'>
                       <div className='p-5'>
@@ -168,7 +172,7 @@ const Step2 = ({ onNext, data }: any) => {
       </Form>
       <div>
         <Button
-          onClick={uploadPembayaran && onNext}
+          onClick={handleUpload}
           disabled={!uploadPembayaran}
           className='!text-white !font-bold !py-3 !text-2xl'
         >
