@@ -38,6 +38,7 @@ function CreateNotifications({ openNotification, isOpen }: any) {
         modal={{
           styles: {
             content: {
+              display: 'block',
               width: '80%',
               padding: '15px',
               boxShadow: '0 25px 50px -12px rgb(0 0 0 / 0.5)',

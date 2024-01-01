@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Button from '../Button';
-import { Image } from 'antd';
+import { Form, Image, Input, Modal } from 'antd';
+import { CloseCircleFilled } from '@ant-design/icons';
 
 function ListPayment({
   tanggal,
@@ -12,6 +13,57 @@ function ListPayment({
   biayaAdmin,
   totalPembayaran,
 }: any) {
+  const { confirm } = Modal;
+  const showModal = () => {
+    // setIsModalOpen(true);
+    confirm({
+      title: (
+        <div className='text-3xl font-bold flex justify-center'>
+          Menolak Pembayaran
+        </div>
+      ),
+      content: (
+        <div className='w-full text-xl font-semibold grid gap-y-5 mb-[25px]'>
+          <div className='flex justify-center'>
+            Berikan Alasan Menolak Pembayaran
+          </div>
+          <div className='w-full'>
+            <Form name='trigger' layout='vertical' autoComplete='off'>
+              <Form.Item
+                name='reason'
+                label={<span className='text-lg'>Alasan :</span>}
+                className=''
+              >
+                <Input.TextArea placeholder='Masukkan alasan' rows={4} />
+              </Form.Item>
+            </Form>
+          </div>
+        </div>
+      ),
+      icon: (
+        <></>
+      ),
+      okText:(
+        <div className='modal-hapus text-xl font-bold text-white'>Simpan</div>
+      ),
+      cancelText: (
+        <div className='modal-hapus text-xl font-bold text-white'>Batal</div>
+      ),
+      // onOk() {
+      //   setLoading(true);
+      //   data.then((del: any) => {
+      //     return del;
+      //   });
+      //   //disini panggil mutate nya
+      //   mutate;
+      //   setLoading(false);
+      //   // router.refresh()
+      // },
+      // onCancel() {
+      //   console.log('Cancel');
+      // },
+    });
+  };
   return (
     <div>
       <div
@@ -74,7 +126,10 @@ function ListPayment({
         </div>
         <div className='flex gap-x-5'>
           <div className='w-full'>
-            <Button className='!py-3 !mt-0 !font-semibold !text-2xl !bg-merah hover:!bg-[#e24444]'>
+            <Button
+              onClick={showModal}
+              className='!py-3 !mt-0 !font-semibold !text-2xl !bg-merah hover:!bg-[#e24444]'
+            >
               Tolak
             </Button>
           </div>

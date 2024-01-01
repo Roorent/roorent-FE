@@ -233,6 +233,7 @@ function CreateProduct() {
     setSelectedOptionProduk(selected);
     setDatas({ ...datas, type: value });
   };
+
   return (
     <div>
       <Form name='createProduk'>

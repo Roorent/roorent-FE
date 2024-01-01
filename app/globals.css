@@ -219,7 +219,21 @@ body {
   background-color: #4065da;
 }
 .modal-hapus .ant-btn-primary:not(:disabled):not(.ant-btn-disabled):hover {
-  background-color: #e24444;
+  background-color: #dd1717;
+}
+:where(.css-dev-only-do-not-override-gzal6t).ant-modal-confirm .ant-modal-confirm-btns {
+  text-align: end;
+  display: flex;
+  justify-content: space-around;
+  margin-top: 12px;
+}
+:where(.css-dev-only-do-not-override-gzal6t).ant-btn-primary{
+  height: max-content;
+}
+.modal-hapus button, [type='button']{
+  background-color: #dd1717;
+  width: 40%;
+  height: max-content;
 }
 
 .ant-tabs .ant-tabs-tab {
@@ -497,4 +511,13 @@ textarea:where(.css-dev-only-do-not-override-1dj4ii3).ant-input {
 }
 :where(.css-dev-only-do-not-override-19l9cjq).ant-image .ant-image-img {
   width: 260px;
+}
+:where(.css-dev-only-do-not-override-gzal6t).ant-input:placeholder-shown{
+  font-weight: normal;
+}
+.ant-modal .ant-modal-content{
+  width: 500px;
+}
+:where(.css-dev-only-do-not-override-gzal6t).ant-modal-confirm.ant-modal .ant-modal-body {
+  width: -webkit-fill-available;
 }

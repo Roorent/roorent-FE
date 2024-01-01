@@ -303,7 +303,7 @@ function Payment() {
                       </div>
                       )}
                     </div>
-                  </div>
+                  </div> 
                 </div>
                 <div className='flex font-bold justify-between text-3xl py-10'>
                   <div>Total</div>
