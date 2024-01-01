@@ -495,3 +495,6 @@ textarea:where(.css-dev-only-do-not-override-1dj4ii3).ant-input {
   display: flex;
   justify-content: center;
 }
+:where(.css-dev-only-do-not-override-19l9cjq).ant-image .ant-image-img {
+  width: 260px;
+}

@@ -38,12 +38,12 @@ function ListPengguna({ image, role, namaPengguna, status, idUsers }: any) {
       <a href="/adm/detail-pengguna">
         <div className='flex items-center gap-x-[24px] px-5 py-2.5 rounded-[10px] border border-rstroke'>
           <div>
-            <img
+            {/* <img
                 src={`${imgProfile(image)}`}
                 alt='produk'
                 className='object-cover object-center w-full h-full rounded-xl'
-              />
-            {/* <Photo src={Photo} /> */}
+              /> */}
+            <Photo src={image} />
           </div>
           <div className='w-full text-xl font-bold'>{namaPengguna}</div>
           {status === 'pending' && (

@@ -442,13 +442,6 @@ function CreateProduct() {
               </div>
             </div>
             <div className='w-1/2'>
-              {/* <div className='produkOwner text-xl font-bold bg-[#ECF0FB] rounded-[10px] px-5 py-2.5 flex items-center mb-[30px]'>
-                <div className='w-full'>
-                  <p className='text-primary w-full flex justify-center'>
-                    Deskripsi Produk
-                  </p>
-                </div>
-              </div> */}
               <div className='my-4'>
                 <p className='mb-4 text-teks text-2xl font-bold'>
                   Spesifikasi Produk

@@ -272,6 +272,7 @@ function Payment() {
                     </div>
                     <div className='flex text-2xl justify-between'>
                       <div>Lama Sewa</div>
+                      {datas?.product_type === 'kost' && (
                       <div className='flex gap-2'>
                         <p>{datas?.amount}</p>
                         {datas?.rental_type === 'bulanan' ? (
@@ -280,6 +281,27 @@ function Payment() {
                           <p>hari</p>
                         )}
                       </div>
+                      )}
+                      {datas?.product_type === 'gedung' && (
+                      <div className='flex gap-2'>
+                        <p>{datas?.amount}</p>
+                        {datas?.rental_type === 'harian' ? (
+                          <p>bulan</p>
+                        ) : (
+                          <p>hari</p>
+                        )}
+                      </div>
+                      )}
+                      {datas?.product_type === 'hotel' && (
+                      <div className='flex gap-2'>
+                        <p>{datas?.amount}</p>
+                        {datas?.rental_type === 'harian' ? (
+                          <p>bulan</p>
+                        ) : (
+                          <p>hari</p>
+                        )}
+                      </div>
+                      )}
                     </div>
                   </div>
                 </div>

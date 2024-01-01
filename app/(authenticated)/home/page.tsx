@@ -323,9 +323,6 @@ function Home() {
           </Swiper>
         </div>
       </div>
-      <div>
-        <Footer />
-      </div>
     </div>
   );
 }

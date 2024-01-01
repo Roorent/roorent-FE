@@ -58,6 +58,13 @@ const Step3 = ({ onFinish, datas }: any) => {
             <p className='w-1/2 '>Nama Produk</p>
             <div className='w-1/2 flex font-semibold'>
               <p className='font-[650] mr-2'>:</p>
+              <p className='text-rstroke'>{datas?.product_name}</p>
+            </div>
+          </div>
+          <div className='flex font-[650] gap-x-3 text-xl'>
+            <p className='w-1/2 '>Alamat Produk</p>
+            <div className='w-1/2 flex font-semibold'>
+              <p className='font-[650] mr-2'>:</p>
               <p className='text-rstroke'>{datas?.product_address}</p>
             </div>
           </div>

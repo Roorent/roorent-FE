@@ -1,5 +1,6 @@
 import React from 'react';
 import Button from '../Button';
+import { Image } from 'antd';
 
 function ListPayment({
   tanggal,
@@ -29,15 +30,20 @@ function ListPayment({
             <p className='font-semibold text-rstroke'>{waktu}</p>
           </div>
         </div>
-        <div className='flex gap-x-[24px] pb-5 border-b border-slate-300'>
+        <div className='flex pb-5 border-b border-slate-300'>
           <div className='w-1/2 h-[304px]'>
-            <img
+            <Image
               src={buktiPembayaran}
               alt='Bukti Pembayaran'
               className='object-cover object-center w-full h-full rounded-xl'
             />
+            {/* <img
+              src={buktiPembayaran}
+              alt='Bukti Pembayaran'
+              className='object-cover object-center w-full h-full rounded-xl'
+            /> */}
           </div>
-          <div className='w-1/2 grid gap-y-[2px]'>
+          <div className='w-1/2 grid '>
             <div className='flex font-semibold text-2xl'>
               <p>Dari</p>
               <div className='font-semibold flex font-semibold text-2xl'>
@@ -53,7 +59,7 @@ function ListPayment({
                 <div>Biaya sewa</div>
                 <div>Rp.{biayaSewa}</div>
               </div>
-              <div className='flex text-xl justify-between'>
+              <div className='flex text-2xl justify-between'>
                 <div>Biaya Admin</div>
                 <div className='flex gap-2'>
                   <p>Rp.{biayaAdmin}</p>
