@@ -46,10 +46,7 @@ const AuthenticatedLayout: React.FC<AuthenticatedLayoutProps> = ({
   const pathname = usePathname();
 
   const cruProduk =
-    pathname === '/create-product' ||
-    pathname === '/edit-product' ||
-    pathname === '/detail-product' ||
-    pathname === '/payment';
+    pathname === '/create-product' || pathname === '/edit-product' || pathname === '/detail-product' || pathname === '/payment' || pathname === '/adm/detail-pengguna';
 
   const {
     token: { colorBgContainer },
@@ -171,9 +168,11 @@ const AuthenticatedLayout: React.FC<AuthenticatedLayoutProps> = ({
 
   const onClickAdmin: MenuProps['onClick'] = (e: any) => {
     setCurrAdmin(e.key);
+    router.push(e.key)
   };
   const onClickOwner: MenuProps['onClick'] = (e: any) => {
     setCurrOwner(e.key);
+    router.push(e.key)
   };
 
   return (
@@ -301,7 +300,7 @@ const AuthenticatedLayout: React.FC<AuthenticatedLayoutProps> = ({
                 defaultSelectedKeys={[]}
                 style={{ borderBottomWidth: '2px' }}
                 className={
-                  'absolute z-50 border-slate-200 flex justify-start py-[12px] px-[150px] gap-10 w-full -ml-14 items-center'
+                  'absolute z-50 border-slate-200 flex justify-start py-[12px] px-[150px] gap-10 w-full items-center -ml-[50px]'
                 }
               >
                 <div className='w-full'>

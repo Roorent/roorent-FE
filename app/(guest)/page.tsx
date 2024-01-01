@@ -148,26 +148,26 @@ function Home() {
   }
 
   const datas = data?.data;
-  
-  const filterProducts = (products:any, filter:any) => {
-    return products.filter((product:any) => product.type === filter);
+
+  const filterProducts = (products: any, filter: any) => {
+    return products.filter((product: any) => product.type === filter);
   };
-  const filterProductsCity = (products:any, type:any, city:any) => {
-    let filtered = products.filter((product:any) => product.type === type);
+  const filterProductsCity = (products: any, type: any, city: any) => {
+    let filtered = products.filter((product: any) => product.type === type);
     if (city && city !== 'Pilih Kota') {
-      filtered = filtered.filter((product:any) => product.cities?.name === city);
+      filtered = filtered.filter((product: any) => product.cities?.name === city);
     }
     return filtered;
   };
 
-  const handleChangeCity = (value:any) => {
+  const handleChangeCity = (value: any) => {
     setCityFilter(value); // Update nilai kota saat terjadi perubahan pada Select
   };
 
-  const 
-  filteredProducts = typeFilter
-  ? filterProducts(datas, typeFilter)
-  : datas;
+  const
+    filteredProducts = typeFilter
+      ? filterProducts(datas, typeFilter)
+      : datas;
 
   const handleChange = (e: any) => {
     setTypeFilter(e.target.value);
@@ -218,7 +218,7 @@ function Home() {
                 Dapatkan informasi dan lakukan penyewaan
               </div>
               <div>
-                <Searchs placeholder={'Masukan nama lokasi/kota/alamat/produk'}/>
+                <Searchs placeholder={'Masukan nama lokasi/kota/alamat/produk'} />
               </div>
             </div>
           </div>
@@ -276,12 +276,12 @@ function Home() {
         {typeFilter === 'kost' && (
           <div className='flex items-center py-10 mt-[25px]'>
             <div className='w-full text-4xl font-bold'>Kost Populer</div>
-            <div className='flex'>
+            <div className='flex bg-white rounded-[10px]' style={{ boxShadow: '0 1px 8px rgba(36, 36, 36, 0.14)' }}>
               <Button
                 type='primary'
                 htmlType='submit'
                 href='#'
-                className='w-max hover:!text-white hover:!bg-primary !bg-white !text-primary border-2 border-white hover:!border-primary rounded-[10px] text-[20px] !font-semibold !mt-0 px-7'
+                className='w-max hover:!text-white hover:!bg-primary !bg-white !text-teks border-2 border-white hover:!border-primary rounded-[10px] text-[20px] !font-semibold !mt-0 px-7'
               >
                 Lihat Semua
               </Button>
@@ -291,12 +291,12 @@ function Home() {
         {typeFilter === 'gedung' && (
           <div className='flex items-center py-10 mt-[25px]'>
             <div className='w-full text-4xl font-bold'>Gedung Populer</div>
-            <div className='flex'>
+            <div className='flex bg-white rounded-[10px]' style={{ boxShadow: '0 1px 8px rgba(36, 36, 36, 0.14)' }}>
               <Button
                 type='primary'
                 htmlType='submit'
                 href='#'
-                className='w-max hover:!text-white hover:!bg-primary !bg-white !text-primary border-2 border-white hover:!border-primary rounded-[10px] text-[20px] !font-semibold !mt-0 px-7'
+                className='w-max hover:!text-white hover:!bg-primary !bg-white !text-teks border-2 border-white hover:!border-primary rounded-[10px] text-[20px] !font-semibold !mt-0 px-7'
               >
                 Lihat Semua
               </Button>
@@ -306,12 +306,12 @@ function Home() {
         {typeFilter === 'hotel' && (
           <div className='flex items-center py-10 mt-[25px]'>
             <div className='w-full text-4xl font-bold'>Hotel Populer</div>
-            <div className='flex'>
+            <div className='flex bg-white rounded-[10px]' style={{ boxShadow: '0 1px 8px rgba(36, 36, 36, 0.14)' }}>
               <Button
                 type='primary'
                 htmlType='submit'
                 href='#'
-                className='w-max hover:!text-white hover:!bg-primary !bg-white !text-primary border-2 border-white hover:!border-primary rounded-[10px] text-[20px] font-semibold !mt-0 px-7'
+                className='w-max hover:!text-white hover:!bg-primary !bg-white !text-teks border-2 border-white hover:!border-primary rounded-[10px] text-[20px] font-semibold !mt-0 px-7'
               >
                 Lihat Semua
               </Button>
@@ -368,7 +368,7 @@ function Home() {
                   type='primary'
                   htmlType='submit'
                   href='#'
-                  className='w-max hover:!text-white hover:!bg-primary !bg-white !text-primary border-2 border-white hover:!border-primary rounded-[10px] text-[20px] font-bold !mt-0 px-7'
+                  className='w-max hover:!text-white hover:!bg-primary !bg-white !text-teks border-2 border-white hover:!border-primary rounded-[10px] text-[20px] font-bold !mt-0 px-7'
                 >
                   Lihat Semua
                 </Button>
@@ -397,7 +397,7 @@ function Home() {
                   type='primary'
                   htmlType='submit'
                   href='#'
-                  className='w-max hover:!text-white hover:!bg-primary !bg-white !text-primary border-2 border-white hover:!border-primary rounded-[10px] text-[20px] font-bold !mt-0 px-7'
+                  className='w-max hover:!text-white hover:!bg-primary !bg-white !text-teks border-2 border-white hover:!border-primary rounded-[10px] text-[20px] font-bold !mt-0 px-7'
                 >
                   Lihat Semua
                 </Button>
@@ -426,7 +426,7 @@ function Home() {
                   type='primary'
                   htmlType='submit'
                   href='#'
-                  className='w-max hover:!text-white hover:!bg-primary !bg-white !text-primary border-2 border-white hover:!border-primary rounded-[10px] text-[20px] font-bold !mt-0 px-7'
+                  className='w-max hover:!text-white hover:!bg-primary !bg-white !text-teks border-2 border-white hover:!border-primary rounded-[10px] text-[20px] font-bold !mt-0 px-7'
                 >
                   Lihat Semua
                 </Button>
