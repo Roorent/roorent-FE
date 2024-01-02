@@ -146,6 +146,19 @@ function DetailProduct() {
           </a>
         </div>
       )}
+      {role === isRole.admin && (
+        <div className='w-full grid gap-y-[20px] grid-cols-1'>
+          <a
+            href='/adm/detail-pengguna'
+            className='w-fit hover:text-teks flex font-bold text-xl gap-3'
+          >
+            <div>
+              <ArrowLeftOutlined />
+            </div>
+            <div>Kembali</div>
+          </a>
+        </div>
+      )}
       {role === isRole.renter && (
         <div className='w-full grid gap-y-[20px] grid-cols-1'>
           <a
@@ -214,11 +227,11 @@ function DetailProduct() {
                 </div>
               </div>
             </div>
-            {role === isRole.renter && (
+            {(role === isRole.renter || role === isRole.admin) && (
               <div className='grid gap-y-3 grid-cols-1 pb-[30px] border-b border-slate-300'>
                 <div className='text-xl flex gap-5 items-center'>
                   <div>
-                    <Photo src={datas?.user_photo} />
+                    <Photo size={50} src={datas?.user_photo} />
                   </div>
                   <div className='w-full grid gap-y-1 grid-cols-1'>
                     <p className='font-semibold'>{datas?.user_name}</p>
@@ -333,7 +346,7 @@ function DetailProduct() {
               )}
             </div>
           </div>
-          {role === isRole.owner && (
+          {(role === isRole.owner || role === isRole.admin) && (
             <div
               className='rounded-[10px] bg-white h-[188px] p-[25px] sticky top-5'
               style={{

@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 
 //disini tambahin mutate juga
-function ModalDelete({ title, content, icon, buttonText, id, mutate }: any) {
+function ModalDelete({ title, content, icon, buttonText, id, mutate, className }: any) {
   const [loading, setLoading] = useState(false);
   const { confirm } = Modal;
   const router = useRouter()
@@ -42,13 +42,14 @@ function ModalDelete({ title, content, icon, buttonText, id, mutate }: any) {
       },
     });
   };
+  const styleButton = `hover:text-white hover:!bg-[#e24444] hapus !bg-merah rounded-[10px] text-base font-bold py-3 w-[111px] h-max ${className}`
   return (
     <div className='modal-hapus'>
       <Button
         type='primary'
         onClick={showDeleteConfirm}
         loading={loading}
-        className='hover:text-white hover:!bg-[#e24444] hapus !bg-merah rounded-[10px] text-base font-bold py-3 w-[111px] h-max'
+        className={styleButton}
       >
         {buttonText}
       </Button>

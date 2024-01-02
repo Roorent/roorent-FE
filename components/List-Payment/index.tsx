@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Button from '../Button';
-import { Form, Image, Input, Modal } from 'antd';
+import { Form, Image, Input, Modal, message } from 'antd';
 import { CloseCircleFilled } from '@ant-design/icons';
 
 function ListPayment({
@@ -13,7 +13,34 @@ function ListPayment({
   biayaAdmin,
   totalPembayaran,
 }: any) {
+  const [reasonValue, setReasonValue] = useState('');
+  const [isOKButtonDisabled, setIsOKButtonDisabled] = useState(true);
+
+  const handleReasonChange = (value: any) => {
+    setReasonValue(value);
+    setIsOKButtonDisabled(value.trim() === '');
+  };
   const { confirm } = Modal;
+  const reasonForm = (
+    <Form name='reason' layout='vertical' autoComplete='off'>
+      <Form.Item
+        name='reason'
+        label={<span className='text-lg'>Alasan :</span>}
+        rules={[
+          {
+            required: true,
+            message: 'Masukkan alasan',
+          },
+        ]}
+      >
+        <Input.TextArea
+          placeholder='Masukkan alasan'
+          rows={4}
+          onChange={(e) => handleReasonChange(e.target.value)}
+        />
+      </Form.Item>
+    </Form>
+  );
   const showModal = () => {
     confirm({
       title: (
@@ -27,28 +54,34 @@ function ListPayment({
             Berikan Alasan Menolak Pembayaran
           </div>
           <div className='w-full'>
-            <Form name='reason' layout='vertical' autoComplete='off'>
-              <Form.Item
-                name='reason'
-                label={<span className='text-lg'>Alasan :</span>}
-                className=''
-              >
-                <Input.TextArea placeholder='Masukkan alasan' rows={4} />
-              </Form.Item>
-            </Form>
+            {reasonForm}
           </div>
         </div>
       ),
-      icon: (
-        <></>
-      ),
-      okText:(
-        <div className='modal-hapus text-xl font-bold text-white'>Simpan</div>
+      icon: <></>,
+      okText: (
+        <div
+        className='modal-hapus text-xl font-bold text-white'
+        onClick={handleOK}
+        >
+          Simpan
+        </div>
       ),
       cancelText: (
         <div className='modal-hapus text-xl font-bold text-white'>Batal</div>
-      )
+      ),
+      okButtonProps: {
+        disabled: isOKButtonDisabled
+      },
     });
+  };
+  const handleOK = () => {
+    
+    {
+      reasonValue.trim() === ''
+        ? message.error('Harap isi alasan')
+        : Modal.destroyAll();
+    }
   };
   return (
     <div>

@@ -10,7 +10,7 @@ import Button from '../Button';
 import { adminRepository } from '#/repository/adm';
 import { Input, Modal } from 'antd';
 
-function ListPengguna({ image, role, namaPengguna, status, idUsers }: any) {
+function ListPengguna({ image, namaPengguna, status, idUsers }: any) {
   const handleApprove = async () => {
     try {
       await adminRepository.manipulatedata.approveOwner(idUsers);
@@ -35,7 +35,7 @@ function ListPengguna({ image, role, namaPengguna, status, idUsers }: any) {
 
   return (
     <div>
-      <a href="/adm/detail-pengguna">
+      <a href={`/adm/detail-pengguna?id=${idUsers}`}>
         <div className='flex items-center gap-x-[24px] px-5 py-2.5 rounded-[10px] border border-rstroke'>
           <div>
             {/* <img
@@ -43,7 +43,7 @@ function ListPengguna({ image, role, namaPengguna, status, idUsers }: any) {
                 alt='produk'
                 className='object-cover object-center w-full h-full rounded-xl'
               /> */}
-            <Photo src={image} />
+            <Photo size={50} src={image} />
           </div>
           <div className='w-full text-xl font-bold'>{namaPengguna}</div>
           {status === 'pending' && (

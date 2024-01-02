@@ -462,7 +462,7 @@ textarea:where(.css-dev-only-do-not-override-1dj4ii3).ant-input {
   color: #4065da;
 }
 .home-produk .ant-select .ant-select-arrow {
-  height: 25px;
+  height: 20px;
   font-size: 36px;
   color: #4065da;
 }
@@ -522,6 +522,14 @@ textarea:where(.css-dev-only-do-not-override-1dj4ii3).ant-input {
 }
 :where(.css-dev-only-do-not-override-19l9cjq).ant-image .ant-image-img {
   width: 260px;
+}
+.adm-renter .ant-image .ant-image-img{
+  height: 300px;
+  width: 100%;
+  border-radius: 10px;
+}
+.adm-renter .ant-image .ant-image-mask:hover, .adm-renter .ant-image .ant-image-mask{
+  border-radius: 10px;
 }
 :where(.css-dev-only-do-not-override-gzal6t).ant-input:placeholder-shown{
   font-weight: normal;

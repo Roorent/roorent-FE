@@ -253,7 +253,7 @@ const AuthenticatedLayout: React.FC<AuthenticatedLayoutProps> = ({
                     <p className='text-xl font-bold flex w-max justify-end'>
                       Halo, {firstName}
                     </p>
-                    <Photo src={photo} />
+                    <Photo size={50} src={photo} />
                   </div>
                 </Menu>
               </Header>
@@ -286,7 +286,7 @@ const AuthenticatedLayout: React.FC<AuthenticatedLayoutProps> = ({
                     <p className='text-xl font-bold flex w-max justify-end'>
                       Halo, {firstName}
                     </p>
-                    <Photo src={photo} />
+                    <Photo size={50} src={photo} />
                   </div>
                 </Menu>
               </Header>
@@ -315,7 +315,7 @@ const AuthenticatedLayout: React.FC<AuthenticatedLayoutProps> = ({
                   <p className='text-xl font-bold flex w-max justify-end'>
                     Halo, {firstName}
                   </p>
-                  <Photo src={photo} />
+                  <Photo size={50} src={photo} />
                   <div
                     onClick={handleLogout}
                     className='bg-primary flex items-center text-md rounded-lg p-4 h-10 text-white font-bold cursor-pointer'

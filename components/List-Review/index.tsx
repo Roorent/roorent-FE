@@ -16,7 +16,7 @@ function ListReview({
             <div className='grid gap-y-6 grid-cols-1'>
                 <div className='text-xl flex gap-5 items-center'>
                     <div>
-                        <Photo />
+                        <Photo size={50}/>
                     </div>
                     <div className='w-full grid gap-y-1 grid-cols-1'>
                         <p className='font-semibold'>{namaPemilik}</p>

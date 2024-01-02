@@ -49,7 +49,7 @@ function CreateChats({ openChat, isOpen }: any) {
                 />
                 <div className='flex items-center'>
                   <div>
-                    <Photo />
+                    <Photo size={50}/>
                   </div>
                   <div className='ml-4 py-1 text-slate-700'>
                     <p className='font-bold text-xl'>Catur</p>

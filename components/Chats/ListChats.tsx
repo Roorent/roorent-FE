@@ -59,7 +59,7 @@ function ListChats({ openChat, isOpen }: any) {
           <div className='flex flex-col gap-4 my-2 w-[380px]'>
             <div className='flex items-center'>
               <div className='w-[18%]'>
-                <Photo />
+                <Photo size={50}/>
               </div>
               <div
                 className='w-[82%] py-1 border-b border-slate-200 cursor-pointer'
@@ -79,7 +79,7 @@ function ListChats({ openChat, isOpen }: any) {
             </div>
             <div className='flex items-center'>
               <div className='w-[18%]'>
-                <Photo />
+                <Photo size={50}/>
               </div>
               <div
                 className='w-[82%] py-1 border-b border-slate-200 cursor-pointer'
@@ -100,7 +100,7 @@ function ListChats({ openChat, isOpen }: any) {
             </div>
             <div className='flex items-center'>
               <div className='w-[18%]'>
-                <Photo />
+                <Photo size={50}/>
               </div>
               <div
                 className='w-[82%] py-1 border-b border-slate-200 cursor-pointer'
