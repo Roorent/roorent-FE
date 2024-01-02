@@ -21,8 +21,8 @@ import {
 } from 'antd';
 import { UploadChangeParam, UploadFile } from 'antd/es/upload/interface';
 import { RcFile, UploadProps } from 'antd/lib/upload';
-import {useRouter} from 'next/navigation';
-import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import React, { useEffect, useState } from 'react';
 
 const getBase64 = (file: RcFile): Promise<string> =>
   new Promise((resolve, reject) => {
@@ -46,7 +46,7 @@ function CreateProduct() {
   const handleCancel = () => setPreviewOpen(false);
   const [photoProductsArray, setPhotoProducts] = useState<string[] | []>([]);
 
-  const [datas, setDatas] = useState({
+  const [datas, setDatas] = useState<any>({
     name: '',
     type: 'kost',
     stock: 1,
@@ -81,9 +81,9 @@ function CreateProduct() {
         gender: datas?.gender,
         rules: datas?.rules,
       };
-  
+
       await productsRepository.manipulatedata.createProducts(dataProducts);
-  
+
       Modal.success({
         icon: (
           <div className='modal-hapus mb-[10px] flex justify-center'>
@@ -92,8 +92,8 @@ function CreateProduct() {
         ),
         title: (
           <div className='text-3xl font-bold flex justify-center'>
-          Berhasil Buat Produk
-        </div>
+            Berhasil Buat Produk
+          </div>
         ),
         content: (
           <div className='text-xl font-semibold flex justify-center mb-[25px]'>
@@ -101,8 +101,8 @@ function CreateProduct() {
           </div>
         ),
       });
-      setTimeout(() => router.push('/list-product'), 3000);      
-    } catch (err:any) {
+      setTimeout(() => router.push('/list-product'), 3000);
+    } catch (err: any) {
       message.error('Gagal membuat produk');
     }
   };
@@ -128,12 +128,12 @@ function CreateProduct() {
               await productsRepository.manipulatedata.uploadPhotoProducts(
                 photoProducts?.originFileObj
               );
-  
+
             setPhotoProducts([...photoProductsArray, response.body.filename]);
             setDatas({
-            ...datas,
-            photo: [...photoProductsArray, response.body.filename],
-          });
+              ...datas,
+              photo: [...photoProductsArray, response.body.filename],
+            });
           } else {
             message.error('Anda hanya dapat mengunggah file JPG/JPEG/PNG !');
           }
@@ -141,8 +141,8 @@ function CreateProduct() {
       }
       // Fungsi handleChangeUpload
       const { fileList: newFileList } = args;
-      setFileList(newFileList);      
-    } catch (err:any) {
+      setFileList(newFileList);
+    } catch (err: any) {
       message.error(err.response.body?.error);
     }
   };
@@ -194,20 +194,20 @@ function CreateProduct() {
     defaultSelectedOption
   );
 
-  const [hargaPerHari, setHargaPerHari] = useState<number | null>(null);
-  const [hargaPerBulan, setHargaPerBulan] = useState<number | null>(null);
+  const [hargaPerHari, setHargaPerHari] = useState<number>(0);
+  const [hargaPerBulan, setHargaPerBulan] = useState<number>(0);
 
-  const handleSelectChange = (value: string) => {
+  const handleSelectChange: any = (value: string) => {
     const selected = options.find((option) => option.value === value);
     setSelectedOption(selected);
   };
 
-  const handleHargaPerHariChange = (value: number | null) => {
+  const handleHargaPerHariChange: any = (value: number) => {
     setHargaPerHari(value);
     setDatas({ ...datas, daily_price: value || 0 });
   };
 
-  const handleHargaPerBulanChange = (value: number | null) => {
+  const handleHargaPerBulanChange: any = (value: number) => {
     setHargaPerBulan(value);
     setDatas({ ...datas, monthly_price: value || 0 });
   };
@@ -227,12 +227,32 @@ function CreateProduct() {
   const [selectedOptionProduk, setSelectedOptionProduk] = useState<
     OptionType | undefined
   >(defaultSelectedOptionProduk);
+  const [adminFee, setAdminFee] = useState({ daily: 0, monthly: 0 });
 
   const handleSelectChangeProduk = (value: string) => {
     const selected = optionsProduk.find((option) => option.value === value);
     setSelectedOptionProduk(selected);
     setDatas({ ...datas, type: value });
   };
+
+  const fees = [
+    { name: 'kost', value: 5 },
+    { name: 'gedung', value: 10 },
+    { name: 'hotel', value: 10 },
+  ];
+  const matchingFee = fees.find(
+    (fee) => selectedOptionProduk?.value === fee.name
+  );
+
+  useEffect(() => {
+    if (matchingFee) {
+      const feeDaily = hargaPerHari - (matchingFee.value / 100) * hargaPerHari;
+      const feeMonthly =
+        hargaPerBulan - (matchingFee.value / 100) * hargaPerBulan;
+
+      setAdminFee({ daily: feeDaily, monthly: feeMonthly });
+    }
+  }, [matchingFee, hargaPerHari, hargaPerBulan, setAdminFee]);
 
   return (
     <div>
@@ -259,12 +279,12 @@ function CreateProduct() {
                 <div>
                   <Form.Item name='type'>
                     <TypeRadio
-                    onChange={(e: any) => {
-                      console.log(e, 'here');
-                      handleSelectChangeProduk(e)
-                    }}
-                    value={selectedOptionProduk?.value}
-                    defaultValue={defaultSelectedOptionProduk.value}
+                      onChange={(e: any) => {
+                        console.log(e, 'here');
+                        handleSelectChangeProduk(e);
+                      }}
+                      value={selectedOptionProduk?.value}
+                      defaultValue={defaultSelectedOptionProduk.value}
                     />
                   </Form.Item>
                 </div>
@@ -594,7 +614,7 @@ function CreateProduct() {
                   <>
                     <div className='produkOwner text-xl font-bold bg-primary rounded-[10px] px-5 py-2.5 flex items-center mb-[30px]'>
                       <div className='w-full'>
-                        <p className='text-white w-full '>Harga Produk</p>
+                        <p className='text-white w-full'>Harga Produk</p>
                       </div>
                       <div className='flex gap-x-6'>
                         <div className='w-full list-produk'>
@@ -643,6 +663,19 @@ function CreateProduct() {
                             />
                           </Form.Item>
                         </div>
+                        <div className='text-xl border border-slate-300 rounded-[10px] px-5 py-2.5 flex items-center mb-[30px]'>
+                          <div className='mr-5'>
+                            <ExclamationCircleFilled className='text-3xl text-primary' />
+                          </div>
+                          <div className='w-full'>
+                            <p className='w-full '>
+                              Harga yang akan anda terima =
+                              <span className='font-bold'>
+                                {' ' + adminFee.daily}
+                              </span>
+                            </p>
+                          </div>
+                        </div>
                       </div>
                     )}
                     {selectedOption?.value === 'perbulan' && (
@@ -673,81 +706,109 @@ function CreateProduct() {
                             />
                           </Form.Item>
                         </div>
+                        <div className='text-xl border border-slate-300 rounded-[10px] px-5 py-2.5 flex items-center mb-[30px]'>
+                          <div className='mr-5'>
+                            <ExclamationCircleFilled className='text-3xl text-primary' />
+                          </div>
+                          <div className='w-full'>
+                            <p className='w-full '>
+                              Harga yang akan anda terima =
+                              <span className='font-bold'>
+                                {' ' + adminFee.monthly}
+                              </span>
+                            </p>
+                          </div>
+                        </div>
                       </div>
                     )}
                     {selectedOption?.value === 'campur' && (
                       <>
-                      <div className='flex gap-[70px]'>
-                        <div className='w-1/2 my-4'>
-                          <p className='mb-4 text-teks text-2xl font-bold'>
-                            Harga Perhari
-                          </p>
-                          <div>
-                            <Form.Item
-                              name='daily_price'
-                              rules={[
-                                {
-                                  required: true,
-                                  message: 'Harap masukan harga produk!',
-                                },
-                              ]}
-                            >
-                              <InputNumber
-                                style={{ width: '100%' }}
-                                size='small'
-                                defaultValue={0}
-                                placeholder='Masukan harga'
-                                prefix='Rp.'
-                                min={1000}
-                                className=' p-[10px] rounded-[10px] border border-rstroke regis text-xl items-center'
-                                value={hargaPerHari}
-                                onChange={handleHargaPerHariChange}
-                              />
-                            </Form.Item>
+                        <div className='flex gap-[70px]'>
+                          <div className='w-1/2 my-4'>
+                            <p className='mb-4 text-teks text-2xl font-bold'>
+                              Harga Perhari
+                            </p>
+                            <div>
+                              <Form.Item
+                                name='daily_price'
+                                rules={[
+                                  {
+                                    required: true,
+                                    message: 'Harap masukan harga produk!',
+                                  },
+                                ]}
+                              >
+                                <InputNumber
+                                  style={{ width: '100%' }}
+                                  size='small'
+                                  defaultValue={0}
+                                  placeholder='Masukan harga'
+                                  prefix='Rp.'
+                                  min={1000}
+                                  className=' p-[10px] rounded-[10px] border border-rstroke regis text-xl items-center'
+                                  value={hargaPerHari}
+                                  onChange={handleHargaPerHariChange}
+                                />
+                              </Form.Item>
+                            </div>
+                            <div className='text-xl border border-slate-300 rounded-[10px] px-5 py-2.5 flex items-center mb-[30px]'>
+                              <div className='mr-5'>
+                                <ExclamationCircleFilled className='text-3xl text-primary' />
+                              </div>
+                              <div className='w-full'>
+                                <p className='w-full '>
+                                  Harga yang akan anda terima =
+                                  <span className='font-bold'>
+                                    {' ' + adminFee.daily}
+                                  </span>
+                                </p>
+                              </div>
+                            </div>
                           </div>
-                        </div>
-                        <div className='w-1/2 my-4'>
-                          <p className='mb-4 text-teks text-2xl font-bold'>
-                            Harga Perbulan
-                          </p>
-                          <div>
-                            <Form.Item
-                              name='monthly_price'
-                              rules={[
-                                {
-                                  required: true,
-                                  message: 'Harap masukan harga produk!',
-                                },
-                              ]}
-                            >
-                              <InputNumber
-                                style={{ width: '100%' }}
-                                size='small'
-                                defaultValue={0}
-                                placeholder='Masukan harga'
-                                prefix='Rp.'
-                                min={1000}
-                                className=' p-[10px] rounded-[10px] border border-rstroke regis text-xl items-center'
-                                value={hargaPerBulan}
-                                onChange={handleHargaPerBulanChange}
-                              />
-                            </Form.Item>
+                          <div className='w-1/2 my-4'>
+                            <p className='mb-4 text-teks text-2xl font-bold'>
+                              Harga Perbulan
+                            </p>
+                            <div>
+                              <Form.Item
+                                name='monthly_price'
+                                rules={[
+                                  {
+                                    required: true,
+                                    message: 'Harap masukan harga produk!',
+                                  },
+                                ]}
+                              >
+                                <InputNumber
+                                  style={{ width: '100%' }}
+                                  size='small'
+                                  defaultValue={0}
+                                  placeholder='Masukan harga'
+                                  prefix='Rp.'
+                                  min={1000}
+                                  className=' p-[10px] rounded-[10px] border border-rstroke regis text-xl items-center'
+                                  value={hargaPerBulan}
+                                  onChange={handleHargaPerBulanChange}
+                                />
+                              </Form.Item>
+                            </div>
+                            <div className='text-xl border border-slate-300 rounded-[10px] px-5 py-2.5 flex items-center mb-[30px]'>
+                              <div className='mr-5'>
+                                <ExclamationCircleFilled className='text-3xl text-primary' />
+                              </div>
+                              <div className='w-full'>
+                                <p className='w-full '>
+                                  Harga yang akan anda terima =
+                                  <span className='font-bold'>
+                                    {' ' + adminFee.monthly}
+                                  </span>
+                                </p>
+                              </div>
+                            </div>
                           </div>
-                        </div>
                         </div>
                       </>
                     )}
-                    <div className='text-xl border border-slate-300 rounded-[10px] px-5 py-2.5 flex items-center mb-[30px]'>
-                      <div className='mr-5'>
-                        <ExclamationCircleFilled className='text-3xl text-primary' />
-                      </div>
-                      <div className='w-full'>
-                        <p className='w-full '>
-                          Harga yang di input akan dikenakan biaya admin sebesar
-                          5%
-                        </p>
-                      </div>
-                    </div>
                   </>
                 )}
                 {selectedOptionProduk?.value === 'gedung' && (
@@ -793,8 +854,10 @@ function CreateProduct() {
                       </div>
                       <div className='w-full'>
                         <p className='w-full '>
-                          Harga yang di input akan dikenakan biaya admin sebesar
-                          10%
+                          Harga yang akan anda terima =
+                          <span className='font-bold'>
+                            {' ' + adminFee.daily}
+                          </span>
                         </p>
                       </div>
                     </div>
@@ -843,8 +906,10 @@ function CreateProduct() {
                       </div>
                       <div className='w-full'>
                         <p className='w-full '>
-                          Harga yang di input akan dikenakan biaya admin sebesar
-                          10%
+                          Harga yang akan anda terima =
+                          <span className='font-bold'>
+                            {' ' + adminFee.daily}
+                          </span>
                         </p>
                       </div>
                     </div>

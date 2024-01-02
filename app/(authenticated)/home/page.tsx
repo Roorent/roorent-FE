@@ -31,7 +31,9 @@ function Home() {
   const filterProductsCity = (products: any, type: any, city: any) => {
     let filtered = products.filter((product: any) => product.type === type);
     if (city && city !== 'Pilih Kota') {
-      filtered = filtered.filter((product: any) => product.cities?.name === city);
+      filtered = filtered.filter(
+        (product: any) => product.cities?.name === city
+      );
     }
     return filtered;
   };
@@ -43,7 +45,7 @@ function Home() {
   const filteredProducts = typeFilter
     ? datas.filter((product: any) => product.type === typeFilter)
     : datas;
-    
+
   const handleChange = (e: any) => {
     setTypeFilter(e.target.value);
   };
@@ -78,7 +80,9 @@ function Home() {
                 Dapatkan informasi dan lakukan penyewaan
               </div>
               <div>
-                <Searchs placeholder={'Masukan nama lokasi/kota/alamat/produk'} />
+                <Searchs
+                  placeholder={'Masukan nama lokasi/kota/alamat/produk'}
+                />
               </div>
             </div>
           </div>
@@ -136,7 +140,10 @@ function Home() {
         {typeFilter === 'kost' && (
           <div className='flex items-center py-10 mt-[25px]'>
             <div className='w-full text-4xl font-bold'>Kost Populer</div>
-            <div className='flex bg-white rounded-[10px]' style={{ boxShadow: '0 1px 8px rgba(36, 36, 36, 0.14)' }}>
+            <div
+              className='flex bg-white rounded-[10px]'
+              style={{ boxShadow: '0 1px 8px rgba(36, 36, 36, 0.14)' }}
+            >
               <Button
                 type='primary'
                 htmlType='submit'
@@ -151,7 +158,10 @@ function Home() {
         {typeFilter === 'gedung' && (
           <div className='flex items-center py-10 mt-[25px]'>
             <div className='w-full text-4xl font-bold'>Gedung Populer</div>
-            <div className='flex bg-white rounded-[10px]' style={{ boxShadow: '0 1px 8px rgba(36, 36, 36, 0.14)' }}>
+            <div
+              className='flex bg-white rounded-[10px]'
+              style={{ boxShadow: '0 1px 8px rgba(36, 36, 36, 0.14)' }}
+            >
               <Button
                 type='primary'
                 htmlType='submit'
@@ -166,7 +176,10 @@ function Home() {
         {typeFilter === 'hotel' && (
           <div className='flex items-center py-10 mt-[25px]'>
             <div className='w-full text-4xl font-bold'>Hotel Populer</div>
-            <div className='flex bg-white rounded-[10px]' style={{ boxShadow: '0 1px 8px rgba(36, 36, 36, 0.14)' }}>
+            <div
+              className='flex bg-white rounded-[10px]'
+              style={{ boxShadow: '0 1px 8px rgba(36, 36, 36, 0.14)' }}
+            >
               <Button
                 type='primary'
                 htmlType='submit'
@@ -223,7 +236,10 @@ function Home() {
               </div>
             </div>
             <div className='flex items-center py-10 mt-[25px]'>
-              <div className='flex bg-white rounded-[10px]' style={{ boxShadow: '0 1px 8px rgba(36, 36, 36, 0.14)' }}>
+              <div
+                className='flex bg-white rounded-[10px]'
+                style={{ boxShadow: '0 1px 8px rgba(36, 36, 36, 0.14)' }}
+              >
                 <Button
                   type='primary'
                   htmlType='submit'
@@ -252,7 +268,10 @@ function Home() {
               </div>
             </div>
             <div className='flex items-center py-10 mt-[25px]'>
-              <div className='flex bg-white rounded-[10px]' style={{ boxShadow: '0 1px 8px rgba(36, 36, 36, 0.14)' }}>
+              <div
+                className='flex bg-white rounded-[10px]'
+                style={{ boxShadow: '0 1px 8px rgba(36, 36, 36, 0.14)' }}
+              >
                 <Button
                   type='primary'
                   htmlType='submit'
@@ -281,7 +300,10 @@ function Home() {
               </div>
             </div>
             <div className='flex items-center py-10 mt-[25px]'>
-              <div className='flex bg-white rounded-[10px]' style={{ boxShadow: '0 1px 8px rgba(36, 36, 36, 0.14)' }}>
+              <div
+                className='flex bg-white rounded-[10px]'
+                style={{ boxShadow: '0 1px 8px rgba(36, 36, 36, 0.14)' }}
+              >
                 <Button
                   type='primary'
                   htmlType='submit'
@@ -301,25 +323,27 @@ function Home() {
             modules={[Navigation]}
             className='mySwiper'
           >
-            {filterProductsCity(filteredProducts, typeFilter, cityFilter).map((product: any) => (
-              <SwiperSlide>
-                <div className='flex justify-center'>
-                  <div key={product.id}>
-                    <Product
-                      image={product.photoProducts[0]?.photo}
-                      isType={product.type}
-                      isgender={product.specialRules?.gender}
-                      rating={product.rating}
-                      namaProduk={product.name}
-                      kota={product.cities?.name}
-                      stok={product.stock}
-                      hargaPerbulan={product.monthly_price}
-                      hargaPerhari={product.daily_price}
-                    />
+            {filterProductsCity(filteredProducts, typeFilter, cityFilter).map(
+              (product: any) => (
+                <SwiperSlide>
+                  <div className='flex justify-center'>
+                    <div key={product.id}>
+                      <Product
+                        image={product.photoProducts[0]?.photo}
+                        isType={product.type}
+                        isgender={product.specialRules?.gender}
+                        rating={product.rating}
+                        namaProduk={product.name}
+                        kota={product.cities?.name}
+                        stok={product.stock}
+                        hargaPerbulan={product.monthly_price}
+                        hargaPerhari={product.daily_price}
+                      />
+                    </div>
                   </div>
-                </div>
-              </SwiperSlide>
-            ))}
+                </SwiperSlide>
+              )
+            )}
           </Swiper>
         </div>
       </div>

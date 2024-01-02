@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Icon } from '@iconify/react';
 import { HomeFilled, StarFilled } from '@ant-design/icons';
-import { config } from '#/config/app';
+import { imgProduct } from '#/constants/general';
+import { toIDR } from '#/utils/convertCurrency';
 
 function Product({
   image,
@@ -22,9 +23,6 @@ function Product({
     setType(isType);
     setGender(isgender);
   }, [isType, isgender]);
-
-  const imgProduct = (img: string) =>
-    `${config.baseUrl}/images/photo-products/${img}`;
 
   return (
     <div className='w-[290px]'>
@@ -108,20 +106,17 @@ function Product({
             <div className='text-xl flex '>
               {type === 'kost' && (
                 <p>
-                  <span className='font-bold'>Rp.{hargaPerbulan}</span> (Bulan
-                  Pertama)
+                  <span className='font-bold'>{toIDR(hargaPerbulan)}</span>
                 </p>
               )}
               {type === 'gedung' && (
                 <p>
-                  <span className='font-bold'>Rp.{hargaPerhari}</span> (Hari
-                  Pertama)
+                  <span className='font-bold'>{toIDR(hargaPerhari)}</span>
                 </p>
               )}
               {type === 'hotel' && (
                 <p>
-                  <span className='font-bold'>Rp.{hargaPerhari}</span> (Hari
-                  Pertama)
+                  <span className='font-bold'>{toIDR(hargaPerhari)}</span>
                 </p>
               )}
             </div>

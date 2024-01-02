@@ -74,7 +74,7 @@ function Payment() {
               ),
               title: (
                 <div className='text-3xl font-bold flex justify-center'>
-                  Transaksi Anda Sudah Berhasil !
+                  Transaksi Berhasil !
                 </div>
               ),
               content: (
@@ -92,10 +92,6 @@ function Payment() {
   ];
 
   const items = steps.map((item) => ({ key: item.title, title: item.title }));
-
-  const renderFormattedTime = ({ hours, minutes, seconds }: any) => {
-    return `${hours}:${minutes}:${seconds}`;
-  };
 
   return (
     <div>
@@ -273,50 +269,33 @@ function Payment() {
                     <div className='flex text-2xl justify-between'>
                       <div>Lama Sewa</div>
                       {datas?.product_type === 'kost' && (
-                      <div className='flex gap-2'>
-                        <p>{datas?.amount}</p>
-                        {datas?.rental_type === 'bulanan' ? (
-                          <p>bulan</p>
-                        ) : (
-                          <p>hari</p>
-                        )}
-                      </div>
+                        <div className='flex gap-2'>
+                          <p>{datas?.amount}</p>
+                          {datas?.rental_type === 'bulanan' ? (
+                            <p>bulan</p>
+                          ) : (
+                            <p>hari</p>
+                          )}
+                        </div>
                       )}
                       {datas?.product_type === 'gedung' && (
-                      <div className='flex gap-2'>
-                        <p>{datas?.amount}</p>
-                        {datas?.rental_type === 'harian' ? (
-                          <p>bulan</p>
-                        ) : (
-                          <p>hari</p>
-                        )}
-                      </div>
+                        <div className='flex gap-2'>
+                          <p>{datas?.amount} hari</p>
+                        </div>
                       )}
                       {datas?.product_type === 'hotel' && (
-                      <div className='flex gap-2'>
-                        <p>{datas?.amount}</p>
-                        {datas?.rental_type === 'harian' ? (
-                          <p>bulan</p>
-                        ) : (
-                          <p>hari</p>
-                        )}
-                      </div>
+                        <div className='flex gap-2'>
+                          <p>{datas?.amount} hari</p>
+                        </div>
                       )}
                     </div>
-                  </div> 
+                  </div>
                 </div>
                 <div className='flex font-bold justify-between text-3xl py-10'>
                   <div>Total</div>
                   <div>{toIDR(datas?.total_price)}</div>
                 </div>
               </div>
-              {currentStep === 2 && (
-                <div className='grid gap-y-5'>
-                  <Button className='!font-bold !text-2xl !py-3'>
-                    Lepaskan Dana
-                  </Button>
-                </div>
-              )}
             </div>
           </div>
         </div>
