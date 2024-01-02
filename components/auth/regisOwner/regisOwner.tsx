@@ -13,7 +13,7 @@ import { authRepository } from '#/repository/auth';
 
 function RegisOwner() {
   const router = useRouter();
-  
+
   const [data, setData] = useState<Register>({
     level: '',
     first_name: '',
@@ -35,31 +35,19 @@ function RegisOwner() {
     {
       title: 'Biodata',
       content: (
-        <OwnerStep1
-          setData={setData}
-          data={data}
-          formStep1={formStep1}
-        />
+        <OwnerStep1 setData={setData} data={data} formStep1={formStep1} />
       ),
     },
     {
       title: 'Veifikasi',
       content: (
-        <OwnerStep2
-          setData={setData}
-          data={data}
-          formStep2={formStep2}
-        />
+        <OwnerStep2 setData={setData} data={data} formStep2={formStep2} />
       ),
     },
     {
       title: 'Akun',
       content: (
-        <OwnerStep3
-          setData={setData}
-          data={data}
-          formStep3={formStep3}
-        />
+        <OwnerStep3 setData={setData} data={data} formStep3={formStep3} />
       ),
     },
   ];
@@ -79,31 +67,31 @@ function RegisOwner() {
   const onFinish = async () => {
     try {
       const role = 'owner';
-        const dataOwner = {
-          first_name: data?.first_name,
-          last_name: data?.last_name,
-          phone: "+62" + data?.phone,
-          birth_date: data?.birth_date,
-          gender: data?.gender,
-          email: data?.email,
-          password: data?.password,
-          nik: data?.nik,
-          photo_ktp: data?.photo_ktp
-        };
-        
-        await authRepository.manipulatedata.register(dataOwner,role);
-        setTimeout(message.success('Anda Telah Berhasil Registrasi!'), 5000)
-        router.push("/auth/login");      
-    } catch (err:any) {
+      const dataOwner = {
+        first_name: data?.first_name,
+        last_name: data?.last_name,
+        phone: '+62' + data?.phone,
+        birth_date: data?.birth_date,
+        gender: data?.gender,
+        email: data?.email,
+        password: data?.password,
+        nik: data?.nik,
+        photo_ktp: data?.photo_ktp,
+      };
+
+      await authRepository.manipulatedata.register(dataOwner, role);
+      setTimeout(message.success('Anda Telah Berhasil Registrasi!'), 5000);
+      router.push('/auth/login');
+    } catch (err: any) {
       message.error(err.response.body?.error);
     }
-	};
+  };
 
   return (
     <div className='w-full min-h-screen flex justify-center relative'>
       <div className='w-1/2 flex justify-center min-h-screen relative'>
         <div className='w-[653px] py-5'>
-          <div className='mb-[80px]'>
+          <div className='mb-[100px]'>
             <LOGO className='w-[300px]' />
           </div>
           <div className='text-teks text-4xl font-bold flex justify-center mb-[45px]'>
@@ -111,56 +99,89 @@ function RegisOwner() {
           </div>
           <Steps current={current} items={items} className='mb-[33px]' />
           <div>{steps[current].content}</div>
-          <div style={{ marginTop: 34 }} className='flex justify-between'>
-            <div className='regis'>
-              {current > 0 && (
-                <Button
-                  style={{ margin: '0 8px' }}
-                  onClick={() => prev()}
-                  className='regis-prev rounded-[20px] px-8 py-2.5 text-xl font-bold h-max'
-                >
-                  Kembali
-                </Button>
-              )}
+          {current === 0 && (
+            <div style={{ marginTop: 34 }} className='flex justify-end'>
+              <div className='regis'>
+                {current < steps.length - 1 && (
+                  <Button
+                    type='primary'
+                    htmlType='submit'
+                    onClick={() => {
+                      next();
+                    }}
+                    className='regis-next bg-primary rounded-[20px] px-8 py-2.5 text-xl font-bold h-max'
+                  >
+                    Lanjut
+                  </Button>
+                )}
+              </div>
             </div>
-            <div className='regis'>
-              {current < steps.length - 1 && (
-                <Button
-                  type='primary'
-                  htmlType='submit'
-                  onClick={() => {
-                    next();
-                  }}
-                  className='regis-next bg-primary rounded-[20px] px-8 py-2.5 text-xl font-bold h-max'
-                >
-                  Lanjut
-                </Button>
-              )}
+          )}
+          {current === 1 && (
+            <div style={{ marginTop: 34 }} className='flex justify-between'>
+              <div className='regis'>
+                {current > 0 && (
+                  <Button
+                    onClick={() => prev()}
+                    className='regis-prev rounded-[20px] px-8 py-2.5 text-xl font-bold h-max'
+                  >
+                    Kembali
+                  </Button>
+                )}
+              </div>
+              <div className='regis'>
+                {current < steps.length - 1 && (
+                  <Button
+                    type='primary'
+                    htmlType='submit'
+                    onClick={() => {
+                      next();
+                    }}
+                    className='regis-next bg-primary rounded-[20px] px-8 py-2.5 text-xl font-bold h-max'
+                  >
+                    Lanjut
+                  </Button>
+                )}
+              </div>
             </div>
-          </div>
-          <div className='regis'>
-            {current === steps.length - 1 && (
-              <Button
-                type="primary"
-                htmlType="submit"
-                disabled={
-                    data.first_name.length <= 1 ||
-                    data.last_name.length <= 1 ||
-                    data.phone.length <= 1 ||
-                    typeof data.birth_date !== "object" || 
-                    data.gender.length <= 1||
-                    data.nik.length <= 1||
-                    data.photo_ktp.length <= 1||
-                    data.email.length <= 1 ||
-                    data.password.length <= 1
-                }
-                onClick={onFinish}
-                className='bg-primary rounded-[20px] px-8 py-2.5 text-xl font-bold regis w-full mt-[38px] h-max'
-              >
-                Daftar
-              </Button>
-            )}
-          </div>
+          )}
+          {current === 2 && (
+            <div style={{ marginTop: 34 }} className='flex justify-between'>
+              <div className='regis'>
+                {current > 0 && (
+                  <Button
+                    onClick={() => prev()}
+                    className='regis-prev rounded-[20px] px-8 py-2.5 text-xl font-bold h-max'
+                  >
+                    Kembali
+                  </Button>
+                )}
+              </div>
+              <div className='regis'>
+                {current === steps.length - 1 && (
+                  <Button
+                    type='primary'
+                    htmlType='submit'
+                    disabled={
+                      data.first_name.length <= 1 ||
+                      data.last_name.length <= 1 ||
+                      data.phone.length <= 1 ||
+                      typeof data.birth_date !== 'object' ||
+                      data.gender.length <= 1 ||
+                      data.nik.length <= 1 ||
+                      data.photo_ktp.length <= 1 ||
+                      data.email.length <= 1 ||
+                      data.password.length <= 1
+                    }
+                    onClick={onFinish}
+                    className='regis-next bg-primary rounded-[20px] px-8 py-2.5 text-xl font-bold h-max'
+                  >
+                    Daftar
+                  </Button>
+                )}
+              </div>
+            </div>
+          )}
           <div className='text-teks text-xl absolute bottom-10'>
             <p>
               Sudah punya akun?

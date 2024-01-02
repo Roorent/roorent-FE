@@ -243,7 +243,7 @@ body {
   padding-block: 7px;
   height: max-content;
 }
-.ant-btn-default:not(:disabled):not(.ant-btn-disabled):hover {
+.modal-hapus .ant-btn-default:not(:disabled):not(.ant-btn-disabled):hover {
   border-color: white;
   opacity: 80%;
 }
@@ -542,4 +542,7 @@ textarea:where(.css-dev-only-do-not-override-1dj4ii3).ant-input {
 }
 :where(.css-dev-only-do-not-override-gzal6t).ant-modal-confirm.ant-modal .ant-modal-body {
   width: -webkit-fill-available;
+}
+.ant-tabs-top >.ant-tabs-nav::before{
+  border-bottom: 1px solid #ffffff00;
 }
