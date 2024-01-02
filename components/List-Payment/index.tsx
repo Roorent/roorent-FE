@@ -15,7 +15,6 @@ function ListPayment({
 }: any) {
   const { confirm } = Modal;
   const showModal = () => {
-    // setIsModalOpen(true);
     confirm({
       title: (
         <div className='text-3xl font-bold flex justify-center'>
@@ -28,7 +27,7 @@ function ListPayment({
             Berikan Alasan Menolak Pembayaran
           </div>
           <div className='w-full'>
-            <Form name='trigger' layout='vertical' autoComplete='off'>
+            <Form name='reason' layout='vertical' autoComplete='off'>
               <Form.Item
                 name='reason'
                 label={<span className='text-lg'>Alasan :</span>}
@@ -48,20 +47,7 @@ function ListPayment({
       ),
       cancelText: (
         <div className='modal-hapus text-xl font-bold text-white'>Batal</div>
-      ),
-      // onOk() {
-      //   setLoading(true);
-      //   data.then((del: any) => {
-      //     return del;
-      //   });
-      //   //disini panggil mutate nya
-      //   mutate;
-      //   setLoading(false);
-      //   // router.refresh()
-      // },
-      // onCancel() {
-      //   console.log('Cancel');
-      // },
+      )
     });
   };
   return (
