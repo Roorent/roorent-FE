@@ -41,42 +41,44 @@ const Step3 = ({ onFinish, datas }: any) => {
         </div>
         <div className='grid gap-y-5 pb-5 border-b border-slate-300'>
           <div className='flex font-[650] gap-x-3 text-xl'>
-            <p className='w-1/2 '>Nama Penyewa</p>
+            <p className='w-1/2 '>Nama penyewa</p>
             <div className='w-1/2 flex font-semibold'>
               <p className='font-[650] mr-2'>:</p>
               <p className='text-rstroke'>{datas?.user_name}</p>
             </div>
           </div>
           <div className='flex font-[650] gap-x-3 text-xl'>
-            <p className='w-1/2 '>Tipe Pembayaran</p>
+            <p className='w-1/2 '>Tipe sewa</p>
             <div className='w-1/2 flex font-semibold'>
               <p className='font-[650] mr-2'>:</p>
-              <p className='text-rstroke'>{datas?.rental_type}</p>
+              <p className='text-rstroke'>
+                {datas?.rental_type === 'harian' ? 'Harian' : 'Bulanan'}
+              </p>
             </div>
           </div>
           <div className='flex font-[650] gap-x-3 text-xl'>
-            <p className='w-1/2 '>Nama Produk</p>
+            <p className='w-1/2 '>Nama {datas?.product_type}</p>
             <div className='w-1/2 flex font-semibold'>
               <p className='font-[650] mr-2'>:</p>
               <p className='text-rstroke'>{datas?.product_name}</p>
             </div>
           </div>
           <div className='flex font-[650] gap-x-3 text-xl'>
-            <p className='w-1/2 '>Alamat Produk</p>
+            <p className='w-1/2 '>Alamat {datas?.product_type}</p>
             <div className='w-1/2 flex font-semibold'>
               <p className='font-[650] mr-2'>:</p>
               <p className='text-rstroke'>{datas?.product_address}</p>
             </div>
           </div>
           <div className='flex font-[650] gap-x-3 text-xl'>
-            <p className='w-1/2 '>Tanggal Awal Sewa</p>
+            <p className='w-1/2 '>Tanggal awal sewa</p>
             <div className='w-1/2 flex font-semibold'>
               <p className='font-[650] mr-2'>:</p>
               <p className='text-rstroke'>{convertDate(datas?.lease_start)}</p>
             </div>
           </div>
           <div className='flex font-[650] gap-x-3 text-xl'>
-            <p className='w-1/2 '>Tanggal Akhir Sewa</p>
+            <p className='w-1/2 '>Tanggal akhir sewa</p>
             <div className='w-1/2 flex font-semibold'>
               <p className='font-[650] mr-2'>:</p>
               <p className='text-rstroke'>
@@ -85,7 +87,7 @@ const Step3 = ({ onFinish, datas }: any) => {
             </div>
           </div>
           <div className='flex font-[650] gap-x-3 text-xl'>
-            <p className='w-1/2 '>Durasi Sewa</p>
+            <p className='w-1/2 '>Durasi sewa</p>
             <div className='w-1/2 flex font-semibold'>
               <p className='font-[650] mr-2'>:</p>
               <p className='text-rstroke flex gap-2'>

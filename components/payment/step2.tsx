@@ -2,7 +2,6 @@ import { CameraOutlined, WarningFilled } from '@ant-design/icons';
 import { Form, Select, Upload, message } from 'antd';
 import Button from '../Button';
 import React, { useState } from 'react';
-import { UploadChangeParam } from 'antd/es/upload';
 import { UploadFile } from 'antd/lib';
 import { TransactionRepository } from '#/repository/transaction';
 import { useSearchParams } from 'next/navigation';
@@ -26,7 +25,7 @@ const Step2 = ({ onNext, datas }: any) => {
     UploadFile<any> | any
   >();
   const [bank, setBank] = useState<OptionType | undefined>({
-    bank_id: datas?.adm_bank[0].bank_id,
+    bank_id: datas?.adm_bank[0].id,
     value: datas?.adm_bank[0].bank_name.toLowerCase(),
     label: datas?.adm_bank[0].bank_name,
     name: datas?.adm_bank[0].acc_name,
@@ -35,7 +34,7 @@ const Step2 = ({ onNext, datas }: any) => {
 
   const optionsBank: OptionType[] = datas?.adm_bank.map((item: any) => {
     return {
-      bank_id: item.bank_id,
+      bank_id: item.id,
       value: item.bank_name.toLowerCase(),
       label: item.bank_name,
       name: item.acc_name,

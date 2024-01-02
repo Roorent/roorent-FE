@@ -25,7 +25,7 @@ import { RentAppRepository } from '#/repository/rent-application';
 
 function DetailProduct() {
   const [showAllReviews, setShowAllReviews] = useState(false);
-  const [filterPrice, setFilterPrice] = useState('perbulan');
+  const [filterPrice, setFilterPrice] = useState('perhari');
 
   const router = useRouter();
   const searchParams = useSearchParams();
