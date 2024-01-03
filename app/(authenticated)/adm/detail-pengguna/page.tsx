@@ -26,7 +26,7 @@ function DetailPengguna() {
   const { data: userData } = usersRepository.hooks.getUserById(userId);
 
   if (!productData) {
-    return <div className='w-full h-full flex items-center justify-center'><Spin size="large" /></div>;
+    return <Spin size="large"className='w-full h-full flex items-center justify-center' />;
   }
   const products = productData?.data;
 
