@@ -1,52 +1,50 @@
 'use client';
+
 import Button from '#/components/Button';
 import ListProduk from '#/components/ListProduk';
 import Photo from '#/components/Photo';
 import TypeRadio from '#/components/TypeButton';
+import { imgKTP, imgProduct } from '#/constants/general';
 import { productsRepository } from '#/repository/products';
-import { parseJwt } from '#/utils/convert';
+import { usersRepository } from '#/repository/users';
+import { convertDate } from '#/utils/convertTime';
 import { ArrowLeftOutlined } from '@ant-design/icons';
 import { Image, Pagination, Spin } from 'antd';
+import { useSearchParams } from 'next/navigation';
 import React, { useState } from 'react';
 
-const Produks = [
-  {
-    idProducts: '1',
-    image: '/assets/images/Gedung.png',
-    label: 'gedung',
-    title:
-      'Gedung serba ada HSDGSDKSH ASHDKASKDJHAS KHKAHDA HKAHFKSAHF DFHIASHFISH FDHFSDHFIUW',
-  },
-  {
-    idProducts: '2',
-    image: '/assets/images/Gedung.png',
-    label: 'gedung',
-    title: 'Gedung serba ada',
-  },
-];
-
 function DetailPengguna() {
+  const searchParams = useSearchParams();
+  const userId: any = searchParams?.get('id');
+
   const [filterType, setFilterType] = useState('kost');
 
-  const token = localStorage.getItem('access_token');
-  let id: string = '';
+  const { data: productData } = productsRepository.hooks.getListProductByOwner(
+    userId,
+    filterType
+  );
+  const { data: userData } = usersRepository.hooks.getUserById(userId);
 
-  if (token) {
-    id = parseJwt(token).id;
+  if (!productData) {
+    return <div className='w-full h-full flex items-center justify-center'><Spin size="large" /></div>;
   }
+  const products = productData?.data;
+
+  if (!userData) {
+    return <div className='w-full h-full flex items-center justify-center'><Spin size="large" /></div>;
+  }
+  const users = userData?.data;
 
   const handleChange = (value: string) => {
     setFilterType(value);
   };
+  const handleApprove = () => {
+    usersRepository.manipulateData.approveReject(userId, 'approve');
+  };
+  const handleReject = () => {
+    usersRepository.manipulateData.approveReject(userId, 'reject');
+  };
 
-  const { data, error, isLoading, mutate } =
-    productsRepository.hooks.getListProductByOwner(id, filterType);
-
-  if (!data) {
-    return <div className='w-full h-full flex items-center justify-center'><Spin size="large" /></div>;
-  }
-  
-  const datas = data?.data;
   return (
     <div>
       <div className='w-full grid gap-y-[20px] grid-cols-1 pb-10 border-b border-slate-300'>
@@ -67,7 +65,7 @@ function DetailPengguna() {
           </div>
           <div className='flex gap-x-10'>
             <div>
-              <Photo size={200} src='/assets/images/profile.png' />
+              <Photo size={200} src={users.photo} />
             </div>
             <div className='w-full'>
               <div className='grid gap-5'>
@@ -79,7 +77,7 @@ function DetailPengguna() {
                       </p>
                     </div>
                     <div className='w-full p-[10px] rounded-[10px] border border-rstroke regis text-xl'>
-                      M Danar Kahfi
+                      {users.name}
                     </div>
                   </div>
                 </div>
@@ -89,7 +87,7 @@ function DetailPengguna() {
                       <p className='text-teks text-2xl font-bold'>No.NIK</p>
                     </div>
                     <div className='w-full p-[10px] rounded-[10px] border border-rstroke regis text-xl'>
-                      3275022211058726
+                      {users.nik}
                     </div>
                   </div>
                 </div>
@@ -99,10 +97,10 @@ function DetailPengguna() {
           <div className='w-full flex gap-x-5'>
             <div className='w-1/2 grid gap-y-4 grid-cols-1'>
               <div>
-                <p className='text-teks text-2xl font-bold'>Emai</p>
+                <p className='text-teks text-2xl font-bold'>Email</p>
               </div>
               <div className='w-full p-[10px] rounded-[10px] border border-rstroke regis text-xl'>
-                muhdankah22@gmail.com
+                {users.email}
               </div>
             </div>
             <div className='w-1/2 grid gap-y-4 grid-cols-1'>
@@ -110,11 +108,11 @@ function DetailPengguna() {
                 <p className='text-teks text-2xl font-bold'>No. HP</p>
               </div>
               <div className='flex'>
-                <div className='w-[10%] p-[10px] rounded-s-[10px] border border-rstroke regis text-xl bg-primary text-white flex justify-center'>
+                {/* <div className='w-[10%] p-[10px] rounded-s-[10px] border border-rstroke regis text-xl bg-primary text-white flex justify-center'>
                   +62
-                </div>
-                <div className='w-full p-[10px] rounded-e-[10px] border-s-0 border border-rstroke regis text-xl'>
-                  85156310805
+                </div> */}
+                <div className='w-full p-[10px] rounded-[10px]  border border-rstroke regis text-xl'>
+                  {users.phone}
                 </div>
               </div>
             </div>
@@ -124,8 +122,7 @@ function DetailPengguna() {
               <p className='text-teks text-2xl font-bold'>Alamat</p>
             </div>
             <div className='w-full h-[120px] p-[10px] rounded-[10px] border border-rstroke regis text-xl'>
-              Jl.Bintara 14 no.100 rt.001/rw.100 kel.harapan kec.orangtua kota
-              angan angan
+              {users.address}
             </div>
           </div>
           <div className='w-full flex gap-x-5'>
@@ -134,7 +131,7 @@ function DetailPengguna() {
                 <p className='text-teks text-2xl font-bold'>Tanggal Lahir</p>
               </div>
               <div className='w-full p-[10px] rounded-[10px] border border-rstroke regis text-xl'>
-                22 November 2005
+                {convertDate(users.birthday)}
               </div>
             </div>
             <div className='w-1/2 grid gap-y-4 grid-cols-1'>
@@ -142,7 +139,7 @@ function DetailPengguna() {
                 <p className='text-teks text-2xl font-bold'>Jenis Kelamin</p>
               </div>
               <div className='w-full p-[10px] rounded-[10px] border border-rstroke regis text-xl'>
-                Pria
+                {users.gender === 'pria' ? 'Pria' : 'Wanita'}
               </div>
             </div>
           </div>
@@ -153,34 +150,43 @@ function DetailPengguna() {
             <div className='adm-renter rounded-[10px] w-full flex justify-center'>
               <Image
                 // setelah .png jangan di apus itu buat style image nya
-                src='https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png?x-oss-process=image/blur,r_50,s_50/quality,q_1/resize,m_mfit,h_800,w_800'
-                width={800}
+                src={imgKTP(users.ktp)}
+                width={500}
+                className='blur'
                 style={{ borderRadius: 10 }}
                 preview={{
-                  src: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
+                  src: imgKTP(users.ktp),
                 }}
               />
             </div>
           </div>
-          <div className='w-full grid gap-y-4 grid-cols-1'>
-            <div>
-              <p className='text-teks text-2xl font-bold'>Persetujuan</p>
-            </div>
-            <div className='w-full'>
-              <div className='flex gap-x-5'>
-                <div className='w-full'>
-                  <Button className='!py-3 !mt-0 !font-semibold !text-2xl !bg-merah hover:!bg-[#e24444]'>
-                    Tolak
-                  </Button>
-                </div>
-                <div className='w-full'>
-                  <Button className='!py-3 !mt-0 !font-semibold !text-2xl'>
-                    Konfirmasi
-                  </Button>
+          {users.status === 'pending' && (
+            <div className='w-full grid gap-y-4 grid-cols-1'>
+              <div>
+                <p className='text-teks text-2xl font-bold'>Persetujuan</p>
+              </div>
+              <div className='w-full'>
+                <div className='flex gap-x-5'>
+                  <div className='w-full'>
+                    <Button
+                      className='!py-3 !mt-0 !font-semibold !text-2xl !bg-merah hover:!bg-[#e24444]'
+                      onClick={handleReject}
+                    >
+                      Tolak
+                    </Button>
+                  </div>
+                  <div className='w-full'>
+                    <Button
+                      className='!py-3 !mt-0 !font-semibold !text-2xl'
+                      onClick={handleApprove}
+                    >
+                      Konfirmasi
+                    </Button>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
+          )}
         </div>
         <div className='mt-5'>
           <div className='produkOwner text-white text-4xl font-bold bg-primary rounded-[10px] px-5 py-3 flex items-center mb-[30px]'>
@@ -195,11 +201,11 @@ function DetailPengguna() {
               />
             </div>
             <div className='grid gap-7 grid-cols-2'>
-              {datas.map((produk: any) => (
+              {products.map((produk: any) => (
                 <div key={produk.id}>
                   <ListProduk
                     idProducts={produk.id}
-                    image={produk.photo}
+                    image={imgProduct(produk.photo)}
                     label={produk.type}
                     title={produk.name}
                   />

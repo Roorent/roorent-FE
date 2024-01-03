@@ -1,27 +1,43 @@
 import { http } from '#/utils/http';
-import useSWR from 'swr';
+import useSWR, { mutate } from 'swr';
 
 const url = {
   createTransactionRenter: (id: string) =>
     `/transactions/renter-to-admin/${id}`,
   uploadPayment: () => '/transactions/upload-transactions',
   getDetailRenter: (id: string) => `/transactions/renter/${id}`,
+  getTransactionsRenter: () => '/transactions/all-renter',
+  transactionsApp: (id: string) => `/transactions/applications/${id}/`,
 };
 
 const manipulatedata = {
   createTransactionRenter(id: string, data: any) {
     return http.post(url.createTransactionRenter(id)).send(data);
   },
+
   uploadPayment(data: any) {
     const formData = new FormData();
     formData.append('photo_transactions', data);
     return http.post(url.uploadPayment()).send(formData);
+  },
+
+  async transactionsApp(id: string, data: any) {
+    try {
+      await http.put(url.transactionsApp(id)).send(data);
+      mutate(url.getTransactionsRenter());
+    } catch (err) {
+      throw err;
+    }
   },
 };
 
 const hooks = {
   getDetailRenter(id: string) {
     return useSWR(url.getDetailRenter(id), http.fetcher);
+  },
+  
+  getTransactionsRenter() {
+    return useSWR(url.getTransactionsRenter(), http.fetcher);
   },
 };
 
