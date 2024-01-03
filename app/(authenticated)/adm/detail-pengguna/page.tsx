@@ -6,7 +6,7 @@ import TypeRadio from '#/components/TypeButton';
 import { productsRepository } from '#/repository/products';
 import { parseJwt } from '#/utils/convert';
 import { ArrowLeftOutlined } from '@ant-design/icons';
-import { Image, Pagination } from 'antd';
+import { Image, Pagination, Spin } from 'antd';
 import React, { useState } from 'react';
 
 const Produks = [
@@ -43,8 +43,9 @@ function DetailPengguna() {
     productsRepository.hooks.getListProductByOwner(id, filterType);
 
   if (!data) {
-    return <div>Loading...</div>;
+    return <div className='w-full h-full flex items-center justify-center'><Spin size="large" /></div>;
   }
+  
   const datas = data?.data;
   return (
     <div>

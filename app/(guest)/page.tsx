@@ -4,7 +4,7 @@ import Button from '#/components/Button';
 import Searchs from '#/components/Search';
 import { HomeFilled } from '@ant-design/icons';
 import { Icon } from '@iconify/react';
-import { Menu, Radio, Select } from 'antd';
+import { Radio, Select, Spin } from 'antd';
 import React, { useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper/modules';
@@ -13,7 +13,6 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import Product from '#/components/Product';
 import Footer from '#/components/Footer';
-import { Header } from 'antd/es/layout/layout';
 import { LOGO } from '#/constants/images';
 import { productsRepository } from '#/repository/products';
 
@@ -144,7 +143,11 @@ function Home() {
   const { data, error, isLoading } = productsRepository.hooks.getAllKos();
 
   if (!data) {
-    return <div>Loading...</div>;
+    return (
+      <div className='w-full h-full flex items-center justify-center'>
+        <Spin size='large' />
+      </div>
+    );
   }
 
   const datas = data?.data;
@@ -152,25 +155,32 @@ function Home() {
   const filterProducts = (products: any, filter: any) => {
     return products.filter((product: any) => product.type === filter);
   };
+
+  const filteredProducts = typeFilter
+    ? filterProducts(datas, typeFilter)
+    : datas;
+
+  const productsInSetsOfFour = [];
+  for (let i = 0; i < filteredProducts.length; i += 4) {
+    productsInSetsOfFour.push(filteredProducts.slice(i, i + 4));
+  }
+
+  const handleChange = (e: any) => {
+    setTypeFilter(e.target.value);
+  };
+
   const filterProductsCity = (products: any, type: any, city: any) => {
     let filtered = products.filter((product: any) => product.type === type);
     if (city && city !== 'Pilih Kota') {
-      filtered = filtered.filter((product: any) => product.cities?.name === city);
+      filtered = filtered.filter(
+        (product: any) => product.cities?.name === city
+      );
     }
     return filtered;
   };
 
   const handleChangeCity = (value: any) => {
     setCityFilter(value); // Update nilai kota saat terjadi perubahan pada Select
-  };
-
-  const
-    filteredProducts = typeFilter
-      ? filterProducts(datas, typeFilter)
-      : datas;
-
-  const handleChange = (e: any) => {
-    setTypeFilter(e.target.value);
   };
 
   interface OptionType {
@@ -192,6 +202,7 @@ function Home() {
       label: 'Kota Tegal',
     },
   ];
+
   return (
     <div>
       <div className='sticky top-0 w-full px-[190px] py-5 flex items-center border-b border-slate-200 bg-white z-50'>
@@ -218,7 +229,9 @@ function Home() {
                 Dapatkan informasi dan lakukan penyewaan
               </div>
               <div>
-                <Searchs placeholder={'Masukan nama lokasi/kota/alamat/produk'} />
+                <Searchs
+                  placeholder={'Masukan nama lokasi/kota/alamat/produk'}
+                />
               </div>
             </div>
           </div>
@@ -274,9 +287,12 @@ function Home() {
           </Radio.Group>
         </div>
         {typeFilter === 'kost' && (
-          <div className='flex items-center py-10 mt-[25px]'>
+          <div className='flex items-center py-10 mt-[25px] mb-20'>
             <div className='w-full text-4xl font-bold'>Kost Populer</div>
-            <div className='flex bg-white rounded-[10px]' style={{ boxShadow: '0 1px 8px rgba(36, 36, 36, 0.14)' }}>
+            <div
+              className='flex bg-white rounded-[10px]'
+              style={{ boxShadow: '0 1px 8px rgba(36, 36, 36, 0.14)' }}
+            >
               <Button
                 type='primary'
                 htmlType='submit'
@@ -289,9 +305,12 @@ function Home() {
           </div>
         )}
         {typeFilter === 'gedung' && (
-          <div className='flex items-center py-10 mt-[25px]'>
+          <div className='flex items-center py-10 mt-[25px] mb-20'>
             <div className='w-full text-4xl font-bold'>Gedung Populer</div>
-            <div className='flex bg-white rounded-[10px]' style={{ boxShadow: '0 1px 8px rgba(36, 36, 36, 0.14)' }}>
+            <div
+              className='flex bg-white rounded-[10px]'
+              style={{ boxShadow: '0 1px 8px rgba(36, 36, 36, 0.14)' }}
+            >
               <Button
                 type='primary'
                 htmlType='submit'
@@ -304,9 +323,12 @@ function Home() {
           </div>
         )}
         {typeFilter === 'hotel' && (
-          <div className='flex items-center py-10 mt-[25px]'>
+          <div className='flex items-center py-10 mt-[25px] mb-20'>
             <div className='w-full text-4xl font-bold'>Hotel Populer</div>
-            <div className='flex bg-white rounded-[10px]' style={{ boxShadow: '0 1px 8px rgba(36, 36, 36, 0.14)' }}>
+            <div
+              className='flex bg-white rounded-[10px]'
+              style={{ boxShadow: '0 1px 8px rgba(36, 36, 36, 0.14)' }}
+            >
               <Button
                 type='primary'
                 htmlType='submit'
@@ -319,16 +341,11 @@ function Home() {
           </div>
         )}
         <div>
-          <Swiper
-            navigation={true}
-            slidesPerView={4}
-            modules={[Navigation]}
-            className='mySwiper'
-          >
-            {filteredProducts.map((product: any) => (
-              <SwiperSlide>
-                <div className='flex justify-center'>
-                  <div key={product.id}>
+          <Swiper navigation={true} modules={[Navigation]} className='mySwiper'>
+            {productsInSetsOfFour.map((productSet, index) => (
+              <SwiperSlide key={index}>
+                <div className='flex justify-stretch gap-x-10 px-32'>
+                  {productSet.map((product: any) => (
                     <Product
                       idProducts={product.id}
                       image={product.photoProducts[0]?.photo}
@@ -341,7 +358,7 @@ function Home() {
                       hargaPerbulan={product.monthly_price}
                       hargaPerhari={product.daily_price}
                     />
-                  </div>
+                  ))}
                 </div>
               </SwiperSlide>
             ))}
@@ -363,7 +380,10 @@ function Home() {
               </div>
             </div>
             <div className='flex items-center py-10 mt-[25px]'>
-              <div className='flex bg-white rounded-[10px]' style={{ boxShadow: '0 1px 8px rgba(36, 36, 36, 0.14)' }}>
+              <div
+                className='flex bg-white rounded-[10px]'
+                style={{ boxShadow: '0 1px 8px rgba(36, 36, 36, 0.14)' }}
+              >
                 <Button
                   type='primary'
                   htmlType='submit'
@@ -377,7 +397,7 @@ function Home() {
           </div>
         )}
         {typeFilter === 'gedung' && (
-          <div className='flex items-center py-10 mt-[25px]'>
+          <div className='flex items-center py-10 mt-[50px]'>
             <div className='flex w-full items-center'>
               <div className='text-4xl font-bold'>Rekomendasi Gedung di</div>
               <div className='font-bold home-produk items-center'>
@@ -392,7 +412,10 @@ function Home() {
               </div>
             </div>
             <div className='flex items-center py-10 mt-[25px]'>
-              <div className='flex bg-white rounded-[10px]' style={{ boxShadow: '0 1px 8px rgba(36, 36, 36, 0.14)' }}>
+              <div
+                className='flex bg-white rounded-[10px]'
+                style={{ boxShadow: '0 1px 8px rgba(36, 36, 36, 0.14)' }}
+              >
                 <Button
                   type='primary'
                   htmlType='submit'
@@ -421,7 +444,10 @@ function Home() {
               </div>
             </div>
             <div className='flex items-center py-10 mt-[25px]'>
-              <div className='flex bg-white rounded-[10px]' style={{ boxShadow: '0 1px 8px rgba(36, 36, 36, 0.14)' }}>
+              <div
+                className='flex bg-white rounded-[10px]'
+                style={{ boxShadow: '0 1px 8px rgba(36, 36, 36, 0.14)' }}
+              >
                 <Button
                   type='primary'
                   htmlType='submit'
@@ -435,31 +461,37 @@ function Home() {
           </div>
         )}
         <div className='mt-[45px]'>
-          <Swiper
-            navigation={true}
-            slidesPerView={4}
-            modules={[Navigation]}
-            className='mySwiper'
-          >
-            {filterProductsCity(filteredProducts, typeFilter, cityFilter).map((product: any) => (
-              <SwiperSlide>
-                <div className='flex justify-center'>
-                  <div key={product.id}>
-                    <Product
-                      image={product.photoProducts[0]?.photo}
-                      isType={product.type}
-                      isgender={product.specialRules?.gender}
-                      rating={product.rating}
-                      namaProduk={product.name}
-                      kota={product.cities?.name}
-                      stok={product.stock}
-                      hargaPerbulan={product.monthly_price}
-                      hargaPerhari={product.daily_price}
-                    />
-                  </div>
-                </div>
-              </SwiperSlide>
-            ))}
+          <Swiper navigation={true} modules={[Navigation]} className='mySwiper'>
+            {filterProductsCity(filteredProducts, typeFilter, cityFilter).map(
+              (product: any, index: number) =>
+                index % 4 === 0 && (
+                  <SwiperSlide key={index}>
+                    <div className='flex justify-stretch gap-x-10 px-32'>
+                      {filterProductsCity(
+                        filteredProducts,
+                        typeFilter,
+                        cityFilter
+                      )
+                        .slice(index, index + 4)
+                        .map((product: any) => (
+                          <div key={product.id}>
+                            <Product
+                              image={product.photoProducts[0]?.photo}
+                              isType={product.type}
+                              isgender={product.specialRules?.gender}
+                              rating={product.rating}
+                              namaProduk={product.name}
+                              kota={product.cities?.name}
+                              stok={product.stock}
+                              hargaPerbulan={product.monthly_price}
+                              hargaPerhari={product.daily_price}
+                            />
+                          </div>
+                        ))}
+                    </div>
+                  </SwiperSlide>
+                )
+            )}
           </Swiper>
         </div>
       </div>

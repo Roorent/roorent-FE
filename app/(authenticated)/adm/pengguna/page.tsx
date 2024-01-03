@@ -5,7 +5,7 @@ import Searchs from '#/components/Search';
 import TypeRadio from '#/components/TypeButton';
 import { MASCOT_OWNER, MASCOT_RENTER } from '#/constants/images';
 import { adminRepository } from '#/repository/adm';
-import { Pagination, Radio } from 'antd';
+import { Pagination, Radio, Spin } from 'antd';
 import React, { useState } from 'react';
 
 const users = [
@@ -58,7 +58,7 @@ function ManagementUser() {
   const { data, error, isLoading } = adminRepository.hooks.getAllUsers();
 
   if (!data) {
-    return <div>Loading...</div>;
+    return <div className='w-full h-full flex items-center justify-center'><Spin size="large" /></div>;
   }
 
   const datas = data?.data;

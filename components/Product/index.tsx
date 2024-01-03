@@ -105,19 +105,22 @@ function Product({
             </div>
             <div className='text-xl flex '>
               {type === 'kost' && (
-                <p>
-                  <span className='font-bold'>{toIDR(hargaPerbulan)}</span>
-                </p>
+                <div className='flex gap-x-1'>
+                  <p className='font-bold'>{toIDR(hargaPerbulan)}</p>
+                  <p className='text-lg'>(Bulan pertama)</p>
+                </div>
               )}
               {type === 'gedung' && (
-                <p>
-                  <span className='font-bold'>{toIDR(hargaPerhari)}</span>
-                </p>
+                <div className='flex gap-x-1'>
+                  <p className='font-bold'>{toIDR(hargaPerhari)}</p>
+                  <p className='text-lg'>(Hari pertama)</p>
+                </div>
               )}
               {type === 'hotel' && (
-                <p>
-                  <span className='font-bold'>{toIDR(hargaPerhari)}</span>
-                </p>
+                <div className='flex gap-x-1'>
+                  <p className='font-bold'>{toIDR(hargaPerhari)}</p>
+                  <p className='text-lg'>(Hari pertama)</p>
+                </div>
               )}
             </div>
           </div>
