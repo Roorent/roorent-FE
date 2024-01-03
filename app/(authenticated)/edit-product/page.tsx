@@ -24,8 +24,8 @@ import {
 import { UploadChangeParam, UploadFile } from 'antd/es/upload/interface';
 import { RcFile, UploadProps } from 'antd/lib/upload';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { config } from '#/config/app';
 import { Icon } from '@iconify/react';
+import { imgProduct } from '#/constants/general';
 
 const getBase64 = (file: RcFile): Promise<string> =>
   new Promise((resolve, reject) => {
@@ -41,22 +41,22 @@ const filterOption = (
 ) => (option?.label ?? '').toLowerCase().includes(input.toLowerCase());
 
 function EditProduct() {
+  const searchParams = useSearchParams();
+  const productId = searchParams?.get('id');
+
+  const router = useRouter();
+  const [form] = Form.useForm();
+
   const [previewOpen, setPreviewOpen] = useState(false);
   const [previewImage, setPreviewImage] = useState('');
   const [previewTitle, setPreviewTitle] = useState('');
   const [fileList, setFileList] = useState<UploadFile[]>([]);
   const [photoProductsArray, setPhotoProducts] = useState<string[] | []>([]);
 
-  const router = useRouter();
-  const searchParams = useSearchParams();
-  const productId = searchParams?.get('id');
   const { data, error, isLoading } =
     productsRepository.hooks.getProductsById(productId);
 
   const handleCancel = () => setPreviewOpen(false);
-  const [form] = Form.useForm();
-  const imgProduct = (img: string) =>
-    `${config.baseUrl}/images/photo-products/${img}`;
 
   const [datas, setDatas] = useState({
     name: '',
@@ -239,7 +239,7 @@ function EditProduct() {
   };
 
   const [selectedOption, setSelectedOption] = useState<OptionType | undefined>(
-    (defaultSelectedOption)
+    defaultSelectedOption
   );
 
   const [hargaPerHari, setHargaPerHari] = useState<number | null>(null);
@@ -319,6 +319,7 @@ function EditProduct() {
     setSelectedOptionProduk(selected);
     setDatas({ ...datas, type: value });
   };
+
   return (
     <div>
       <Form name='createProduk' form={form}>
@@ -697,7 +698,11 @@ function EditProduct() {
                             <Select
                               value={selectedOption?.value}
                               onChange={handleSelectChange}
-                              defaultValue={selectedOption ? selectedOption.value : defaultSelectedOption.value}
+                              defaultValue={
+                                selectedOption
+                                  ? selectedOption.value
+                                  : defaultSelectedOption.value
+                              }
                               className='flex items-center'
                             >
                               {options.map((option) => (
