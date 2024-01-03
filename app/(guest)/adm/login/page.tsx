@@ -62,6 +62,7 @@ const LoginAdmin = () => {
         router.push('/adm/dashboard');
         setTimeout(message.success('Anda Telah Berhasil Login!'), 5000);
       } else {
+        localStorage.removeItem('access_token');
         message.error('Anda bukan Admin !');
       }
     } catch (err: any) {

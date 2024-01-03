@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { Modal, ConfigProvider } from 'antd';
+import { Modal, ConfigProvider, Spin } from 'antd';
 import type { RadioChangeEvent } from 'antd';
 import { Radio } from 'antd';
 import { CloseOutlined } from '@ant-design/icons';
@@ -38,7 +38,7 @@ function ListNotifications({ openNotification, isOpen }: any) {
 
   const { data, error, isLoading } = notifRepository.hooks.getNotifByUser(id);
   if (!data) {
-    return <div>Loading...</div>;
+    return <Spin size="large"className='w-full h-full flex items-center justify-center' />;
   }
 
   const datas = data?.data;

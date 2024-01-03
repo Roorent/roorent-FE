@@ -44,6 +44,7 @@ const Login = () => {
         router.push('/home');
         setTimeout(message.success('Anda Telah Berhasil Login!'), 5000);
       } else {
+        localStorage.removeItem('access_token');
         message.error('Anda bukan Owner/Renter!');
       }
     } catch (err: any) {

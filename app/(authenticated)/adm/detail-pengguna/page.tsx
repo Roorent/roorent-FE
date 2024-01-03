@@ -9,7 +9,7 @@ import { productsRepository } from '#/repository/products';
 import { usersRepository } from '#/repository/users';
 import { convertDate } from '#/utils/convertTime';
 import { ArrowLeftOutlined } from '@ant-design/icons';
-import { Image, Pagination } from 'antd';
+import { Image, Pagination, Spin } from 'antd';
 import { useSearchParams } from 'next/navigation';
 import React, { useState } from 'react';
 
@@ -26,12 +26,12 @@ function DetailPengguna() {
   const { data: userData } = usersRepository.hooks.getUserById(userId);
 
   if (!productData) {
-    return <div>Loading...</div>;
+    return <Spin size="large"className='w-full h-full flex items-center justify-center' />;
   }
   const products = productData?.data;
 
   if (!userData) {
-    return <div>Loading...</div>;
+    return <Spin size="large"className='w-full h-full flex items-center justify-center' />;
   }
   const users = userData?.data;
 

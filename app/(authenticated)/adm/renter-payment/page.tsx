@@ -2,7 +2,7 @@
 import Button from '#/components/Button';
 import ListPayment from '#/components/List-Payment';
 import { TransactionRepository } from '#/repository/transaction';
-import { Pagination } from 'antd';
+import { Pagination, Spin } from 'antd';
 import React from 'react';
 
 function RenterPayment() {
@@ -10,7 +10,7 @@ function RenterPayment() {
     TransactionRepository.hooks.getTransactionsRenter();
 
   if (!data) {
-    return <div>Loading...</div>;
+    return <Spin size="large"className='w-full h-full flex items-center justify-center' />;
   }
   const datas = data?.transactionsData;
 

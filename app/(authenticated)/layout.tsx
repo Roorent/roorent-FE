@@ -46,7 +46,11 @@ const AuthenticatedLayout: React.FC<AuthenticatedLayoutProps> = ({
   const pathname = usePathname();
 
   const cruProduk =
-    pathname === '/create-product' || pathname === '/edit-product' || pathname === '/detail-product' || pathname === '/payment' || pathname === '/adm/detail-pengguna';
+    pathname === '/create-product' ||
+    pathname === '/edit-product' ||
+    pathname === '/detail-product' ||
+    pathname === '/payment' ||
+    pathname === '/adm/detail-pengguna';
 
   const {
     token: { colorBgContainer },
@@ -163,16 +167,17 @@ const AuthenticatedLayout: React.FC<AuthenticatedLayoutProps> = ({
     ),
   ];
 
-  const [currAdmin, setCurrAdmin] = useState('/adm/dashboard');
-  const [currOwner, setCurrOwner] = useState('/list-produk');
+  const pathName = usePathname();
+  const [currAdmin, setCurrAdmin] = useState<any>(pathName);
+  const [currOwner, setCurrOwner] = useState<any>(pathName);
 
   const onClickAdmin: MenuProps['onClick'] = (e: any) => {
     setCurrAdmin(e.key);
-    router.push(e.key)
+    router.push(e.key);
   };
   const onClickOwner: MenuProps['onClick'] = (e: any) => {
     setCurrOwner(e.key);
-    router.push(e.key)
+    router.push(e.key);
   };
 
   return (
@@ -197,7 +202,6 @@ const AuthenticatedLayout: React.FC<AuthenticatedLayoutProps> = ({
                   onClick={onClickAdmin}
                   mode='inline'
                   style={{ width: 298, borderRight: 0 }}
-                  defaultOpenKeys={['/adm/dashboard']}
                   selectedKeys={[currAdmin]}
                   items={itemAdmin}
                   className='sidebar flex flex-col gap-1 justify-center px-8'

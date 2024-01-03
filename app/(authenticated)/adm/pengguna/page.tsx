@@ -5,7 +5,7 @@ import Searchs from '#/components/Search';
 import TypeRadio from '#/components/TypeButton';
 import { MASCOT_OWNER, MASCOT_RENTER } from '#/constants/images';
 import { adminRepository } from '#/repository/adm';
-import { Pagination, Radio } from 'antd';
+import { Pagination, Radio, Spin } from 'antd';
 import React, { useState } from 'react';
 
 const users = [
@@ -58,13 +58,15 @@ function ManagementUser() {
   const { data, error, isLoading } = adminRepository.hooks.getAllUsers();
 
   if (!data) {
-    return <div>Loading...</div>;
+    return <Spin size="large"className='w-full h-full flex items-center justify-center' />;
   }
 
-  const datas = data?.data;
+  const datas = data?.userData;
+
+  console.log(datas);
 
   const filteredUsers = typeFilter
-    ? datas.filter((user: any) => user?.level?.name === typeFilter)
+    ? datas.filter((user: any) => user?.role === typeFilter)
     : datas;
 
   const handleChange = (e: any) => {
@@ -117,10 +119,10 @@ function ManagementUser() {
             <div key={user.id}>
               <ListPengguna
                 idUsers={user.id}
-                image={user?.biodata?.photo_profile}
-                role={user?.level?.name}
-                namaPengguna={user?.biodata?.first_name}
-                status={user?.biodata?.isActive}
+                image={user?.photo_profile}
+                role={user?.role}
+                namaPengguna={user?.user_name}
+                status={user?.isActive}
               />
             </div>
           ))}

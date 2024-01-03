@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { Pagination } from 'antd';
+import { Pagination, Spin } from 'antd';
 import Button from '#/components/Button';
 import CardProduk from '#/components/Card';
 import { productsRepository } from '#/repository/products';
@@ -33,7 +33,7 @@ function ListProduct() {
     productsRepository.hooks.getListProductByOwner(id, filterType);
 
   if (!data) {
-    return <div>Loading...</div>;
+    return <Spin size="large"className='w-full h-full flex items-center justify-center' />;
   }
   const datas = data?.data;
 

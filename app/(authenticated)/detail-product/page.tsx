@@ -17,7 +17,7 @@ import {
   StarFilled,
 } from '@ant-design/icons';
 import { Icon } from '@iconify/react';
-import { Carousel, Button, DatePicker, Form, Radio, message } from 'antd';
+import { Carousel, Button, DatePicker, Form, Radio, message, Spin } from 'antd';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { toIDR } from '#/utils/convertCurrency';
 import { imgProduct } from '#/constants/general';
@@ -53,9 +53,9 @@ function DetailProduct() {
   const { data, error, isLoading } =
     productsRepository.hooks.getProductsById(productId);
 
-  if (!data) {
-    return <div>Loading...</div>;
-  }
+    if (!data) {
+      return <Spin size="large"className='w-full h-full flex items-center justify-center' />;
+    }
 
   const datas = data?.data;
 

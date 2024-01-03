@@ -4,7 +4,7 @@ import Button from '#/components/Button';
 import Searchs from '#/components/Search';
 import { HomeFilled } from '@ant-design/icons';
 import { Icon } from '@iconify/react';
-import { Radio, Select } from 'antd';
+import { Radio, Select, Spin } from 'antd';
 import React, { useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper/modules';
@@ -13,8 +13,128 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import Product from '#/components/Product';
 import Footer from '#/components/Footer';
+import { LOGO } from '#/constants/images';
 import { productsRepository } from '#/repository/products';
-import TypeRadio from '#/components/TypeButton';
+
+const products = [
+  {
+    id: '1',
+    image: '/assets/images/Gedung.png',
+    isType: 'hotel',
+    isgender: 'pria',
+    rating: '4.5',
+    namaProduk:
+      'Kost Singgahsini MnV Co-Living Tipe B Bendungan Hilir Jakarta Pusat',
+    kota: 'Bekasi',
+    stok: '5',
+    hargaPerbulan: '',
+    hargaPerhari: '2.175.000',
+  },
+  {
+    id: '2',
+    image: '/assets/images/Gedung.png',
+    isType: 'kost',
+    isgender: 'pria',
+    rating: '4.5',
+    namaProduk:
+      'Kost Singgahsini MnV Co-Living Tipe B Bendungan Hilir Jakarta Pusat',
+    kota: 'Bekasi',
+    stok: '5',
+    hargaPerbulan: '3.175.000',
+    hargaPerhari: '2.175.000',
+  },
+  {
+    id: '3',
+    image: '/assets/images/Gedung.png',
+    isType: 'hotel',
+    isgender: 'pria',
+    rating: '4.5',
+    namaProduk:
+      'Kost Singgahsini MnV Co-Living Tipe B Bendungan Hilir Jakarta Pusat',
+    kota: 'Bekasi',
+    stok: '5',
+    hargaPerbulan: '',
+    hargaPerhari: '2.175.000',
+  },
+  {
+    id: '4',
+    image: '/assets/images/Gedung.png',
+    isType: 'gedung',
+    isgender: 'pria',
+    rating: '4.5',
+    namaProduk:
+      'Kost Singgahsini MnV Co-Living Tipe B Bendungan Hilir Jakarta Pusat',
+    kota: 'Bekasi',
+    stok: '5',
+    hargaPerbulan: '',
+    hargaPerhari: '2.175.000',
+  },
+  {
+    id: '5',
+    image: '/assets/images/Gedung.png',
+    isType: 'hotel',
+    isgender: 'pria',
+    rating: '4.5',
+    namaProduk:
+      'Kost Singgahsini MnV Co-Living Tipe B Bendungan Hilir Jakarta Pusat',
+    kota: 'Bekasi',
+    stok: '5',
+    hargaPerbulan: '',
+    hargaPerhari: '2.175.000',
+  },
+  {
+    id: '6',
+    image: '/assets/images/Gedung.png',
+    isType: 'kost',
+    isgender: 'pria',
+    rating: '4.5',
+    namaProduk:
+      'Kost Singgahsini MnV Co-Living Tipe B Bendungan Hilir Jakarta Pusat',
+    kota: 'Bekasi',
+    stok: '5',
+    hargaPerbulan: '3.175.000',
+    hargaPerhari: '2.175.000',
+  },
+  {
+    id: '7',
+    image: '/assets/images/Gedung.png',
+    isType: 'kost',
+    isgender: 'wanita',
+    rating: '4.5',
+    namaProduk:
+      'Kost Singgahsini MnV Co-Living Tipe B Bendungan Hilir Jakarta Pusat',
+    kota: 'Bekasi',
+    stok: '5',
+    hargaPerbulan: '3.175.000',
+    hargaPerhari: '2.175.000',
+  },
+  {
+    id: '8',
+    image: '/assets/images/Gedung.png',
+    isType: 'kost',
+    isgender: 'wanita',
+    rating: '4.5',
+    namaProduk:
+      'Kost Singgahsini MnV Co-Living Tipe B Bendungan Hilir Jakarta Pusat',
+    kota: 'Bekasi',
+    stok: '5',
+    hargaPerbulan: '3.175.000',
+    hargaPerhari: '2.175.000',
+  },
+  {
+    id: '9',
+    image: '/assets/images/Gedung.png',
+    isType: 'kost',
+    isgender: 'campur',
+    rating: '4.5',
+    namaProduk:
+      'Kost Singgahsini MnV Co-Living Tipe B Bendungan Hilir Jakarta Pusat',
+    kota: 'Bekasi',
+    stok: '5',
+    hargaPerbulan: '3.175.000',
+    hargaPerhari: '2.175.000',
+  },
+];
 
 function Home() {
   const [typeFilter, setTypeFilter] = useState('kost');
@@ -23,10 +143,27 @@ function Home() {
   const { data, error, isLoading } = productsRepository.hooks.getAllKos();
 
   if (!data) {
-    return <div>Loading...</div>;
+    return <Spin size="large"className='w-full h-full flex items-center justify-center' />;
   }
 
   const datas = data?.data;
+
+  const filterProducts = (products: any, filter: any) => {
+    return products.filter((product: any) => product.type === filter);
+  };
+
+  const filteredProducts = typeFilter
+    ? filterProducts(datas, typeFilter)
+    : datas;
+
+  const productsInSetsOfFour = [];
+  for (let i = 0; i < filteredProducts.length; i += 4) {
+    productsInSetsOfFour.push(filteredProducts.slice(i, i + 4));
+  }
+
+  const handleChange = (e: any) => {
+    setTypeFilter(e.target.value);
+  };
 
   const filterProductsCity = (products: any, type: any, city: any) => {
     let filtered = products.filter((product: any) => product.type === type);
@@ -40,14 +177,6 @@ function Home() {
 
   const handleChangeCity = (value: any) => {
     setCityFilter(value); // Update nilai kota saat terjadi perubahan pada Select
-  };
-
-  const filteredProducts = typeFilter
-    ? datas.filter((product: any) => product.type === typeFilter)
-    : datas;
-
-  const handleChange = (e: any) => {
-    setTypeFilter(e.target.value);
   };
 
   interface OptionType {
@@ -69,6 +198,7 @@ function Home() {
       label: 'Kota Tegal',
     },
   ];
+
   return (
     <div>
       <div className='-z-9999 px-[190px]'>
@@ -138,7 +268,7 @@ function Home() {
           </Radio.Group>
         </div>
         {typeFilter === 'kost' && (
-          <div className='flex items-center py-10 mt-[25px]'>
+          <div className='flex items-center py-10 mt-[25px] mb-20'>
             <div className='w-full text-4xl font-bold'>Kost Populer</div>
             <div
               className='flex bg-white rounded-[10px]'
@@ -156,7 +286,7 @@ function Home() {
           </div>
         )}
         {typeFilter === 'gedung' && (
-          <div className='flex items-center py-10 mt-[25px]'>
+          <div className='flex items-center py-10 mt-[25px] mb-20'>
             <div className='w-full text-4xl font-bold'>Gedung Populer</div>
             <div
               className='flex bg-white rounded-[10px]'
@@ -174,7 +304,7 @@ function Home() {
           </div>
         )}
         {typeFilter === 'hotel' && (
-          <div className='flex items-center py-10 mt-[25px]'>
+          <div className='flex items-center py-10 mt-[25px] mb-20'>
             <div className='w-full text-4xl font-bold'>Hotel Populer</div>
             <div
               className='flex bg-white rounded-[10px]'
@@ -191,17 +321,12 @@ function Home() {
             </div>
           </div>
         )}
-        <div className='mt-[45px]'>
-          <Swiper
-            navigation={true}
-            slidesPerView={4}
-            modules={[Navigation]}
-            className='mySwiper'
-          >
-            {filteredProducts.map((product: any) => (
-              <SwiperSlide>
-                <div className='flex justify-center'>
-                  <div key={product.id}>
+        <div>
+          <Swiper navigation={true} modules={[Navigation]} className='mySwiper'>
+            {productsInSetsOfFour.map((productSet, index) => (
+              <SwiperSlide key={index}>
+                <div className='flex justify-stretch gap-x-10 px-32'>
+                  {productSet.map((product: any) => (
                     <Product
                       idProducts={product.id}
                       image={product.photoProducts[0]?.photo}
@@ -214,7 +339,7 @@ function Home() {
                       hargaPerbulan={product.monthly_price}
                       hargaPerhari={product.daily_price}
                     />
-                  </div>
+                  ))}
                 </div>
               </SwiperSlide>
             ))}
@@ -244,7 +369,7 @@ function Home() {
                   type='primary'
                   htmlType='submit'
                   href='#'
-                  className='w-max hover:!text-white hover:!bg-primary !bg-white !text-primary border-2 border-white hover:!border-primary rounded-[10px] text-[20px] font-semibold !mt-0 px-7'
+                  className='w-max hover:!text-white hover:!bg-primary !bg-white !text-primary border-2 border-white hover:!border-primary rounded-[10px] text-[20px] font-bold !mt-0 px-7'
                 >
                   Lihat Semua
                 </Button>
@@ -253,7 +378,7 @@ function Home() {
           </div>
         )}
         {typeFilter === 'gedung' && (
-          <div className='flex items-center py-10 mt-[25px]'>
+          <div className='flex items-center py-10 mt-[50px]'>
             <div className='flex w-full items-center'>
               <div className='text-4xl font-bold'>Rekomendasi Gedung di</div>
               <div className='font-bold home-produk items-center'>
@@ -276,9 +401,9 @@ function Home() {
                   type='primary'
                   htmlType='submit'
                   href='#'
-                  className='w-max hover:!text-white hover:!bg-primary !bg-white !text-primary border-2 border-white hover:!border-primary rounded-[10px] text-[20px] font-semibold !mt-0 px-7'
+                  className='w-max hover:!text-white hover:!bg-primary !bg-white !text-primary border-2 border-white hover:!border-primary rounded-[10px] text-[20px] font-bold !mt-0 px-7'
                 >
-                   
+                  Lihat Semua
                 </Button>
               </div>
             </div>
@@ -308,7 +433,7 @@ function Home() {
                   type='primary'
                   htmlType='submit'
                   href='#'
-                  className='w-max hover:!text-white hover:!bg-primary !bg-white !text-primary border-2 border-white hover:!border-primary rounded-[10px] text-[20px] font-semibold !mt-0 px-7'
+                  className='w-max hover:!text-white hover:!bg-primary !bg-white !text-primary border-2 border-white hover:!border-primary rounded-[10px] text-[20px] font-bold !mt-0 px-7'
                 >
                   Lihat Semua
                 </Button>
@@ -317,33 +442,36 @@ function Home() {
           </div>
         )}
         <div className='mt-[45px]'>
-          <Swiper
-            navigation={true}
-            slidesPerView={4}
-            modules={[Navigation]}
-            className='mySwiper'
-          >
+          <Swiper navigation={true} modules={[Navigation]} className='mySwiper'>
             {filterProductsCity(filteredProducts, typeFilter, cityFilter).map(
-              (product: any) => (
-                <SwiperSlide>
-                  <div className='flex justify-center'>
-                    <div key={product.id}>
-                      <Product
-                      idProducts={product.id}
-                        image={product.photoProducts[0]?.photo}
-                        isType={product.type}
-                        isgender={product.specialRules?.gender}
-                        rating={product.rating}
-                        namaProduk={product.name}
-                        kota={product.cities?.name}
-                        stok={product.stock}
-                        hargaPerbulan={product.monthly_price}
-                        hargaPerhari={product.daily_price}
-                      />
+              (product: any, index: number) =>
+                index % 4 === 0 && (
+                  <SwiperSlide key={index}>
+                    <div className='flex justify-stretch gap-x-10 px-32'>
+                      {filterProductsCity(
+                        filteredProducts,
+                        typeFilter,
+                        cityFilter
+                      )
+                        .slice(index, index + 4)
+                        .map((product: any) => (
+                          <div key={product.id}>
+                            <Product
+                              image={product.photoProducts[0]?.photo}
+                              isType={product.type}
+                              isgender={product.specialRules?.gender}
+                              rating={product.rating}
+                              namaProduk={product.name}
+                              kota={product.cities?.name}
+                              stok={product.stock}
+                              hargaPerbulan={product.monthly_price}
+                              hargaPerhari={product.daily_price}
+                            />
+                          </div>
+                        ))}
                     </div>
-                  </div>
-                </SwiperSlide>
-              )
+                  </SwiperSlide>
+                )
             )}
           </Swiper>
         </div>
