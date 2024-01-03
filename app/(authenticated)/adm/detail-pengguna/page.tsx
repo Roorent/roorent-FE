@@ -31,7 +31,7 @@ function DetailPengguna() {
   const products = productData?.data;
 
   if (!userData) {
-    return <div className='w-full h-full flex items-center justify-center'><Spin size="large" /></div>;
+    return <Spin size="large"className='w-full h-full flex items-center justify-center' />;
   }
   const users = userData?.data;
 
