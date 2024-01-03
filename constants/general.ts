@@ -13,3 +13,6 @@ export const imgProfile = (img: string) =>
   `${config.baseUrl}/images/profile/${img}`;
 
 export const imgKTP = (img: string) => `${config.baseUrl}/images/ktp/${img}`;
+
+export const imgTransProof = (img: string) =>
+  `${config.baseUrl}/images/transactions/${img}`;

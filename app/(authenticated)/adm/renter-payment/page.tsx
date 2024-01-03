@@ -1,36 +1,19 @@
 'use client';
 import Button from '#/components/Button';
 import ListPayment from '#/components/List-Payment';
+import { TransactionRepository } from '#/repository/transaction';
 import { Pagination } from 'antd';
 import React from 'react';
 
-const Payments = [
-  {
-    id: '1',
-    tanggal: '30 Desember 2023',
-    waktu: '18:14',
-    buktiPembayaran: '/assets/images/BuktiPembayaran.png',
-    renter: 'M Danar Kahfi',
-    namaProduk:
-      'Kost Singgahsini MnV Co-Living Tipe B Bendungan Hilir Jakarta Pusat',
-    biayaSewa: '200000000',
-    biayaAdmin: '20000',
-    totalPembayaran: '200020000',
-  },
-  {
-    id: '2',
-    tanggal: '30 Desember 2023',
-    waktu: '18:14',
-    buktiPembayaran: '/assets/images/BuktiPembayaran.png',
-    renter: 'Nazhwa Nur Syabrina',
-    namaProduk: 'Kost Sunter Jaya Gabus Tipe A Tanjung Priok Jakarta Utara ',
-    biayaSewa: '200000000',
-    biayaAdmin: '20000',
-    totalPembayaran: '200020000',
-  },
-];
-
 function RenterPayment() {
+  const { data, error, isLoading, mutate } =
+    TransactionRepository.hooks.getTransactionsRenter();
+
+  if (!data) {
+    return <div>Loading...</div>;
+  }
+  const datas = data?.transactionsData;
+
   return (
     <div>
       <div className='w-full grid gap-y-[20px] grid-cols-1'>
@@ -38,20 +21,30 @@ function RenterPayment() {
           <p>Pembayaran Renter</p>
         </div>
         <div className='grid gap-10 grid-cols-2'>
-          {Payments.map((paymnet) => (
-            <div key={paymnet.id}>
-              <ListPayment
-                tanggal={paymnet.tanggal}
-                waktu={paymnet.waktu}
-                buktiPembayaran={paymnet.buktiPembayaran}
-                renter={paymnet.renter}
-                namaProduk={paymnet.namaProduk}
-                biayaSewa={paymnet.biayaSewa}
-                biayaAdmin={paymnet.biayaAdmin}
-                totalPembayaran={paymnet.totalPembayaran}
-              />
-            </div>
-          ))}
+          {datas
+            ?.sort((a: any, b: any) => {
+              // Mengurutkan berdasarkan createdAt dari yang terbaru ke yang terlama
+              return (
+                new Date(b.createdAt).getTime() -
+                new Date(a.createdAt).getTime()
+              );
+            })
+            .map((payment: any) => (
+              <div key={payment.id}>
+                <ListPayment
+                  idTransaction={payment.id}
+                  tanggal={payment.createdAt}
+                  waktu={payment.createdAt}
+                  buktiPembayaran={payment.trans_proof}
+                  renter={payment.user_name}
+                  namaProduk={payment.product_name}
+                  biayaSewa={payment.price}
+                  lamaSewa={payment.amount}
+                  totalPembayaran={payment.total_price}
+                  mutate={mutate}
+                />
+              </div>
+            ))}
         </div>
       </div>
       <div className='w-full py-[20px] flex justify-end'>

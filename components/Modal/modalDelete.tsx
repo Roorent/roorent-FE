@@ -5,7 +5,6 @@ import React, { useState } from 'react';
 
 //disini tambahin mutate juga
 function ModalDelete({ title, content, icon, buttonText, id, mutate, className }: any) {
-  const [loading, setLoading] = useState(false);
   const { confirm } = Modal;
   const router = useRouter()
   const data = productsRepository.manipulatedata.deleteProducts(id)
@@ -28,13 +27,11 @@ function ModalDelete({ title, content, icon, buttonText, id, mutate, className }
       ),
       cancelText: <div className='text-xl font-bold text-white'>Batal</div>,
       onOk() {       
-        setLoading(true);  
         data.then((del:any) => {
           return del
         });
         //disini panggil mutate nya
-        mutate
-        setLoading(false);
+        mutate(data)
         // router.refresh()
       },
       onCancel() {
@@ -48,7 +45,6 @@ function ModalDelete({ title, content, icon, buttonText, id, mutate, className }
       <Button
         type='primary'
         onClick={showDeleteConfirm}
-        loading={loading}
         className={styleButton}
       >
         {buttonText}

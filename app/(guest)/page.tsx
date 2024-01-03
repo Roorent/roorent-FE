@@ -446,6 +446,7 @@ function Home() {
                 <div className='flex justify-center'>
                   <div key={product.id}>
                     <Product
+                      idProducts={product.id}
                       image={product.photoProducts[0]?.photo}
                       isType={product.type}
                       isgender={product.specialRules?.gender}
