@@ -61,10 +61,12 @@ function ManagementUser() {
     return <Spin size="large"className='w-full h-full flex items-center justify-center' />;
   }
 
-  const datas = data?.data;
+  const datas = data?.userData;
+
+  console.log(datas);
 
   const filteredUsers = typeFilter
-    ? datas.filter((user: any) => user?.level?.name === typeFilter)
+    ? datas.filter((user: any) => user?.role === typeFilter)
     : datas;
 
   const handleChange = (e: any) => {
@@ -117,10 +119,10 @@ function ManagementUser() {
             <div key={user.id}>
               <ListPengguna
                 idUsers={user.id}
-                image={user?.biodata?.photo_profile}
-                role={user?.level?.name}
-                namaPengguna={user?.biodata?.first_name}
-                status={user?.biodata?.isActive}
+                image={user?.photo_profile}
+                role={user?.role}
+                namaPengguna={user?.user_name}
+                status={user?.isActive}
               />
             </div>
           ))}
