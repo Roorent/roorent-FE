@@ -288,11 +288,13 @@ function EditProduct() {
 
     if (matchingFee) {
       const feeDaily =
-        price?.daily - (matchingFee.value / 100) * price?.daily ||
-        hargaPerHari - (matchingFee.value / 100) * hargaPerHari;
+        hargaPerHari === 0
+          ? price?.daily - (matchingFee.value / 100) * price?.daily
+          : hargaPerHari - (matchingFee.value / 100) * hargaPerHari;
       const feeMonthly =
-        price.monthly - (matchingFee.value / 100) * price.monthly ||
-        hargaPerBulan - (matchingFee.value / 100) * hargaPerBulan;
+        hargaPerBulan === 0
+          ? price.monthly - (matchingFee.value / 100) * price.monthly
+          : hargaPerBulan - (matchingFee.value / 100) * hargaPerBulan;
 
       setAdminFee({ daily: feeDaily, monthly: feeMonthly });
     }
@@ -616,7 +618,6 @@ function EditProduct() {
                   <div className='w-full create-produk'>
                     <Form.Item name='gender'>
                       <Select
-                        // placeholder='Pilih Tipe'
                         style={{ width: '100%' }}
                         options={[
                           { value: 'campur', label: 'Campur' },
@@ -666,32 +667,13 @@ function EditProduct() {
               <div className='my-4'>
                 {selectedOptionProduk?.value === 'kost' && (
                   <>
-                    <div className='text-xl font-bold bg-primary rounded-[10px] px-5 py-2.5 flex items-center mb-[30px]'>
-                      <div className='w-full'>
-                        <p className='text-white w-full '>Harga Produk</p>
+                    <div className='w-full'>
+                      <div className='w-full mb-4'>
+                        <p className='text-teks text-2xl font-bold '>Tipe Harga </p>
                       </div>
-                      <div className='flex gap-x-6'>
+                      <div className='w-full'>
                         <div className='w-full list-produk'>
-                          {/* <Form.Item>
-                            <Select
-                              value={selectedOption?.value}
-                              onChange={handleSelectChange}
-                              // defaultValue={
-                              //   selectedOption
-                              //     ? selectedOption.value
-                              //     : defaultSelectedOption.value
-                              // }
-                              className='flex items-center'
-                            >
-                              {options.map((option) => (
-                                <Option key={option.value} value={option.value}>
-                                  {option.label}
-                                </Option>
-                              ))}
-                              
-                            </Select>
-                          </Form.Item> */}
-                          <div className='text-white h-4 flex items-center'>
+                          <div className='w-full text-primary font-bold text-2xl flex justify-center items-center border-2 border-primary rounded-[10px] py-3' style={{boxShadow: '0 1px 8px rgba(36, 36, 36, 0.14)'}}>
                             {selectedOption?.value === 'campur' && 'Campur'}
                             {selectedOption?.value === 'perbulan' && 'Perbulan'}
                             {selectedOption?.value === 'perhari' && 'Perhari'}
@@ -876,16 +858,9 @@ function EditProduct() {
                 )}
                 {selectedOptionProduk?.value === 'gedung' && (
                   <>
-                    <div className='produkOwner text-xl font-bold bg-primary rounded-[10px] px-5 py-2.5 flex items-center mb-[30px]'>
-                      <div className='w-full'>
-                        <p className='text-white w-full flex justify-center'>
-                          Harga Produk
-                        </p>
-                      </div>
-                    </div>
                     <div className='my-4'>
                       <p className='mb-4 text-teks text-2xl font-bold'>
-                        Harga Perhari
+                        Harga Produk
                       </p>
                       <div>
                         <Form.Item
@@ -928,16 +903,9 @@ function EditProduct() {
                 )}
                 {selectedOptionProduk?.value === 'hotel' && (
                   <>
-                    <div className='produkOwner text-xl font-bold bg-primary rounded-[10px] px-5 py-2.5 flex items-center mb-[30px]'>
-                      <div className='w-full'>
-                        <p className='text-white w-full flex justify-center'>
-                          Harga Produk
-                        </p>
-                      </div>
-                    </div>
                     <div className='my-4'>
                       <p className='mb-4 text-teks text-2xl font-bold'>
-                        Harga Perhari
+                        Harga Produk
                       </p>
                       <div>
                         <Form.Item

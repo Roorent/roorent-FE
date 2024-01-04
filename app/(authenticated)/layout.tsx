@@ -289,7 +289,7 @@ const AuthenticatedLayout: React.FC<AuthenticatedLayoutProps> = ({
                           mask={false}
                           open={isModalOpen}
                           onCancel={closeModal}
-                          // className='absolute top-15 -right-[150px]'
+                          className='absolute top-15 -right-[150px]'
                           closeIcon={<></>}
                           footer={<></>}
                         >
@@ -403,6 +403,12 @@ const AuthenticatedLayout: React.FC<AuthenticatedLayoutProps> = ({
                   <Chats />
                   <Notifications />
                 </div>
+                <div
+                    onClick={handleLogout}
+                    className='bg-primary flex items-center text-md rounded-lg p-4 h-10 text-white font-bold cursor-pointer'
+                  >
+                    Logout
+                  </div>
                 {/* <div className='flex items-center gap-6 w-fit'>
                   <p className='text-xl font-bold flex w-max justify-end'>
                     Halo, {firstName}
