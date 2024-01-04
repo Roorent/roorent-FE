@@ -13,7 +13,7 @@ import {
   HomeFilled,
 } from '@ant-design/icons';
 import { Icon } from '@iconify/react';
-import { Card, Modal, Statistic, Steps } from 'antd';
+import { Card, Modal, Spin, Statistic, Steps } from 'antd';
 import { CountdownProps } from 'antd/lib';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { imgProduct } from '#/constants/general';
@@ -40,7 +40,12 @@ function Payment() {
     RentAppRepository.hooks.getRentAppById(rentAppId);
 
   if (isLoading) {
-    return <p>Loading...</p>;
+    return (
+      <Spin
+        size='large'
+        className='w-full h-full flex items-center justify-center'
+      />
+    );
   }
 
   const datas = data?.data;

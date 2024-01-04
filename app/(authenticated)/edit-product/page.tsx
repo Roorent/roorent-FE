@@ -25,7 +25,8 @@ import { UploadChangeParam, UploadFile } from 'antd/es/upload/interface';
 import { RcFile, UploadProps } from 'antd/lib/upload';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Icon } from '@iconify/react';
-import { imgProduct } from '#/constants/general';
+import { FEES, imgProduct } from '#/constants/general';
+import { toIDR } from '#/utils/convertCurrency';
 
 const getBase64 = (file: RcFile): Promise<string> =>
   new Promise((resolve, reject) => {
@@ -35,10 +36,10 @@ const getBase64 = (file: RcFile): Promise<string> =>
     reader.onerror = (error) => reject(error);
   });
 
-const filterOption = (
-  input: string,
-  option?: { label: string; value: string }
-) => (option?.label ?? '').toLowerCase().includes(input.toLowerCase());
+// const filterOption = (
+//   input: string,
+//   option?: { label: string; value: string }
+// ) => (option?.label ?? '').toLowerCase().includes(input.toLowerCase());
 
 function EditProduct() {
   const searchParams = useSearchParams();
@@ -46,6 +47,8 @@ function EditProduct() {
 
   const router = useRouter();
   const [form] = Form.useForm();
+  const { TextArea } = Input;
+  const { Option } = Select;
 
   const [previewOpen, setPreviewOpen] = useState(false);
   const [previewImage, setPreviewImage] = useState('');
@@ -217,108 +220,83 @@ function EditProduct() {
     </div>
   );
 
-  const { TextArea } = Input;
+  const price = {
+    daily: data?.data?.daily_price,
+    monthly: data?.data?.monthly_price,
+  };
 
   interface OptionType {
     value: string;
     label: string;
   }
 
-  const { Option } = Select;
-
-  //get value harga
-  const options: OptionType[] = [
-    { value: 'campur', label: 'Campur' },
-    { value: 'perhari', label: 'Perhari' },
-    { value: 'perbulan', label: 'Perbulan' },
-  ];
-
-  const defaultSelectedOption: OptionType = {
+  const [selectedOption, setSelectedOption] = useState<OptionType | undefined>({
     value: 'campur',
     label: 'Campur',
-  };
+  });
+  const [hargaPerHari, setHargaPerHari] = useState<number>(0);
+  const [hargaPerBulan, setHargaPerBulan] = useState<number>(0);
+  const [adminFee, setAdminFee] = useState({ daily: 0, monthly: 0 });
 
-  const [selectedOption, setSelectedOption] = useState<OptionType | undefined>(
-    defaultSelectedOption
-  );
-
-  const [hargaPerHari, setHargaPerHari] = useState<number | null>(null);
-  const [hargaPerBulan, setHargaPerBulan] = useState<number | null>(null);
+  //get value harga
+  // const options: OptionType[] = [
+  //   { value: 'campur', label: 'Campur' },
+  //   { value: 'perhari', label: 'Perhari' },
+  //   { value: 'perbulan', label: 'Perbulan' },
+  // ];
 
   // const handleSelectChange = (value: string) => {
   //   const selected = options.find((option) => option.value === value);
   //   setSelectedOption(selected);
   // };
 
-  // const handleHargaPerHariChange = (value: number | null) => {
-  //   setHargaPerHari(value);
-  //   setDatas({ ...datas, daily_price: value || 0 });
-  // };
-
-  // const handleHargaPerBulanChange = (value: number | null) => {
-  //   setHargaPerBulan(value);
-  //   setDatas({ ...datas, monthly_price: value || 0 });
-  // };
-
-  const handleSelectChange = (value: string) => {
-    const selected = options.find((option) => option.value === value);
-    setSelectedOption(selected);
-    localStorage.setItem('selectedOption', JSON.stringify(selected));
-  };
-
-  const handleHargaPerHariChange = (value: number | null) => {
+  const handleHargaPerHariChange = (value: any) => {
     setHargaPerHari(value);
     setDatas({ ...datas, daily_price: value || 0 });
-    localStorage.setItem('perhari', JSON.stringify(value));
   };
-
-  const handleHargaPerBulanChange = (value: number | null) => {
+  const handleHargaPerBulanChange = (value: any) => {
     setHargaPerBulan(value);
     setDatas({ ...datas, monthly_price: value || 0 });
-    localStorage.setItem('perbulan', JSON.stringify(value));
-  };
-
-  useEffect(() => {
-    const storedSelectedOption = localStorage.getItem('selectedOption');
-
-    const storedHargaPerHari = localStorage.getItem('perhari');
-    const storedHargaPerBulan = localStorage.getItem('perbulan');
-
-    setSelectedOption(
-      storedSelectedOption ? JSON.parse(storedSelectedOption) : null
-    );
-
-    setHargaPerHari(storedHargaPerHari ? JSON.parse(storedHargaPerHari) : null);
-    setHargaPerBulan(
-      storedHargaPerBulan ? JSON.parse(storedHargaPerBulan) : null
-    );
-
-    // setDatas({
-    // daily_price: storedHargaPerHari ? (JSON.parse(storedHargaPerHari) || 0) : 0,
-    // monthly_price: storedHargaPerBulan ? (JSON.parse(storedHargaPerBulan) || 0) : 0,
-  }, []);
-
-  // get value tipe produk
-  const optionsProduk: OptionType[] = [
-    { value: 'kost', label: 'Kost' },
-    { value: 'gedung', label: 'Gedung' },
-    { value: 'hotel', label: 'Hotel' },
-  ];
-
-  const defaultSelectedOptionProduk: OptionType = {
-    value: 'kost',
-    label: 'Kost',
   };
 
   const [selectedOptionProduk, setSelectedOptionProduk] = useState<
     OptionType | undefined
-  >(defaultSelectedOptionProduk);
+  >();
 
-  const handleSelectChangeProduk = (value: string) => {
-    const selected = optionsProduk.find((option) => option.value === value);
-    setSelectedOptionProduk(selected);
-    setDatas({ ...datas, type: value });
-  };
+  const matchingFee = FEES.find(
+    (fee) => selectedOptionProduk?.value === fee.name
+  );
+
+  useEffect(() => {
+    document.title = 'Edit Product - Roorent';
+
+    if (price?.daily !== 0 && price?.monthly !== 0) {
+      setSelectedOption({ value: 'campur', label: 'Campur' });
+    } else if (price?.daily !== 0) {
+      setSelectedOption({ value: 'perhari', label: 'Perhari' });
+    } else if (price?.monthly !== 0) {
+      setSelectedOption({ value: 'perbulan', label: 'Perbulan' });
+    }
+
+    if (data?.data?.type === 'kost') {
+      setSelectedOptionProduk({ value: 'kost', label: 'Kost' });
+    } else if (data?.data?.type === 'gedung') {
+      setSelectedOptionProduk({ value: 'gedung', label: 'Gedung' });
+    } else if (data?.data?.type === 'hotel') {
+      setSelectedOptionProduk({ value: 'hotel', label: 'Hotel' });
+    }
+
+    if (matchingFee) {
+      const feeDaily =
+        price?.daily - (matchingFee.value / 100) * price?.daily ||
+        hargaPerHari - (matchingFee.value / 100) * hargaPerHari;
+      const feeMonthly =
+        price.monthly - (matchingFee.value / 100) * price.monthly ||
+        hargaPerBulan - (matchingFee.value / 100) * hargaPerBulan;
+
+      setAdminFee({ daily: feeDaily, monthly: feeMonthly });
+    }
+  }, [price, data?.data?.type]);
 
   return (
     <div>
@@ -367,7 +345,7 @@ function EditProduct() {
                             <Icon
                               icon='mingcute:building-1-fill'
                               className='mr-2'
-                            />{' '}
+                            />
                             Gedung
                           </div>
                         </Radio.Button>
@@ -694,15 +672,15 @@ function EditProduct() {
                       </div>
                       <div className='flex gap-x-6'>
                         <div className='w-full list-produk'>
-                          <Form.Item>
+                          {/* <Form.Item>
                             <Select
                               value={selectedOption?.value}
                               onChange={handleSelectChange}
-                              defaultValue={
-                                selectedOption
-                                  ? selectedOption.value
-                                  : defaultSelectedOption.value
-                              }
+                              // defaultValue={
+                              //   selectedOption
+                              //     ? selectedOption.value
+                              //     : defaultSelectedOption.value
+                              // }
                               className='flex items-center'
                             >
                               {options.map((option) => (
@@ -710,8 +688,14 @@ function EditProduct() {
                                   {option.label}
                                 </Option>
                               ))}
+                              
                             </Select>
-                          </Form.Item>
+                          </Form.Item> */}
+                          <div className='text-white h-4 flex items-center'>
+                            {selectedOption?.value === 'campur' && 'Campur'}
+                            {selectedOption?.value === 'perbulan' && 'Perbulan'}
+                            {selectedOption?.value === 'perhari' && 'Perhari'}
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -742,6 +726,19 @@ function EditProduct() {
                             />
                           </Form.Item>
                         </div>
+                        <div className='text-xl border border-slate-300 rounded-[10px] px-5 py-2.5 flex items-center mb-[30px]'>
+                          <div className='mr-5'>
+                            <ExclamationCircleFilled className='text-3xl text-primary' />
+                          </div>
+                          <div className='w-full'>
+                            <p className='w-full '>
+                              Harga yang akan anda terima =
+                              <span className='font-bold'>
+                                {' ' + toIDR(adminFee.daily)}
+                              </span>
+                            </p>
+                          </div>
+                        </div>
                       </div>
                     )}
                     {selectedOption?.value === 'perbulan' && (
@@ -771,6 +768,19 @@ function EditProduct() {
                               onChange={handleHargaPerBulanChange}
                             />
                           </Form.Item>
+                        </div>
+                        <div className='text-xl border border-slate-300 rounded-[10px] px-5 py-2.5 flex items-center mb-[30px]'>
+                          <div className='mr-5'>
+                            <ExclamationCircleFilled className='text-3xl text-primary' />
+                          </div>
+                          <div className='w-full'>
+                            <p className='w-full '>
+                              Harga yang akan anda terima =
+                              <span className='font-bold'>
+                                {' ' + toIDR(adminFee.monthly)}
+                              </span>
+                            </p>
+                          </div>
                         </div>
                       </div>
                     )}
@@ -804,6 +814,19 @@ function EditProduct() {
                                 />
                               </Form.Item>
                             </div>
+                            <div className='text-xl border border-slate-300 rounded-[10px] px-5 py-2.5 flex items-center mb-[30px]'>
+                              <div className='mr-5'>
+                                <ExclamationCircleFilled className='text-3xl text-primary' />
+                              </div>
+                              <div className='w-full'>
+                                <p className='w-full '>
+                                  Harga yang akan anda terima =
+                                  <span className='font-bold'>
+                                    {' ' + toIDR(adminFee.daily)}
+                                  </span>
+                                </p>
+                              </div>
+                            </div>
                           </div>
                           <div className='w-1/2 my-4'>
                             <p className='mb-4 text-teks text-2xl font-bold'>
@@ -832,21 +855,23 @@ function EditProduct() {
                                 />
                               </Form.Item>
                             </div>
+                            <div className='text-xl border border-slate-300 rounded-[10px] px-5 py-2.5 flex items-center mb-[30px]'>
+                              <div className='mr-5'>
+                                <ExclamationCircleFilled className='text-3xl text-primary' />
+                              </div>
+                              <div className='w-full'>
+                                <p className='w-full '>
+                                  Harga yang akan anda terima =
+                                  <span className='font-bold'>
+                                    {' ' + toIDR(adminFee.monthly)}
+                                  </span>
+                                </p>
+                              </div>
+                            </div>
                           </div>
                         </div>
                       </>
                     )}
-                    <div className='text-xl border border-slate-300 rounded-[10px] px-5 py-2.5 flex items-center mb-[30px]'>
-                      <div className='mr-5'>
-                        <ExclamationCircleFilled className='text-3xl text-primary' />
-                      </div>
-                      <div className='w-full'>
-                        <p className='w-full '>
-                          Harga yang di input akan dikenakan biaya admin sebesar
-                          5%
-                        </p>
-                      </div>
-                    </div>
                   </>
                 )}
                 {selectedOptionProduk?.value === 'gedung' && (
@@ -885,16 +910,18 @@ function EditProduct() {
                           />
                         </Form.Item>
                       </div>
-                    </div>
-                    <div className='text-xl border border-slate-300 rounded-[10px] px-5 py-2.5 flex items-center mb-[30px]'>
-                      <div className='mr-5'>
-                        <ExclamationCircleFilled className='text-3xl text-primary' />
-                      </div>
-                      <div className='w-full'>
-                        <p className='w-full '>
-                          Harga yang di input akan dikenakan biaya admin sebesar
-                          10%
-                        </p>
+                      <div className='text-xl border border-slate-300 rounded-[10px] px-5 py-2.5 flex items-center mb-[30px]'>
+                        <div className='mr-5'>
+                          <ExclamationCircleFilled className='text-3xl text-primary' />
+                        </div>
+                        <div className='w-full'>
+                          <p className='w-full '>
+                            Harga yang akan anda terima =
+                            <span className='font-bold'>
+                              {' ' + toIDR(adminFee.daily)}
+                            </span>
+                          </p>
+                        </div>
                       </div>
                     </div>
                   </>
@@ -935,16 +962,18 @@ function EditProduct() {
                           />
                         </Form.Item>
                       </div>
-                    </div>
-                    <div className='text-xl border border-slate-300 rounded-[10px] px-5 py-2.5 flex items-center mb-[30px]'>
-                      <div className='mr-5'>
-                        <ExclamationCircleFilled className='text-3xl text-primary' />
-                      </div>
-                      <div className='w-full'>
-                        <p className='w-full '>
-                          Harga yang di input akan dikenakan biaya admin sebesar
-                          10%
-                        </p>
+                      <div className='text-xl border border-slate-300 rounded-[10px] px-5 py-2.5 flex items-center mb-[30px]'>
+                        <div className='mr-5'>
+                          <ExclamationCircleFilled className='text-3xl text-primary' />
+                        </div>
+                        <div className='w-full'>
+                          <p className='w-full '>
+                            Harga yang akan anda terima =
+                            <span className='font-bold'>
+                              {' ' + toIDR(adminFee.daily)}
+                            </span>
+                          </p>
+                        </div>
                       </div>
                     </div>
                   </>

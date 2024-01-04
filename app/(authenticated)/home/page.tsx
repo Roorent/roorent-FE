@@ -12,129 +12,7 @@ import { Navigation } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import Product from '#/components/Product';
-import Footer from '#/components/Footer';
-import { LOGO } from '#/constants/images';
 import { productsRepository } from '#/repository/products';
-
-const products = [
-  {
-    id: '1',
-    image: '/assets/images/Gedung.png',
-    isType: 'hotel',
-    isgender: 'pria',
-    rating: '4.5',
-    namaProduk:
-      'Kost Singgahsini MnV Co-Living Tipe B Bendungan Hilir Jakarta Pusat',
-    kota: 'Bekasi',
-    stok: '5',
-    hargaPerbulan: '',
-    hargaPerhari: '2.175.000',
-  },
-  {
-    id: '2',
-    image: '/assets/images/Gedung.png',
-    isType: 'kost',
-    isgender: 'pria',
-    rating: '4.5',
-    namaProduk:
-      'Kost Singgahsini MnV Co-Living Tipe B Bendungan Hilir Jakarta Pusat',
-    kota: 'Bekasi',
-    stok: '5',
-    hargaPerbulan: '3.175.000',
-    hargaPerhari: '2.175.000',
-  },
-  {
-    id: '3',
-    image: '/assets/images/Gedung.png',
-    isType: 'hotel',
-    isgender: 'pria',
-    rating: '4.5',
-    namaProduk:
-      'Kost Singgahsini MnV Co-Living Tipe B Bendungan Hilir Jakarta Pusat',
-    kota: 'Bekasi',
-    stok: '5',
-    hargaPerbulan: '',
-    hargaPerhari: '2.175.000',
-  },
-  {
-    id: '4',
-    image: '/assets/images/Gedung.png',
-    isType: 'gedung',
-    isgender: 'pria',
-    rating: '4.5',
-    namaProduk:
-      'Kost Singgahsini MnV Co-Living Tipe B Bendungan Hilir Jakarta Pusat',
-    kota: 'Bekasi',
-    stok: '5',
-    hargaPerbulan: '',
-    hargaPerhari: '2.175.000',
-  },
-  {
-    id: '5',
-    image: '/assets/images/Gedung.png',
-    isType: 'hotel',
-    isgender: 'pria',
-    rating: '4.5',
-    namaProduk:
-      'Kost Singgahsini MnV Co-Living Tipe B Bendungan Hilir Jakarta Pusat',
-    kota: 'Bekasi',
-    stok: '5',
-    hargaPerbulan: '',
-    hargaPerhari: '2.175.000',
-  },
-  {
-    id: '6',
-    image: '/assets/images/Gedung.png',
-    isType: 'kost',
-    isgender: 'pria',
-    rating: '4.5',
-    namaProduk:
-      'Kost Singgahsini MnV Co-Living Tipe B Bendungan Hilir Jakarta Pusat',
-    kota: 'Bekasi',
-    stok: '5',
-    hargaPerbulan: '3.175.000',
-    hargaPerhari: '2.175.000',
-  },
-  {
-    id: '7',
-    image: '/assets/images/Gedung.png',
-    isType: 'kost',
-    isgender: 'wanita',
-    rating: '4.5',
-    namaProduk:
-      'Kost Singgahsini MnV Co-Living Tipe B Bendungan Hilir Jakarta Pusat',
-    kota: 'Bekasi',
-    stok: '5',
-    hargaPerbulan: '3.175.000',
-    hargaPerhari: '2.175.000',
-  },
-  {
-    id: '8',
-    image: '/assets/images/Gedung.png',
-    isType: 'kost',
-    isgender: 'wanita',
-    rating: '4.5',
-    namaProduk:
-      'Kost Singgahsini MnV Co-Living Tipe B Bendungan Hilir Jakarta Pusat',
-    kota: 'Bekasi',
-    stok: '5',
-    hargaPerbulan: '3.175.000',
-    hargaPerhari: '2.175.000',
-  },
-  {
-    id: '9',
-    image: '/assets/images/Gedung.png',
-    isType: 'kost',
-    isgender: 'campur',
-    rating: '4.5',
-    namaProduk:
-      'Kost Singgahsini MnV Co-Living Tipe B Bendungan Hilir Jakarta Pusat',
-    kota: 'Bekasi',
-    stok: '5',
-    hargaPerbulan: '3.175.000',
-    hargaPerhari: '2.175.000',
-  },
-];
 
 function Home() {
   const [typeFilter, setTypeFilter] = useState('kost');
@@ -142,10 +20,14 @@ function Home() {
 
   const { data, error, isLoading } = productsRepository.hooks.getAllKos();
 
-  if (!data) {
-    return <Spin size="large"className='w-full h-full flex items-center justify-center' />;
+  if (isLoading) {
+    return (
+      <Spin
+        size='large'
+        className='w-full h-full flex items-center justify-center'
+      />
+    );
   }
-
   const datas = data?.data;
 
   const filterProducts = (products: any, filter: any) => {

@@ -14,32 +14,12 @@ import { authRepository } from '#/repository/auth';
 import { Form } from 'antd';
 import { parseJwt } from '#/utils/convert';
 
-interface ErrorLogin {
-  response: {
-    body: {
-      statusCode: number;
-      error: string;
-    };
-  };
-}
-
-interface SuccessLogin {
-  body: {
-    data: {
-      access_token: string;
-    };
-    statusCode: number;
-    message: string;
-  };
-}
-
 const LoginAdmin = () => {
+  const router = useRouter();
+
   useEffect(() => {
     document.title = 'Login - Roorent';
   }, []);
-
-  const router = useRouter();
-  const [loading, setLoading] = useState(false);
 
   const onFinish = async (values: any) => {
     try {
@@ -47,9 +27,7 @@ const LoginAdmin = () => {
         email: values?.email,
         password: values?.password,
       };
-
       const login = await authRepository.manipulatedata.login(data);
-
       localStorage.setItem('access_token', login?.body?.data?.access_token);
 
       const token = localStorage.getItem('access_token');
@@ -138,7 +116,6 @@ const LoginAdmin = () => {
                   <Form.Item>
                     <Button
                       type='primary'
-                      loading={loading}
                       htmlType='submit'
                       block
                       className=' bg-tranparant border border-white rounded-full text-2xl font-bold py-3 h-max'
