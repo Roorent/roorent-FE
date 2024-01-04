@@ -54,7 +54,7 @@ function ListNotifications({ openNotification, isOpen }: any) {
               padding: '15px',
               display: 'flex',
               flexDirection: 'column',
-              boxShadow: '0 25px 50px -12px rgb(0 0 0 / 0.5)',
+              boxShadow: '0 4px 8px #00000014, 0 -1px 4px #0000000a',
             },
           },
         }}
@@ -71,7 +71,7 @@ function ListNotifications({ openNotification, isOpen }: any) {
           mask={false}
           open={isModalOpen}
           onCancel={closeModal}
-          className='absolute top-14 right-[250px]'
+          className='absolute top-15 right-[290px]'
           closeIcon={
             <div onClick={closeModal} className='text-slate-800'>
               <CloseOutlined className='text-2xl' />

@@ -271,10 +271,10 @@ function CreateProduct() {
                   <Form.Item name='type'>
                     <TypeRadio
                       onChange={(e: any) => {
-                        console.log(e, 'here');
                         handleSelectChangeProduk(e);
                       }}
                       value={selectedOptionProduk?.value}
+                      defaultValue={'kost'}
                     />
                   </Form.Item>
                 </div>

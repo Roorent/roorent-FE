@@ -666,7 +666,7 @@ function EditProduct() {
               <div className='my-4'>
                 {selectedOptionProduk?.value === 'kost' && (
                   <>
-                    <div className='produkOwner text-xl font-bold bg-primary rounded-[10px] px-5 py-2.5 flex items-center mb-[30px]'>
+                    <div className='text-xl font-bold bg-primary rounded-[10px] px-5 py-2.5 flex items-center mb-[30px]'>
                       <div className='w-full'>
                         <p className='text-white w-full '>Harga Produk</p>
                       </div>

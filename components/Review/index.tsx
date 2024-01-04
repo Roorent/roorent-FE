@@ -39,7 +39,7 @@ function Review() {
         modal={{
           styles: {
             content: {
-              width: '90%',
+              width: '100%',
               padding: '25px',
               boxShadow: '0 10px 20px -12px rgb(0 0 0 / 0.5)',
               display: 'block',

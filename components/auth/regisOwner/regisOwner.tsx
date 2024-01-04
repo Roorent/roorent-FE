@@ -166,7 +166,7 @@ function RegisOwner() {
                       data.first_name.length <= 1 ||
                       data.last_name.length <= 1 ||
                       data.phone.length <= 1 ||
-                      typeof data.birth_date !== 'object' ||
+                      data.birth_date.length <= 1 ||
                       data.gender.length <= 1 ||
                       data.nik.length <= 1 ||
                       data.photo_ktp.length <= 1 ||
@@ -174,6 +174,18 @@ function RegisOwner() {
                       data.password.length <= 1
                     }
                     onClick={onFinish}
+                    // onClick={()=> (
+                    //   console.log(data.first_name.length  ,
+                    //     data.last_name.length  ,
+                    //     data.phone.length  ,
+                    //     data.birth_date.length ,
+                    //     data.gender.length  ,
+                    //     data.nik.length  ,
+                    //     data.photo_ktp.length  ,
+                    //     data.email.length  ,
+                    //     data.password.length )
+
+                    // )}
                     className='regis-next bg-primary rounded-[20px] px-8 py-2.5 text-xl font-bold h-max'
                   >
                     Daftar

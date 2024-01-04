@@ -161,7 +161,7 @@ body {
   @apply border-rstroke;
   font-size: 20px;
 }
-.produkOwner .ant-select:not(.ant-select-customize-input) .ant-select-selector {
+.produkOwner .ant-select:not(.ant-select-customize-input) .ant-select-selector{
   border-width: 2px;
   font-size: 20px;
   color: white;
@@ -183,19 +183,19 @@ body {
 }
 .produkOwner
   .ant-select-single:not(.ant-select-customize-input)
-  .ant-select-selector {
-  width: 150px;
+  .ant-select-selector{
+  width: 100%;
   padding: 9px;
   border-radius: 10px !important;
   background-color: transparent;
 }
-.produkOwner .ant-select .ant-select-selection-item, .home-produk .ant-select .ant-select-selection-item {
+.produkOwner .ant-select .ant-select-selection-item, .home-produk .ant-select .ant-select-selection-item{
 	font-weight: bold;
 	margin-right: 10px;
 	display: flex;
 	justify-content: center;
 }
-.produkOwner .ant-select .ant-select-arrow {
+.produkOwner .ant-select .ant-select-arrow{
   height: 20px;
   margin-top: -8px;
   color: white;
@@ -578,6 +578,6 @@ textarea:where(.css-dev-only-do-not-override-1dj4ii3).ant-input {
 .review .ant-modal .ant-modal-content{
   display: block;
 }
-.ant-modal-content{
-  width: 100% !important;
+:where(.css-dev-only-do-not-override-19l9cjq).ant-modal .ant-modal-close:hover{
+  background-color: rgb(255 255 255);
 }

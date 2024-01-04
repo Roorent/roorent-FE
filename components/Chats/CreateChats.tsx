@@ -32,7 +32,7 @@ function CreateChats({ openChat, isOpen }: any) {
               width: '80%',
               height: '991px',
               padding: '15px',
-              boxShadow: '0 25px 50px -12px rgb(0 0 0 / 0.5)',
+              boxShadow: '0 4px 8px rgba(0,0,0,.08), 0 -1px 4px rgba(0,0,0,.04)',
             },
           },
         }}
