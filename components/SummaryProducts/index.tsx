@@ -5,7 +5,7 @@ import { HomeFilled } from '@ant-design/icons';
 import { Icon } from '@iconify/react';
 import { imgProduct } from '#/constants/general';
 
-function SummaryProducts({ isType, isLabel, address, image }: any) {
+function SummaryProducts({ isType, isLabel, address, image, nameProduk }: any) {
   const [type, setType] = useState('');
   const [label, setLabel] = useState('');
 
@@ -16,54 +16,59 @@ function SummaryProducts({ isType, isLabel, address, image }: any) {
 
   return (
     <div className='flex gap-4 items-center mb-4'>
-      <div className='w-[40%] bg-red-400 rounded-xl'>
+      <div className='w-1/2 bg-red-400 rounded-xl'>
         <img
           className='object-none rounded-xl'
           src={imgProduct(image)}
           alt='Images'
         />
       </div>
-      <div className='text-slate-600'>
-        <div className='flex gap-2 items-center mb-3'>
-          {type === 'Kost' && (
-            <>
-              <div className='border border-slate-700 px-2 rounded-md flex gap-2 items-center'>
+      <div className='w-1/2 text-slate-600'>
+        <div className='flex gap-3 items-center mb-3'>
+          <div className='rounded-[10px] flex justify-center items-center gap-x-2 p-1.5 border border-rstroke text-rstroke text-xl cursor-default'>
+            {type === 'kost' && (
+              <>
                 <HomeFilled />
-                <p>Kos</p>
-              </div>
-            </>
-          )}
-          {type === 'gedung' && (
-            <>
-              <div className='border border-slate-700 px-2 rounded-md flex gap-2 items-center'>
-                <Icon fontSize={20} icon='mingcute:building-1-fill' />
-                <p>Gedung</p>
-              </div>
-            </>
-          )}
-          {type === 'hotel' && (
-            <>
-              <div className='border border-slate-700 px-2 rounded-md flex gap-2 items-center'>
+                <p className='font-semibold'>Kost</p>
+              </>
+            )}
+            {type === 'gedung' && (
+              <>
+                <Icon fontSize={25} icon='mingcute:building-1-fill' />
+                <p className='font-semibold'>Gedung</p>
+              </>
+            )}
+            {type === 'hotel' && (
+              <>
                 <Icon fontSize={20} icon='fa6-solid:hotel' />
-                <p>Hotel</p>
-              </div>
-            </>
-          )}
+                <p className='font-semibold'>Hotel</p>
+              </>
+            )}
+          </div>
           <div className='text-white'>
             {label === 'pria' && (
-              <p className='bg-primary px-2 rounded-md'>Pria</p>
+              <>
+                <p className='bg-primary py-1.5 px-5 rounded-md'>Pria</p>
+              </>
             )}
             {label === 'wanita' && (
-              <p className='bg-labelWanita px-2 rounded-md'>Wanita</p>
+              <>
+                <p className='bg-labelWanita py-1.5 px-5 rounded-md'>Wanita</p>
+              </>
             )}
             {label === 'campuran' && (
-              <p className='bg-orange-400 px-2 rounded-md'>Campuran</p>
+              <>
+                <p className='bg-orange-400 py-1.5 px-5 rounded-md'>Campuran</p>
+              </>
             )}
           </div>
         </div>
         <div className='flex gap-1 items-center'>
           <Icon fontSize={20} icon='carbon:location-filled' />
-          <p className='text-sm'>{address}</p>
+          <p className='text-lg'>{address}</p>
+        </div>
+        <div className='w-[200px] flex gap-1 items-center'>
+          <p className='text-lg line-clamp-2'>{nameProduk}</p>
         </div>
       </div>
     </div>

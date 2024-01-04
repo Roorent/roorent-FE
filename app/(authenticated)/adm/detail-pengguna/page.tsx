@@ -1,7 +1,7 @@
 'use client';
 
 import Button from '#/components/Button';
-import ListProduk from '#/components/ListProduk';
+import ListProduk from '#/components/List-Produk';
 import Photo from '#/components/Photo';
 import TypeRadio from '#/components/TypeButton';
 import { imgKTP, imgProduct } from '#/constants/general';

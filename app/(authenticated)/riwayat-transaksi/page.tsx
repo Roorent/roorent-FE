@@ -3,7 +3,7 @@
 import ListRiwayat from '#/components/List-Riwayat';
 import TypeRadio from '#/components/TypeButton';
 import { ArrowLeftOutlined } from '@ant-design/icons';
-import { Select } from 'antd';
+import { Pagination, Select } from 'antd';
 import React, { useState } from 'react';
 
 const Riwayat = [
@@ -15,6 +15,7 @@ const Riwayat = [
     product_name: 'Kost Narra Marina Semarang Barat ',
     product_address: 'jln. km km jshdujs',
     total_price: '2.000.000',
+    statusPembayaran: 'pending',
   },
   {
     id: '2',
@@ -24,6 +25,7 @@ const Riwayat = [
     product_name: 'Kost Narra Marina Semarang Barat ',
     product_address: 'jln. km km jshdujs hgasdgasgd vdjasvdjsav jsdjahgdjh',
     total_price: '2.000.000',
+    statusPembayaran: 'approve',
   },
   {
     id: '3',
@@ -33,10 +35,11 @@ const Riwayat = [
     product_name: 'Kost Narra Marina Semarang Barat ',
     product_address: 'jln. km km jshdujs',
     total_price: '2.000.000',
+    statusPembayaran: 'reject',
   },
 ];
 function RiwayatTransaksi() {
-  const [filterType, setFilterType] = useState('kost');
+  const [filterType, setFilterType] = useState('pending');
 
   const handleChange = (value: string) => {
     setFilterType(value);
@@ -56,7 +59,7 @@ function RiwayatTransaksi() {
           </a>
         </div>
         <div className='grid gap-y-5'>
-          <div className='produkOwner text-white text-4xl font-bold bg-primary rounded-[10px] px-5 py-3 flex items-center mb-[10px]'>
+          <div className='produkOwner text-white text-4xl font-bold bg-primary rounded-[10px] px-5 py-3 flex justify-center items-center mb-[10px]'>
             <p>Riwayat Transaksi</p>
           </div>
         </div>
@@ -75,7 +78,7 @@ function RiwayatTransaksi() {
             />
           </div>
         </div>
-        <div className='grid gap-10 grid-cols-3'>
+         <div className='grid gap-10 grid-cols-3'>
           {Riwayat.map((riwayat) => (
             <div key={riwayat.id}>
               <ListRiwayat
@@ -85,10 +88,22 @@ function RiwayatTransaksi() {
                 product_name={riwayat.product_name}
                 product_address={riwayat.product_address}
                 total_price={riwayat.total_price}
+                statusPembayaran={riwayat.statusPembayaran}
               />
             </div>
           ))}
         </div>
+        <div className='w-full py-[20px] flex justify-end'>
+        <Pagination
+          // current={currentPage}
+          // total={totalProducts}
+          // pageSize={itemsPerPage}
+          // onChange={handlePageChange}
+          defaultCurrent={1}
+          total={50}
+          className='text-2xl font-semibold'
+        />
+      </div>
       </div>
     </div>
   );

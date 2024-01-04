@@ -50,7 +50,9 @@ const AuthenticatedLayout: React.FC<AuthenticatedLayoutProps> = ({
     pathname === '/edit-product' ||
     pathname === '/detail-product' ||
     pathname === '/payment' ||
-    pathname === '/adm/detail-pengguna';
+    pathname === '/adm/detail-pengguna' ||
+    pathname === '/riwayat-transaksi' ||
+    pathname === '/detail-transaksi' ;
 
   const {
     token: { colorBgContainer },

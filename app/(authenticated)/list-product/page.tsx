@@ -33,7 +33,7 @@ function ListProduct() {
     productsRepository.hooks.getListProductByOwner(id, filterType);
 
   if (!data) {
-    return <Spin size="large"className='w-full h-full flex items-center justify-center' />;
+    return <Spin size="large"className='w-full h-full flex items-center justify-center' />; 
   }
   const datas = data?.data;
 
