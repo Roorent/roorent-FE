@@ -1,9 +1,11 @@
+import { config } from '#/config/app';
 import { EnvironmentFilled, HomeFilled } from '@ant-design/icons';
 import { Icon } from '@iconify/react';
 import React from 'react';
 
 function ListRiwayat({
-  imgProduct,
+  idTransaction,
+  image,
   product_type,
   product_label,
   product_name,
@@ -11,18 +13,21 @@ function ListRiwayat({
   total_price,
   statusPembayaran,
 }: any) {
+  const imgProduct = (img: string) =>
+    `${config.baseUrl}/images/photo-products/${img}`;
   return (
     <div className='border border-[#858585] rounded-[10px] p-5'>
       {statusPembayaran === 'pending' && <></>}
       {statusPembayaran === 'approve' && <></>}
       {statusPembayaran === 'reject' && <></>}
-      <a href='/detail-transaksi' className='hover:text-teks'>
+      <a href={`/detail-transaksi?id=${idTransaction}`} 
+      className='hover:text-teks'>
         <div className='flex gap-x-[30px] pb-[30px] border-b border-[#858585]'>
           <div className='w-1/2 h-[190px]'>
             <img
               // src={imgProduct(datas?.product_photo)}
               // alt={`produk ${datas?.product_name}`}
-              src={imgProduct}
+              src={imgProduct(image)}
               alt='produk'
               className='object-cover object-center w-full h-full rounded-xl'
             />

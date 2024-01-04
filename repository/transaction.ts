@@ -8,6 +8,8 @@ const url = {
   getDetailRenter: (id: string) => `/transactions/renter/${id}`,
   getTransactionsRenter: () => '/transactions/all-renter',
   transactionsApp: (id: string) => `/transactions/applications/${id}/`,
+  getListTransactionsByRenter: (id: string) => `/transactions/list-renter/${id}`,
+  getDetailTransactions: (id: string) => `/transactions/${id}`,
 };
 
 const manipulatedata = {
@@ -34,10 +36,15 @@ const manipulatedata = {
 const hooks = {
   getDetailRenter(id: string) {
     return useSWR(url.getDetailRenter(id), http.fetcher);
-  },
-  
+  },  
   getTransactionsRenter() {
     return useSWR(url.getTransactionsRenter(), http.fetcher);
+  },
+  getListTransactionsByRenter(id: string) {
+    return useSWR(url.getListTransactionsByRenter(id), http.fetcher);
+  },
+  getDetailTransactions(id: string) {
+    return useSWR(url.getDetailTransactions(id), http.fetcher);
   },
 };
 

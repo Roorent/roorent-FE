@@ -2,29 +2,144 @@
 
 import React, { useState } from 'react';
 import Button from '../Button';
-import { ConfigProvider, Modal, Rate, Input, Form } from 'antd';
-import PhotoUpload from './PhotoUpload';
+import { ConfigProvider, Modal, Rate, Input, Form, message, Upload } from 'antd';
 import SummaryProducts from '../SummaryProducts';
+import { ReviewsRepository } from '#/repository/reviews';
+import { UploadChangeParam, UploadFile } from 'antd/es/upload/interface';
+import { UploadProps } from 'antd/lib';
+import { RcFile } from 'antd/lib/upload';
+import { CameraOutlined, CheckCircleFilled } from '@ant-design/icons';
 
-function Review() {
+function Review({
+  isType,
+  isLabel,
+  address,
+  image,
+  namaProduk,
+  idProducts
+}:any) {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [rateVal, setRateVal] = useState(0);
-  const [photos, setPhotos] = useState([]);
+  const [photoReviewsArray, setPhotoReviews] = useState<string[] | []>([]);
+  const [fileList, setFileList] = useState<UploadFile[]>([]);
+  const [previewOpen, setPreviewOpen] = useState(false);
+  const [previewImage, setPreviewImage] = useState('');
+  const [previewTitle, setPreviewTitle] = useState('');
+  const handleCancel = () => setPreviewOpen(false);
+  const [datas, setDatas] = useState<any>({
+    rating: 1,
+    content: '',
+    photo: [],
+  });
 
   const { TextArea } = Input;
+
+  const onFinish = async () => {
+    try {
+      const dataReviews = {
+        rating: datas?.rating,
+        content: datas?.content,
+        photo: datas?.photo,
+      };
+
+      await ReviewsRepository.manipulatedata.createTransactionRenter(idProducts, dataReviews);
+
+      Modal.success({
+        icon: (
+          <div className='modal-hapus mb-[10px] flex justify-center'>
+            <CheckCircleFilled />
+          </div>
+        ),
+        title: (
+          <div className='text-3xl font-bold flex justify-center'>
+            Berhasil Buat Review
+          </div>
+        ),
+        content: (
+          <div className='text-xl font-semibold flex justify-center mb-[25px]'>
+            Kamu telah berhasil membuat review
+          </div>
+        ),
+      });
+
+      setIsModalOpen(false);
+    } catch (err: any) {
+      message.error('Gagal membuat review');
+    }
+  };
+
+  const getBase64 = (file: RcFile): Promise<string> =>
+  new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result as string);
+    reader.onerror = (error) => reject(error);
+  });
+
+  const handleUploadPhoto: UploadProps['onChange'] = async (
+    args: UploadChangeParam<UploadFile<any>>
+  ) => {
+    // Fungsi uploadProducts
+    const photoReviews = args?.file;
+    try {
+      if (photoReviews.status === 'done') {
+        if (photoReviews.size && photoReviews.size > 2097152) {
+          message.error('ukuran photoReviews terlalu besar');
+        } else {
+          if (
+            photoReviews.type === 'image/png' ||
+            photoReviews.type === 'image/jpg' ||
+            photoReviews.type === 'image/jpeg'
+          ) {
+            const response =
+              await ReviewsRepository.manipulatedata.uploadPhotoReviews(
+                photoReviews?.originFileObj
+              );
+
+              setPhotoReviews([...photoReviewsArray, response.body.filename]);
+            setDatas({
+              ...datas,
+              photo: [...photoReviewsArray, response.body.filename],
+            });
+          } else {
+            message.error('Anda hanya dapat mengunggah file JPG/JPEG/PNG !');
+          }
+        }
+      }
+      // Fungsi handleChangeUpload
+      const { fileList: newFileList } = args;
+      setFileList(newFileList);
+    } catch (err: any) {
+      message.error(err.response.body?.error);
+    }
+  };
+
+  const handlePreview = async (file: UploadFile) => {
+    if (!file.url && !file.preview) {
+      file.preview = await getBase64(file.originFileObj as RcFile);
+    }
+
+    setPreviewImage(file.url || (file.preview as string));
+    setPreviewOpen(true);
+    setPreviewTitle(
+      file.name || file.url!.substring(file.url!.lastIndexOf('/') + 1)
+    );
+  };
+
+  const uploadButton = (
+    <div>
+      <CameraOutlined className='text-4xl text-primary' />
+      <div style={{ marginTop: 5 }} className='text-xl'>
+        Masukan Foto
+      </div>
+      <div className='text-[#BBBBBB]'>Berupa format jpg/jpeg/png.</div>
+    </div>
+  );
 
   const openModal = () => {
     setIsModalOpen(true);
   };
   const closeModal = () => {
     setIsModalOpen(false);
-  };
-
-  const handleSubmit = () => {
-    setIsModalOpen(false);
-  };
-  const handleFiles = (value: any) => {
-    setPhotos(value);
   };
 
   return (
@@ -52,11 +167,11 @@ function Review() {
             <div>
               <div>
                 <SummaryProducts
-                  isType='kost'
-                  isLabel='pria'
-                  address='Jl. Bandeng No.2'
-                  image='/assets/images/Kost.png'
-                  nameProduk='Kost Singgahsini Wisma Setia Tipe B Pondok Gede Bekasi'
+                  isType={isType}
+                  isLabel={isLabel}
+                  address={address}
+                  image={image}
+                  namaProduk={namaProduk}
                 />
               </div>
               <div className='border-slate-200 border-b-2 mt-2 mb-4'></div>
@@ -75,7 +190,7 @@ function Review() {
               >
                 Nanti Saja
               </Button>
-              <Button className='w-[120px]' onClick={handleSubmit}>
+              <Button className='w-[120px]' onClick={onFinish}>
                 OK
               </Button>
             </div>
@@ -87,14 +202,37 @@ function Review() {
                 <Form.Item name='rating'>
                   <Rate
                     allowClear={false}
-                    defaultValue={rateVal}
                     style={{ fontSize: 40, display: 'flex', gap: '10px' }}
                     className='justify-center'
-                    onChange={(value) => setRateVal(value)}
+                    onChange={(e) => {
+                      setDatas({ ...datas, rating: e });
+                    }}
                   />
                 </Form.Item>
-                <Form.Item name='photo_reviews'>
-                  <PhotoUpload files={handleFiles} />
+                <Form.Item name='photo'>
+                  {/* <PhotoUpload files={handleUploadPhoto} /> */}
+                  <Upload
+                      action='https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188'
+                      listType='picture-card'
+                      fileList={fileList}
+                      multiple={true}
+                      onPreview={handlePreview}
+                      onChange={handleUploadPhoto}
+                    >
+                      {fileList.length >= 3 ? null : uploadButton}
+                    </Upload>
+                    <Modal
+                      open={previewOpen}
+                      title={previewTitle}
+                      footer={null}
+                      onCancel={handleCancel}
+                    >
+                      <img
+                        alt='Produk'
+                        style={{ width: '100%' }}
+                        src={previewImage}
+                      />
+                    </Modal>
                 </Form.Item>
               </div>
               <div className='my-4'>
@@ -118,9 +256,9 @@ function Review() {
                         resize: 'none',
                         fontSize: '15px',
                       }}
-                      // onChange={(e) => {
-                      //   setDatas({ ...datas, address: e.target.value });
-                      // }}
+                      onChange={(e) => {
+                        setDatas({ ...datas, content: e.target.value });
+                      }}
                     />
                   </Form.Item>
                 </div>

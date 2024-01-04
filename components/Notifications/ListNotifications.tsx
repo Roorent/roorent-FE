@@ -38,7 +38,7 @@ function ListNotifications({ openNotification, isOpen }: any) {
 
   const { data, error, isLoading } = notifRepository.hooks.getNotifByUser(id);
   if (!data) {
-    return <Spin size="large"className='w-full h-full flex items-center justify-center' />;
+    return ''
   }
 
   const datas = data?.data;
