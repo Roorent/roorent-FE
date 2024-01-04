@@ -12,8 +12,7 @@ type Props = {
   formStep2: FormInstance<any>;
 };
 
-function OwnerStep2({ setData, data, formStep2 }: Props) {
-  const [photoKtp, setPhotoKtp] = useState<string | null>(null);
+function OwnerStep2({ setData, data, formStep2 }: Props) {  
 
   const handleUploadKtp = async (args: UploadChangeParam<UploadFile<any>>) => {
     const photoKtp = args?.file;
@@ -30,7 +29,6 @@ function OwnerStep2({ setData, data, formStep2 }: Props) {
             const response = await authRepository.manipulatedata.uploadKtp(
               photoKtp?.originFileObj
             );
-            setPhotoKtp(response.body.filename);
             setData({ ...data, photo_ktp: response.body.filename });
           } else {
             message.error('Anda hanya dapat mengunggah file JPG/JPEG/PNG!');

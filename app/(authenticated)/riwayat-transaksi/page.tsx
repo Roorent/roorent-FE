@@ -1,49 +1,57 @@
 'use client';
 
 import ListRiwayat from '#/components/List-Riwayat';
-import TypeRadio from '#/components/TypeButton';
+import { TransactionRepository } from '#/repository/transaction';
+import { parseJwt } from '#/utils/convert';
 import { ArrowLeftOutlined } from '@ant-design/icons';
-import { Pagination, Select } from 'antd';
+import { Pagination, Select, Spin } from 'antd';
+import { Option } from 'antd/lib/mentions';
 import React, { useState } from 'react';
 
-const Riwayat = [
-  {
-    id: '1',
-    imgProduct: '/assets/images/BuktiPembayaran.png',
-    product_type: 'kost',
-    product_label: 'pria',
-    product_name: 'Kost Narra Marina Semarang Barat ',
-    product_address: 'jln. km km jshdujs',
-    total_price: '2.000.000',
-    statusPembayaran: 'pending',
-  },
-  {
-    id: '2',
-    imgProduct: '/assets/images/BuktiPembayaran.png',
-    product_type: 'kost',
-    product_label: 'pria',
-    product_name: 'Kost Narra Marina Semarang Barat ',
-    product_address: 'jln. km km jshdujs hgasdgasgd vdjasvdjsav jsdjahgdjh',
-    total_price: '2.000.000',
-    statusPembayaran: 'approve',
-  },
-  {
-    id: '3',
-    imgProduct: '/assets/images/BuktiPembayaran.png',
-    product_type: 'kost',
-    product_label: 'pria',
-    product_name: 'Kost Narra Marina Semarang Barat ',
-    product_address: 'jln. km km jshdujs',
-    total_price: '2.000.000',
-    statusPembayaran: 'reject',
-  },
-];
 function RiwayatTransaksi() {
-  const [filterType, setFilterType] = useState('pending');
+  // const [filterType, setFilterType] = useState('pending');
+  const token = localStorage.getItem('access_token');
+  let id: string = '';
 
-  const handleChange = (value: string) => {
-    setFilterType(value);
-  };
+  if (token) {
+    id = parseJwt(token).id;
+  }
+
+  const { data, error, isLoading, mutate } =
+    TransactionRepository.hooks.getListTransactionsByRenter(id);
+
+    const datas = data?.transactionsData;
+        
+    const [filteredDatas, setFilteredDatas] = useState(datas);
+    const [filterType, setFilterType] = useState('semua');
+
+    interface OptionTypeIO {
+      value: string;
+      label: string;
+    }
+
+    const options: OptionTypeIO[] = [
+      { value: 'semua', label: 'Semua' },
+      { value: 'pending', label: 'Belum Dikonfirmasi' },
+      { value: 'approve', label: 'Dikonfirmasi' },
+      { value: 'reject', label: 'Ditolak' },
+    ];
+    
+    const handleChange = (value: string) => {
+      setFilterType(value);
+      
+      if (value === 'semua') {
+        setFilteredDatas(datas);
+      } else {
+        const filtered = datas?.filter((item:any) => item.payment_status === value);
+        setFilteredDatas(filtered);
+      }
+    };
+    
+    if (!datas) {
+      return <Spin size="large"className='w-full h-full flex items-center justify-center' />; 
+    }
+
   return (
     <div>
       <div className='w-full grid gap-y-[20px]'>
@@ -66,25 +74,26 @@ function RiwayatTransaksi() {
         <div className='grid gap-y-3'>
           <div className='transaksi w-full mb-[30px]'>
             <Select
-              defaultValue='semua'
+              value={filterType}
               className='transaksi w-full'
               onChange={handleChange}
-              options={[
-                { value: 'semua', label: 'Semua' },
-                { value: 'pending', label: 'Belum Dikonfirmasi' },
-                { value: 'reject', label: 'Ditolak' },
-                { value: 'approve', label: 'Dikonfirmasi' },
-              ]}
-            />
+              >
+              {options.map((option) => (
+                <Option key={option.value} value={option.value}>
+                  {option.label}
+                </Option>
+              ))}
+            </Select>
           </div>
         </div>
          <div className='grid gap-10 grid-cols-3'>
-          {Riwayat.map((riwayat) => (
+          {filteredDatas?.map((riwayat:any) => (
             <div key={riwayat.id}>
               <ListRiwayat
-                imgProduct={riwayat.imgProduct}
+                idTransaction={riwayat.id}
+                image={riwayat.product_photo}
                 product_type={riwayat.product_type}
-                product_label={riwayat.product_label}
+                product_label={riwayat.product_gender}
                 product_name={riwayat.product_name}
                 product_address={riwayat.product_address}
                 total_price={riwayat.total_price}

@@ -63,8 +63,6 @@ function ManagementUser() {
 
   const datas = data?.userData;
 
-  console.log(datas);
-
   const filteredUsers = typeFilter
     ? datas.filter((user: any) => user?.role === typeFilter)
     : datas;
