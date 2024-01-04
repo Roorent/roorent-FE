@@ -6,6 +6,12 @@ export const isRole = {
   renter: 'renter',
 };
 
+export const FEES = [
+  { name: 'kost', value: 5 },
+  { name: 'gedung', value: 10 },
+  { name: 'hotel', value: 10 },
+];
+
 export const imgProduct = (img: string) =>
   `${config.baseUrl}/images/photo-products/${img}`;
 

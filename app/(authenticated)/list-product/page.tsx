@@ -12,7 +12,7 @@ function ListProduct() {
   const [filterType, setFilterType] = useState('kost');
 
   useEffect(() => {
-    document.title = 'List Product';
+    document.title = 'List Product - Roorent';
   }, []);
 
   const token = localStorage.getItem('access_token');
@@ -32,8 +32,13 @@ function ListProduct() {
   const { data, error, isLoading, mutate } =
     productsRepository.hooks.getListProductByOwner(id, filterType);
 
-  if (!data) {
-    return <Spin size="large"className='w-full h-full flex items-center justify-center' />; 
+  if (isLoading) {
+    return (
+      <Spin
+        size='large'
+        className='w-full h-full flex items-center justify-center'
+      />
+    );
   }
   const datas = data?.data;
 

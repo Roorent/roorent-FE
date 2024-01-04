@@ -82,7 +82,7 @@ const AuthenticatedLayout: React.FC<AuthenticatedLayoutProps> = ({
       'Produk',
       '/product',
       null,
-      [getItem('Daftar Produk', '/list-produk', null)],
+      [getItem('Daftar Produk', '/list-product', null)],
       'group'
     ),
     {
@@ -213,7 +213,6 @@ const AuthenticatedLayout: React.FC<AuthenticatedLayoutProps> = ({
                   onClick={onClickOwner}
                   mode='inline'
                   style={{ width: 298, borderRight: 0 }}
-                  defaultOpenKeys={['/list-produk']}
                   selectedKeys={[currOwner]}
                   items={itemOwner}
                   className='sidebar flex flex-col gap-1 justify-center px-8'

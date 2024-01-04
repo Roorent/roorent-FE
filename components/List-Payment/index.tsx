@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Button from '../Button';
-import { Form, Image, Input, Modal } from 'antd';
+import { Form, Image, Input, Modal, message } from 'antd';
 import { toIDR } from '#/utils/convertCurrency';
 import { convertDate, convertTime } from '#/utils/convertTime';
 import { imgTransProof } from '#/constants/general';
@@ -19,12 +19,12 @@ function ListPayment({
   mutate,
 }: any) {
   const { confirm } = Modal;
-  const [reasonValue, setReasonValue] = useState('');
+  const [reason, setReason] = useState('');
   const [isOKButtonDisabled, setIsOKButtonDisabled] = useState(true);
 
-  const handleReasonChange = (value: any) => {
-    setReasonValue(value);
-    setIsOKButtonDisabled(value.trim() === '');
+  const handleReason = (value: any) => {
+    setReason(value);
+    setIsOKButtonDisabled(value === '');
   };
 
   const reasonForm = (
@@ -42,8 +42,8 @@ function ListPayment({
         <Input.TextArea
           placeholder='Masukkan alasan'
           rows={4}
-          onChange={(e) => handleReasonChange(e.target.value)}
-          value={reasonValue}
+          onChange={(e) => handleReason(e.target.value)}
+          value={reason}
         />
       </Form.Item>
     </Form>
@@ -67,39 +67,39 @@ function ListPayment({
       icon: <></>,
       async onOk() {
         try {
-          const statusReject = { status: 'reject', reason: reasonValue };
-          const appprove =
-            await TransactionRepository.manipulatedata.transactionsApp(
-              idTransaction,
-              statusReject
-            );
-          mutate(appprove);
-        } catch (error) {
-          console.error('Error rejecting payment:', error);
-          // Handle error if needed
+          if (reason) {
+            const statusReject = { status: 'reject', reason: reason };
+            const appprove =
+              await TransactionRepository.manipulatedata.transactionsApp(
+                idTransaction,
+                statusReject
+              );
+            mutate(appprove);
+          } else {
+            message.error('Harap masukkan alasan penolakan!');
+          }
+        } catch (err: any) {
+          message.error(err);
         }
       },
+      onCancel() {
+        setReason('');
+        setIsOKButtonDisabled(true);
+      },
       okText: (
-        <div
-          className={`modal-hapus text-xl font-bold text-white  ${
-            !reasonValue ? 'cursor-not-allowed' : 'cursor-pointer'
-          }`}
-        >
-          Simpan
-        </div>
+        <div className='modal-hapus text-xl font-bold text-white'>Simpan</div>
       ),
       cancelText: (
-        <div className={`modal-hapus text-xl font-bold text-white`}>Batal</div>
+        <div className='modal-hapus text-xl font-bold text-white'>Batal</div>
       ),
-      okButtonProps: {
-        disabled: !reasonValue && isOKButtonDisabled,
-      },
+      // okButtonProps: {
+      //   disabled: isOKButtonDisabled,
+      // },
     });
   };
 
   const handleApprove = async () => {
     try {
-      // Call the repository function to approve the owner
       const statusApprove = { status: 'approve', reason: null };
       const appprove =
         await TransactionRepository.manipulatedata.transactionsApp(
@@ -109,7 +109,6 @@ function ListPayment({
       mutate(appprove);
     } catch (error) {
       console.error('Error approving owner:', error);
-      // Handle error if needed
     }
   };
 

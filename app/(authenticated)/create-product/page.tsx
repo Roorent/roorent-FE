@@ -1,6 +1,7 @@
 'use client';
 
 import TypeRadio from '#/components/TypeButton';
+import { FEES } from '#/constants/general';
 import { cityRepository } from '#/repository/city';
 import { productsRepository } from '#/repository/products';
 import {
@@ -185,14 +186,10 @@ function CreateProduct() {
     { value: 'perbulan', label: 'Perbulan' },
   ];
 
-  const defaultSelectedOption: OptionType = {
+  const [selectedOption, setSelectedOption] = useState<OptionType | undefined>({
     value: 'campur',
     label: 'Campur',
-  };
-
-  const [selectedOption, setSelectedOption] = useState<OptionType | undefined>(
-    defaultSelectedOption
-  );
+  });
 
   const [hargaPerHari, setHargaPerHari] = useState<number>(0);
   const [hargaPerBulan, setHargaPerBulan] = useState<number>(0);
@@ -219,14 +216,13 @@ function CreateProduct() {
     { value: 'hotel', label: 'Hotel' },
   ];
 
-  const defaultSelectedOptionProduk: OptionType = {
-    value: 'kost',
-    label: 'Kost',
-  };
-
   const [selectedOptionProduk, setSelectedOptionProduk] = useState<
     OptionType | undefined
-  >(defaultSelectedOptionProduk);
+  >({
+    value: 'kost',
+    label: 'Kost',
+  });
+
   const [adminFee, setAdminFee] = useState({ daily: 0, monthly: 0 });
 
   const handleSelectChangeProduk = (value: string) => {
@@ -235,12 +231,7 @@ function CreateProduct() {
     setDatas({ ...datas, type: value });
   };
 
-  const fees = [
-    { name: 'kost', value: 5 },
-    { name: 'gedung', value: 10 },
-    { name: 'hotel', value: 10 },
-  ];
-  const matchingFee = fees.find(
+  const matchingFee = FEES.find(
     (fee) => selectedOptionProduk?.value === fee.name
   );
 
@@ -284,7 +275,6 @@ function CreateProduct() {
                         handleSelectChangeProduk(e);
                       }}
                       value={selectedOptionProduk?.value}
-                      defaultValue={defaultSelectedOptionProduk.value}
                     />
                   </Form.Item>
                 </div>
@@ -570,7 +560,6 @@ function CreateProduct() {
                         ]}
                         onChange={(e) => {
                           setDatas({ ...datas, gender: e });
-                          console.log(e, 'tes');
                         }}
                       />
                     </Form.Item>
@@ -622,7 +611,6 @@ function CreateProduct() {
                             <Select
                               value={selectedOption?.value}
                               onChange={handleSelectChange}
-                              defaultValue={defaultSelectedOption.value}
                               className='flex items-center'
                             >
                               {options.map((option) => (

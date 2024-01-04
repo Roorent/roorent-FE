@@ -47,21 +47,22 @@ function DetailProduct() {
   }
 
   useEffect(() => {
-    document.title = 'Detail Product';
+    document.title = 'Detail Product - Roorent';
   }, []);
 
   const { data, error, isLoading } =
     productsRepository.hooks.getProductsById(productId);
 
-    if (!data) {
-      return <Spin size="large"className='w-full h-full flex items-center justify-center' />;
-    }
-
+  if (isLoading) {
+    return (
+      <Spin
+        size='large'
+        className='w-full h-full flex items-center justify-center'
+      />
+    );
+  }
   const datas = data?.data;
 
-  const onChange = (currentSlide: number) => {
-    console.log(currentSlide);
-  };
   const handleFilterPrice = (e: any) => {
     setFilterPrice(e.target.value);
   };
@@ -175,7 +176,7 @@ function DetailProduct() {
       <div className='flex gap-x-[30px] mt-[20px]'>
         <div className='w-1/2'>
           <div className='mb-8'>
-            <Carousel afterChange={onChange}>
+            <Carousel>
               {datas?.photoProducts.map((item: any) => (
                 <div key={item.id}>
                   <img
@@ -220,6 +221,7 @@ function DetailProduct() {
                 <div className='absolute top-[45%] left-[42%] font-bold'>
                   <Button
                     href={datas?.location}
+                    target='_blank'
                     className='h-full px-5 py-3 bg-transparent !border !border-white hover:bg-white hover:!text-rstroke !text-white'
                   >
                     Lihat Peta
@@ -348,7 +350,7 @@ function DetailProduct() {
           </div>
           {(role === isRole.owner || role === isRole.admin) && (
             <div
-              className='rounded-[10px] bg-white h-[188px] p-[25px] sticky top-5'
+              className='rounded-[10px] bg-white h-fit p-[25px] sticky top-5'
               style={{
                 boxShadow:
                   '0 -2px 40px rgba(0,0,0,.04), 0 16px 40px rgba(0,0,0,.06)',
