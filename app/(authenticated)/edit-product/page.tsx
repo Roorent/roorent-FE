@@ -669,11 +669,18 @@ function EditProduct() {
                   <>
                     <div className='w-full'>
                       <div className='w-full mb-4'>
-                        <p className='text-teks text-2xl font-bold '>Tipe Harga </p>
+                        <p className='text-teks text-2xl font-bold '>
+                          Tipe Harga{' '}
+                        </p>
                       </div>
                       <div className='w-full'>
                         <div className='w-full list-produk'>
-                          <div className='w-full text-primary font-bold text-2xl flex justify-center items-center border-2 border-primary rounded-[10px] py-3' style={{boxShadow: '0 1px 8px rgba(36, 36, 36, 0.14)'}}>
+                          <div
+                            className='w-full text-primary font-bold text-2xl flex justify-center items-center border-2 border-primary rounded-[10px] py-3'
+                            style={{
+                              boxShadow: '0 1px 8px rgba(36, 36, 36, 0.14)',
+                            }}
+                          >
                             {selectedOption?.value === 'campur' && 'Campur'}
                             {selectedOption?.value === 'perbulan' && 'Perbulan'}
                             {selectedOption?.value === 'perhari' && 'Perhari'}
