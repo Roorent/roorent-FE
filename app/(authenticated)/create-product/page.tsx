@@ -271,10 +271,10 @@ function CreateProduct() {
                   <Form.Item name='type'>
                     <TypeRadio
                       onChange={(e: any) => {
-                        console.log(e, 'here');
                         handleSelectChangeProduk(e);
                       }}
                       value={selectedOptionProduk?.value}
+                      defaultValue={'kost'}
                     />
                   </Form.Item>
                 </div>
@@ -343,24 +343,30 @@ function CreateProduct() {
                   </Form.Item>
                 </div>
               </div>
-              <div className='my-4'>
-                <p className='mb-4 text-teks text-2xl font-bold'>Stok Produk</p>
-                <div>
-                  <Form.Item name='stock'>
-                    <InputNumber
-                      style={{ width: '100%' }}
-                      size='small'
-                      min={1}
-                      max={10000}
-                      defaultValue={1}
-                      className=' py-[10px] px-[3px] rounded-[10px] border border-rstroke regis text-xl'
-                      onChange={(e) => {
-                        setDatas({ ...datas, stock: e || 1 });
-                      }}
-                    />
-                  </Form.Item>
+              {selectedOptionProduk?.value !== 'gedung' ? (
+                <div className='my-4'>
+                  <p className='mb-4 text-teks text-2xl font-bold'>
+                    Stok Kamar
+                  </p>
+                  <div>
+                    <Form.Item name='stock'>
+                      <InputNumber
+                        style={{ width: '100%' }}
+                        size='small'
+                        min={1}
+                        max={10000}
+                        defaultValue={1}
+                        className=' py-[10px] px-[3px] rounded-[10px] border border-rstroke regis text-xl'
+                        onChange={(e) => {
+                          setDatas({ ...datas, stock: e || 1 });
+                        }}
+                      />
+                    </Form.Item>
+                  </div>
                 </div>
-              </div>
+              ) : (
+                <></>
+              )}
               <div className='my-4'>
                 <p className='mb-4 text-teks text-2xl font-bold'>Alamat</p>
                 <div className='textarea-produk'>
@@ -546,7 +552,7 @@ function CreateProduct() {
                 <></>
               ) : (
                 <div className='my-4'>
-                  <p className='mb-4 text-teks text-2xl font-bold'>Tipe</p>
+                  <p className='mb-4 text-teks text-2xl font-bold'>Tipe Kost</p>
                   <div className='w-full create-produk'>
                     <Form.Item name='gender'>
                       <Select
@@ -601,26 +607,26 @@ function CreateProduct() {
               <div className='my-4'>
                 {selectedOptionProduk?.value === 'kost' && (
                   <>
-                    <div className='produkOwner text-xl font-bold bg-primary rounded-[10px] px-5 py-2.5 flex items-center mb-[30px]'>
-                      <div className='w-full'>
-                        <p className='text-white w-full'>Harga Produk</p>
+                    <div className='w-full'>
+                      <div className='w-full mb-7'>
+                        <p className='text-teks text-2xl font-bold'>
+                          Tipe Harga
+                        </p>
                       </div>
-                      <div className='flex gap-x-6'>
-                        <div className='w-full list-produk'>
-                          <Form.Item>
-                            <Select
-                              value={selectedOption?.value}
-                              onChange={handleSelectChange}
-                              className='flex items-center'
-                            >
-                              {options.map((option) => (
-                                <Option key={option.value} value={option.value}>
-                                  {option.label}
-                                </Option>
-                              ))}
-                            </Select>
-                          </Form.Item>
-                        </div>
+                      <div className='w-full list-produk my-4'>
+                        <Form.Item>
+                          <Select
+                            value={selectedOption?.value}
+                            onChange={handleSelectChange}
+                            className='flex items-center'
+                          >
+                            {options.map((option) => (
+                              <Option key={option.value} value={option.value}>
+                                {option.label}
+                              </Option>
+                            ))}
+                          </Select>
+                        </Form.Item>
                       </div>
                     </div>
                     {selectedOption?.value === 'perhari' && (
@@ -801,16 +807,9 @@ function CreateProduct() {
                 )}
                 {selectedOptionProduk?.value === 'gedung' && (
                   <>
-                    <div className='produkOwner text-xl font-bold bg-primary rounded-[10px] px-5 py-2.5 flex items-center mb-[30px]'>
-                      <div className='w-full'>
-                        <p className='text-white w-full flex justify-center'>
-                          Harga Produk
-                        </p>
-                      </div>
-                    </div>
                     <div className='my-4'>
                       <p className='mb-4 text-teks text-2xl font-bold'>
-                        Harga Perhari
+                        Harga Produk
                       </p>
                       <div>
                         <Form.Item
@@ -853,16 +852,9 @@ function CreateProduct() {
                 )}
                 {selectedOptionProduk?.value === 'hotel' && (
                   <>
-                    <div className='produkOwner text-xl font-bold bg-primary rounded-[10px] px-5 py-2.5 flex items-center mb-[30px]'>
-                      <div className='w-full'>
-                        <p className='text-white w-full flex justify-center'>
-                          Harga Produk
-                        </p>
-                      </div>
-                    </div>
                     <div className='my-4'>
                       <p className='mb-4 text-teks text-2xl font-bold'>
-                        Harga Perhari
+                        Harga Produk
                       </p>
                       <div>
                         <Form.Item

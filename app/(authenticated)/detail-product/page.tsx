@@ -42,9 +42,9 @@ function DetailProduct() {
   if (!token) {
     router.push('/');
   }
-  if (role == 'admin') {
-    router.push('/adm/dashboard');
-  }
+  // if (role == 'admin') {
+  //   router.push('/adm/dashboard');
+  // }
 
   useEffect(() => {
     document.title = 'Detail Product - Roorent';
@@ -150,7 +150,7 @@ function DetailProduct() {
       {role === isRole.admin && (
         <div className='w-full grid gap-y-[20px] grid-cols-1'>
           <a
-            href='/adm/detail-pengguna'
+            href={`/adm/detail-pengguna?id=${datas?.user_id}`}
             className='w-fit hover:text-teks flex font-bold text-xl gap-3'
           >
             <div>
@@ -350,7 +350,7 @@ function DetailProduct() {
           </div>
           {(role === isRole.owner || role === isRole.admin) && (
             <div
-              className='rounded-[10px] bg-white h-[188px] p-[25px] sticky top-5'
+              className='rounded-[10px] bg-white h-fit p-[25px] sticky top-5'
               style={{
                 boxShadow:
                   '0 -2px 40px rgba(0,0,0,.04), 0 16px 40px rgba(0,0,0,.06)',
@@ -424,36 +424,57 @@ function DetailProduct() {
                               <div>(Harga {filterPrice})</div>
                             </>
                           )}
-                      </div>
-                      <div className='w-full mt-4 flex justify-center py-5'>
-                        <Radio.Group
-                          buttonStyle='solid'
-                          defaultValue={filterPrice}
-                          onChange={handleFilterPrice}
-                          className='w-full flex justify-center'
-                        >
-                          <div className='w-1/3'>
-                            <Radio.Button
-                              value='perhari'
-                              className='py-[10px] h-max font-bold flex justify-center text-primary !rounded-e-none'
-                            >
-                              <div className='w-full flex items-center text-2xl'>
-                                Perhari
+                        {filterPrice !== 'perhari' &&
+                          datas?.monthly_price === 0 && (
+                            <>
+                              <div className='font-bold'>
+                                {toIDR(datas?.daily_price)}
                               </div>
-                            </Radio.Button>
-                          </div>
-                          <div className='w-1/3'>
-                            <Radio.Button
-                              value='perbulan'
-                              className='py-[10px] h-max font-bold flex justify-center text-primary !rounded-s-none'
-                            >
-                              <div className='w-full flex items-center text-2xl'>
-                                Perbulan
+                              <div>(Harga perhari 1)</div>
+                            </>
+                          )}
+                        {filterPrice !== 'perbulan' &&
+                          datas?.daily_price === 0 && (
+                            <>
+                              <div className='font-bold'>
+                                {toIDR(datas?.monthly_price)}
                               </div>
-                            </Radio.Button>
-                          </div>
-                        </Radio.Group>
+                              <div>(Harga perbulan)</div>
+                            </>
+                          )}
                       </div>
+                      {datas?.monthly_price !== 0 &&
+                        datas?.daily_price !== 0 && (
+                          <div className='w-full mt-4 flex justify-center py-5'>
+                            <Radio.Group
+                              buttonStyle='solid'
+                              defaultValue={filterPrice}
+                              onChange={handleFilterPrice}
+                              className='w-full flex justify-center'
+                            >
+                              <div className='w-1/3'>
+                                <Radio.Button
+                                  value='perhari'
+                                  className='py-[10px] h-max font-bold flex justify-center text-primary !rounded-e-none'
+                                >
+                                  <div className='w-full flex items-center text-2xl'>
+                                    Perhari
+                                  </div>
+                                </Radio.Button>
+                              </div>
+                              <div className='w-1/3'>
+                                <Radio.Button
+                                  value='perbulan'
+                                  className='py-[10px] h-max font-bold flex justify-center text-primary !rounded-s-none'
+                                >
+                                  <div className='w-full flex items-center text-2xl'>
+                                    Perbulan
+                                  </div>
+                                </Radio.Button>
+                              </div>
+                            </Radio.Group>
+                          </div>
+                        )}
                       <div className='grid gap-y-4 grid-cols-1'>
                         <div className='w-full'>
                           <Form.Item
@@ -465,26 +486,52 @@ function DetailProduct() {
                               },
                             ]}
                           >
-                            {filterPrice === 'perhari' ? (
-                              <RangePicker
-                                defaultValue={[null, null]}
-                                placeholder={[
-                                  'Tanggal Awal Sewa',
-                                  'Tanggal Akhir Sewa',
-                                ]}
-                                className='w-full regis'
-                              />
-                            ) : (
-                              <RangePicker
-                                picker='month'
-                                defaultValue={[null, null]}
-                                placeholder={[
-                                  'Bulan Awal Sewa',
-                                  'Bulan Akhir Sewa',
-                                ]}
-                                className='w-full regis'
-                              />
-                            )}
+                            {filterPrice === 'perhari' &&
+                              datas?.daily_price !== 0 && (
+                                <RangePicker
+                                  defaultValue={[null, null]}
+                                  placeholder={[
+                                    'Tanggal Awal Sewa',
+                                    'Tanggal Akhir Sewa',
+                                  ]}
+                                  className='w-full regis'
+                                />
+                              )}
+                            {filterPrice === 'perbulan' &&
+                              datas?.monthly_price !== 0 && (
+                                <RangePicker
+                                  picker='month'
+                                  defaultValue={[null, null]}
+                                  placeholder={[
+                                    'Bulan Awal Sewa',
+                                    'Bulan Akhir Sewa',
+                                  ]}
+                                  className='w-full regis'
+                                />
+                              )}
+                            {filterPrice !== 'perbulan' &&
+                              datas?.daily_price === 0 && (
+                                <RangePicker
+                                  picker='month'
+                                  defaultValue={[null, null]}
+                                  placeholder={[
+                                    'Bulan Awal Sewa',
+                                    'Bulan Akhir Sewa',
+                                  ]}
+                                  className='w-full regis'
+                                />
+                              )}
+                            {filterPrice !== 'perhari' &&
+                              datas?.monthly_price === 0 && (
+                                <RangePicker
+                                  defaultValue={[null, null]}
+                                  placeholder={[
+                                    'Tanggal Awal Sewa',
+                                    'Tanggal Akhir Sewa',
+                                  ]}
+                                  className='w-full regis'
+                                />
+                              )}
                           </Form.Item>
                         </div>
                       </div>

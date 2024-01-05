@@ -7,7 +7,9 @@ function Photo({ className, size, src, icon, ...props }: any) {
   const customIcon = icon || <PROFILE />;
 
   return (
-    <Avatar size={size} src={imgProfile(src)} icon={customIcon} {...props} />
+    <div className={className} {...props}>
+      <Avatar size={size} src={imgProfile(src)} icon={customIcon} />
+    </div>
   );
 }
 

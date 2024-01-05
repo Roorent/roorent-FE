@@ -3,10 +3,16 @@
 import React, { useState } from 'react';
 import { isRole } from '#/constants/general';
 import type { MenuProps } from 'antd';
-import { Layout, Menu, theme } from 'antd';
+import { ConfigProvider, Layout, Menu, Modal, theme } from 'antd';
 import { usePathname, useRouter } from 'next/navigation';
 import MenuItem from 'antd/es/menu/MenuItem';
-import { LogoutOutlined } from '@ant-design/icons';
+import {
+  CloseOutlined,
+  FileSyncOutlined,
+  LogoutOutlined,
+  SettingOutlined,
+  UserOutlined,
+} from '@ant-design/icons';
 import Notifications from '#/components/Notifications';
 import Photo from '#/components/Photo';
 import { LOGO } from '#/constants/images';
@@ -50,7 +56,10 @@ const AuthenticatedLayout: React.FC<AuthenticatedLayoutProps> = ({
     pathname === '/edit-product' ||
     pathname === '/detail-product' ||
     pathname === '/payment' ||
-    pathname === '/adm/detail-pengguna';
+    pathname === '/adm/detail-pengguna' ||
+    pathname === '/riwayat-transaksi' ||
+    pathname === '/detail-transaksi' ||
+    pathname === '/profile';
 
   const {
     token: { colorBgContainer },
@@ -60,6 +69,11 @@ const AuthenticatedLayout: React.FC<AuthenticatedLayoutProps> = ({
   let role: string = '';
   let firstName: string = '';
   let photo: string = '';
+  let id: string = '';
+
+  if (token) {
+    id = parseJwt(token).id;
+  }
 
   if (token) {
     role = parseJwt(token).role;
@@ -180,6 +194,13 @@ const AuthenticatedLayout: React.FC<AuthenticatedLayoutProps> = ({
     router.push(e.key);
   };
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+  const handleProfile = () => {
+    setIsModalOpen(true);
+  };
   return (
     <Layout style={{ height: '100%' }}>
       {role !== isRole.renter && (
@@ -252,12 +273,78 @@ const AuthenticatedLayout: React.FC<AuthenticatedLayoutProps> = ({
                       </>
                     )}
                   </div>
-                  <div className='flex items-center gap-8'>
-                    <p className='text-xl font-bold flex w-max justify-end'>
-                      Halo, {firstName}
-                    </p>
-                    <Photo size={50} src={photo} />
-                  </div>
+                  {role === isRole.owner && (
+                    <>
+                      <ConfigProvider
+                        modal={{
+                          styles: {
+                            content: {
+                              width: '40%',
+                              padding: '15px',
+                              display: 'flex',
+                              justifyContent: 'start',
+                              flexDirection: 'column',
+                              boxShadow:
+                                '0 4px 8px #00000014, 0 -1px 4px #0000000a',
+                            },
+                          },
+                        }}
+                      >
+                        <Modal
+                          mask={false}
+                          open={isModalOpen}
+                          onCancel={closeModal}
+                          className='absolute top-15 -right-[150px]'
+                          closeIcon={<></>}
+                          footer={<></>}
+                        >
+                          <div className='w-full grid hover:text-teks'>
+                            <a
+                              href='/profile'
+                              className='flex justify-start hover:text-teks'
+                            >
+                              <div className='w-full flex gap-x-3 text-xl hover:bg-slate-200 hover:rounded-md p-2 hover:text-teks'>
+                                <div>
+                                  <UserOutlined />
+                                </div>
+                                <div>Profil</div>
+                              </div>
+                            </a>
+                            <a
+                              href='#'
+                              className='flex justify-start hover:text-teks'
+                            >
+                              <div className='flex gap-x-3 text-xl w-full flex gap-x-3 text-xl hover:bg-slate-200 hover:rounded-md p-2 hover:text-teks'>
+                                <div>
+                                  <SettingOutlined />
+                                </div>
+                                <div>Pengaturan</div>
+                              </div>
+                            </a>
+                          </div>
+                        </Modal>
+                      </ConfigProvider>
+                      <div className='flex items-center gap-8'>
+                        <p className='text-xl font-bold flex w-max justify-end'>
+                          Halo, {firstName}
+                        </p>
+                        <Photo
+                          onClick={handleProfile}
+                          className='cursor-pointer'
+                          size={50}
+                          src={photo}
+                        />
+                      </div>
+                    </>
+                  )}
+                  {role === isRole.admin && (
+                    <div className='flex items-center gap-8'>
+                      <p className='text-xl font-bold flex w-max justify-end'>
+                        Halo, {firstName}
+                      </p>
+                      <Photo size={50} src={photo} />
+                    </div>
+                  )}
                 </Menu>
               </Header>
             ) : (
@@ -286,10 +373,17 @@ const AuthenticatedLayout: React.FC<AuthenticatedLayoutProps> = ({
                     )}
                   </div>
                   <div className='flex items-center gap-6 w-fit'>
-                    <p className='text-xl font-bold flex w-max justify-end'>
-                      Halo, {firstName}
-                    </p>
-                    <Photo size={50} src={photo} />
+                    <div className='flex items-center gap-8'>
+                      <p className='text-xl font-bold flex w-max justify-end'>
+                        Halo, {firstName}
+                      </p>
+                      <Photo
+                        onCancel={handleProfile}
+                        className='cursor-pointer'
+                        size={50}
+                        src={photo}
+                      />
+                    </div>
                   </div>
                 </Menu>
               </Header>
@@ -314,7 +408,13 @@ const AuthenticatedLayout: React.FC<AuthenticatedLayoutProps> = ({
                   <Chats />
                   <Notifications />
                 </div>
-                <div className='flex items-center gap-6 w-fit'>
+                <div
+                    onClick={handleLogout}
+                    className='bg-primary flex items-center text-md rounded-lg p-4 h-10 text-white font-bold cursor-pointer'
+                  >
+                    Logout
+                  </div>
+                {/* <div className='flex items-center gap-6 w-fit'>
                   <p className='text-xl font-bold flex w-max justify-end'>
                     Halo, {firstName}
                   </p>
@@ -325,6 +425,75 @@ const AuthenticatedLayout: React.FC<AuthenticatedLayoutProps> = ({
                   >
                     Logout
                   </div>
+                </div> */}
+                <ConfigProvider
+                  modal={{
+                    styles: {
+                      content: {
+                        width: '50%',
+                        padding: '15px',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        boxShadow: '0 4px 8px #00000014, 0 -1px 4px #0000000a',
+                      },
+                    },
+                  }}
+                >
+                  <Modal
+                    mask={false}
+                    open={isModalOpen}
+                    onCancel={closeModal}
+                    className='absolute top-15 -right-[60px]'
+                    closeIcon={<></>}
+                    footer={<></>}
+                  >
+                    <div className='grid hover:text-teks'>
+                      <a
+                        href='/profile'
+                        className='flex justify-start hover:text-teks'
+                      >
+                        <div className='w-full flex gap-x-3 text-xl hover:bg-slate-200 hover:rounded-md p-2 hover:text-teks'>
+                          <div>
+                            <UserOutlined />
+                          </div>
+                          <div>Profil</div>
+                        </div>
+                      </a>
+                      <a
+                        href='#'
+                        className='flex justify-start hover:text-teks'
+                      >
+                        <div className='flex gap-x-3 text-xl w-full flex gap-x-3 text-xl hover:bg-slate-200 hover:rounded-md p-2 hover:text-teks'>
+                          <div>
+                            <SettingOutlined />
+                          </div>
+                          <div>Pengaturan</div>
+                        </div>
+                      </a>
+                      <a
+                        href={`/riwayat-transaksi?id=${id}`}
+                        className='flex justify-start hover:text-teks'
+                      >
+                        <div className='flex gap-x-3 text-xl w-full flex gap-x-3 text-xl hover:bg-slate-200 hover:rounded-md p-2 hover:text-teks'>
+                          <div>
+                            <FileSyncOutlined />
+                          </div>
+                          <div>Riwayat Transaksi</div>
+                        </div>
+                      </a>
+                    </div>
+                  </Modal>
+                </ConfigProvider>
+                <div className='flex items-center gap-8'>
+                  <p className='text-xl font-bold flex w-max justify-end'>
+                    Halo, {firstName}
+                  </p>
+                  <Photo
+                    onClick={handleProfile}
+                    className='cursor-pointer'
+                    size={50}
+                    src={photo}
+                  />
                 </div>
               </Menu>
             </Header>

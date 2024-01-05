@@ -1,7 +1,7 @@
 'use client';
 
 import Button from '#/components/Button';
-import ListProduk from '#/components/ListProduk';
+import ListProduk from '#/components/List-Produk';
 import Photo from '#/components/Photo';
 import TypeRadio from '#/components/TypeButton';
 import { imgKTP, imgProduct } from '#/constants/general';
@@ -11,9 +11,12 @@ import { convertDate } from '#/utils/convertTime';
 import { ArrowLeftOutlined } from '@ant-design/icons';
 import { Image, Pagination, Spin } from 'antd';
 import { useSearchParams } from 'next/navigation';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 function DetailPengguna() {
+  useEffect(() => {
+    document.title = 'Detail Pengguna - Roorent';
+  }, []);
   const searchParams = useSearchParams();
   const userId: any = searchParams?.get('id');
 
@@ -24,14 +27,16 @@ function DetailPengguna() {
     filterType
   );
   const { data: userData } = usersRepository.hooks.getUserById(userId);
+  console.log(userData);
+
 
   if (!productData) {
-    return <Spin size="large"className='w-full h-full flex items-center justify-center' />;
+    return <Spin size="large" className='w-full h-full flex items-center justify-center' />;
   }
   const products = productData?.data;
 
   if (!userData) {
-    return <Spin size="large"className='w-full h-full flex items-center justify-center' />;
+    return <Spin size="large" className='w-full h-full flex items-center justify-center' />;
   }
   const users = userData?.data;
 
@@ -143,88 +148,100 @@ function DetailPengguna() {
               </div>
             </div>
           </div>
-          <div className='w-full grid gap-y-4 grid-cols-1'>
-            <div>
-              <p className='text-teks text-2xl font-bold'>Foto KTP</p>
-            </div>
-            <div className='adm-renter rounded-[10px] w-full flex justify-center'>
-              <Image
-                // setelah .png jangan di apus itu buat style image nya
-                src={imgKTP(users.ktp)}
-                width={500}
-                className='blur'
-                style={{ borderRadius: 10 }}
-                preview={{
-                  src: imgKTP(users.ktp),
-                }}
-              />
-            </div>
-          </div>
-          {users.status === 'pending' && (
+          {users.role === 'owner' ? (
             <div className='w-full grid gap-y-4 grid-cols-1'>
               <div>
-                <p className='text-teks text-2xl font-bold'>Persetujuan</p>
+                <p className='text-teks text-2xl font-bold'>Foto KTP</p>
               </div>
-              <div className='w-full'>
-                <div className='flex gap-x-5'>
-                  <div className='w-full'>
-                    <Button
-                      className='!py-3 !mt-0 !font-semibold !text-2xl !bg-merah hover:!bg-[#e24444]'
-                      onClick={handleReject}
-                    >
-                      Tolak
-                    </Button>
-                  </div>
-                  <div className='w-full'>
-                    <Button
-                      className='!py-3 !mt-0 !font-semibold !text-2xl'
-                      onClick={handleApprove}
-                    >
-                      Konfirmasi
-                    </Button>
-                  </div>
-                </div>
+              <div className='adm-renter rounded-[10px] w-full flex justify-center'>
+                <Image
+                  // setelah .png jangan di apus itu buat style image nya
+                  src={imgKTP(users.ktp)}
+                  width={500}
+                  className='blur'
+                  style={{ borderRadius: 10 }}
+                  preview={{
+                    src: imgKTP(users.ktp),
+                  }}
+                />
               </div>
             </div>
+          ) : (
+            <></>
+          )}
+          {users.role === 'owner' && (
+            <>
+              {users.status === 'pending' && (
+                <div className='w-full grid gap-y-4 grid-cols-1'>
+                  <div>
+                    <p className='text-teks text-2xl font-bold'>Persetujuan</p>
+                  </div>
+                  <div className='w-full'>
+                    <div className='flex gap-x-5'>
+                      <div className='w-full'>
+                        <Button
+                          className='!py-3 !mt-0 !font-semibold !text-2xl !bg-merah hover:!bg-[#e24444]'
+                          onClick={handleReject}
+                        >
+                          Tolak
+                        </Button>
+                      </div>
+                      <div className='w-full'>
+                        <Button
+                          className='!py-3 !mt-0 !font-semibold !text-2xl'
+                          onClick={handleApprove}
+                        >
+                          Konfirmasi
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </>
           )}
         </div>
-        <div className='mt-5'>
-          <div className='produkOwner text-white text-4xl font-bold bg-primary rounded-[10px] px-5 py-3 flex items-center mb-[30px]'>
-            <p>Produk Pemilik</p>
+        {users.role === 'owner' ? (
+          <div className='mt-5'>
+            <div className='produkOwner text-white text-4xl font-bold bg-primary rounded-[10px] px-5 py-3 flex items-center mb-[30px]'>
+              <p>Produk Pemilik</p>
+            </div>
+            <div className='grid gap-y-3'>
+              <div className='w-full mb-[30px]'>
+                <TypeRadio
+                  defaultValue='kost'
+                  value={filterType}
+                  onChange={handleChange}
+                />
+              </div>
+              <div className='grid gap-7 grid-cols-2'>
+                {products.map((produk: any) => (
+                  <div key={produk.id}>
+                    <ListProduk
+                      idProducts={produk.id}
+                      image={imgProduct(produk.photo)}
+                      label={produk.type}
+                      title={produk.name}
+                    />
+                  </div>
+                ))}
+              </div>
+              <div className='w-full py-[20px] flex justify-end'>
+                <Pagination
+                  // current={currentPage}
+                  // total={totalProducts}
+                  // pageSize={itemsPerPage}
+                  // onChange={handlePageChange}
+                  defaultCurrent={1}
+                  total={50}
+                  className='text-2xl font-semibold'
+                />
+              </div>
+            </div>
           </div>
-          <div className='grid gap-y-3'>
-            <div className='w-full mb-[30px]'>
-              <TypeRadio
-                defaultValue='kost'
-                value={filterType}
-                onChange={handleChange}
-              />
-            </div>
-            <div className='grid gap-7 grid-cols-2'>
-              {products.map((produk: any) => (
-                <div key={produk.id}>
-                  <ListProduk
-                    idProducts={produk.id}
-                    image={imgProduct(produk.photo)}
-                    label={produk.type}
-                    title={produk.name}
-                  />
-                </div>
-              ))}
-            </div>
-            <div className='w-full py-[20px] flex justify-end'>
-              <Pagination
-                // current={currentPage}
-                // total={totalProducts}
-                // pageSize={itemsPerPage}
-                // onChange={handlePageChange}
-                defaultCurrent={1}
-                total={50}
-                className='text-2xl font-semibold'
-              />
-            </div>
-          </div>
-        </div>
+        ) : (
+          <></>
+        )}
       </div>
     </div>
   );
