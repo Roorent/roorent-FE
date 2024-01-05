@@ -15,137 +15,42 @@ import Product from '#/components/Product';
 import Footer from '#/components/Footer';
 import { LOGO } from '#/constants/images';
 import { productsRepository } from '#/repository/products';
-
-const products = [
-  {
-    id: '1',
-    image: '/assets/images/Gedung.png',
-    isType: 'hotel',
-    isgender: 'pria',
-    rating: '4.5',
-    namaProduk:
-      'Kost Singgahsini MnV Co-Living Tipe B Bendungan Hilir Jakarta Pusat',
-    kota: 'Bekasi',
-    stok: '5',
-    hargaPerbulan: '',
-    hargaPerhari: '2.175.000',
-  },
-  {
-    id: '2',
-    image: '/assets/images/Gedung.png',
-    isType: 'kost',
-    isgender: 'pria',
-    rating: '4.5',
-    namaProduk:
-      'Kost Singgahsini MnV Co-Living Tipe B Bendungan Hilir Jakarta Pusat',
-    kota: 'Bekasi',
-    stok: '5',
-    hargaPerbulan: '3.175.000',
-    hargaPerhari: '2.175.000',
-  },
-  {
-    id: '3',
-    image: '/assets/images/Gedung.png',
-    isType: 'hotel',
-    isgender: 'pria',
-    rating: '4.5',
-    namaProduk:
-      'Kost Singgahsini MnV Co-Living Tipe B Bendungan Hilir Jakarta Pusat',
-    kota: 'Bekasi',
-    stok: '5',
-    hargaPerbulan: '',
-    hargaPerhari: '2.175.000',
-  },
-  {
-    id: '4',
-    image: '/assets/images/Gedung.png',
-    isType: 'gedung',
-    isgender: 'pria',
-    rating: '4.5',
-    namaProduk:
-      'Kost Singgahsini MnV Co-Living Tipe B Bendungan Hilir Jakarta Pusat',
-    kota: 'Bekasi',
-    stok: '5',
-    hargaPerbulan: '',
-    hargaPerhari: '2.175.000',
-  },
-  {
-    id: '5',
-    image: '/assets/images/Gedung.png',
-    isType: 'hotel',
-    isgender: 'pria',
-    rating: '4.5',
-    namaProduk:
-      'Kost Singgahsini MnV Co-Living Tipe B Bendungan Hilir Jakarta Pusat',
-    kota: 'Bekasi',
-    stok: '5',
-    hargaPerbulan: '',
-    hargaPerhari: '2.175.000',
-  },
-  {
-    id: '6',
-    image: '/assets/images/Gedung.png',
-    isType: 'kost',
-    isgender: 'pria',
-    rating: '4.5',
-    namaProduk:
-      'Kost Singgahsini MnV Co-Living Tipe B Bendungan Hilir Jakarta Pusat',
-    kota: 'Bekasi',
-    stok: '5',
-    hargaPerbulan: '3.175.000',
-    hargaPerhari: '2.175.000',
-  },
-  {
-    id: '7',
-    image: '/assets/images/Gedung.png',
-    isType: 'kost',
-    isgender: 'wanita',
-    rating: '4.5',
-    namaProduk:
-      'Kost Singgahsini MnV Co-Living Tipe B Bendungan Hilir Jakarta Pusat',
-    kota: 'Bekasi',
-    stok: '5',
-    hargaPerbulan: '3.175.000',
-    hargaPerhari: '2.175.000',
-  },
-  {
-    id: '8',
-    image: '/assets/images/Gedung.png',
-    isType: 'kost',
-    isgender: 'wanita',
-    rating: '4.5',
-    namaProduk:
-      'Kost Singgahsini MnV Co-Living Tipe B Bendungan Hilir Jakarta Pusat',
-    kota: 'Bekasi',
-    stok: '5',
-    hargaPerbulan: '3.175.000',
-    hargaPerhari: '2.175.000',
-  },
-  {
-    id: '9',
-    image: '/assets/images/Gedung.png',
-    isType: 'kost',
-    isgender: 'campur',
-    rating: '4.5',
-    namaProduk:
-      'Kost Singgahsini MnV Co-Living Tipe B Bendungan Hilir Jakarta Pusat',
-    kota: 'Bekasi',
-    stok: '5',
-    hargaPerbulan: '3.175.000',
-    hargaPerhari: '2.175.000',
-  },
-];
+import { cityRepository } from '#/repository/city';
+import { parseJwt } from '#/utils/convert';
+import { useRouter } from 'next/navigation';
 
 function Home() {
+  const router = useRouter();
+
+  const token = localStorage.getItem('access_token');
+  let role: string = '';
+  if (token) {
+    role = parseJwt(token).role;
+  }
+  if (role === 'renter') {
+    router.push('/home');
+  }
+  if (role === 'owner') {
+    router.push('/list-product');
+  }
+  if (role === 'admin') {
+    router.push('/adm/dashboard');
+  }
+
   const [typeFilter, setTypeFilter] = useState('kost');
   const [cityFilter, setCityFilter] = useState('Pilih Kota');
 
   const { data, error, isLoading } = productsRepository.hooks.getAllKos();
+  const { data: dataCity } = cityRepository.hooks.allCity();
 
   if (!data) {
-    return <Spin size="large"className='w-full h-full flex items-center justify-center' />;
+    return (
+      <Spin
+        size='large'
+        className='w-full h-full flex items-center justify-center'
+      />
+    );
   }
-
   const datas = data?.data;
 
   const filterProducts = (products: any, filter: any) => {
@@ -179,25 +84,10 @@ function Home() {
     setCityFilter(value); // Update nilai kota saat terjadi perubahan pada Select
   };
 
-  interface OptionType {
-    value: string;
-    label: string;
-  }
-
-  const items: OptionType[] = [
-    {
-      value: 'Kota Bekasi',
-      label: 'Kota Bekasi',
-    },
-    {
-      value: 'Kota Jakarta Pusat',
-      label: 'Kota Jakarta Pusat',
-    },
-    {
-      value: 'Kota Tegal',
-      label: 'Kota Tegal',
-    },
-  ];
+  const filterOption = (
+    input: string,
+    option?: { label: string; value: string }
+  ) => (option?.label ?? '').toLowerCase().includes(input.toLowerCase());
 
   return (
     <div>
@@ -366,11 +256,18 @@ function Home() {
               <div className='text-4xl font-bold'>Rekomendasi Kost di</div>
               <div className='font-bold home-produk items-center'>
                 <Select
+                  showSearch
                   placeholder='Pilih Kota'
                   style={{ width: 'max-content', alignItems: 'center' }}
                   bordered={false}
-                  options={items}
+                  filterOption={filterOption}
                   value={cityFilter}
+                  options={dataCity?.data.map((val: any) => {
+                    return {
+                      value: val.name,
+                      label: val.name,
+                    };
+                  })}
                   onChange={handleChangeCity}
                 />
               </div>
@@ -398,11 +295,18 @@ function Home() {
               <div className='text-4xl font-bold'>Rekomendasi Gedung di</div>
               <div className='font-bold home-produk items-center'>
                 <Select
+                  showSearch
                   placeholder='Pilih Kota'
                   style={{ width: 'max-content', alignItems: 'center' }}
                   bordered={false}
-                  options={items}
+                  filterOption={filterOption}
                   value={cityFilter}
+                  options={dataCity?.data.map((val: any) => {
+                    return {
+                      value: val.name,
+                      label: val.name,
+                    };
+                  })}
                   onChange={handleChangeCity}
                 />
               </div>
@@ -430,11 +334,18 @@ function Home() {
               <div className='text-4xl font-bold'>Rekomendasi Hotel di</div>
               <div className='font-bold home-produk items-center'>
                 <Select
+                  showSearch
                   placeholder='Pilih Kota'
                   style={{ width: 'max-content', alignItems: 'center' }}
                   bordered={false}
-                  options={items}
+                  filterOption={filterOption}
                   value={cityFilter}
+                  options={dataCity?.data.map((val: any) => {
+                    return {
+                      value: val.name,
+                      label: val.name,
+                    };
+                  })}
                   onChange={handleChangeCity}
                 />
               </div>

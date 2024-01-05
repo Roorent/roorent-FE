@@ -25,7 +25,7 @@ function Step1({ onNext, datas }: any) {
           <div className='flex text-xl justify-between'>
             <div className='font-bold'>Tanggal Lahir</div>
             <div className='text-rstroke font-semibold'>
-              {convertTime(datas?.user_birthday)}
+              {convertDate(datas?.user_birthday)}
             </div>
           </div>
           <div className='flex text-xl justify-between'>

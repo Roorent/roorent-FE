@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import TypeRadio from '#/components/TypeButton';
 import { productsRepository } from '#/repository/products';
 import {
   ArrowLeftOutlined,
@@ -36,11 +35,6 @@ const getBase64 = (file: RcFile): Promise<string> =>
     reader.onerror = (error) => reject(error);
   });
 
-// const filterOption = (
-//   input: string,
-//   option?: { label: string; value: string }
-// ) => (option?.label ?? '').toLowerCase().includes(input.toLowerCase());
-
 function EditProduct() {
   const searchParams = useSearchParams();
   const productId = searchParams?.get('id');
@@ -48,7 +42,6 @@ function EditProduct() {
   const router = useRouter();
   const [form] = Form.useForm();
   const { TextArea } = Input;
-  const { Option } = Select;
 
   const [previewOpen, setPreviewOpen] = useState(false);
   const [previewImage, setPreviewImage] = useState('');
@@ -75,6 +68,52 @@ function EditProduct() {
     gender: 'campur',
     rules: '',
   });
+
+  const onFinish = async () => {
+    try {
+      const dataProducts = {
+        name: datas?.name,
+        type: datas?.type,
+        stock: datas?.stock,
+        daily_price: datas?.daily_price,
+        monthly_price: datas?.monthly_price,
+        address: datas?.address,
+        location: datas?.location,
+        photo: photoProductsArray,
+        specifications: datas?.specifications,
+        facilities: datas?.facilities,
+        descriptions: datas?.descriptions,
+        gender: datas?.gender,
+        rules: datas?.rules,
+      };
+
+      await productsRepository.manipulatedata.updateProducts(
+        productId,
+        dataProducts
+      );
+
+      Modal.success({
+        icon: (
+          <div className='modal-hapus mb-[10px] flex justify-center'>
+            <CheckCircleFilled />
+          </div>
+        ),
+        title: (
+          <div className='text-3xl font-bold flex justify-center'>
+            Berhasil Edit Produk
+          </div>
+        ),
+        content: (
+          <div className='text-xl font-semibold flex justify-center mb-[25px]'>
+            Kamu telah berhasil mengubah produk
+          </div>
+        ),
+      });
+      setTimeout(() => (window.location.href = '/list-product'), 3000);
+    } catch (err: any) {
+      message.error('Gagal mengubah produk');
+    }
+  };
 
   useEffect(() => {
     if (!isLoading) {
@@ -121,52 +160,9 @@ function EditProduct() {
     }
   }, [isLoading]);
 
-  const onFinish = async () => {
-    const dataProducts = {
-      name: datas?.name,
-      type: datas?.type,
-      stock: datas?.stock,
-      daily_price: datas?.daily_price,
-      monthly_price: datas?.monthly_price,
-      address: datas?.address,
-      location: datas?.location,
-      photo: photoProductsArray,
-      specifications: datas?.specifications,
-      facilities: datas?.facilities,
-      descriptions: datas?.descriptions,
-      gender: datas?.gender,
-      rules: datas?.rules,
-    };
-
-    await productsRepository.manipulatedata.updateProducts(
-      productId,
-      dataProducts
-    );
-
-    Modal.success({
-      icon: (
-        <div className='modal-hapus mb-[10px] flex justify-center'>
-          <CheckCircleFilled />
-        </div>
-      ),
-      title: (
-        <div className='text-3xl font-bold flex justify-center'>
-          Berhasil Edit Produk
-        </div>
-      ),
-      content: (
-        <div className='text-xl font-semibold flex justify-center mb-[25px]'>
-          Kamu telah berhasil mengubah produk
-        </div>
-      ),
-    });
-    router.push('/list-product');
-  };
-
   const handleUploadPhoto: UploadProps['onChange'] = async (
     args: UploadChangeParam<UploadFile<any>>
   ) => {
-    // Fungsi uploadProducts
     const photoProducts = args?.file;
     if (photoProducts.status === 'done') {
       if (photoProducts.size && photoProducts.size > 2097152) {
@@ -181,19 +177,15 @@ function EditProduct() {
             await productsRepository.manipulatedata.uploadPhotoProducts(
               photoProducts?.originFileObj
             );
-          console.log(response);
+
           setFileList((state) => [...state, response.body.filename]);
           setPhotoProducts([...photoProductsArray, response.body.filename]);
-          // setDatas({
-          //   ...datas,
-          //   photo: [...photoProductsArray, response.body.filename],
-          // });
         } else {
           message.error('Anda hanya dapat mengunggah file JPG/JPEG/PNG');
         }
       }
     }
-    // Fungsi handleChangeUpload
+
     const { fileList: newFileList } = args;
     setFileList(newFileList);
   };
@@ -237,18 +229,6 @@ function EditProduct() {
   const [hargaPerHari, setHargaPerHari] = useState<number>(0);
   const [hargaPerBulan, setHargaPerBulan] = useState<number>(0);
   const [adminFee, setAdminFee] = useState({ daily: 0, monthly: 0 });
-
-  //get value harga
-  // const options: OptionType[] = [
-  //   { value: 'campur', label: 'Campur' },
-  //   { value: 'perhari', label: 'Perhari' },
-  //   { value: 'perbulan', label: 'Perbulan' },
-  // ];
-
-  // const handleSelectChange = (value: string) => {
-  //   const selected = options.find((option) => option.value === value);
-  //   setSelectedOption(selected);
-  // };
 
   const handleHargaPerHariChange = (value: any) => {
     setHargaPerHari(value);
@@ -366,14 +346,6 @@ function EditProduct() {
                         </Radio.Button>
                       </div>
                     )}
-                    {/* <TypeRadio
-                      onChange={(e: any) =>
-                        handleSelectChangeProduk(e)
-                      }
-                      // value={selectedOptionProduk?.value}
-                      // value = {data?.product.type}
-                      // defaultValue={defaultSelectedOptionProduk.value}
-                    /> */}
                   </Form.Item>
                 </div>
               </div>
