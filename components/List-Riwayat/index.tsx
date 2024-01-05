@@ -1,4 +1,5 @@
 import { config } from '#/config/app';
+import { toIDR } from '#/utils/convertCurrency';
 import { EnvironmentFilled, HomeFilled } from '@ant-design/icons';
 import { Icon } from '@iconify/react';
 import React from 'react';
@@ -89,7 +90,7 @@ function ListRiwayat({
         </div>
         <div className='flex font-bold justify-between text-3xl py-3'>
           <div>Total</div>
-          <div>{total_price}</div>
+          <div>{toIDR(total_price)}</div>
         </div>
       </a>
     </div>

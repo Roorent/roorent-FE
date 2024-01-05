@@ -69,6 +69,11 @@ const AuthenticatedLayout: React.FC<AuthenticatedLayoutProps> = ({
   let role: string = '';
   let firstName: string = '';
   let photo: string = '';
+  let id: string = '';
+
+  if (token) {
+    id = parseJwt(token).id;
+  }
 
   if (token) {
     role = parseJwt(token).role;
@@ -466,7 +471,7 @@ const AuthenticatedLayout: React.FC<AuthenticatedLayoutProps> = ({
                         </div>
                       </a>
                       <a
-                        href='/riwayat-transaksi'
+                        href={`/riwayat-transaksi?id=${id}`}
                         className='flex justify-start hover:text-teks'
                       >
                         <div className='flex gap-x-3 text-xl w-full flex gap-x-3 text-xl hover:bg-slate-200 hover:rounded-md p-2 hover:text-teks'>

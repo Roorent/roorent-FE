@@ -42,9 +42,9 @@ function DetailProduct() {
   if (!token) {
     router.push('/');
   }
-  if (role == 'admin') {
-    router.push('/adm/dashboard');
-  }
+  // if (role == 'admin') {
+  //   router.push('/adm/dashboard');
+  // }
 
   useEffect(() => {
     document.title = 'Detail Product - Roorent';
@@ -150,7 +150,7 @@ function DetailProduct() {
       {role === isRole.admin && (
         <div className='w-full grid gap-y-[20px] grid-cols-1'>
           <a
-            href='/adm/detail-pengguna'
+            href={`/adm/detail-pengguna?id=${datas?.user_id}`}
             className='w-fit hover:text-teks flex font-bold text-xl gap-3'
           >
             <div>
