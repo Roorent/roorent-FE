@@ -344,25 +344,27 @@ function CreateProduct() {
                 </div>
               </div>
               {selectedOptionProduk?.value !== 'gedung' ? (
-              <div className='my-4'>
-                <p className='mb-4 text-teks text-2xl font-bold'>Stok Kamar</p>
-                <div>
-                  <Form.Item name='stock'>
-                    <InputNumber
-                      style={{ width: '100%' }}
-                      size='small'
-                      min={1}
-                      max={10000}
-                      defaultValue={1}
-                      className=' py-[10px] px-[3px] rounded-[10px] border border-rstroke regis text-xl'
-                      onChange={(e) => {
-                        setDatas({ ...datas, stock: e || 1 });
-                      }}
-                    />
-                  </Form.Item>
+                <div className='my-4'>
+                  <p className='mb-4 text-teks text-2xl font-bold'>
+                    Stok Kamar
+                  </p>
+                  <div>
+                    <Form.Item name='stock'>
+                      <InputNumber
+                        style={{ width: '100%' }}
+                        size='small'
+                        min={1}
+                        max={10000}
+                        defaultValue={1}
+                        className=' py-[10px] px-[3px] rounded-[10px] border border-rstroke regis text-xl'
+                        onChange={(e) => {
+                          setDatas({ ...datas, stock: e || 1 });
+                        }}
+                      />
+                    </Form.Item>
+                  </div>
                 </div>
-              </div>
-              ):(
+              ) : (
                 <></>
               )}
               <div className='my-4'>

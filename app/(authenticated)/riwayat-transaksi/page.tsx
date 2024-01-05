@@ -6,7 +6,7 @@ import { parseJwt } from '#/utils/convert';
 import { ArrowLeftOutlined } from '@ant-design/icons';
 import { Pagination, Select, Spin } from 'antd';
 import { Option } from 'antd/lib/mentions';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 function RiwayatTransaksi() {
   // const [filterType, setFilterType] = useState('pending');
@@ -20,37 +20,48 @@ function RiwayatTransaksi() {
   const { data, error, isLoading, mutate } =
     TransactionRepository.hooks.getListTransactionsByRenter(id);
 
-    const datas = data?.transactionsData;
-        
-    const [filteredDatas, setFilteredDatas] = useState(datas);
-    const [filterType, setFilterType] = useState('semua');
+  const datas = data?.transactionsData;
 
-    interface OptionTypeIO {
-      value: string;
-      label: string;
-    }
+  const [filteredDatas, setFilteredDatas] = useState(datas);
+  const [filterType, setFilterType] = useState('semua');
 
-    const options: OptionTypeIO[] = [
-      { value: 'semua', label: 'Semua' },
-      { value: 'pending', label: 'Belum Dikonfirmasi' },
-      { value: 'approve', label: 'Dikonfirmasi' },
-      { value: 'reject', label: 'Ditolak' },
-    ];
-    
-    const handleChange = (value: string) => {
-      setFilterType(value);
-      
-      if (value === 'semua') {
-        setFilteredDatas(datas);
-      } else {
-        const filtered = datas?.filter((item:any) => item.payment_status === value);
-        setFilteredDatas(filtered);
-      }
-    };
-    
-    if (!datas) {
-      return <Spin size="large"className='w-full h-full flex items-center justify-center' />; 
+  useEffect(() => {
+    setFilteredDatas(datas);
+  }, [datas]);
+
+  interface OptionTypeIO {
+    value: string;
+    label: string;
+  }
+
+  const options: OptionTypeIO[] = [
+    { value: 'semua', label: 'Semua' },
+    { value: 'pending', label: 'Belum Dikonfirmasi' },
+    { value: 'approve', label: 'Dikonfirmasi' },
+    { value: 'reject', label: 'Ditolak' },
+  ];
+
+  const handleChange = (value: string) => {
+    setFilterType(value);
+
+    if (value === 'semua') {
+      setFilteredDatas(datas);
+    } else {
+      const filtered = datas?.filter(
+        (item: any) => item.payment_status === value
+      );
+      setFilteredDatas(filtered);
     }
+  };
+
+  if (!datas) {
+    return (
+      <Spin
+        size='large'
+        className='w-full h-full flex items-center justify-center'
+      />
+    );
+  }
 
   return (
     <div>
@@ -77,7 +88,7 @@ function RiwayatTransaksi() {
               value={filterType}
               className='transaksi w-full'
               onChange={handleChange}
-              >
+            >
               {options.map((option) => (
                 <Option key={option.value} value={option.value}>
                   {option.label}
@@ -86,8 +97,8 @@ function RiwayatTransaksi() {
             </Select>
           </div>
         </div>
-         <div className='grid gap-10 grid-cols-3'>
-          {filteredDatas?.map((riwayat:any) => (
+        <div className='grid gap-10 grid-cols-3'>
+          {filteredDatas?.map((riwayat: any) => (
             <div key={riwayat.id}>
               <ListRiwayat
                 idTransaction={riwayat.id}
@@ -103,16 +114,16 @@ function RiwayatTransaksi() {
           ))}
         </div>
         <div className='w-full py-[20px] flex justify-end'>
-        <Pagination
-          // current={currentPage}
-          // total={totalProducts}
-          // pageSize={itemsPerPage}
-          // onChange={handlePageChange}
-          defaultCurrent={1}
-          total={50}
-          className='text-2xl font-semibold'
-        />
-      </div>
+          <Pagination
+            // current={currentPage}
+            // total={totalProducts}
+            // pageSize={itemsPerPage}
+            // onChange={handlePageChange}
+            defaultCurrent={1}
+            total={50}
+            className='text-2xl font-semibold'
+          />
+        </div>
       </div>
     </div>
   );
