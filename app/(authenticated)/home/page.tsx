@@ -13,12 +13,14 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import Product from '#/components/Product';
 import { productsRepository } from '#/repository/products';
+import { cityRepository } from '#/repository/city';
 
 function Home() {
   const [typeFilter, setTypeFilter] = useState('kost');
   const [cityFilter, setCityFilter] = useState('Pilih Kota');
 
   const { data, error, isLoading } = productsRepository.hooks.getAllKos();
+  const {data:dataCity} = cityRepository.hooks.allCity();
 
   if (isLoading) {
     return (
@@ -57,29 +59,15 @@ function Home() {
     return filtered;
   };
 
+  const filterOption = (
+    input: string,
+    option?: { label: string; value: string }
+  ) => (option?.label ?? '').toLowerCase().includes(input.toLowerCase());
+
   const handleChangeCity = (value: any) => {
     setCityFilter(value); // Update nilai kota saat terjadi perubahan pada Select
   };
 
-  interface OptionType {
-    value: string;
-    label: string;
-  }
-
-  const items: OptionType[] = [
-    {
-      value: 'Kota Bekasi',
-      label: 'Kota Bekasi',
-    },
-    {
-      value: 'Kota Jakarta Pusat',
-      label: 'Kota Jakarta Pusat',
-    },
-    {
-      value: 'Kota Tegal',
-      label: 'Kota Tegal',
-    },
-  ];
 
   return (
     <div>
@@ -237,8 +225,14 @@ function Home() {
                   placeholder='Pilih Kota'
                   style={{ width: 'max-content', alignItems: 'center' }}
                   bordered={false}
-                  options={items}
+                  filterOption={filterOption}
                   value={cityFilter}
+                  options={dataCity?.data.map((val: any) => {
+                    return {
+                      value: val.name,
+                      label: val.name,
+                    };
+                  })}
                   onChange={handleChangeCity}
                 />
               </div>
@@ -270,8 +264,13 @@ function Home() {
                   placeholder='Pilih Kota'
                   style={{ width: 'max-content', alignItems: 'center' }}
                   bordered={false}
-                  options={items}
                   value={cityFilter}
+                  options={dataCity?.data.map((val: any) => {
+                    return {
+                      value: val.name,
+                      label: val.name,
+                    };
+                  })}
                   onChange={handleChangeCity}
                 />
               </div>
@@ -299,12 +298,16 @@ function Home() {
               <div className='text-4xl font-bold'>Rekomendasi Hotel di</div>
               <div className='font-bold home-produk items-center'>
                 <Select
-                showSearch
                   placeholder='Pilih Kota'
                   style={{ width: 'max-content', alignItems: 'center' }}
                   bordered={false}
-                  options={items}
                   value={cityFilter}
+                  options={dataCity?.data.map((val: any) => {
+                    return {
+                      value: val.name,
+                      label: val.name,
+                    };
+                  })}
                   onChange={handleChangeCity}
                 />
               </div>

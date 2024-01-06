@@ -19,7 +19,7 @@ const url = {
   },
   getAllKos: () => '/products/all',
   searchProducts: (search: string) => {
-    return `/products/search?s=${search}`;
+    return `/products/search?q=${search}`;
   },
 };
 

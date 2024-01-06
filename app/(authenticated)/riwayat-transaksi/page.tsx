@@ -12,18 +12,19 @@ function RiwayatTransaksi() {
   // const [filterType, setFilterType] = useState('pending');
   const token = localStorage.getItem('access_token');
   let id: string = '';
-
+  
   if (token) {
     id = parseJwt(token).id;
   }
+  
+  const [filteredDatas, setFilteredDatas] = useState([]);
+  const [filterType, setFilterType] = useState('pending');
 
   const { data, error, isLoading, mutate } =
-    TransactionRepository.hooks.getListTransactionsByRenter(id);
+    TransactionRepository.hooks.getListTransactionsByRenter(id, filterType);
 
   const datas = data?.transactionsData;
 
-  const [filteredDatas, setFilteredDatas] = useState(datas);
-  const [filterType, setFilterType] = useState('semua');
 
   useEffect(() => {
     setFilteredDatas(datas);
@@ -35,7 +36,6 @@ function RiwayatTransaksi() {
   }
 
   const options: OptionTypeIO[] = [
-    { value: 'semua', label: 'Semua' },
     { value: 'pending', label: 'Belum Dikonfirmasi' },
     { value: 'approve', label: 'Dikonfirmasi' },
     { value: 'reject', label: 'Ditolak' },
@@ -44,7 +44,7 @@ function RiwayatTransaksi() {
   const handleChange = (value: string) => {
     setFilterType(value);
 
-    if (value === 'semua') {
+    if (value === 'pending') {
       setFilteredDatas(datas);
     } else {
       const filtered = datas?.filter(

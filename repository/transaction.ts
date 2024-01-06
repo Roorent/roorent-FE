@@ -8,7 +8,7 @@ const url = {
   getDetailRenter: (id: string) => `/transactions/renter/${id}`,
   getTransactionsRenter: () => '/transactions/all-renter',
   transactionsApp: (id: string) => `/transactions/applications/${id}/`,
-  getListTransactionsByRenter: (id: string) => `/transactions/list-renter/${id}`,
+  getListTransactionsByRenter: (id: string, status: string) => `/transactions/list-renter/${id}?status=${status}`,
   getDetailTransactions: (id: string) => `/transactions/${id}`,
 };
 
@@ -40,8 +40,8 @@ const hooks = {
   getTransactionsRenter() {
     return useSWR(url.getTransactionsRenter(), http.fetcher);
   },
-  getListTransactionsByRenter(id: string) {
-    return useSWR(url.getListTransactionsByRenter(id), http.fetcher);
+  getListTransactionsByRenter(id: string, status: string) {
+    return useSWR(url.getListTransactionsByRenter(id, status), http.fetcher);
   },
   getDetailTransactions(id: string) {
     return useSWR(url.getDetailTransactions(id), http.fetcher);
