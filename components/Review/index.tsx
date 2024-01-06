@@ -10,6 +10,23 @@ import { UploadProps } from 'antd/lib';
 import { RcFile } from 'antd/lib/upload';
 import { CameraOutlined, CheckCircleFilled } from '@ant-design/icons';
 
+// const beforeUpload = (file: RcFile) => {
+//   const isJpgOrPng =
+//     file.type === 'image/jpeg' ||
+//     file.type === 'image/png' ||
+//     file.type === 'image/jpg';
+//   if (!isJpgOrPng) {
+//     message.error('Anda hanya dapat mengunggah file JPG/JPEG/PNG!');
+//   }
+//   const isLt2M = file.size / 1024 / 1024 < 2 ;
+
+//   if (!isLt2M) {
+//     message.error('Gambar harus lebih kecil dari 2 MB!');
+//   }
+
+//   return !isJpgOrPng || !isLt2M;
+// };
+
 function Review({
   isType,
   isLabel,
@@ -218,6 +235,7 @@ function Review({
                       multiple={true}
                       onPreview={handlePreview}
                       onChange={handleUploadPhoto}
+                      // beforeUpload={beforeUpload}
                     >
                       {fileList.length >= 3 ? null : uploadButton}
                     </Upload>

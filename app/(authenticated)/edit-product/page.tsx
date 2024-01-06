@@ -238,18 +238,6 @@ function EditProduct() {
   const [hargaPerBulan, setHargaPerBulan] = useState<number>(0);
   const [adminFee, setAdminFee] = useState({ daily: 0, monthly: 0 });
 
-  //get value harga
-  // const options: OptionType[] = [
-  //   { value: 'campur', label: 'Campur' },
-  //   { value: 'perhari', label: 'Perhari' },
-  //   { value: 'perbulan', label: 'Perbulan' },
-  // ];
-
-  // const handleSelectChange = (value: string) => {
-  //   const selected = options.find((option) => option.value === value);
-  //   setSelectedOption(selected);
-  // };
-
   const handleHargaPerHariChange = (value: any) => {
     setHargaPerHari(value);
     setDatas({ ...datas, daily_price: value || 0 });
@@ -300,6 +288,22 @@ function EditProduct() {
     }
   }, [price, data?.data?.type]);
 
+  // const beforeUpload = (file: RcFile) => {
+  //   const isJpgOrPng =
+  //     file.type === 'image/jpeg' ||
+  //     file.type === 'image/png' ||
+  //     file.type === 'image/jpg';
+  //   if (!isJpgOrPng) {
+  //     message.error('Anda hanya dapat mengunggah file JPG/JPEG/PNG!');
+  //   }
+  //   const isLt2M = file.size / 1024 / 1024 < 2 ;
+
+  //   if (!isLt2M) {
+  //     message.error('Gambar harus lebih kecil dari 2 MB!');
+  //   }
+
+  //   return !isJpgOrPng || !isLt2M;
+  // };
   return (
     <div>
       <Form name='createProduk' form={form}>
@@ -399,6 +403,7 @@ function EditProduct() {
                       fileList={fileList}
                       multiple={true}
                       onPreview={handlePreview}
+                      // beforeUpload={beforeUpload}
                       onChange={handleUploadPhoto}
                     >
                       {fileList && fileList.length >= 10 ? null : uploadButton}

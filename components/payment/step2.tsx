@@ -1,10 +1,11 @@
-import { CameraOutlined, WarningFilled } from '@ant-design/icons';
+import { CameraOutlined, ExclamationCircleFilled} from '@ant-design/icons';
 import { Form, Select, Upload, message } from 'antd';
 import Button from '../Button';
 import React, { useState } from 'react';
 import { UploadFile } from 'antd/lib';
 import { TransactionRepository } from '#/repository/transaction';
 import { useSearchParams } from 'next/navigation';
+import { RcFile } from 'antd/es/upload';
 
 const Step2 = ({ onNext, datas }: any) => {
   const searchParams = useSearchParams();
@@ -85,6 +86,22 @@ const Step2 = ({ onNext, datas }: any) => {
     }
   };
 
+  // const beforeUpload = (file: RcFile) => {
+  //   const isJpgOrPng =
+  //     file.type === 'image/jpeg' ||
+  //     file.type === 'image/png' ||
+  //     file.type === 'image/jpg';
+  //   if (!isJpgOrPng) {
+  //     message.error('Anda hanya dapat mengunggah file JPG/JPEG/PNG!');
+  //   }
+  //   const isLt2M = file.size / 1024 / 1024 < 2 ;
+
+  //   if (!isLt2M) {
+  //     message.error('Gambar harus lebih kecil dari 2 MB!');
+  //   }
+
+  //   return !isJpgOrPng || !isLt2M;
+  // };
   return (
     <div className='grid gap-y-2 pb-10'>
       <Form>
@@ -131,10 +148,10 @@ const Step2 = ({ onNext, datas }: any) => {
         <div className='w-full'>
           <div className='pb-[50px] border-b border-slate-300 mt-[30px]'>
             <div className='grid gap-y-2 grid-cols-1'>
-              <div>
+              <div className='grid gap-y-2'>
                 <p className='text-teks text-2xl font-bold'>Bukti Pembayaran</p>
                 <p className='text-teks text-md mt-2'>
-                  <WarningFilled className='text-[#FFCC00] text-xl pr-2' />
+                  <ExclamationCircleFilled className='text-primary text-xl pr-2' />
                   Pastikan photo terlihat jelas, agar kami dapat proses dengan
                   cepat
                 </p>
@@ -149,6 +166,7 @@ const Step2 = ({ onNext, datas }: any) => {
                     action='https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188'
                     listType='picture'
                     maxCount={1}
+                    // beforeUpload={beforeUpload}
                     // onChange={handleUpload}
                     onChange={(info: any) => {
                       setPhotoTransactions(info?.file);

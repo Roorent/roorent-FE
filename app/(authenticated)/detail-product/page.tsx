@@ -13,11 +13,12 @@ import {
   EnvironmentFilled,
   HeartOutlined,
   HomeFilled,
+  QuestionCircleFilled,
   ReconciliationFilled,
   StarFilled,
 } from '@ant-design/icons';
 import { Icon } from '@iconify/react';
-import { Carousel, Button, DatePicker, Form, Radio, message, Spin } from 'antd';
+import { Carousel, Button, DatePicker, Form, Radio, message, Spin, Modal } from 'antd';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { toIDR } from '#/utils/convertCurrency';
 import { imgProduct } from '#/constants/general';
@@ -39,12 +40,6 @@ function DetailProduct() {
   if (token) {
     role = parseJwt(token).role;
   }
-  if (!token) {
-    router.push('/');
-  }
-  // if (role == 'admin') {
-  //   router.push('/adm/dashboard');
-  // }
 
   useEffect(() => {
     document.title = 'Detail Product - Roorent';
@@ -86,7 +81,33 @@ function DetailProduct() {
       message.error(err.response.data.message);
     }
   };
-
+  const { confirm } = Modal;
+  const handlebeforelogin = async () => {
+    if(!token){
+      confirm({
+        title: (
+          false
+        ),
+        closeIcon: (
+          false
+        ),
+        content: (
+          <div className='text-xl font-semibold flex justify-center mb-[25px]'>
+            Anda belum login, silahkan login terlebih dahulu !
+          </div>
+        ),
+        icon: (
+          <div className='modal-hapus mb-[10px] flex justify-center'><QuestionCircleFilled /></div>
+        ),
+        okText: (
+          <div className='modal-hapus text-xl font-bold text-white'>Ya</div>
+        ),
+        onOk() {       
+          router.push('/auth/login')
+        }
+      });
+    }
+  };
   const reviews = [
     {
       id: '1',
@@ -134,6 +155,19 @@ function DetailProduct() {
 
   return (
     <div className='w-full'>
+      {!token && (
+        <div className='w-full grid gap-y-[20px] grid-cols-1'>
+          <a
+            href='/'
+            className='w-fit hover:text-teks flex font-bold text-xl gap-3'
+          >
+            <div>
+              <ArrowLeftOutlined />
+            </div>
+            <div>Kembali</div>
+          </a>
+        </div>
+      )}
       {role === isRole.owner && (
         <div className='w-full grid gap-y-[20px] grid-cols-1'>
           <a
@@ -176,7 +210,7 @@ function DetailProduct() {
       <div className='flex gap-x-[30px] mt-[20px]'>
         <div className='w-1/2'>
           <div className='mb-8'>
-            <Carousel>
+            <Carousel autoplay>
               {datas?.photoProducts.map((item: any) => (
                 <div key={item.id}>
                   <img
@@ -229,7 +263,7 @@ function DetailProduct() {
                 </div>
               </div>
             </div>
-            {(role === isRole.renter || role === isRole.admin) && (
+            {(role === isRole.renter || role === isRole.admin || !token) && (
               <div className='grid gap-y-3 grid-cols-1 pb-[30px] border-b border-slate-300'>
                 <div className='text-xl flex gap-5 items-center'>
                   <div>
@@ -310,7 +344,6 @@ function DetailProduct() {
                       Wanita
                     </p>
                   )}
-                  \
                   {datas?.gender === 'campur' && (
                     <p className='bg-orange-400 py-2 px-5 rounded-md'>Campur</p>
                   )}
@@ -340,11 +373,13 @@ function DetailProduct() {
                   sisa <span className='font-bold'>{datas?.stock}</span> kamar
                 </p>
               </div>
-              {role === isRole.renter && (
+              {role === isRole.renter ? (
                 <div className='rounded-[10px] flex items-center h-12 gap-x-2 px-3 border border-rstroke text-rstroke text-xl cursor-default'>
                   <HeartOutlined />
                   <p className='font-semibold'>Simpan</p>
                 </div>
+              ) : (
+                <></>
               )}
             </div>
           </div>
@@ -393,7 +428,7 @@ function DetailProduct() {
               )}
             </div>
           )}
-          {role === isRole.renter && (
+          {(role === isRole.renter || !token) && (
             <div
               className='mt-12 rounded-[10px] bg-white h-fit p-[25px] sticky top-5'
               style={{
@@ -568,25 +603,53 @@ function DetailProduct() {
                       </div>
                     </>
                   )}
-                  <div>
-                    <Button className='w-full p-[8px] h-14 rounded-2xl flex justify-center items-center !bg-transparent !border-2 !border-primary !text-primary !font-bold !text-xl hover:!text-opacity-60'>
-                      <div className='flex items-center'>
-                        <CommentOutlined className='text-3xl font-bold mr-3' />
-                        Tanya Pemilik
+                  {role === isRole.renter && (
+                    <>
+                      <div>
+                        <Button className='w-full p-[8px] h-14 rounded-2xl flex justify-center items-center !bg-transparent !border-2 !border-primary !text-primary !font-bold !text-xl hover:!text-opacity-60'>
+                          <div className='flex items-center'>
+                            <CommentOutlined className='text-3xl font-bold mr-3' />
+                            Tanya Pemilik
+                          </div>
+                        </Button>
                       </div>
-                    </Button>
-                  </div>
-                  <div>
-                    <Form.Item>
-                      <Button
-                        type='primary'
-                        htmlType='submit'
-                        className='bg-primary w-full p-[8px] h-14 !-mt-2 rounded-2xl flex justify-center items-center text-white !font-bold !text-xl hover:!bg-rhover1 hover:text-white'
-                      >
-                        Ajukan Sewa
-                      </Button>
-                    </Form.Item>
-                  </div>
+                      <div>
+                        <Form.Item>
+                          <Button
+                            type='primary'
+                            htmlType='submit'
+                            className='bg-primary w-full p-[8px] h-14 !-mt-2 rounded-2xl flex justify-center items-center text-white !font-bold !text-xl hover:!bg-rhover1 hover:text-white'
+                          >
+                            Ajukan Sewa
+                          </Button>
+                        </Form.Item>
+                      </div>
+                    </>
+                  )}
+                  {!token && (
+                    <>
+                      <div>
+                        <Button onClick={handlebeforelogin} className='w-full p-[8px] h-14 rounded-2xl flex justify-center items-center !bg-transparent !border-2 !border-primary !text-primary !font-bold !text-xl hover:!text-opacity-60'>
+                          <div className='flex items-center'>
+                            <CommentOutlined className='text-3xl font-bold mr-3' />
+                            Tanya Pemilik
+                          </div>
+                        </Button>
+                      </div>
+                      <div>
+                        <Form.Item>
+                          <Button
+                            type='primary'
+                            htmlType='submit'
+                            onClick={handlebeforelogin}
+                            className='bg-primary w-full p-[8px] h-14 !-mt-2 rounded-2xl flex justify-center items-center text-white !font-bold !text-xl hover:!bg-rhover1 hover:text-white'
+                          >
+                            Ajukan Sewa
+                          </Button>
+                        </Form.Item>
+                      </div>
+                    </>
+                  )}
                 </div>
               </Form>
             </div>

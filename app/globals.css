@@ -25,15 +25,15 @@
   @apply text-slate-500 p-2 text-2xl;
 }
 .sidebar .ant-menu-title-content {
-  @apply text-lg font-bold text-slate-600 flex justify-center;
+  @apply text-lg font-bold text-slate-600 flex;
 }
 
 .sidebar .ant-menu-item:hover {
-  background-color: #60a5fa !important;
+  background-color: rgb(226 232 240) !important;
 }
-.sidebar .ant-menu-item .ant-menu-title-content:hover {
+/* .sidebar .ant-menu-item .ant-menu-title-content:hover {
   color: white !important;
-}
+} */
 .sidebar .ant-menu-item.ant-menu-item-selected {
   background-color: #4065da !important;
 }

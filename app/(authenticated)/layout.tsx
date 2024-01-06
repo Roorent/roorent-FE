@@ -215,7 +215,7 @@ const AuthenticatedLayout: React.FC<AuthenticatedLayoutProps> = ({
             >
               <div className='py-5 flex justify-center items-center'>
                 <a href='/'>
-                  <LOGO className='w-[160px]' />
+                  <LOGO className='!w-[190px]' />
                 </a>
               </div>
               {role === isRole.admin ? (
@@ -314,7 +314,7 @@ const AuthenticatedLayout: React.FC<AuthenticatedLayoutProps> = ({
                               href='#'
                               className='flex justify-start hover:text-teks'
                             >
-                              <div className='flex gap-x-3 text-xl w-full flex gap-x-3 text-xl hover:bg-slate-200 hover:rounded-md p-2 hover:text-teks'>
+                              <div className='flex gap-x-3 text-xl w-full hover:bg-slate-200 hover:rounded-md p-2 hover:text-teks'>
                                 <div>
                                   <SettingOutlined />
                                 </div>
@@ -358,7 +358,7 @@ const AuthenticatedLayout: React.FC<AuthenticatedLayoutProps> = ({
                   }
                 >
                   <div className='w-full'>
-                    <LOGO className='w-[160px]' />
+                    <LOGO className='!w-[190px]' />
                   </div>
                   <div className='flex gap-6 items-center'>
                     {role === isRole.admin ? (
@@ -401,7 +401,7 @@ const AuthenticatedLayout: React.FC<AuthenticatedLayoutProps> = ({
                 }
               >
                 <div className='w-full'>
-                  <LOGO className='w-[160px]' />
+                  <LOGO className='!w-[190px]' />
                 </div>
                 <div className='flex gap-6 items-center'>
                   <Favorite />
@@ -426,64 +426,6 @@ const AuthenticatedLayout: React.FC<AuthenticatedLayoutProps> = ({
                     Logout
                   </div>
                 </div> */}
-                <ConfigProvider
-                  modal={{
-                    styles: {
-                      content: {
-                        width: '50%',
-                        padding: '15px',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        boxShadow: '0 4px 8px #00000014, 0 -1px 4px #0000000a',
-                      },
-                    },
-                  }}
-                >
-                  <Modal
-                    mask={false}
-                    open={isModalOpen}
-                    onCancel={closeModal}
-                    className='absolute top-15 -right-[60px]'
-                    closeIcon={<></>}
-                    footer={<></>}
-                  >
-                    <div className='grid hover:text-teks'>
-                      <a
-                        href='/profile'
-                        className='flex justify-start hover:text-teks'
-                      >
-                        <div className='w-full flex gap-x-3 text-xl hover:bg-slate-200 hover:rounded-md p-2 hover:text-teks'>
-                          <div>
-                            <UserOutlined />
-                          </div>
-                          <div>Profil</div>
-                        </div>
-                      </a>
-                      <a
-                        href='#'
-                        className='flex justify-start hover:text-teks'
-                      >
-                        <div className='flex gap-x-3 text-xl w-full flex gap-x-3 text-xl hover:bg-slate-200 hover:rounded-md p-2 hover:text-teks'>
-                          <div>
-                            <SettingOutlined />
-                          </div>
-                          <div>Pengaturan</div>
-                        </div>
-                      </a>
-                      <a
-                        href={`/riwayat-transaksi?id=${id}`}
-                        className='flex justify-start hover:text-teks'
-                      >
-                        <div className='flex gap-x-3 text-xl w-full flex gap-x-3 text-xl hover:bg-slate-200 hover:rounded-md p-2 hover:text-teks'>
-                          <div>
-                            <FileSyncOutlined />
-                          </div>
-                          <div>Riwayat Transaksi</div>
-                        </div>
-                      </a>
-                    </div>
-                  </Modal>
-                </ConfigProvider>
                 <div className='flex items-center gap-8'>
                   <p className='text-xl font-bold flex w-max justify-end'>
                     Halo, {firstName}

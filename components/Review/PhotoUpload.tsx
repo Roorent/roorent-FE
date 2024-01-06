@@ -1,10 +1,27 @@
 'use client';
 
 import React, { useState } from 'react';
-import { UploadProps } from 'antd';
+import { UploadProps, message } from 'antd';
 import { RcFile } from 'antd/es/upload';
 import { Upload, UploadFile } from 'antd/lib';
 import { CameraOutlined } from '@ant-design/icons';
+
+// const beforeUpload = (file: RcFile) => {
+//   const isJpgOrPng =
+//     file.type === 'image/jpeg' ||
+//     file.type === 'image/png' ||
+//     file.type === 'image/jpg';
+//   if (isJpgOrPng) {
+//     message.error('Anda hanya dapat mengunggah file JPG/JPEG/PNG!');
+//   }
+//   const isLt2M = file.size / 1024 / 1024 < 2;
+
+//   if (!isLt2M) {
+//     message.error('Gambar harus lebih kecil dari 2 MB!');
+//   }
+
+//   return !isJpgOrPng || !isLt2M;
+// };
 
 function PhotoUpload({ files }: any) {
   const [fileList, setFileList] = useState<UploadFile[]>([]);
@@ -48,6 +65,7 @@ function PhotoUpload({ files }: any) {
       maxCount={3}
       onChange={onChange}
       onPreview={onPreview}
+      // beforeUpload={beforeUpload}
     >
       {fileList.length < 3 && uploadButton}
     </Upload>

@@ -45,7 +45,7 @@ function CardProduk({ image, label, title, address, idProducts, mutate }: any) {
                 type='primary'
                 htmlType='submit'
                 href={`/detail-product?id=${idProducts}`}
-                className='lihat-detail hover:!bg-primary hover:!text-white !text-primary bg-transparent rounded-[10px] text-base font-bold py-3 px-2 border-2 border-primary w-[140px] h-max !mt-0'
+                className='lihat-detail hover:!bg-primary hover:!text-white !text-primary bg-transparent rounded-[10px] text-base font-bold !py-[10px] px-2 border-2 border-primary w-[140px] !h-max !mt-0'
               >
                 Lihat Detail
               </Button>

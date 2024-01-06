@@ -65,7 +65,7 @@ function RenterStep1({ setData, data, formStep1 }: Props) {
         </div>
         <div className='grid gap-y-4 grid-cols-1'>
           <div>
-            <p className='text-teks text-2xl font-bold'>No. NIK</p>
+            <p className='text-teks text-2xl font-bold'>NIK</p>
           </div>
           <div className='w-full'>
             <Form.Item

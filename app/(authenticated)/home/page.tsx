@@ -160,7 +160,7 @@ function Home() {
                 type='primary'
                 htmlType='submit'
                 href='#'
-                className='w-max hover:!text-white hover:!bg-primary !bg-white !text-primary border-2 border-white hover:!border-primary rounded-[10px] text-[20px] !font-semibold !mt-0 px-7'
+                className='w-max hover:!text-white hover:!bg-primary !bg-white !text-primary border-2 border-white hover:!border-primary rounded-[10px] text-[20px] !font-bold !mt-0 px-7'
               >
                 Lihat Semua
               </Button>
@@ -178,7 +178,7 @@ function Home() {
                 type='primary'
                 htmlType='submit'
                 href='#'
-                className='w-max hover:!text-white hover:!bg-primary !bg-white !text-primary border-2 border-white hover:!border-primary rounded-[10px] text-[20px] !font-semibold !mt-0 px-7'
+                className='w-max hover:!text-white hover:!bg-primary !bg-white !text-primary border-2 border-white hover:!border-primary rounded-[10px] text-[20px] !font-bold !mt-0 px-7'
               >
                 Lihat Semua
               </Button>
@@ -196,7 +196,7 @@ function Home() {
                 type='primary'
                 htmlType='submit'
                 href='#'
-                className='w-max hover:!text-white hover:!bg-primary !bg-white !text-primary border-2 border-white hover:!border-primary rounded-[10px] text-[20px] font-semibold !mt-0 px-7'
+                className='w-max hover:!text-white hover:!bg-primary !bg-white !text-primary border-2 border-white hover:!border-primary rounded-[10px] text-[20px] font-bold !mt-0 px-7'
               >
                 Lihat Semua
               </Button>
@@ -233,6 +233,7 @@ function Home() {
               <div className='text-4xl font-bold'>Rekomendasi Kost di</div>
               <div className='font-bold home-produk items-center'>
                 <Select
+                  showSearch
                   placeholder='Pilih Kota'
                   style={{ width: 'max-content', alignItems: 'center' }}
                   bordered={false}
@@ -265,6 +266,7 @@ function Home() {
               <div className='text-4xl font-bold'>Rekomendasi Gedung di</div>
               <div className='font-bold home-produk items-center'>
                 <Select
+                  showSearch
                   placeholder='Pilih Kota'
                   style={{ width: 'max-content', alignItems: 'center' }}
                   bordered={false}
@@ -297,6 +299,7 @@ function Home() {
               <div className='text-4xl font-bold'>Rekomendasi Hotel di</div>
               <div className='font-bold home-produk items-center'>
                 <Select
+                showSearch
                   placeholder='Pilih Kota'
                   style={{ width: 'max-content', alignItems: 'center' }}
                   bordered={false}
