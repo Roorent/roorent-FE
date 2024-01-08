@@ -20,7 +20,7 @@ function Home() {
   const [cityFilter, setCityFilter] = useState('Pilih Kota');
 
   const { data, error, isLoading } = productsRepository.hooks.getAllKos();
-  const {data:dataCity} = cityRepository.hooks.allCity();
+  const { data: dataCity } = cityRepository.hooks.allCity();
 
   if (isLoading) {
     return (
@@ -67,7 +67,6 @@ function Home() {
   const handleChangeCity = (value: any) => {
     setCityFilter(value); // Update nilai kota saat terjadi perubahan pada Select
   };
-
 
   return (
     <div>
@@ -202,7 +201,6 @@ function Home() {
                       image={product.photoProducts[0]?.photo}
                       isType={product.type}
                       isgender={product.specialRules?.gender}
-                      rating={product.rating}
                       namaProduk={product.name}
                       kota={product.cities?.name}
                       stok={product.stock}
@@ -345,10 +343,10 @@ function Home() {
                         .map((product: any) => (
                           <div key={product.id}>
                             <Product
+                              idProducts={product.id}
                               image={product.photoProducts[0]?.photo}
                               isType={product.type}
                               isgender={product.specialRules?.gender}
-                              rating={product.rating}
                               namaProduk={product.name}
                               kota={product.cities?.name}
                               stok={product.stock}

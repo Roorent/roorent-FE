@@ -26,8 +26,6 @@ function ListRiwayat({
         <div className='flex gap-x-[30px] pb-[30px] border-b border-[#858585]'>
           <div className='w-1/2 h-[190px]'>
             <img
-              // src={imgProduct(datas?.product_photo)}
-              // alt={`produk ${datas?.product_name}`}
               src={imgProduct(image)}
               alt='produk'
               className='object-cover object-center w-full h-full rounded-xl'

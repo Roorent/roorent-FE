@@ -1,8 +1,10 @@
 import { http } from "#/utils/http";
+import useSWR from "swr";
 
 const url = {
   createReviews: (id:string) => `/reviews/${id}`,
   uploadReviews: () => '/photo-reviews/upload-photo-reviews',
+  getReviewsByProducts: (id: string) => `/reviews/product/${id}`,
 }
 
 const manipulatedata = {
@@ -16,7 +18,14 @@ const manipulatedata = {
   },
 }
 
+const hooks = {
+  getReviewsByProduct(id: string) {
+    return useSWR(url.getReviewsByProducts(id), http.fetcher);
+  },
+}
+
 export const ReviewsRepository = {
   url,
   manipulatedata,
+  hooks,
 };

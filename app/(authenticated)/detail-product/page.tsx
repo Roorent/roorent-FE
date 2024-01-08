@@ -18,11 +18,23 @@ import {
   StarFilled,
 } from '@ant-design/icons';
 import { Icon } from '@iconify/react';
-import { Carousel, Button, DatePicker, Form, Radio, message, Spin, Modal } from 'antd';
+import {
+  Carousel,
+  Button,
+  DatePicker,
+  Form,
+  Radio,
+  message,
+  Spin,
+  Modal,
+} from 'antd';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { toIDR } from '#/utils/convertCurrency';
 import { imgProduct } from '#/constants/general';
 import { RentAppRepository } from '#/repository/rent-application';
+import { ReviewsRepository } from '#/repository/reviews';
+import { countRate } from '#/utils/convertRating';
+import { TransactionRepository } from '#/repository/transaction';
 
 function DetailProduct() {
   const [showAllReviews, setShowAllReviews] = useState(false);
@@ -48,6 +60,12 @@ function DetailProduct() {
   const { data, error, isLoading } =
     productsRepository.hooks.getProductsById(productId);
 
+  const { data: dataReview } =
+    ReviewsRepository.hooks.getReviewsByProduct(productId);
+
+  const { data: dataTransaction } =
+    TransactionRepository.hooks.getlistTransactionsByProducts(productId);
+
   if (isLoading) {
     return (
       <Spin
@@ -57,6 +75,7 @@ function DetailProduct() {
     );
   }
   const datas = data?.data;
+  const dataReviews = dataReview?.reviewsData;
 
   const handleFilterPrice = (e: any) => {
     setFilterPrice(e.target.value);
@@ -83,75 +102,36 @@ function DetailProduct() {
   };
   const { confirm } = Modal;
   const handlebeforelogin = async () => {
-    if(!token){
+    if (!token) {
       confirm({
-        title: (
-          false
-        ),
-        closeIcon: (
-          false
-        ),
+        title: false,
+        closeIcon: false,
         content: (
           <div className='text-xl font-semibold flex justify-center mb-[25px]'>
             Anda belum login, silahkan login terlebih dahulu !
           </div>
         ),
         icon: (
-          <div className='modal-hapus mb-[10px] flex justify-center'><QuestionCircleFilled /></div>
+          <div className='modal-hapus mb-[10px] flex justify-center'>
+            <QuestionCircleFilled />
+          </div>
         ),
         okText: (
           <div className='modal-hapus text-xl font-bold text-white'>Ya</div>
         ),
-        onOk() {       
-          router.push('/auth/login')
-        }
+        onOk() {
+          router.push('/auth/login');
+        },
       });
     }
   };
-  const reviews = [
-    {
-      id: '1',
-      namaPemilik: 'M Danar Kahfi',
-      rating: '0',
-      photo1: 'assets/images/Hotel.png',
-      photo2: 'assets/images/Gedung.png',
-      photo3: 'assets/images/Kost.png',
-      ReviewPenyewa:
-        'Di sekitar kost banyak resto dan coffe shop. Pemiliknya baik, tempatnya juga nyaman dan bersih',
-    },
-    {
-      id: '2',
-      namaPemilik: 'M Danar Kahfi',
-      rating: '0',
-      photo1: 'assets/images/Hotel.png',
-      photo2: 'assets/images/Gedung.png',
-      photo3: 'assets/images/Kost.png',
-      ReviewPenyewa:
-        'Di sekitar kost banyak resto dan coffe shop. Pemiliknya baik, tempatnya juga nyaman dan bersih',
-    },
-    {
-      id: '3',
-      namaPemilik: 'M Danar Kahfi',
-      rating: '0',
-      photo1: 'assets/images/Hotel.png',
-      photo2: 'assets/images/Gedung.png',
-      photo3: 'assets/images/Kost.png',
-      ReviewPenyewa:
-        'Di sekitar kost banyak resto dan coffe shop. Pemiliknya baik, tempatnya juga nyaman dan bersih',
-    },
-    {
-      id: '4',
-      namaPemilik: 'M Danar Kahfi',
-      rating: '0',
-      photo1: 'assets/images/Hotel.png',
-      photo2: 'assets/images/Gedung.png',
-      photo3: 'assets/images/Kost.png',
-      ReviewPenyewa:
-        'Di sekitar kost banyak resto dan coffe shop. Pemiliknya baik, tempatnya juga nyaman dan bersih',
-    },
-  ];
 
-  const limitedReviews = showAllReviews ? reviews : reviews.slice(0, 3);
+  const limitedReviews = showAllReviews
+    ? dataReviews
+    : dataReviews?.slice(0, 3);
+  const totalRating = dataReviews?.map((dataReview: any) => {
+    return dataReview.rating;
+  });
 
   return (
     <div className='w-full'>
@@ -275,7 +255,9 @@ function DetailProduct() {
                   </div>
                   <div className='w-full flex justify-end items-center gap-x-2'>
                     <ReconciliationFilled className='text-primary text-[26px]' />
-                    <p className='text-xl'>0 transaksi berhasil</p>
+                    <p className='text-xl'>
+                      {dataTransaction?.count} transaksi berhasil
+                    </p>
                   </div>
                 </div>
               </div>
@@ -283,23 +265,24 @@ function DetailProduct() {
             <div className='grid gap-y-6 grid-cols-1 pb-[30px] border-b border-slate-300'>
               <div className='font-semibold text-3xl flex items-center gap-4'>
                 <StarFilled className='text-[#FFCC00] text-[50px]' />
-                <p>0 (0 review)</p>
+                <p>
+                  {countRate(totalRating)} ({dataReview?.count} review)
+                </p>
               </div>
-              {limitedReviews.map((review, index) => (
+              {limitedReviews?.map((review: any, index: any) => (
                 <div key={index}>
                   <div key={review.id}>
                     <ListReview
-                      namaPemilik={review.namaPemilik}
+                      namaPenyewa={review.user_name}
                       rating={review.rating}
-                      photo1={review.photo1}
-                      photo2={review.photo2}
-                      photo3={review.photo3}
-                      ReviewPenyewa={review.ReviewPenyewa}
+                      photos={review.photo}
+                      ReviewPenyewa={review.content}
+                      createdAt={review.createdAt}
                     />
                   </div>
                 </div>
               ))}
-              {!showAllReviews && reviews.length > 3 && (
+              {!showAllReviews && dataReview?.length > 3 && (
                 <Button
                   onClick={() => setShowAllReviews(true)}
                   className='w-fit h-max px-7 py-3 hover:bg-transparent hover:!text-primary !text-rstroke text-xl font-bold border border-rstroke bg-transparent cursor-pointer'
@@ -353,11 +336,15 @@ function DetailProduct() {
               )}
               <div className='flex items-center gap-x-2'>
                 <StarFilled className='text-[#FFCC00] text-[26px]' />
-                <p className='font-bold text-xl text-rstroke'>0</p>
+                <p className='font-bold text-xl text-rstroke'>
+                  {countRate(totalRating)}
+                </p>
               </div>
               <div className='flex items-center gap-x-2'>
                 <ReconciliationFilled className='text-rstroke text-[26px]' />
-                <p className='text-xl'>0 transaksi berhasil</p>
+                <p className='text-xl'>
+                  {dataTransaction?.count} transaksi berhasil
+                </p>
               </div>
             </div>
             <div className='flex items-start gap-x-2 text-rstroke'>
@@ -629,7 +616,10 @@ function DetailProduct() {
                   {!token && (
                     <>
                       <div>
-                        <Button onClick={handlebeforelogin} className='w-full p-[8px] h-14 rounded-2xl flex justify-center items-center !bg-transparent !border-2 !border-primary !text-primary !font-bold !text-xl hover:!text-opacity-60'>
+                        <Button
+                          onClick={handlebeforelogin}
+                          className='w-full p-[8px] h-14 rounded-2xl flex justify-center items-center !bg-transparent !border-2 !border-primary !text-primary !font-bold !text-xl hover:!text-opacity-60'
+                        >
                           <div className='flex items-center'>
                             <CommentOutlined className='text-3xl font-bold mr-3' />
                             Tanya Pemilik
