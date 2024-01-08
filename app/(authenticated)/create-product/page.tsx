@@ -45,8 +45,6 @@ function CreateProduct() {
   const [previewImage, setPreviewImage] = useState('');
   const [previewTitle, setPreviewTitle] = useState('');
   const [fileList, setFileList] = useState<UploadFile[]>([]);
-  const handleCancel = () => setPreviewOpen(false);
-  const [photoProductsArray, setPhotoProducts] = useState<string[] | []>([]);
 
   const [datas, setDatas] = useState<any>({
     name: '',
@@ -64,6 +62,8 @@ function CreateProduct() {
     gender: 'campur',
     rules: '',
   });
+
+  const handleCancel = () => setPreviewOpen(false);
 
   const onFinish = async () => {
     try {
@@ -115,32 +115,37 @@ function CreateProduct() {
     args: UploadChangeParam<UploadFile<any>>
   ) => {
     // Fungsi uploadProducts
-    const photoProducts = args?.file;
+    const photoProducts: any = args?.file;
+    const maxSize: number = 1024 * 1024 * 2;
+
     try {
       if (photoProducts.status === 'done') {
-        if (photoProducts.size && photoProducts.size > 2097152) {
-          message.error('ukuran photoProducts terlalu besar');
-        } else {
-          if (
-            photoProducts.type === 'image/png' ||
-            photoProducts.type === 'image/jpg' ||
-            photoProducts.type === 'image/jpeg'
-          ) {
-            const response =
-              await productsRepository.manipulatedata.uploadPhotoProducts(
-                photoProducts?.originFileObj
-              );
+        if (
+          photoProducts.type === 'image/png' ||
+          photoProducts.type === 'image/jpg' ||
+          photoProducts.type === 'image/jpeg'
+        ) {
+          const response =
+            await productsRepository.manipulatedata.uploadPhotoProducts(
+              photoProducts?.originFileObj
+            );
 
-            setPhotoProducts([...photoProductsArray, response.body.filename]);
-            setDatas({
-              ...datas,
-              photo: [...photoProductsArray, response.body.filename],
-            });
-          } else {
-            message.error('Anda hanya dapat mengunggah file JPG/JPEG/PNG !');
-          }
+          setDatas({
+            ...datas,
+            photo: [response.body.filename],
+          });
+        } else {
+          message.error('Anda hanya dapat mengunggah file JPG/JPEG/PNG !');
         }
+      } else if (
+        photoProducts.status === 'error' &&
+        photoProducts.size > maxSize
+      ) {
+        message.error('ukuran photo produk terlalu besar');
+      } else if (photoProducts.status === 'error') {
+        message.error('Cek koneksi anda!');
       }
+
       // Fungsi handleChangeUpload
       const { fileList: newFileList } = args;
       setFileList(newFileList);
@@ -240,7 +245,7 @@ function CreateProduct() {
   //   if (!isJpgOrPng) {
   //     message.error('Anda hanya dapat mengunggah file JPG/JPEG/PNG!');
   //   }
-  //   const isLt2M = file.size / 1024 / 1024 < 2 ;
+  //   const isLt2M = file.size / 1024 / 1024 < 2;
 
   //   if (!isLt2M) {
   //     message.error('Gambar harus lebih kecil dari 2 MB!');
