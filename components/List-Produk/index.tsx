@@ -1,20 +1,14 @@
 import React from 'react';
 import ModalDelete from '../Modal/modalDelete';
 import {
-  EnvironmentFilled,
   HomeFilled,
   QuestionCircleFilled,
   StarFilled,
 } from '@ant-design/icons';
 import { Icon } from '@iconify/react';
-import { config } from '#/config/app';
 import Button from '../Button';
 
-//disini tambahin mutate
 function ListProduk({ image, label, title, idProducts, mutate }: any) {
-  //   const imgProduct = (img: string) =>
-  //     `${config.baseUrl}/images/photo-products/${img}`;
-
   return (
     <div>
       <div className='p-5 rounded-[10px] border border-[#858585]'>
@@ -22,7 +16,6 @@ function ListProduk({ image, label, title, idProducts, mutate }: any) {
           <div className='flex gap-x-5 grid-cols-2'>
             <div className='w-1/2 h-[180px]'>
               <img
-                // src={imgProduct(image)}
                 src={image}
                 alt='produk'
                 className='object-cover object-center w-full h-full rounded-xl'
@@ -69,7 +62,6 @@ function ListProduk({ image, label, title, idProducts, mutate }: any) {
                     content='Apakah kamu yakin ingin nonaktif ?'
                     icon={<QuestionCircleFilled />}
                     buttonText='Nonaktif'
-                    // mutate nya dipanggil disini
                     mutate={mutate}
                     className='!w-full'
                   />
