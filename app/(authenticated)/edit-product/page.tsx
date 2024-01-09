@@ -47,7 +47,7 @@ function EditProduct() {
   const [previewImage, setPreviewImage] = useState('');
   const [previewTitle, setPreviewTitle] = useState('');
   const [fileList, setFileList] = useState<UploadFile[]>([]);
-  const [photoProductsArray, setPhotoProducts] = useState<string[] | []>([]);
+  const [photoProductsArray, setPhotoProductsArray] = useState<string[] | []>([]);
 
   const { data, error, isLoading } =
     productsRepository.hooks.getProductsById(productId);
@@ -131,7 +131,7 @@ function EditProduct() {
         gender: data?.data?.gender,
         rules: data?.data?.rules,
       });
-      setPhotoProducts(
+      setPhotoProductsArray(
         data?.data?.photoProducts?.map((item: any) => item.photo)
       );
       form.setFieldsValue({
@@ -179,7 +179,7 @@ function EditProduct() {
             );
 
           setFileList((state) => [...state, response.body.filename]);
-          setPhotoProducts([...photoProductsArray, response.body.filename]);
+          setPhotoProductsArray([...photoProductsArray, response.body.filename]);
         } else {
           message.error('Anda hanya dapat mengunggah file JPG/JPEG/PNG');
         }

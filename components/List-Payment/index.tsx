@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Button from '../Button';
 import { Form, Image, Input, Modal, message } from 'antd';
 import { toIDR } from '#/utils/convertCurrency';
-import { convertDate, convertTime } from '#/utils/convertTime';
+import { convertDate, toHours } from '#/utils/convertTime';
 import { imgTransProof } from '#/constants/general';
 import { TransactionRepository } from '#/repository/transaction';
 
@@ -127,7 +127,7 @@ function ListPayment({
           </div>
           <div className='flex font-[650] gap-x-3 text-xl'>
             <p className=''>Waktu :</p>
-            <p className='font-semibold text-rstroke'>{convertTime(waktu)}</p>
+            <p className='font-semibold text-rstroke'>{toHours(waktu)}</p>
           </div>
         </div>
         <div className='flex pb-5 border-b border-slate-300'>
