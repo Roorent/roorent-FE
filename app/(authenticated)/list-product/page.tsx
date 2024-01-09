@@ -42,7 +42,6 @@ function ListProduct() {
   }
   const datas = data?.data;
   console.log(datas);
-  
 
   return (
     <div>
@@ -119,13 +118,15 @@ function ListProduct() {
           }
         >
           <div className='w-full flex justify-center'>
-            <Button
-              type='primary'
-              href='/create-product'
-              className='!font-bold !p-3 !w-[10%] !mt-2'
-            >
-              Tambah
-            </Button>
+            <div className='!w-[10%]'>
+              <Button
+                type='primary'
+                href='/create-product'
+                className='!font-bold !p-3 !mt-2'
+              >
+                Tambah
+              </Button>
+            </div>
           </div>
         </Empty>
       )}
