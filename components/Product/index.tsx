@@ -3,6 +3,8 @@ import { Icon } from '@iconify/react';
 import { HomeFilled, StarFilled } from '@ant-design/icons';
 import { imgProduct } from '#/constants/general';
 import { toIDR } from '#/utils/convertCurrency';
+import { ReviewsRepository } from '#/repository/reviews';
+import { countRate } from '#/utils/convertRating';
 
 function Product({
   image,
@@ -23,6 +25,15 @@ function Product({
     setType(isType);
     setGender(isgender);
   }, [isType, isgender]);
+
+  const { data: dataReview } =
+    ReviewsRepository.hooks.getReviewsByProduct(idProducts);
+
+  const dataReviews = dataReview?.reviewsData;
+
+  const totalRating = dataReviews?.map((dataReview: any) => {
+    return dataReview.rating;
+  });
 
   return (
     <div className='w-[290px]'>
@@ -74,7 +85,9 @@ function Product({
               </div>
               <div className='flex items-center gap-x-2'>
                 <StarFilled className='text-[#FFCC00] text-[26px]' />
-                <p className='font-bold text-xl text-rstroke'>{rating}</p>
+                <p className='font-bold text-xl text-rstroke'>
+                  {countRate(totalRating)}
+                </p>
               </div>
             </div>
             <div className='text-[#DA3438] font-semibold text-lg'>

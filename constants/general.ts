@@ -22,3 +22,6 @@ export const imgKTP = (img: string) => `${config.baseUrl}/images/ktp/${img}`;
 
 export const imgTransProof = (img: string) =>
   `${config.baseUrl}/images/transactions/${img}`;
+
+  export const imgReviews = (img: string) =>
+  `${config.baseUrl}/images/photo-reviews/${img}`;

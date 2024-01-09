@@ -10,6 +10,7 @@ const url = {
   transactionsApp: (id: string) => `/transactions/applications/${id}/`,
   getListTransactionsByRenter: (id: string, status: string) => `/transactions/list-renter/${id}?status=${status}`,
   getDetailTransactions: (id: string) => `/transactions/${id}`,
+  getlistTransactionsByProducts: (id: string) => `/transactions/products/${id}`
 };
 
 const manipulatedata = {
@@ -45,6 +46,9 @@ const hooks = {
   },
   getDetailTransactions(id: string) {
     return useSWR(url.getDetailTransactions(id), http.fetcher);
+  },
+  getlistTransactionsByProducts(id: string) {
+    return useSWR(url.getlistTransactionsByProducts(id), http.fetcher);
   },
 };
 
