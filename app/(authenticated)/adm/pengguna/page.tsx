@@ -2,63 +2,24 @@
 
 import ListPengguna from '#/components/Pengguna';
 import Searchs from '#/components/Search';
-import TypeRadio from '#/components/TypeButton';
 import { MASCOT_OWNER, MASCOT_RENTER } from '#/constants/images';
 import { adminRepository } from '#/repository/adm';
 import { Pagination, Radio, Spin } from 'antd';
 import React, { useState } from 'react';
 
-const users = [
-  {
-    id: '1',
-    role: 'owner',
-    namaPengguna: 'M Danar Kahfi',
-    status: 'active',
-  },
-  {
-    id: '2',
-    role: 'owner',
-    namaPengguna: 'Cecilia Siregar',
-    status: 'pending',
-  },
-  {
-    id: '3',
-    role: 'owner',
-    namaPengguna: 'Nazhwa Nur Syabrina',
-    status: 'inactive',
-  },
-  {
-    id: '4',
-    role: 'owner',
-    namaPengguna: 'Reyner Wiliam Liongs',
-    status: 'reject',
-  },
-  {
-    id: '5',
-    role: 'renter',
-    namaPengguna: 'Fauzi Rahman Dhani',
-    status: '',
-  },
-  {
-    id: '6',
-    role: 'renter',
-    namaPengguna: 'Tyo Kuncoro',
-    status: '',
-  },
-  {
-    id: '7',
-    role: 'renter',
-    namaPengguna: 'Mohammad Wildan Maulana',
-    status: '',
-  },
-];
 function ManagementUser() {
   const [typeFilter, setTypeFilter] = useState('owner');
+  const [currentPage, setCurrentPage] = useState(1);
 
   const { data, error, isLoading } = adminRepository.hooks.getAllUsers();
 
   if (!data) {
-    return <Spin size="large"className='w-full h-full flex items-center justify-center' />;
+    return (
+      <Spin
+        size='large'
+        className='w-full h-full flex items-center justify-center'
+      />
+    );
   }
 
   const datas = data?.userData;
@@ -67,9 +28,26 @@ function ManagementUser() {
     ? datas.filter((user: any) => user?.role === typeFilter)
     : datas;
 
+  const itemsPerPage = 10;
+  const handlePageChange = (page: any) => {
+    setCurrentPage(page);
+  };
+
   const handleChange = (e: any) => {
     setTypeFilter(e.target.value);
+    setCurrentPage(1);
   };
+
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = filteredUsers
+    ?.sort((first: any, second: any) => {
+      return (
+        new Date(second.updatedAt).getTime() -
+        new Date(first.updatedAt).getTime()
+      );
+    })
+    .slice(indexOfFirstItem, indexOfLastItem);
 
   return (
     <div>
@@ -113,7 +91,7 @@ function ManagementUser() {
           <Searchs placeholder={'Masukan nama'} />
         </div>
         <div className='grid gap-y-4'>
-          {filteredUsers?.map((user: any) => (
+          {currentItems?.map((user: any) => (
             <div key={user.id}>
               <ListPengguna
                 idUsers={user.id}
@@ -128,12 +106,10 @@ function ManagementUser() {
       </div>
       <div className='w-full py-[20px] flex justify-end'>
         <Pagination
-          // current={currentPage}
-          // total={totalProducts}
-          // pageSize={itemsPerPage}
-          // onChange={handlePageChange}
-          defaultCurrent={1}
-          total={50}
+          current={currentPage}
+          total={filteredUsers?.length}
+          pageSize={itemsPerPage}
+          onChange={handlePageChange}
           className='text-2xl font-semibold absolute bottom-5'
         />
       </div>

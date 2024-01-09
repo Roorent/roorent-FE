@@ -31,6 +31,15 @@ export const convertTime = (inputString: any) => {
   }
 };
 
+export const toHours = (inputString: any) => {
+  moment.locale('id');
+
+  const inputDate = moment(inputString);
+
+  const hours = inputDate.format('HH:mm');
+  return hours;
+}
+
 export const convertDate = (inputString: any) => {
   moment.locale('id');
 

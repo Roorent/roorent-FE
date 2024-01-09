@@ -3,16 +3,36 @@ import Button from '#/components/Button';
 import ListPayment from '#/components/List-Payment';
 import { TransactionRepository } from '#/repository/transaction';
 import { Pagination, Spin } from 'antd';
-import React from 'react';
+import React, { useState } from 'react';
 
 function RenterPayment() {
+  const [currentPage, setCurrentPage] = useState(1);
   const { data, error, isLoading, mutate } =
     TransactionRepository.hooks.getTransactionsRenter();
 
   if (!data) {
-    return <Spin size="large"className='w-full h-full flex items-center justify-center' />;
+    return (
+      <Spin
+        size='large'
+        className='w-full h-full flex items-center justify-center'
+      />
+    );
   }
   const datas = data?.transactionsData;
+
+  const itemsPerPage = 10;
+  const handlePageChange = (page: any) => {
+    setCurrentPage(page);
+  };
+
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = datas?.sort((first: any, second: any) => {
+    return (
+      new Date(second.updatedAt).getTime() -
+      new Date(first.updatedAt).getTime()
+    );
+  }).slice(indexOfFirstItem, indexOfLastItem);
 
   return (
     <div>
@@ -21,15 +41,7 @@ function RenterPayment() {
           <p>Pembayaran Renter</p>
         </div>
         <div className='grid gap-10 grid-cols-2'>
-          {datas
-            ?.sort((a: any, b: any) => {
-              // Mengurutkan berdasarkan createdAt dari yang terbaru ke yang terlama
-              return (
-                new Date(b.createdAt).getTime() -
-                new Date(a.createdAt).getTime()
-              );
-            })
-            .map((payment: any) => (
+          {currentItems?.map((payment: any) => (
               <div key={payment.id}>
                 <ListPayment
                   idTransaction={payment.id}
@@ -49,12 +61,10 @@ function RenterPayment() {
       </div>
       <div className='w-full py-[20px] flex justify-end'>
         <Pagination
-          // current={currentPage}
-          // total={totalProducts}
-          // pageSize={itemsPerPage}
-          // onChange={handlePageChange}
-          defaultCurrent={1}
-          total={50}
+          current={currentPage}
+          total={datas?.length}
+          pageSize={itemsPerPage}
+          onChange={handlePageChange}
           className='text-2xl font-semibold'
         />
       </div>

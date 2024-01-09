@@ -12,23 +12,31 @@ function RiwayatTransaksi() {
   // const [filterType, setFilterType] = useState('pending');
   const token = localStorage.getItem('access_token');
   let id: string = '';
-  
+
   if (token) {
     id = parseJwt(token).id;
   }
-  
+
   const [filteredDatas, setFilteredDatas] = useState([]);
   const [filterType, setFilterType] = useState('pending');
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 9;
+  const handlePageChange = (page: any) => {
+    setCurrentPage(page);
+  };
 
   const { data, error, isLoading, mutate } =
     TransactionRepository.hooks.getListTransactionsByRenter(id, filterType);
 
   const datas = data?.transactionsData;
 
-
   useEffect(() => {
     setFilteredDatas(datas);
   }, [datas]);
+
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = filteredDatas?.slice(indexOfFirstItem, indexOfLastItem);
 
   interface OptionTypeIO {
     value: string;
@@ -43,6 +51,7 @@ function RiwayatTransaksi() {
 
   const handleChange = (value: string) => {
     setFilterType(value);
+    setCurrentPage(1);
 
     if (value === 'pending') {
       setFilteredDatas(datas);
@@ -98,29 +107,34 @@ function RiwayatTransaksi() {
           </div>
         </div>
         <div className='grid gap-10 grid-cols-3'>
-          {filteredDatas?.map((riwayat: any) => (
-            <div key={riwayat.id}>
-              <ListRiwayat
-                idTransaction={riwayat.id}
-                image={riwayat.product_photo}
-                product_type={riwayat.product_type}
-                product_label={riwayat.product_gender}
-                product_name={riwayat.product_name}
-                product_address={riwayat.product_address}
-                total_price={riwayat.total_price}
-                statusPembayaran={riwayat.statusPembayaran}
-              />
-            </div>
-          ))}
+          {currentItems
+            ?.sort((first: any, second: any) => {
+              return (
+                new Date(second.updatedAt).getTime() -
+                new Date(first.updatedAt).getTime()
+              );
+            })
+            .map((riwayat: any) => (
+              <div key={riwayat.id}>
+                <ListRiwayat
+                  idTransaction={riwayat.id}
+                  image={riwayat.product_photo}
+                  product_type={riwayat.product_type}
+                  product_label={riwayat.product_gender}
+                  product_name={riwayat.product_name}
+                  product_address={riwayat.product_address}
+                  total_price={riwayat.total_price}
+                  statusPembayaran={riwayat.statusPembayaran}
+                />
+              </div>
+            ))}
         </div>
         <div className='w-full py-[20px] flex justify-end'>
           <Pagination
-            // current={currentPage}
-            // total={totalProducts}
-            // pageSize={itemsPerPage}
-            // onChange={handlePageChange}
-            defaultCurrent={1}
-            total={50}
+            current={currentPage}
+            total={filteredDatas?.length}
+            pageSize={itemsPerPage}
+            onChange={handlePageChange}
             className='text-2xl font-semibold'
           />
         </div>

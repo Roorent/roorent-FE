@@ -10,6 +10,7 @@ import TypeRadio from '#/components/TypeButton';
 
 function ListProduct() {
   const [filterType, setFilterType] = useState('kost');
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     document.title = 'List Product - Roorent';
@@ -24,10 +25,13 @@ function ListProduct() {
 
   const handleChange = (value: string) => {
     setFilterType(value);
+    setCurrentPage(1);
   };
 
-  // const [currentPage, setCurrentPage] = useState(1);
-  // const itemsPerPage = 9;
+  const itemsPerPage = 9;
+  const handlePageChange = (page: any) => {
+    setCurrentPage(page);
+  };
 
   const { data, error, isLoading, mutate } =
     productsRepository.hooks.getListProductByOwner(id, filterType);
@@ -41,6 +45,15 @@ function ListProduct() {
     );
   }
   const datas = data?.data;
+
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = datas?.sort((first: any, second: any) => {
+    return (
+      new Date(second.updatedAt).getTime() -
+      new Date(first.updatedAt).getTime()
+    );
+  }).slice(indexOfFirstItem, indexOfLastItem);
 
   return (
     <div>
@@ -69,7 +82,7 @@ function ListProduct() {
         />
       </div>
       <div className='grid gap-5 grid-cols-3'>
-        {datas?.map((product: any) => (
+        {currentItems?.map((product: any) => (
           <div key={product.id}>
             <CardProduk
               idProducts={product.id}
@@ -77,24 +90,18 @@ function ListProduct() {
               label={product.type}
               title={product.name}
               address={product.address}
-              // disini tambah mutate
               mutate={mutate}
             />
           </div>
         ))}
       </div>
 
-      {/* <div className='grid gap-5 grid-cols-3 mb-10'>{renderProducts()}</div>
-
-      {totalPages > 1 && ( */}
       <div className='w-full py-[20px] flex justify-end'>
         <Pagination
-          // current={currentPage}
-          // total={totalProducts}
-          // pageSize={itemsPerPage}
-          // onChange={handlePageChange}
-          defaultCurrent={1}
-          total={50}
+         current={currentPage}
+         total={datas?.length}
+         pageSize={itemsPerPage}
+         onChange={handlePageChange}
           className='text-2xl font-semibold'
         />
       </div>
