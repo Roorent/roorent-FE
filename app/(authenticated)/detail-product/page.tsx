@@ -16,9 +16,19 @@ import {
   QuestionCircleFilled,
   ReconciliationFilled,
   StarFilled,
+  WarningFilled,
 } from '@ant-design/icons';
 import { Icon } from '@iconify/react';
-import { Carousel, Button, DatePicker, Form, Radio, message, Spin, Modal } from 'antd';
+import {
+  Carousel,
+  Button,
+  DatePicker,
+  Form,
+  Radio,
+  message,
+  Spin,
+  Modal,
+} from 'antd';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { toIDR } from '#/utils/convertCurrency';
 import { imgProduct } from '#/constants/general';
@@ -83,28 +93,33 @@ function DetailProduct() {
   };
   const { confirm } = Modal;
   const handlebeforelogin = async () => {
-    if(!token){
+    if (!token) {
       confirm({
         title: (
-          false
+          <div className='text-3xl font-bold flex justify-center'>
+            Anda belum login
+          </div>
         ),
-        closeIcon: (
-          false
-        ),
+        closeIcon: <></>,
         content: (
-          <div className='text-xl font-semibold flex justify-center mb-[25px]'>
-            Anda belum login, silahkan login terlebih dahulu !
+          <div className='text-xl font-semibold flex justify-center mb-[25px] text-center'>
+            Silahkan login terlebih dahulu !
           </div>
         ),
         icon: (
-          <div className='modal-hapus mb-[10px] flex justify-center'><QuestionCircleFilled /></div>
+          <div className='modal-beforelogin mb-[10px] flex justify-center'>
+            <WarningFilled />
+          </div>
         ),
         okText: (
           <div className='modal-hapus text-xl font-bold text-white'>Ya</div>
         ),
-        onOk() {       
-          router.push('/auth/login')
-        }
+        cancelText: (
+          <div className='modal-hapus text-xl font-bold text-white'>Batal</div>
+        ),
+        onOk() {
+          router.push('/auth/login');
+        },
       });
     }
   };
@@ -459,15 +474,6 @@ function DetailProduct() {
                               <div>(Harga {filterPrice})</div>
                             </>
                           )}
-                        {filterPrice !== 'perhari' &&
-                          datas?.monthly_price === 0 && (
-                            <>
-                              <div className='font-bold'>
-                                {toIDR(datas?.daily_price)}
-                              </div>
-                              <div>(Harga perhari 1)</div>
-                            </>
-                          )}
                         {filterPrice !== 'perbulan' &&
                           datas?.daily_price === 0 && (
                             <>
@@ -629,7 +635,10 @@ function DetailProduct() {
                   {!token && (
                     <>
                       <div>
-                        <Button onClick={handlebeforelogin} className='w-full p-[8px] h-14 rounded-2xl flex justify-center items-center !bg-transparent !border-2 !border-primary !text-primary !font-bold !text-xl hover:!text-opacity-60'>
+                        <Button
+                          onClick={handlebeforelogin}
+                          className='w-full p-[8px] h-14 rounded-2xl flex justify-center items-center !bg-transparent !border-2 !border-primary !text-primary !font-bold !text-xl hover:!text-opacity-60'
+                        >
                           <div className='flex items-center'>
                             <CommentOutlined className='text-3xl font-bold mr-3' />
                             Tanya Pemilik

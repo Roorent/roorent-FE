@@ -105,21 +105,37 @@ function Product({
             </div>
             <div className='text-xl flex '>
               {type === 'kost' && (
-                <div className='flex gap-x-1'>
+                <>
+                {(hargaPerbulan !== 0 && hargaPerhari === 0) && (
+                <div className='flex '>
                   <p className='font-bold'>{toIDR(hargaPerbulan)}</p>
-                  <p className='text-lg'>(Bulan pertama)</p>
+                  <p className='text-lg'>/bulan</p>
                 </div>
+                )}
+                {(hargaPerbulan === 0 && hargaPerhari !== 0) && (
+                <div className='flex '>
+                  <p className='font-bold'>{toIDR(hargaPerhari)}</p>
+                  <p className='text-lg'>/hari</p>
+                </div>
+                )}
+                {(hargaPerbulan !== 0 && hargaPerhari !== 0) && (
+                <div className='flex '>
+                  <p className='font-bold'>{toIDR(hargaPerbulan)}</p>
+                  <p className='text-lg'>/bulan</p>
+                </div>
+                )}
+                </>
               )}
               {type === 'gedung' && (
-                <div className='flex gap-x-1'>
+                <div className='flex'>
                   <p className='font-bold'>{toIDR(hargaPerhari)}</p>
-                  <p className='text-lg'>(Hari pertama)</p>
+                  <p className='text-lg'>/hari</p>
                 </div>
               )}
               {type === 'hotel' && (
-                <div className='flex gap-x-1'>
+                <div className='flex'>
                   <p className='font-bold'>{toIDR(hargaPerhari)}</p>
-                  <p className='text-lg'>(Hari pertama)</p>
+                  <p className='text-lg'>/hari</p>
                 </div>
               )}
             </div>

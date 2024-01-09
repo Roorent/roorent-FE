@@ -221,6 +221,7 @@ body {
 }
 .modal-hapus .ant-btn-primary:not(:disabled):not(.ant-btn-disabled):hover {
   background-color: #dd1717;
+  border-color: white !important;
 }
 :where(.css-dev-only-do-not-override-gzal6t).ant-modal-confirm .ant-modal-confirm-btns {
   text-align: end;
@@ -234,7 +235,7 @@ body {
 :where(.css-dev-only-do-not-override-gzal6t).ant-btn-default{
   background-color: #dd1717;
   width: 40%;
-  border-color: white;
+  border-color: white !important;
   padding-block: 7px;
   height: max-content;
 }
@@ -244,9 +245,12 @@ body {
   padding-block: 7px;
   height: max-content;
 }
+:where(.css-dev-only-do-not-override-gzal6t).ant-btn-default:not(:disabled):not(.ant-btn-disabled):hover{
+  opacity: 80% !important;
+}
 .modal-hapus .ant-btn-default:not(:disabled):not(.ant-btn-disabled):hover {
-  border-color: white;
-  opacity: 80%;
+  border-color: white !important;
+  opacity: 80% !important;
 }
 .ant-tabs .ant-tabs-tab {
   width: 216px;
@@ -290,6 +294,10 @@ body {
 .modal-hapus .anticon svg {
   font-size: 60px;
   color: #4065da;
+}
+.modal-beforelogin .anticon svg {
+  font-size: 60px;
+  color: #FECE0D;
 }
 .modal-hapus :where(.css-dev-only-do-not-override-6j9yrn).ant-btn {
   height: max-content;
@@ -584,4 +592,7 @@ textarea:where(.css-dev-only-do-not-override-1dj4ii3).ant-input {
 }
 :where(.css-dev-only-do-not-override-19l9cjq).ant-modal .ant-modal-close:hover{
   background-color: rgb(255 255 255);
+}
+:where(.css-dev-only-do-not-override-19l9cjq).ant-empty .ant-empty-image img{
+  width: 400px !important;
 }

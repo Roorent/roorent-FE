@@ -4,12 +4,13 @@ import Button from '#/components/Button';
 import ListProduk from '#/components/List-Produk';
 import Photo from '#/components/Photo';
 import TypeRadio from '#/components/TypeButton';
-import { imgKTP, imgProduct } from '#/constants/general';
+import { imgKTP, imgProduct, isRole } from '#/constants/general';
 import { productsRepository } from '#/repository/products';
 import { usersRepository } from '#/repository/users';
+import { parseJwt } from '#/utils/convert';
 import { convertDate } from '#/utils/convertTime';
 import { ArrowLeftOutlined } from '@ant-design/icons';
-import { Image, Pagination, Spin } from 'antd';
+import { Empty, Image, Pagination, Spin } from 'antd';
 import { useSearchParams } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 
@@ -27,16 +28,24 @@ function DetailPengguna() {
     filterType
   );
   const { data: userData } = usersRepository.hooks.getUserById(userId);
-  console.log(userData);
-
 
   if (!productData) {
-    return <Spin size="large" className='w-full h-full flex items-center justify-center' />;
+    return (
+      <Spin
+        size='large'
+        className='w-full h-full flex items-center justify-center'
+      />
+    );
   }
   const products = productData?.data;
 
   if (!userData) {
-    return <Spin size="large" className='w-full h-full flex items-center justify-center' />;
+    return (
+      <Spin
+        size='large'
+        className='w-full h-full flex items-center justify-center'
+      />
+    );
   }
   const users = userData?.data;
 
@@ -113,9 +122,6 @@ function DetailPengguna() {
                 <p className='text-teks text-2xl font-bold'>No. HP</p>
               </div>
               <div className='flex'>
-                {/* <div className='w-[10%] p-[10px] rounded-s-[10px] border border-rstroke regis text-xl bg-primary text-white flex justify-center'>
-                  +62
-                </div> */}
                 <div className='w-full p-[10px] rounded-[10px]  border border-rstroke regis text-xl'>
                   {users.phone}
                 </div>
@@ -148,7 +154,7 @@ function DetailPengguna() {
               </div>
             </div>
           </div>
-          {users.role === 'owner' ? (
+          {users.userRole === isRole.owner ? (
             <div className='w-full grid gap-y-4 grid-cols-1'>
               <div>
                 <p className='text-teks text-2xl font-bold'>Foto KTP</p>
@@ -169,7 +175,7 @@ function DetailPengguna() {
           ) : (
             <></>
           )}
-          {users.role === 'owner' && (
+          {users.userRole === isRole.owner && (
             <>
               {users.status === 'pending' && (
                 <div className='w-full grid gap-y-4 grid-cols-1'>
@@ -201,43 +207,61 @@ function DetailPengguna() {
             </>
           )}
         </div>
-        {users.role === 'owner' ? (
+        {users.userRole === isRole.owner ? (
           <div className='mt-5'>
             <div className='produkOwner text-white text-4xl font-bold bg-primary rounded-[10px] px-5 py-3 flex items-center mb-[30px]'>
               <p>Produk Pemilik</p>
             </div>
-            <div className='grid gap-y-3'>
-              <div className='w-full mb-[30px]'>
-                <TypeRadio
-                  defaultValue='kost'
-                  value={filterType}
-                  onChange={handleChange}
-                />
-              </div>
-              <div className='grid gap-7 grid-cols-2'>
-                {products.map((produk: any) => (
-                  <div key={produk.id}>
-                    <ListProduk
-                      idProducts={produk.id}
-                      image={imgProduct(produk.photo)}
-                      label={produk.type}
-                      title={produk.name}
+            {products.length > 0 ? (
+              <div className='grid gap-y-3'>
+                <div className='w-full mb-[30px]'>
+                  <TypeRadio
+                    defaultValue='kost'
+                    value={filterType}
+                    onChange={handleChange}
+                  />
+                </div>
+                <div className='grid gap-7 grid-cols-2'>
+                  {products.map((produk: any) => (
+                    <div key={produk.id}>
+                      <ListProduk
+                        idProducts={produk.id}
+                        image={imgProduct(produk.photo)}
+                        label={produk.type}
+                        title={produk.name}
+                      />
+                    </div>
+                  ))}
+                </div>
+                {products.length > 10 && (
+                  <div className='w-full py-[20px] flex justify-end'>
+                    <Pagination
+                      // current={currentPage}
+                      // total={totalProducts}
+                      // pageSize={itemsPerPage}
+                      // onChange={handlePageChange}
+                      defaultCurrent={1}
+                      total={50}
+                      className='text-2xl font-semibold'
                     />
                   </div>
-                ))}
+                )}
               </div>
-              <div className='w-full py-[20px] flex justify-end'>
-                <Pagination
-                  // current={currentPage}
-                  // total={totalProducts}
-                  // pageSize={itemsPerPage}
-                  // onChange={handlePageChange}
-                  defaultCurrent={1}
-                  total={50}
-                  className='text-2xl font-semibold'
-                />
-              </div>
-            </div>
+            ) : (
+              <Empty
+                image='https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg'
+                imageStyle={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  height: '100%',
+                }}
+                description={
+                  <span className='font-semibold text-2xl text-[#C0C0C0]'>
+                    Belum mempunyai produk
+                  </span>
+                }
+              ></Empty>
+            )}
           </div>
         ) : (
           <></>

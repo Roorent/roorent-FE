@@ -99,7 +99,7 @@ function CreateProduct() {
         ),
         content: (
           <div className='text-xl font-semibold flex justify-center mb-[25px]'>
-            Kamu telah berhasil membuat produk
+            Anda telah berhasil membuat produk
           </div>
         ),
       });

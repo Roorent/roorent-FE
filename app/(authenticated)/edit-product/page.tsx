@@ -247,7 +247,7 @@ function EditProduct() {
     (fee) => selectedOptionProduk?.value === fee.name
   );
 
-  useEffect(() => {
+  useEffect(() => { 
     document.title = 'Edit Product - Roorent';
 
     if (price?.daily !== 0 && price?.monthly !== 0) {

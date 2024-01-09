@@ -8,50 +8,6 @@ import { adminRepository } from '#/repository/adm';
 import { Pagination, Radio, Spin } from 'antd';
 import React, { useState } from 'react';
 
-const users = [
-  {
-    id: '1',
-    role: 'owner',
-    namaPengguna: 'M Danar Kahfi',
-    status: 'active',
-  },
-  {
-    id: '2',
-    role: 'owner',
-    namaPengguna: 'Cecilia Siregar',
-    status: 'pending',
-  },
-  {
-    id: '3',
-    role: 'owner',
-    namaPengguna: 'Nazhwa Nur Syabrina',
-    status: 'inactive',
-  },
-  {
-    id: '4',
-    role: 'owner',
-    namaPengguna: 'Reyner Wiliam Liongs',
-    status: 'reject',
-  },
-  {
-    id: '5',
-    role: 'renter',
-    namaPengguna: 'Fauzi Rahman Dhani',
-    status: '',
-  },
-  {
-    id: '6',
-    role: 'renter',
-    namaPengguna: 'Tyo Kuncoro',
-    status: '',
-  },
-  {
-    id: '7',
-    role: 'renter',
-    namaPengguna: 'Mohammad Wildan Maulana',
-    status: '',
-  },
-];
 function ManagementUser() {
   const [typeFilter, setTypeFilter] = useState('owner');
 

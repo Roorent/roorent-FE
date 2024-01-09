@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { LOGO } from '#/constants/images';
-import { Steps } from 'antd';
+import { Modal, Steps } from 'antd';
 import { Form } from 'antd';
 import OwnerStep1 from '#/components/auth/regisOwner/step1_owner';
 import OwnerStep2 from '#/components/auth/regisOwner/step2_owner';
@@ -10,6 +10,7 @@ import Regis from '#/components/auth/img_regis';
 import { Button, message } from 'antd/lib/index';
 import { useRouter } from 'next/navigation';
 import { authRepository } from '#/repository/auth';
+import { ExclamationCircleFilled } from '@ant-design/icons';
 
 function RegisOwner() {
   const router = useRouter();
@@ -80,8 +81,24 @@ function RegisOwner() {
       };
 
       await authRepository.manipulatedata.register(dataOwner, role);
-      setTimeout(message.success('Anda Telah Berhasil Registrasi!'), 5000);
-      router.push('/auth/login');
+      Modal.success({
+        icon: (
+          <div className='modal-hapus mb-[10px] flex justify-center'>
+            <ExclamationCircleFilled />
+          </div>
+        ),
+        title: (
+          <div className='text-3xl font-bold flex justify-center'>
+            Anda Telah Berhasil Registrasi
+          </div>
+        ),
+        content: (
+          <div className='text-xl font-semibold flex justify-center mb-[25px] text-center'>
+            Harap tunggu konfirmasi admin terlebih dahulu !
+          </div>
+        ),
+      });
+      setTimeout(() => router.push('/auth/login'));
     } catch (err: any) {
       message.error(err.response.body?.error);
     }

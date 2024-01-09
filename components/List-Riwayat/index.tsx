@@ -69,10 +69,10 @@ function ListRiwayat({
                       </p>
                     </>
                   )}
-                  {product_label === 'campuran' && (
+                  {product_label === 'campur' && (
                     <>
                       <p className='bg-orange-400 py-1.5 px-5 rounded-md'>
-                        Campuran
+                        Campur
                       </p>
                     </>
                   )}
