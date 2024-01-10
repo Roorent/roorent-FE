@@ -70,7 +70,7 @@ function RenterStep1({ setData, data, formStep1 }: Props) {
           <div className='w-full'>
             <Form.Item
               name='nik'
-              rules={[{ required: true, message: 'Harap masukan No.NIK!' }]}
+              rules={[{ required: true, message: 'Harap masukan NIK!' }]}
             >
               <Input
                 onChange={(e) => {

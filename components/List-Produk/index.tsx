@@ -59,7 +59,7 @@ function ListProduk({ image, label, title, idProducts, mutate }: any) {
                   <ModalDelete
                     id={idProducts}
                     title='Nonaktif Produk'
-                    content='Apakah kamu yakin ingin nonaktif ?'
+                    content='Apakah anda yakin ingin nonaktif ?'
                     icon={<QuestionCircleFilled />}
                     buttonText='Nonaktif'
                     mutate={mutate}

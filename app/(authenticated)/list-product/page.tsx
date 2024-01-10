@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { Pagination, Spin } from 'antd';
+import { Empty, Pagination, Spin } from 'antd';
 import Button from '#/components/Button';
 import CardProduk from '#/components/Card';
 import { productsRepository } from '#/repository/products';
@@ -48,12 +48,14 @@ function ListProduct() {
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = datas?.sort((first: any, second: any) => {
-    return (
-      new Date(second.updatedAt).getTime() -
-      new Date(first.updatedAt).getTime()
-    );
-  }).slice(indexOfFirstItem, indexOfLastItem);
+  const currentItems = datas
+    ?.sort((first: any, second: any) => {
+      return (
+        new Date(second.updatedAt).getTime() -
+        new Date(first.updatedAt).getTime()
+      );
+    })
+    .slice(indexOfFirstItem, indexOfLastItem);
 
   return (
     <div>
@@ -61,18 +63,20 @@ function ListProduct() {
         <div className='w-full'>
           <p className='text-white w-full'>Daftar Produk </p>
         </div>
-        <div className='flex gap-x-6 items-center'>
-          <div className='w-full'>
-            <Button
-              type='primary'
-              htmlType='submit'
-              href='/create-product'
-              className='hover:!text-primary hover:bg-white bg-tranparant border-2 border-white rounded-[10px] text-[20px] font-bold !mt-0 px-7'
-            >
-              Tambah
-            </Button>
+        {datas.length > 0 && (
+          <div className='flex gap-x-6 items-center'>
+            <div className='w-full'>
+              <Button
+                type='primary'
+                htmlType='submit'
+                href='/create-product'
+                className='hover:!text-primary hover:bg-white bg-tranparant border-2 border-white rounded-[10px] text-[20px] font-bold !mt-0 px-7'
+              >
+                Tambah
+              </Button>
+            </div>
           </div>
-        </div>
+        )}
       </div>
       <div className='w-full mb-[30px]'>
         <TypeRadio
@@ -81,30 +85,63 @@ function ListProduct() {
           onChange={handleChange}
         />
       </div>
-      <div className='grid gap-5 grid-cols-3'>
-        {currentItems?.map((product: any) => (
-          <div key={product.id}>
-            <CardProduk
-              idProducts={product.id}
-              image={product.photo}
-              label={product.type}
-              title={product.name}
-              address={product.address}
-              mutate={mutate}
+      {currentItems.length > 0 ? (
+        <>
+          <div className='grid gap-5 grid-cols-3'>
+            {currentItems?.map((product: any) => (
+              <div key={product.id}>
+                <CardProduk
+                  idProducts={product.id}
+                  image={product.photo}
+                  label={product.type}
+                  title={product.name}
+                  address={product.address}
+                  // disini tambah mutate
+                  mutate={mutate}
+                />
+              </div>
+            ))}
+          </div>
+          {/* <div className='grid gap-5 grid-cols-3 mb-10'>{renderProducts()}</div>
+
+      {totalPages > 1 && ( */}
+          <div className='w-full py-[20px] flex justify-end'>
+            <Pagination
+              current={currentPage}
+              total={datas?.length}
+              pageSize={itemsPerPage}
+              onChange={handlePageChange}
+              className='text-2xl font-semibold'
             />
           </div>
-        ))}
-      </div>
-
-      <div className='w-full py-[20px] flex justify-end'>
-        <Pagination
-         current={currentPage}
-         total={datas?.length}
-         pageSize={itemsPerPage}
-         onChange={handlePageChange}
-          className='text-2xl font-semibold'
-        />
-      </div>
+        </>
+      ) : (
+        <Empty
+          image='https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg'
+          imageStyle={{
+            display: 'flex',
+            justifyContent: 'center',
+            height: '100%',
+          }}
+          description={
+            <span className='font-semibold text-2xl text-[#C0C0C0]'>
+              Belum mempunyai produk
+            </span>
+          }
+        >
+          <div className='w-full flex justify-center'>
+            <div className='!w-[10%]'>
+              <Button
+                type='primary'
+                href='/create-product'
+                className='!font-bold !p-3 !mt-2'
+              >
+                Tambah
+              </Button>
+            </div>
+          </div>
+        </Empty>
+      )}
       {/* )} */}
     </div>
   );

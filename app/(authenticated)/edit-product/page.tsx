@@ -105,7 +105,7 @@ function EditProduct() {
         ),
         content: (
           <div className='text-xl font-semibold flex justify-center mb-[25px]'>
-            Kamu telah berhasil mengubah produk
+            Anda telah berhasil mengubah produk
           </div>
         ),
       });
@@ -247,7 +247,7 @@ function EditProduct() {
     (fee) => selectedOptionProduk?.value === fee.name
   );
 
-  useEffect(() => {
+  useEffect(() => { 
     document.title = 'Edit Product - Roorent';
 
     if (price?.daily !== 0 && price?.monthly !== 0) {

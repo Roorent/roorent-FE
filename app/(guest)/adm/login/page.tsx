@@ -37,7 +37,7 @@ const LoginAdmin = () => {
       }
 
       if (role === 'admin') {
-        router.push('/adm/dashboard');
+        router.push('/adm/pengguna');
         setTimeout(message.success('Anda Telah Berhasil Login!'), 5000);
       } else {
         localStorage.removeItem('access_token');
