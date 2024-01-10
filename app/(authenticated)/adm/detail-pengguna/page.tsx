@@ -7,6 +7,7 @@ import TypeRadio from '#/components/TypeButton';
 import { imgKTP, imgProduct, isRole } from '#/constants/general';
 import { productsRepository } from '#/repository/products';
 import { usersRepository } from '#/repository/users';
+import { parseJwt } from '#/utils/convert';
 import { convertDate } from '#/utils/convertTime';
 import { ArrowLeftOutlined, CalendarOutlined, DownOutlined } from '@ant-design/icons';
 import { Empty, Image, Pagination, Spin } from 'antd';
@@ -121,9 +122,6 @@ function DetailPengguna() {
                 <p className='text-teks text-2xl font-bold'>No. HP</p>
               </div>
               <div className='flex'>
-                {/* <div className='w-[10%] p-[10px] rounded-s-[10px] border border-rstroke regis text-xl bg-primary text-white flex justify-center'>
-                  +62
-                </div> */}
                 <div className='w-full p-[10px] rounded-[10px]  border border-rstroke regis text-xl'>
                   {users.phone}
                 </div>
@@ -166,7 +164,7 @@ function DetailPengguna() {
               </div>
             </div>
           </div>
-          {users.role === isRole.owner ? (
+          {users.userRole === isRole.owner ? (
             <div className='w-full grid gap-y-4 grid-cols-1'>
               <div>
                 <p className='text-teks text-2xl font-bold'>Foto KTP</p>
@@ -186,7 +184,7 @@ function DetailPengguna() {
           ) : (
             <></>
           )}
-          {users.role === isRole.owner && (
+          {users.userRole === isRole.owner && (
             <>
               {users.status === 'pending' && (
                 <div className='w-full grid gap-y-4 grid-cols-1'>
@@ -218,7 +216,7 @@ function DetailPengguna() {
             </>
           )}
         </div>
-        {users.role === isRole.owner ? (
+        {users.userRole === isRole.owner ? (
           <div className='mt-5'>
             <div className='produkOwner text-white text-4xl font-bold bg-primary rounded-[10px] px-5 py-3 flex items-center mb-[30px]'>
               <p>Produk Pemilik</p>

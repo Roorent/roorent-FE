@@ -138,7 +138,7 @@ function ListPayment({
               className='object-cover object-center !h-[300px] rounded-xl'
             />
           </div>
-          <div className='w-1/2 grid '>
+          <div className='w-1/2 grid'>
             <div className='flex font-semibold text-2xl'>
               <p>Dari</p>
               <div className='font-semibold flex text-2xl'>
@@ -149,15 +149,15 @@ function ListPayment({
             <div className='flex font-semibold gap-x-3 text-2xl h-fit'>
               <p className='line-clamp-5'>{namaProduk}</p>
             </div>
-            <div className='grid gap-y-[2px] grid-cols-1 font-semibold text-rstroke underline underline-offset-2 pt-2'>
+            <div className='grid gap-y-[2px] grid-cols-1 font-semibold text-rstroke pt-2'>
               <div className='flex text-2xl justify-between'>
                 <div>Biaya sewa</div>
-                <div>{toIDR(biayaSewa)}</div>
+                <div className=' underline underline-offset-2'>{toIDR(biayaSewa)}</div>
               </div>
               <div className='flex text-2xl justify-between'>
                 <div>Lama Sewa</div>
                 <div className='flex gap-2'>
-                  <p>{lamaSewa} Bulan</p>
+                  <p className=' underline underline-offset-2'>{lamaSewa} Bulan</p>
                 </div>
               </div>
             </div>

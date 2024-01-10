@@ -16,6 +16,7 @@ import {
   QuestionCircleFilled,
   ReconciliationFilled,
   StarFilled,
+  WarningFilled,
 } from '@ant-design/icons';
 import { Icon } from '@iconify/react';
 import {
@@ -104,20 +105,27 @@ function DetailProduct() {
   const handlebeforelogin = async () => {
     if (!token) {
       confirm({
-        title: false,
+        title: (
+          <div className='text-3xl font-bold flex justify-center'>
+            Anda belum login
+          </div>
+        ),
         closeIcon: false,
         content: (
-          <div className='text-xl font-semibold flex justify-center mb-[25px]'>
-            Anda belum login, silahkan login terlebih dahulu !
+          <div className='text-xl font-semibold flex justify-center mb-[25px] text-center'>
+            Silahkan login terlebih dahulu !
           </div>
         ),
         icon: (
-          <div className='modal-hapus mb-[10px] flex justify-center'>
-            <QuestionCircleFilled />
+          <div className='modal-beforelogin mb-[10px] flex justify-center'>
+            <WarningFilled />
           </div>
         ),
         okText: (
           <div className='modal-hapus text-xl font-bold text-white'>Ya</div>
+        ),
+        cancelText: (
+          <div className='modal-hapus text-xl font-bold text-white'>Batal</div>
         ),
         onOk() {
           router.push('/auth/login');
@@ -378,7 +386,7 @@ function DetailProduct() {
                   '0 -2px 40px rgba(0,0,0,.04), 0 16px 40px rgba(0,0,0,.06)',
               }}
             >
-              <div className='text-xl font-bold bg-primary rounded-[10px] px-5 py-2.5 flex items-center mb-[30px] text-white w-full justify-center'>
+              <div className='text-3xl font-bold px-5 border-b border-slate-300 pb-5 flex items-center mb-[30px] text-teks w-full justify-center'>
                 Harga Produk
               </div>
               {datas?.type === 'kost' && (
@@ -446,22 +454,14 @@ function DetailProduct() {
                               <div>(Harga {filterPrice})</div>
                             </>
                           )}
-                        {filterPrice !== 'perhari' &&
-                          datas?.monthly_price === 0 && (
-                            <>
-                              <div className='font-bold'>
-                                {toIDR(datas?.daily_price)}
-                              </div>
-                              <div>(Harga perhari 1)</div>
-                            </>
-                          )}
                         {filterPrice !== 'perbulan' &&
                           datas?.daily_price === 0 && (
                             <>
+                              {setFilterPrice('perbulan')}
                               <div className='font-bold'>
                                 {toIDR(datas?.monthly_price)}
                               </div>
-                              <div>(Harga perbulan)</div>
+                              <div>(Harga {filterPrice})</div>
                             </>
                           )}
                       </div>

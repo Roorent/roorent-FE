@@ -19,6 +19,7 @@ import Chats from '#/components/Chats';
 import { parseJwt } from '#/utils/convert';
 import Favorite from '#/components/Favorite';
 import Footer from '#/components/Footer';
+import Button from '#/components/Button';
 
 interface AuthenticatedLayoutProps {
   children: React.ReactNode;
@@ -82,7 +83,7 @@ const AuthenticatedLayout: React.FC<AuthenticatedLayoutProps> = ({
     firstName = parseJwt(token).firstname;
     photo = parseJwt(token).photo;
   }
-  if (!token) {
+  if (!token && pathname !== '/detail-product') {
     router.push('/');
   }
 
@@ -380,43 +381,60 @@ const AuthenticatedLayout: React.FC<AuthenticatedLayoutProps> = ({
                   <div className='w-full'>
                     <LOGO className='!w-[190px]' />
                   </div>
-                  <div className='flex gap-6 items-center'>
-                    {role === isRole.admin ? (
-                      <>
-                        <Notifications />
-                      </>
-                    ) : (
-                      <>
-                        <Chats />
-                        <Notifications />
-                      </>
-                    )}
-                  </div>
-                  {role === isRole.admin ? (
-                    <div className='flex items-center gap-6 w-fit'>
-                      <div className='flex items-center gap-8'>
-                        <p className='text-xl font-bold flex w-max justify-end'>
-                          Halo, {firstName}
-                        </p>
-                        <Photo
-                          className='cursor-pointer'
-                          size={50}
-                          src={photo}
-                        />
+                  {!token ? (
+                    <>
+                      <div className='flex'>
+                        <Button
+                          type='primary'
+                          htmlType='submit'
+                          href='/auth/login'
+                          className='w-max hover:!text-white hover:!bg-primary !bg-white !text-primary border-2 border-primary rounded-[10px] text-[20px] font-bold !mt-0 px-10 shadow-md shadow-primary hover:!shadow-lg'
+                        >
+                          Masuk
+                        </Button>
                       </div>
-                    </div>
+                    </>
                   ) : (
-                    <div className='menu-profil flex items-center gap-2'>
-                      <p className='text-xl font-bold flex w-max justify-end'>
-                        Halo, {firstName}
-                      </p>
-                      <Menu
-                        selectedKeys={['Profil']}
-                        mode='horizontal'
-                        items={items}
-                        className='menu-profil'
-                      />
-                    </div>
+                    <>
+                      <div className='flex gap-6 items-center'>
+                        {role === isRole.admin ? (
+                          <>
+                            <Notifications />
+                          </>
+                        ) : (
+                          <>
+                            <Chats />
+                            <Notifications />
+                          </>
+                        )}
+                      </div>
+                      {role === isRole.admin ? (
+                        <div className='flex items-center gap-6 w-fit'>
+                          <div className='flex items-center gap-8'>
+                            <p className='text-xl font-bold flex w-max justify-end'>
+                              Halo, {firstName}
+                            </p>
+                            <Photo
+                              className='cursor-pointer'
+                              size={50}
+                              src={photo}
+                            />
+                          </div>
+                        </div>
+                      ) : (
+                        <div className='menu-profil flex items-center gap-2'>
+                          <p className='text-xl font-bold flex w-max justify-end'>
+                            Halo, {firstName}
+                          </p>
+                          <Menu
+                            selectedKeys={['Profil']}
+                            mode='horizontal'
+                            items={items}
+                            className='menu-profil'
+                          />
+                        </div>
+                      )}
+                    </>
                   )}
                 </Menu>
               </Header>
