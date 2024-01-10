@@ -19,6 +19,10 @@ function Home() {
   const [typeFilter, setTypeFilter] = useState('kost');
   const [cityFilter, setCityFilter] = useState('Pilih Kota');
 
+  useEffect(() => {
+    document.title = 'Home - Roorent';
+  }, []);
+
   const { data, error, isLoading } = productsRepository.hooks.getAllKos();
   const { data: dataCity } = cityRepository.hooks.allCity();
 
@@ -67,10 +71,6 @@ function Home() {
   const handleChangeCity = (value: any) => {
     setCityFilter(value); // Update nilai kota saat terjadi perubahan pada Select
   };
-
-  useEffect(() => {
-    document.title = 'Home - Roorent';
-  }, []);
 
   return (
     <div>
