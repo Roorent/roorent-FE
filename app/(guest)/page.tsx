@@ -116,7 +116,7 @@ function Home() {
               </div>
               <div>
                 <Searchs
-                  placeholder={'Masukan nama lokasi/kota/alamat/produk'}
+                  placeholder={'Masukan nama/kota/alamat'}
                 />
               </div>
             </div>

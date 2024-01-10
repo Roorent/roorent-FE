@@ -143,7 +143,7 @@ function DetailPengguna() {
               <div>
                 <p className='text-teks text-2xl font-bold'>Tanggal Lahir</p>
               </div>
-              <div className='w-full p-[10px] rounded-[10px] border border-rstroke regis text-xl'>
+              <div className='w-full p-[10px] rounded-[10px] border border-rstroke regis text-xl flex'>
                 <div className='w-full'>
                   {convertDate(users.birthday)}
                 </div>
@@ -156,7 +156,7 @@ function DetailPengguna() {
               <div>
                 <p className='text-teks text-2xl font-bold'>Jenis Kelamin</p>
               </div>
-              <div className='w-full p-[10px] rounded-[10px] border border-rstroke regis text-xl'>
+              <div className='w-full p-[10px] rounded-[10px] border border-rstroke regis text-xl flex'>
                 <div className='w-full'>
                   {users.gender === 'pria' ? 'Pria' : 'Wanita'}
                 </div>

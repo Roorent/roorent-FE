@@ -61,6 +61,8 @@ const AuthenticatedLayout: React.FC<AuthenticatedLayoutProps> = ({
     pathname === '/profile' ||
     pathname === '/profile/setting';
 
+  const search = pathname === '/search';
+
   const {
     token: { colorBgContainer },
   } = theme.useToken();
@@ -89,41 +91,77 @@ const AuthenticatedLayout: React.FC<AuthenticatedLayoutProps> = ({
     router.push('/');
   };
 
-  const items: MenuProps['items'] = [
-    {
-      label: <Photo className='cursor-pointer' size={50} src={photo} />,
-      key: 'Profil',
-      children: [
-        {
-          label: (
-            <a href='/profile' className='text-lg'>
-              <UserOutlined className='mr-2 ' style={{ fontSize: '18px' }} />
-              Profil
-            </a>
-          ),
-          key: 'profil',
-        },
-        {
-          label: (
-            <a href='/riwayat-transaksi' className='text-lg'>
-              <FileSyncOutlined className='mr-2' style={{ fontSize: '18px' }} />
-              Riwayat Transaksi
-            </a>
-          ),
-          key: 'riwayat',
-        },
-        {
-          label: (
-            <a onClick={handleLogout} className='text-lg'>
-              <LogoutOutlined className='mr-2' style={{ fontSize: '18px' }} />
-              Keluar
-            </a>
-          ),
-          key: 'logout',
-        },
-      ],
-    },
-  ];
+  let items: MenuProps['items'];
+
+  if (role === isRole.renter) {
+    items = [
+      {
+        label: <Photo className='cursor-pointer' size={50} src={photo} />,
+        key: 'Profil',
+        children: [
+          {
+            label: (
+              <a href='/profile' className='text-lg'>
+                <UserOutlined className='mr-2 ' style={{ fontSize: '18px' }} />
+                Profil
+              </a>
+            ),
+            key: 'profil',
+          },
+          {
+            label: (
+              <a href='/riwayat-transaksi' className='text-lg'>
+                <FileSyncOutlined
+                  className='mr-2'
+                  style={{ fontSize: '18px' }}
+                />
+                Riwayat Transaksi
+              </a>
+            ),
+            key: 'riwayat',
+          },
+          {
+            label: (
+              <a onClick={handleLogout} className='text-lg'>
+                <LogoutOutlined className='mr-2' style={{ fontSize: '18px' }} />
+                Keluar
+              </a>
+            ),
+            key: 'logout',
+          },
+        ],
+      },
+    ];
+  } else if (role === isRole.owner) {
+    items = [
+      {
+        label: <Photo className='cursor-pointer' size={50} src={photo} />,
+        key: 'Profil',
+        children: [
+          {
+            label: (
+              <a href='/profile' className='text-lg'>
+                <UserOutlined className='mr-2 ' style={{ fontSize: '18px' }} />
+                Profil
+              </a>
+            ),
+            key: 'profil',
+          },
+          {
+            label: (
+              <a onClick={handleLogout} className='text-lg'>
+                <LogoutOutlined className='mr-2' style={{ fontSize: '18px' }} />
+                Keluar
+              </a>
+            ),
+            key: 'logout',
+          },
+        ],
+      },
+    ];
+  } else {
+    items = [];
+  }
 
   const itemOwner: MenuItem[] = [
     getItem(
@@ -230,16 +268,11 @@ const AuthenticatedLayout: React.FC<AuthenticatedLayoutProps> = ({
     router.push(e.key);
   };
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const closeModal = () => {
-    setIsModalOpen(false);
-  };
-
   return (
     <Layout style={{ height: '100%' }}>
       {role !== isRole.renter && (
         <>
-          {cruProduk ? (
+          {cruProduk || search ? (
             <></>
           ) : (
             <Sider
@@ -253,14 +286,23 @@ const AuthenticatedLayout: React.FC<AuthenticatedLayoutProps> = ({
                 </a>
               </div>
               {role === isRole.admin ? (
-                <Menu
-                  onClick={onClickAdmin}
-                  mode='inline'
-                  style={{ width: 298, borderRight: 0 }}
-                  selectedKeys={[currAdmin]}
-                  items={itemAdmin}
-                  className='sidebar flex flex-col gap-1 justify-center px-8'
-                />
+                <>
+                  <Menu
+                    onClick={onClickAdmin}
+                    mode='inline'
+                    style={{ width: 298, borderRight: 0 }}
+                    selectedKeys={[currAdmin]}
+                    items={itemAdmin}
+                    className='sidebar flex flex-col gap-1 justify-center px-8'
+                  />
+                  <div
+                    onClick={handleLogout}
+                    className='text-slate-600 text-2xl font-bold flex gap-4 justify-center items-center hover:text-primary absolute left-[25%] bottom-16 cursor-pointer'
+                  >
+                    <LogoutOutlined />
+                    <p>Keluar</p>
+                  </div>
+                </>
               ) : (
                 <Menu
                   onClick={onClickOwner}
@@ -271,13 +313,6 @@ const AuthenticatedLayout: React.FC<AuthenticatedLayoutProps> = ({
                   className='sidebar flex flex-col gap-1 justify-center px-8'
                 />
               )}
-              <div
-                onClick={handleLogout}
-                className='text-slate-600 text-2xl font-bold flex gap-4 justify-center items-center hover:text-primary absolute left-[25%] bottom-16 cursor-pointer'
-              >
-                <LogoutOutlined />
-                <p>Keluar</p>
-              </div>
             </Sider>
           )}
         </>
@@ -386,39 +421,44 @@ const AuthenticatedLayout: React.FC<AuthenticatedLayoutProps> = ({
                 </Menu>
               </Header>
             )}
+            {search && <></>}
           </>
         ) : (
           <>
-            <Header style={{ background: colorBgContainer }}>
-              <Menu
-                mode='horizontal'
-                defaultSelectedKeys={[]}
-                style={{ borderBottomWidth: '2px' }}
-                className={
-                  'absolute z-50 border-slate-200 flex justify-start py-[12px] px-[150px] gap-10 w-full items-center -ml-[50px]'
-                }
-              >
-                <div className='w-full'>
-                  <LOGO className='!w-[190px]' />
-                </div>
-                <div className='flex gap-6 items-center'>
-                  <Favorite />
-                  <Chats />
-                  <Notifications />
-                </div>
-                <div className='menu-profil flex items-center gap-2'>
-                  <p className='text-xl font-bold flex w-max justify-end'>
-                    Halo, {firstName}
-                  </p>
-                  <Menu
-                    selectedKeys={['Profil']}
-                    mode='horizontal'
-                    items={items}
-                    className='menu-profil'
-                  />
-                </div>
-              </Menu>
-            </Header>
+            {!search ? (
+              <Header style={{ background: colorBgContainer }}>
+                <Menu
+                  mode='horizontal'
+                  defaultSelectedKeys={[]}
+                  style={{ borderBottomWidth: '2px' }}
+                  className={
+                    'absolute z-50 border-slate-200 flex justify-start py-[12px] px-[150px] gap-10 w-full items-center -ml-[50px]'
+                  }
+                >
+                  <div className='w-full'>
+                    <LOGO className='!w-[190px]' />
+                  </div>
+                  <div className='flex gap-6 items-center'>
+                    <Favorite />
+                    <Chats />
+                    <Notifications />
+                  </div>
+                  <div className='menu-profil flex items-center gap-2'>
+                    <p className='text-xl font-bold flex w-max justify-end'>
+                      Halo, {firstName}
+                    </p>
+                    <Menu
+                      selectedKeys={['Profil']}
+                      mode='horizontal'
+                      items={items}
+                      className='menu-profil'
+                    />
+                  </div>
+                </Menu>
+              </Header>
+            ) : (
+              <></>
+            )}
           </>
         )}
         {role !== isRole.renter ? (
@@ -479,23 +519,44 @@ const AuthenticatedLayout: React.FC<AuthenticatedLayoutProps> = ({
                 </div>
               </Content>
             ) : (
-              <Content
-                style={{ margin: '10px 0 0 0' }}
-                className='text-slate-800 bg-white'
-              >
-                <div
-                  style={{
-                    padding: '40px 0 0 0',
-                    minHeight: 360,
-                    height: '100%',
-                    background: colorBgContainer,
-                  }}
-                  className='overflow-auto'
-                >
-                  {children}
-                  <Footer />
-                </div>
-              </Content>
+              <>
+                {!search ? (
+                  <Content
+                    style={{ margin: '10px 0 0 0' }}
+                    className='text-slate-800 bg-white'
+                  >
+                    <div
+                      style={{
+                        padding: '40px 0 0 0',
+                        minHeight: 360,
+                        height: '100%',
+                        background: colorBgContainer,
+                      }}
+                      className='overflow-auto'
+                    >
+                      {children}
+                      <Footer />
+                    </div>
+                  </Content>
+                ) : (
+                  <Content
+                    style={{ margin: '10px 0 0 0' }}
+                    className='text-slate-800 bg-white'
+                  >
+                    <div
+                      style={{
+                        padding: '40px 500px 0 500px',
+                        minHeight: 360,
+                        height: '100%',
+                        background: colorBgContainer,
+                      }}
+                      className='overflow-auto'
+                    >
+                      {children}
+                    </div>
+                  </Content>
+                )}
+              </>
             )}
           </>
         )}
