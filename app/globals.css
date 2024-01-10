@@ -623,3 +623,45 @@ textarea:where(.css-dev-only-do-not-override-1dj4ii3).ant-input {
 :where(.css-dev-only-do-not-override-19l9cjq).ant-modal .ant-modal-close:hover {
   background-color: rgb(255 255 255);
 }
+.menu-profil .ant-menu-horizontal {
+  border-bottom: 1px solid rgb(255 255 255 / 0%) !important;
+}
+:where(.css-dev-only-do-not-override-19l9cjq).ant-menu-light.ant-menu-horizontal >.ant-menu-submenu-selected::after{
+  border-bottom-color: white !important;
+}
+.profile .ant-menu .ant-menu-item-group .ant-menu-item-group-list .ant-menu-item{
+  padding-inline: 0px 0px !important; 
+  padding-block: 40px !important;
+  border-bottom: solid 1px;
+  border-color: rgb(203 213 225);
+}
+.profile .ant-menu .ant-menu-item{
+  border-radius: 0px;
+}
+.profile .ant-menu .ant-menu-item .ant-menu-item-icon svg{
+  font-size: 30px !important;
+}
+.profile .ant-menu-inline.ant-menu-root .ant-menu-item >.ant-menu-title-content{
+  font-size: 20px !important;
+}
+.profile .ant-menu-light:not(.ant-menu-horizontal) .ant-menu-item:not(.ant-menu-item-selected):hover{
+  background-color: rgba(0, 0, 0, 0) !important;
+  font-weight: 600;
+  color: #0B0B0B;
+}
+.profile .ant-menu-light:not(.ant-menu-horizontal) .ant-menu-item:not(.ant-menu-item-selected):active{
+  background-color: #00000000;
+  color: #4065da;
+  font-weight: 600;
+}
+:where(.css-dev-only-do-not-override-19l9cjq).ant-upload-wrapper.ant-upload-picture-circle-wrapper .ant-upload.ant-upload-select {
+  width: 200px;
+  height: 200px;
+  margin-inline-end: 0px;
+  margin-bottom: 0px;
+}
+.profile .ant-menu-light .ant-menu-item-selected{
+  background-color: #ffffff;
+  font-weight: 600 !important;
+  /* color: #646464; */
+}

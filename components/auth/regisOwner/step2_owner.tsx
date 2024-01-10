@@ -69,7 +69,7 @@ function OwnerStep2({ setData, data, formStep2 }: Props) {
           <div className='w-full'>
             <Form.Item
               name='nik'
-              rules={[{ required: true, message: 'Harap masukan No.NIK!' }]}
+              rules={[{ required: true, message: 'Harap masukan NIK!' }]}
             >
               <Input
                 onChange={(e) => {

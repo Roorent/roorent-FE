@@ -8,7 +8,7 @@ import { imgKTP, imgProduct, isRole } from '#/constants/general';
 import { productsRepository } from '#/repository/products';
 import { usersRepository } from '#/repository/users';
 import { convertDate } from '#/utils/convertTime';
-import { ArrowLeftOutlined } from '@ant-design/icons';
+import { ArrowLeftOutlined, CalendarOutlined, DownOutlined } from '@ant-design/icons';
 import { Empty, Image, Pagination, Spin } from 'antd';
 import { useSearchParams } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
@@ -97,7 +97,7 @@ function DetailPengguna() {
                 <div className='w-full flex gap-x-5'>
                   <div className='w-full grid gap-y-4 grid-cols-1'>
                     <div>
-                      <p className='text-teks text-2xl font-bold'>No.NIK</p>
+                      <p className='text-teks text-2xl font-bold'>NIK</p>
                     </div>
                     <div className='w-full p-[10px] rounded-[10px] border border-rstroke regis text-xl'>
                       {users.nik}
@@ -144,7 +144,12 @@ function DetailPengguna() {
                 <p className='text-teks text-2xl font-bold'>Tanggal Lahir</p>
               </div>
               <div className='w-full p-[10px] rounded-[10px] border border-rstroke regis text-xl'>
-                {convertDate(users.birthday)}
+                <div className='w-full'>
+                  {convertDate(users.birthday)}
+                </div>
+                <div>
+                  <CalendarOutlined />
+                </div>
               </div>
             </div>
             <div className='w-1/2 grid gap-y-4 grid-cols-1'>
@@ -152,7 +157,12 @@ function DetailPengguna() {
                 <p className='text-teks text-2xl font-bold'>Jenis Kelamin</p>
               </div>
               <div className='w-full p-[10px] rounded-[10px] border border-rstroke regis text-xl'>
-                {users.gender === 'pria' ? 'Pria' : 'Wanita'}
+                <div className='w-full'>
+                  {users.gender === 'pria' ? 'Pria' : 'Wanita'}
+                </div>
+                <div>
+                  <DownOutlined />
+                </div>
               </div>
             </div>
           </div>

@@ -1,12 +1,38 @@
 'use client';
 
 import ListRiwayat from '#/components/List-Riwayat';
+import Photo from '#/components/Photo';
 import { TransactionRepository } from '#/repository/transaction';
 import { parseJwt } from '#/utils/convert';
-import { ArrowLeftOutlined } from '@ant-design/icons';
-import { Pagination, Select, Spin } from 'antd';
+import {
+  ArrowLeftOutlined,
+  FileSyncOutlined,
+  RightOutlined,
+  SettingOutlined,
+} from '@ant-design/icons';
+import { Menu, Pagination, Select, Spin } from 'antd';
+import { MenuProps } from 'antd/lib';
 import { Option } from 'antd/lib/mentions';
+import { usePathname, useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
+
+type MenuItem = Required<MenuProps>['items'][number];
+
+function getItem(
+  label: React.ReactNode,
+  key?: React.Key | null,
+  icon?: React.ReactNode,
+  children?: MenuItem[],
+  type?: 'group'
+): MenuItem {
+  return {
+    key,
+    icon,
+    children,
+    label,
+    type,
+  } as MenuItem;
+}
 
 function RiwayatTransaksi() {
   // const [filterType, setFilterType] = useState('pending');
@@ -19,6 +45,30 @@ function RiwayatTransaksi() {
 
   const [filteredDatas, setFilteredDatas] = useState([]);
   const [filterType, setFilterType] = useState('pending');
+  const riwayatTransaksi: MenuItem[] = [
+    getItem(
+      null,
+      null,
+      null,
+      [
+        getItem('Pengaturan', '/profile/setting', <SettingOutlined />),
+        getItem(
+          'Riwayat Transaksi',
+          '/riwayat-transaksi',
+          <FileSyncOutlined />
+        ),
+      ],
+      'group'
+    ),
+  ];
+  const pathname = usePathname();
+  const router = useRouter();
+  const [currRiwayat, setCurrRiwayat] = useState<any>(pathname);
+
+  const onClickRiwayat: MenuProps['onClick'] = (e: any) => {
+    setCurrRiwayat(e.key);
+    router.push(e.key);
+  };
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 9;
   const handlePageChange = (page: any) => {
@@ -75,68 +125,105 @@ function RiwayatTransaksi() {
   return (
     <div>
       <div className='w-full grid gap-y-[20px]'>
-        <div className='w-full grid gap-y-[20px] grid-cols-1'>
+        <div className='w-full flex items-center gap-x-[20px] grid-cols-1 mb-10'>
           <a
-            href='/home'
-            className='w-fit hover:text-teks flex font-bold text-xl gap-3'
+            href='/profile'
+            className='w-fit hover:text-teks flex font-bold text-4xl gap-3'
           >
             <div>
               <ArrowLeftOutlined />
             </div>
-            <div>Kembali</div>
           </a>
-        </div>
-        <div className='grid gap-y-5'>
-          <div className='produkOwner text-white text-4xl font-bold bg-primary rounded-[10px] px-5 py-3 flex justify-center items-center mb-[10px]'>
-            <p>Riwayat Transaksi</p>
+          <div className='w-full flex justify-center text-4xl font-bold'>
+            Riwayat Transaksi
           </div>
         </div>
-        <div className='grid gap-y-3'>
-          <div className='transaksi w-full mb-[30px]'>
-            <Select
-              value={filterType}
-              className='transaksi w-full'
-              onChange={handleChange}
+        <div className='w-full h-full flex gap-x-20 profile'>
+          <div className='w-1/4 h-fit grid gap-y-8 profile sticky top-5'>
+            <a href='/profile'>
+              <div
+                className='flex p-3 bg-white rounded-[10px] items-center hover:text-teks'
+                style={{ boxShadow: '0 6px 16px #0000001f' }}
+              >
+                <div className='w-full flex items-center gap-x-3 text-teks'>
+                  <div>
+                    <Photo
+                      className='cursor-pointer'
+                      size={70}
+                      src={'/assets/images/profile.png'}
+                    />
+                  </div>
+                  <div className='text-xl font-bold'>M Danar Kahfi</div>
+                </div>
+                <div className='text-xl font-bold text-teks'>
+                  <RightOutlined />
+                </div>
+              </div>
+            </a>
+            {/* ksih kondisi !!!! */}
+            <div
+              className='w-full flex justify-center text-primary text-xl font-semibold bg-white border border-primary rounded-[10px] py-2'
+              style={{ boxShadow: '0 1px 8px rgba(36,36,36,.14)' }}
             >
-              {options.map((option) => (
-                <Option key={option.value} value={option.value}>
-                  {option.label}
-                </Option>
-              ))}
-            </Select>
+              Penyewa
+            </div>
+            <Menu
+              onClick={onClickRiwayat}
+              mode='inline'
+              style={{ width: '100%', borderRight: 0 }}
+              selectedKeys={[currRiwayat]}
+              items={riwayatTransaksi}
+              className='profile flex flex-col gap-1 justify-center text-rstroke'
+            />
           </div>
-        </div>
-        <div className='grid gap-10 grid-cols-3'>
-          {currentItems
+          <div className='w-3/4 h-full '>
+            <div className='grid gap-y-3'>
+              <div className='transaksi w-full mb-[30px]'>
+                <Select
+                  value={filterType}
+                  className='transaksi w-full'
+                  onChange={handleChange}
+                >
+                  {options.map((option) => (
+                    <Option key={option.value} value={option.value}>
+                      {option.label}
+                    </Option>
+                  ))}
+                </Select>
+              </div>
+            </div>
+            <div className='grid gap-10 grid-cols-2'>
+            {currentItems
             ?.sort((first: any, second: any) => {
               return (
                 new Date(second.updatedAt).getTime() -
                 new Date(first.updatedAt).getTime()
               );
-            })
-            .map((riwayat: any) => (
-              <div key={riwayat.id}>
-                <ListRiwayat
-                  idTransaction={riwayat.id}
-                  image={riwayat.product_photo}
-                  product_type={riwayat.product_type}
-                  product_label={riwayat.product_gender}
-                  product_name={riwayat.product_name}
-                  product_address={riwayat.product_address}
-                  total_price={riwayat.total_price}
-                  statusPembayaran={riwayat.statusPembayaran}
-                />
-              </div>
-            ))}
-        </div>
-        <div className='w-full py-[20px] flex justify-end'>
-          <Pagination
-            current={currentPage}
-            total={filteredDatas?.length}
-            pageSize={itemsPerPage}
-            onChange={handlePageChange}
-            className='text-2xl font-semibold'
-          />
+            }).map((riwayat: any) => (
+                <div key={riwayat.id}>
+                  <ListRiwayat
+                    idTransaction={riwayat.id}
+                    image={riwayat.product_photo}
+                    product_type={riwayat.product_type}
+                    product_label={riwayat.product_gender}
+                    product_name={riwayat.product_name}
+                    product_address={riwayat.product_address}
+                    total_price={riwayat.total_price}
+                    statusPembayaran={riwayat.statusPembayaran}
+                  />
+                </div>
+              ))}
+            </div>
+            <div className='w-full py-[20px] flex justify-end'>
+              <Pagination
+                current={currentPage}
+                total={filteredDatas?.length}
+                pageSize={itemsPerPage}
+                onChange={handlePageChange}
+                className='text-2xl font-semibold'
+              />
+            </div>
+          </div>
         </div>
       </div>
     </div>

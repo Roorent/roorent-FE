@@ -17,7 +17,7 @@ function ListRiwayat({
   const imgProduct = (img: string) =>
     `${config.baseUrl}/images/photo-products/${img}`;
   return (
-    <div className='border border-[#858585] rounded-[10px] p-5'>
+    <div className='border border-[#858585] rounded-[10px] p-5' style={{boxShadow: '0 1px 8px rgba(36,36,36,.14)'}}>
       {statusPembayaran === 'pending' && <></>}
       {statusPembayaran === 'approve' && <></>}
       {statusPembayaran === 'reject' && <></>}

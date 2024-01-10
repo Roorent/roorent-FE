@@ -64,9 +64,9 @@ const Login = () => {
                     <p>Masuk</p>
                   </div>
                   <div className='text-white text-xl'>
-                    <p className='mb-2'>Jika kamu belum memiliki akun</p>
+                    <p className='mb-2'>Jika anda belum memiliki akun</p>
                     <p>
-                      kamu bisa
+                      Anda bisa
                       <a
                         href='/auth/register'
                         className='ml-2 font-bold text-2xl no-underline hover:underline'
