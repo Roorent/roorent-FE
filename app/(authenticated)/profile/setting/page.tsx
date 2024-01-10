@@ -1,6 +1,8 @@
 'use client';
 
 import Photo from '#/components/Photo';
+import { usersRepository } from '#/repository/users';
+import { parseJwt } from '#/utils/convert';
 import {
   ArrowLeftOutlined,
   CheckCircleFilled,
@@ -11,7 +13,7 @@ import {
   RightOutlined,
   SettingOutlined,
 } from '@ant-design/icons';
-import { Button, Form, Input, Menu, MenuProps, Modal } from 'antd';
+import { Button, Form, Input, Menu, MenuProps, Modal, message } from 'antd';
 import MenuItem from 'antd/es/menu/MenuItem';
 import { usePathname, useRouter } from 'next/navigation';
 import React, { useState } from 'react';
@@ -35,7 +37,20 @@ function getItem(
 }
 
 function Setting() {
+  const token = localStorage.getItem('access_token');
+  let id: string = '';
+  if (token) {
+    id = parseJwt(token).id;
+  }
+
+  const pathname = usePathname();
+  const router = useRouter();
+  const [currSetting, setCurrSetting] = useState<any>(pathname);
   const { confirm } = Modal;
+
+  const { data, error, isLoading } = usersRepository.hooks.getUserProfile(id);
+  const datasUser = data?.data;
+
   const showNonactiveConfirm = () => {
     confirm({
       title: (
@@ -49,29 +64,30 @@ function Setting() {
       icon: (
         <div className='modal-hapus mb-[10px] flex justify-center'><QuestionCircleFilled /></div>
       ),
+      async onOk() {
+        await usersRepository.manipulateData.nonactiveAccount(id);
+        Modal.success({
+          icon: (
+            <div className='modal-hapus mb-[10px] flex justify-center'>
+              <CheckCircleFilled />
+            </div>
+          ),
+          title: (
+            <div className='text-3xl font-bold flex justify-center'>
+              Nonaktifkan Akun
+            </div>
+          ),
+          content: (
+            <div className='text-xl font-semibold flex justify-center mb-[25px]'>
+              Anda telah berhasil menonaktifkan akun
+            </div>
+          ),
+        });
+      },
       okText: (
         <div className='modal-hapus text-xl font-bold text-white'>Ya</div>
       ),
       cancelText: <div className='text-xl font-bold text-white'>Batal</div>,
-    });
-  };
-  const modal = async () => {
-    Modal.success({
-      icon: (
-        <div className='modal-hapus mb-[10px] flex justify-center'>
-          <CheckCircleFilled />
-        </div>
-      ),
-      title: (
-        <div className='text-3xl font-bold flex justify-center'>
-          Password Disimpan
-        </div>
-      ),
-      content: (
-        <div className='text-xl font-semibold flex justify-center mb-[25px]'>
-          Anda telah berhasil menyimpan password
-        </div>
-      ),
     });
   };
   const setting: MenuItem[] = [
@@ -90,14 +106,41 @@ function Setting() {
       'group'
     ),
   ];
-  const pathname = usePathname();
-  const router = useRouter();
-  const [currSetting, setCurrSetting] = useState<any>(pathname);
 
   const onClickSetting: MenuProps['onClick'] = (e: any) => {
     setCurrSetting(e.key);
     router.push(e.key);
   };
+
+  const onFinish = async (values: any) => {
+    try {
+      const data = {
+        password: values?.password,
+      };
+      await usersRepository.manipulateData.updatePassword(id, data);
+
+      Modal.success({
+        icon: (
+          <div className='modal-hapus mb-[10px] flex justify-center'>
+            <CheckCircleFilled />
+          </div>
+        ),
+        title: (
+          <div className='text-3xl font-bold flex justify-center'>
+            Password Disimpan
+          </div>
+        ),
+        content: (
+          <div className='text-xl font-semibold flex justify-center mb-[25px]'>
+            Anda telah berhasil menyimpan password
+          </div>
+        ),
+      });
+    } catch (err: any) {
+      message.error(err.response.body?.error);
+    }
+  };
+
   return (
     <div>
       <div className='w-full grid gap-y-[20px]'>
@@ -126,10 +169,10 @@ function Setting() {
                     <Photo
                       className='cursor-pointer'
                       size={70}
-                      src={'/assets/images/profile.png'}
+                      src={datasUser?.photo}
                     />
                   </div>
-                  <div className='text-xl font-bold'>M Danar Kahfi</div>
+                  <div className='text-xl font-bold'>{datasUser?.name}</div>
                 </div>
                 <div className='text-xl font-bold text-teks'>
                   <RightOutlined />
@@ -141,7 +184,7 @@ function Setting() {
               className='w-full flex justify-center text-primary text-xl font-semibold bg-white border border-primary rounded-[10px] py-2'
               style={{ boxShadow: '0 1px 8px rgba(36,36,36,.14)' }}
             >
-              Penyewa
+              {datasUser?.role}
             </div>
             <Menu
               onClick={onClickSetting}
@@ -154,7 +197,7 @@ function Setting() {
           </div>
           <div className='w-3/4 h-full '>
             <div className='grid gap-y-10'>
-              <Form>
+              <Form onFinish={onFinish}>
                 <div className='pt-5 px-5 border border-slate-300 rounded-[10px]'>
                   <div className='grid gap-y-4 grid-cols-1'>
                     <div>
@@ -231,7 +274,6 @@ function Setting() {
                         <Button
                           type='primary'
                           htmlType='submit'
-                          onClick={modal}
                           block
                           className='bg-primary border border-white !rounded-full text-2xl font-bold py-3 h-max'
                         >

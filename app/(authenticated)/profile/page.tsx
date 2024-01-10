@@ -1,5 +1,9 @@
 'use client';
 import Photo from '#/components/Photo';
+import { imgProfile } from '#/constants/general';
+import { usersRepository } from '#/repository/users';
+import { parseJwt } from '#/utils/convert';
+import { convertDate } from '#/utils/convertTime';
 import {
   ArrowLeftOutlined,
   CalendarOutlined,
@@ -19,6 +23,7 @@ import {
   Modal,
   Select,
   Upload,
+  message,
 } from 'antd';
 import type { MenuProps, UploadFile } from 'antd';
 import MenuItem from 'antd/es/menu/MenuItem';
@@ -26,7 +31,7 @@ import { UploadChangeParam } from 'antd/es/upload';
 import { UploadProps } from 'antd/lib';
 import { RcFile } from 'antd/lib/upload';
 import { usePathname, useRouter } from 'next/navigation';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 type MenuItem = Required<MenuProps>['items'][number];
 
@@ -46,24 +51,91 @@ function getItem(
   } as MenuItem;
 }
 function Profile() {
-  const modal = async () => {
-    Modal.success({
-      icon: (
-        <div className='modal-hapus mb-[10px] flex justify-center'>
-          <CheckCircleFilled />
-        </div>
-      ),
-      title: (
-        <div className='text-3xl font-bold flex justify-center'>
-          Profil Disimpan
-        </div>
-      ),
-      content: (
-        <div className='text-xl font-semibold flex justify-center mb-[25px]'>
-          Anda telah berhasil menyimpan profil
-        </div>
-      ),
-    });
+  const token = localStorage.getItem('access_token');
+  let id: string = '';
+  if (token) {
+    id = parseJwt(token).id;
+  }
+  
+  const pathname = usePathname();
+  const router = useRouter();
+  const [currProfile, setCurrProfile] = useState<any>(pathname);
+  
+  const [form] = Form.useForm();
+  const { TextArea } = Input;
+
+  const { data, error, isLoading } = usersRepository.hooks.getUserProfile(id);
+  const datasUser = data?.data;
+
+  const [imageUrl, setImageUrl] = useState<string>();
+  const [loading, setLoading] = useState(false);
+  
+  const [datas, setDatas] = useState({
+    email: '',
+    first_name: '',
+    last_name: '',
+    address: '',
+    phone: '',
+    photo_profile: '',
+  });
+  
+  useEffect(() => {
+    if (!isLoading) {
+      setDatas({
+        email: datasUser?.email,
+        first_name: datasUser?.first_name,
+        last_name: datasUser?.last_name,
+        address: data?.data?.address,
+        phone: datasUser?.phone,
+        photo_profile: datasUser?.photo, 
+      });
+      form.setFieldsValue({
+        email: datasUser?.email,
+        first_name: datasUser?.first_name,
+        last_name: datasUser?.last_name,
+        address:datasUser?.address,
+        phone: datasUser?.phone,
+        photo_profile: datasUser?.photo, 
+      });
+    }
+  }, [isLoading]);
+
+  const onFinish = async () => {
+    try {
+      const dataProfile = {
+        email: datas?.email,
+        first_name: datas?.first_name,
+        last_name: datas?.last_name,
+        address: datas?.address,
+        phone: datas?.phone,
+        photo_profile: datas?.photo_profile, 
+      };
+
+      await usersRepository.manipulateData.updateProfile(
+        id,
+        dataProfile
+      );
+
+      Modal.success({
+        icon: (
+          <div className='modal-hapus mb-[10px] flex justify-center'>
+            <CheckCircleFilled />
+          </div>
+        ),
+        title: (
+          <div className='text-3xl font-bold flex justify-center'>
+            Berhasil Edit Produk
+          </div>
+        ),
+        content: (
+          <div className='text-xl font-semibold flex justify-center mb-[25px]'>
+            Anda telah berhasil mengubah produk
+          </div>
+        ),
+      });
+    } catch (err: any) {
+      message.error('Gagal mengubah profile');
+    }
   };
 
   const getBase64 = (img: RcFile, callback: (url: string) => void) => {
@@ -71,9 +143,6 @@ function Profile() {
     reader.addEventListener('load', () => callback(reader.result as string));
     reader.readAsDataURL(img);
   };
-
-  const [imageUrl, setImageUrl] = useState<string>();
-  const [loading, setLoading] = useState(false);
 
   const handleChange: UploadProps['onChange'] = (
     info: UploadChangeParam<UploadFile>
@@ -90,6 +159,36 @@ function Profile() {
     }
   };
 
+  const handleUploadProfile: UploadProps['onChange'] = async (args) => {
+    const photoProfile = args?.file;
+    try {
+      if (photoProfile?.status === 'done') {
+        if (photoProfile.size && photoProfile.size > 2097152) {
+          message.error('Ukuran photoProfile terlalu besar');
+        } else {
+          if (
+            photoProfile.type === 'image/png' ||
+            photoProfile.type === 'image/jpg' ||
+            photoProfile.type === 'image/jpeg'
+          ) {
+            const response = await usersRepository.manipulateData.uploadPhotoProfile(
+              photoProfile?.originFileObj
+            );
+            setDatas({ ...datas, photo_profile: response.body.filename });
+          } else {
+            message.error('Anda hanya dapat mengunggah file JPG/JPEG/PNG!');
+          }
+        }
+      }
+      // Check file status from the previous handler
+      if (typeof handleChange === 'function') {
+        handleChange(args);
+      }
+    } catch (err: any) {
+      message.error(err.response?.body?.error || 'Terjadi kesalahan');
+    }
+  };
+
   const uploadButton = (
     <button style={{ border: 0, background: 'none' }} type='button'>
       {loading ? (
@@ -102,8 +201,6 @@ function Profile() {
       </div>
     </button>
   );
-
-  const { TextArea } = Input;
 
   const profile: MenuItem[] = [
     getItem(
@@ -121,14 +218,12 @@ function Profile() {
       'group'
     ),
   ];
-  const pathname = usePathname();
-  const router = useRouter();
-  const [currProfile, setCurrProfile] = useState<any>(pathname);
 
   const onClickProfile: MenuProps['onClick'] = (e: any) => {
     setCurrProfile(e.key);
     router.push(e.key);
   };
+
   return (
     <div>
       <div className='w-full grid gap-y-[20px]'>
@@ -155,10 +250,10 @@ function Profile() {
                     <Photo
                       className='cursor-pointer'
                       size={70}
-                      src={'/assets/images/profile.png'}
+                      src={datasUser?.photo}
                     />
                   </div>
-                  <div className='text-xl font-bold'>M Danar Kahfi</div>
+                  <div className='text-xl font-bold'>{datasUser?.name}</div>
                 </div>
                 <div className='text-xl font-bold text-teks'>
                   <RightOutlined />
@@ -170,7 +265,7 @@ function Profile() {
               className='w-full flex justify-center text-primary text-xl font-semibold bg-white border border-primary rounded-[10px] py-2'
               style={{ boxShadow: '0 1px 8px rgba(36,36,36,.14)' }}
             >
-              Penyewa
+              {datasUser?.role}
             </div>
             <Menu
               onClick={onClickProfile}
@@ -188,19 +283,19 @@ function Profile() {
             >
               Informasi Pribadi
             </div>
-            <Form>
+            <Form form={form}>
               <div className='py-5'>
                 <div className='w-full flex justify-center'>
                   <Form.Item name='profile_photo'>
                     <Upload
-                      name='avatar'
+                      name='photo_profile'
                       listType='picture-circle'
                       className='avatar-uploader'
                       showUploadList={false}
                       action='https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188'
-                      onChange={handleChange}
+                      onChange={handleUploadProfile}
                     >
-                      {imageUrl ? (
+                      {!imageUrl ? (
                         <div
                           style={{
                             width: '200px',
@@ -214,7 +309,7 @@ function Profile() {
                             Edit
                           </div>
                           <img
-                            src={imageUrl}
+                            src={imgProfile(datasUser?.photo)}
                             alt='avatar'
                             style={{
                               width: '100%',
@@ -251,6 +346,9 @@ function Profile() {
                             size='large'
                             placeholder='Masukan nama depan'
                             className=' p-[10px] rounded-[10px] border border-rstroke regis text-xl'
+                            onChange={(e) => {
+                              setDatas({ ...datas, first_name: e.target.value });
+                            }}
                           />
                         </Form.Item>
                       </div>
@@ -275,6 +373,9 @@ function Profile() {
                             size='large'
                             placeholder='Masukan nama belakang'
                             className=' p-[10px] rounded-[10px] border border-rstroke regis text-xl'
+                            onChange={(e) => {
+                              setDatas({ ...datas, last_name: e.target.value });
+                            }}
                           />
                         </Form.Item>
                       </div>
@@ -285,8 +386,7 @@ function Profile() {
                       <p className='text-teks text-2xl font-bold'> NIK</p>
                     </div>
                     <div className='w-full p-[10px] rounded-[10px] border border-rstroke regis text-xl'>
-                      {/* {users.nik} */}
-                      2739217491724971294798
+                    {datasUser?.nik}
                     </div>
                   </div>
                   <div className='grid gap-y-4 grid-cols-1'>
@@ -306,8 +406,11 @@ function Profile() {
                         <Input
                           size='large'
                           placeholder='Masukan nomor telepon'
-                          maxLength={11}
+                          maxLength={14}
                           className=' p-[10px] rounded-[10px] border border-rstroke regis text-xl'
+                          onChange={(e) => {
+                            setDatas({ ...datas, phone: e.target.value });
+                          }}
                         />
                       </Form.Item>
                     </div>
@@ -330,6 +433,9 @@ function Profile() {
                           size='large'
                           placeholder='Masukan email'
                           className=' p-[10px] rounded-[10px] border border-rstroke regis text-xl'
+                          onChange={(e) => {
+                            setDatas({ ...datas, email: e.target.value });
+                          }}
                         />
                       </Form.Item>
                     </div>
@@ -343,8 +449,7 @@ function Profile() {
                       </div>
                       <div className='w-full p-[10px] rounded-[10px] border border-rstroke regis text-xl flex'>
                         <div className='w-full'>
-                          {/* {convertDate(users.birthday)} */}
-                          22 November 2005
+                          {convertDate(datasUser?.birthday)}
                         </div>
                         <div>
                           <CalendarOutlined />
@@ -359,8 +464,7 @@ function Profile() {
                       </div>
                       <div className='w-full p-[10px] rounded-[10px] border border-rstroke regis text-xl flex'>
                         <div className='w-full'>
-                          {/* {users.gender === 'pria' ? 'Pria' : 'Wanita'} */}
-                          Pria
+                          {datasUser?.gender === 'pria' ? 'Pria' : 'Wanita'}
                         </div>
                         <div>
                           <DownOutlined />
@@ -389,6 +493,9 @@ function Profile() {
                             resize: 'none',
                             fontSize: '20px',
                           }}
+                          onChange={(e) => {
+                            setDatas({ ...datas, address: e.target.value });
+                          }}
                         />
                       </Form.Item>
                     </div>
@@ -399,7 +506,7 @@ function Profile() {
                         <Button
                           type='primary'
                           htmlType='submit'
-                          onClick={modal}
+                          onClick={onFinish}
                           block
                           className='bg-primary border border-white !rounded-full text-2xl font-bold py-3 h-max'
                         >
