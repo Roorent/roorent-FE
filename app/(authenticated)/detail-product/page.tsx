@@ -45,10 +45,10 @@ function DetailProduct() {
   const productId: any = searchParams?.get('id');
 
   const { RangePicker } = DatePicker;
+  const { confirm } = Modal;
 
   const token = localStorage.getItem('access_token');
   let role: string = '';
-
   if (token) {
     role = parseJwt(token).role;
   }
@@ -100,7 +100,7 @@ function DetailProduct() {
       message.error(err.response.data.message);
     }
   };
-  const { confirm } = Modal;
+
   const handlebeforelogin = async () => {
     if (!token) {
       confirm({
@@ -129,6 +129,7 @@ function DetailProduct() {
   const limitedReviews = showAllReviews
     ? dataReviews
     : dataReviews?.slice(0, 3);
+
   const totalRating = dataReviews?.map((dataReview: any) => {
     return dataReview.rating;
   });
@@ -446,22 +447,14 @@ function DetailProduct() {
                               <div>(Harga {filterPrice})</div>
                             </>
                           )}
-                        {filterPrice !== 'perhari' &&
-                          datas?.monthly_price === 0 && (
-                            <>
-                              <div className='font-bold'>
-                                {toIDR(datas?.daily_price)}
-                              </div>
-                              <div>(Harga perhari 1)</div>
-                            </>
-                          )}
                         {filterPrice !== 'perbulan' &&
                           datas?.daily_price === 0 && (
                             <>
+                              {setFilterPrice('perbulan')}
                               <div className='font-bold'>
                                 {toIDR(datas?.monthly_price)}
                               </div>
-                              <div>(Harga perbulan)</div>
+                              <div>(Harga {filterPrice})</div>
                             </>
                           )}
                       </div>

@@ -5,7 +5,7 @@ import Searchs from '#/components/Search';
 import { HomeFilled } from '@ant-design/icons';
 import { Icon } from '@iconify/react';
 import { Radio, Select, Spin } from 'antd';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper/modules';
 
@@ -67,6 +67,10 @@ function Home() {
   const handleChangeCity = (value: any) => {
     setCityFilter(value); // Update nilai kota saat terjadi perubahan pada Select
   };
+
+  useEffect(() => {
+    document.title = 'Home - Roorent';
+  }, []);
 
   return (
     <div>
