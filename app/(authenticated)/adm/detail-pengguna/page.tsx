@@ -7,7 +7,6 @@ import TypeRadio from '#/components/TypeButton';
 import { imgKTP, imgProduct, isRole } from '#/constants/general';
 import { productsRepository } from '#/repository/products';
 import { usersRepository } from '#/repository/users';
-import { parseJwt } from '#/utils/convert';
 import { convertDate } from '#/utils/convertTime';
 import { ArrowLeftOutlined, CalendarOutlined, DownOutlined } from '@ant-design/icons';
 import { Empty, Image, Pagination, Spin } from 'antd';

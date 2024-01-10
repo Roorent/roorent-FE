@@ -3,7 +3,7 @@
 import ListPengguna from '#/components/Pengguna';
 import Searchs from '#/components/Search';
 import { MASCOT_OWNER, MASCOT_RENTER } from '#/constants/images';
-import { adminRepository } from '#/repository/adm';
+import { usersRepository } from '#/repository/users';
 import { Pagination, Radio, Spin } from 'antd';
 import React, { useState } from 'react';
 
@@ -11,7 +11,9 @@ function ManagementUser() {
   const [typeFilter, setTypeFilter] = useState('owner');
   const [currentPage, setCurrentPage] = useState(1);
 
-  const { data, error, isLoading } = adminRepository.hooks.getAllUsers();
+  const limit = 10;
+
+  const { data, error, isLoading } = usersRepository.hooks.getAllUsers(typeFilter,currentPage, limit);
 
   if (!data) {
     return (
@@ -22,13 +24,8 @@ function ManagementUser() {
     );
   }
 
-  const datas = data?.userData;
+  const datas = data?.data;
 
-  const filteredUsers = typeFilter
-    ? datas.filter((user: any) => user?.role === typeFilter)
-    : datas;
-
-  const itemsPerPage = 10;
   const handlePageChange = (page: any) => {
     setCurrentPage(page);
   };
@@ -37,17 +34,6 @@ function ManagementUser() {
     setTypeFilter(e.target.value);
     setCurrentPage(1);
   };
-
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = filteredUsers
-    ?.sort((first: any, second: any) => {
-      return (
-        new Date(second.updatedAt).getTime() -
-        new Date(first.updatedAt).getTime()
-      );
-    })
-    .slice(indexOfFirstItem, indexOfLastItem);
 
   return (
     <div>
@@ -91,7 +77,7 @@ function ManagementUser() {
           <Searchs placeholder={'Masukan nama'} />
         </div>
         <div className='grid gap-y-4'>
-          {currentItems?.map((user: any) => (
+          {datas?.map((user: any) => (
             <div key={user.id}>
               <ListPengguna
                 idUsers={user.id}
@@ -107,8 +93,8 @@ function ManagementUser() {
       <div className='w-full py-[20px] flex justify-end'>
         <Pagination
           current={currentPage}
-          total={filteredUsers?.length}
-          pageSize={itemsPerPage}
+          total={data?.count}
+          pageSize={limit}
           onChange={handlePageChange}
           className='text-2xl font-semibold absolute bottom-5'
         />

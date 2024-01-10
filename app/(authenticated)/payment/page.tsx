@@ -17,6 +17,7 @@ import { Card, Modal, Spin, Statistic, Steps } from 'antd';
 import { CountdownProps } from 'antd/lib';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { imgProduct } from '#/constants/general';
+import { TransactionRepository } from '#/repository/transaction';
 
 function Payment() {
   const [currentStep, setCurrentStep] = useState(0);
@@ -269,15 +270,21 @@ function Payment() {
                   <div className='grid gap-y-5 grid-cols-1 font-semibold text-rstroke '>
                     <div className='flex text-2xl justify-between'>
                       <div>Biaya sewa</div>
-                      <div className='underline underline-offset-2'>{toIDR(datas?.price)}</div>
+                      <div className='underline underline-offset-2'>
+                        {toIDR(datas?.price)}
+                      </div>
                     </div>
                     <div className='flex text-2xl justify-between'>
                       <div>Lama Sewa</div>
                       {datas?.product_type === 'kost' && (
                         <div className='flex gap-2'>
-                          <p className='underline underline-offset-2'>{datas?.amount}</p>
+                          <p className='underline underline-offset-2'>
+                            {datas?.amount}
+                          </p>
                           {datas?.rental_type === 'bulanan' ? (
-                            <p className='underline underline-offset-2'>bulan</p>
+                            <p className='underline underline-offset-2'>
+                              bulan
+                            </p>
                           ) : (
                             <p className='underline underline-offset-2'>hari</p>
                           )}
@@ -285,12 +292,16 @@ function Payment() {
                       )}
                       {datas?.product_type === 'gedung' && (
                         <div className='flex gap-2'>
-                          <p className='underline underline-offset-2'>{datas?.amount} hari</p>
+                          <p className='underline underline-offset-2'>
+                            {datas?.amount} hari
+                          </p>
                         </div>
                       )}
                       {datas?.product_type === 'hotel' && (
                         <div className='flex gap-2'>
-                          <p className='underline underline-offset-2'>{datas?.amount} hari</p>
+                          <p className='underline underline-offset-2'>
+                            {datas?.amount} hari
+                          </p>
                         </div>
                       )}
                     </div>
