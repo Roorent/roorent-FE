@@ -73,7 +73,7 @@ function Review({
         ),
         content: (
           <div className='text-xl font-semibold flex justify-center mb-[25px]'>
-            Kamu telah berhasil membuat review
+            Anda telah berhasil membuat review
           </div>
         ),
       });

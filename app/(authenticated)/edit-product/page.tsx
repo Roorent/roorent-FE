@@ -105,7 +105,7 @@ function EditProduct() {
         ),
         content: (
           <div className='text-xl font-semibold flex justify-center mb-[25px]'>
-            Kamu telah berhasil mengubah produk
+            Anda telah berhasil mengubah produk
           </div>
         ),
       });

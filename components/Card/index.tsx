@@ -12,7 +12,7 @@ function CardProduk({ image, label, title, address, idProducts, mutate }: any) {
 
   return (
     <div>
-      <div className='p-7 rounded-[10px] border border-[#858585]'>
+      <div className='p-7 rounded-[10px] border border-[#858585]' style={{boxShadow: '0 1px 8px rgba(36,36,36,.14)'}}>
         <div className='grid gap-y-5 grid-cols-1'>
           <div className='flex gap-x-5 grid-cols-2 border-b border-slate-200 pb-5'>
             <div className='w-1/2 h-[180px]'>
