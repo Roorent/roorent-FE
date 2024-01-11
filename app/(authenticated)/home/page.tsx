@@ -19,7 +19,8 @@ function Home() {
   const [typeFilter, setTypeFilter] = useState('kost');
   const [cityFilter, setCityFilter] = useState('Pilih Kota');
 
-  const { data, error, isLoading } = productsRepository.hooks.getAllKos();
+  const { data, error, isLoading } =
+    productsRepository.hooks.getAllProduct(typeFilter);
   const { data: dataCity } = cityRepository.hooks.allCity();
 
   if (isLoading) {
@@ -32,17 +33,19 @@ function Home() {
   }
   const datas = data?.data;
 
-  const filterProducts = (products: any, filter: any) => {
-    return products.filter((product: any) => product.type === filter);
-  };
+  console.log(datas);
 
-  const filteredProducts = typeFilter
-    ? filterProducts(datas, typeFilter)
-    : datas;
+  // const filterProducts = (products: any, filter: any) => {
+  //   return products.filter((product: any) => product.type === filter);
+  // };
+
+  // const filteredProducts = typeFilter
+  //   ? filterProducts(datas, typeFilter)
+  //   : datas;
 
   const productsInSetsOfFour = [];
-  for (let i = 0; i < filteredProducts.length; i += 4) {
-    productsInSetsOfFour.push(filteredProducts.slice(i, i + 4));
+  for (let i = 0; i < datas?.length; i += 4) {
+    productsInSetsOfFour.push(datas?.slice(i, i + 4));
   }
 
   const handleChange = (e: any) => {
@@ -50,11 +53,9 @@ function Home() {
   };
 
   const filterProductsCity = (products: any, type: any, city: any) => {
-    let filtered = products.filter((product: any) => product.type === type);
+    let filtered = products?.filter((product: any) => product.type === type);
     if (city && city !== 'Pilih Kota') {
-      filtered = filtered.filter(
-        (product: any) => product.cities?.name === city
-      );
+      filtered = filtered.filter((product: any) => product.city === city);
     }
     return filtered;
   };
@@ -79,11 +80,7 @@ function Home() {
                 Dapatkan informasi dan lakukan penyewaan
               </div>
               <div>
-                <a href='/search'>
-                  <Searchs
-                    placeholder={'Masukan nama/kota/alamat'}
-                  />
-                </a>
+                <Searchs placeholder={'Masukan nama/kota/alamat'} />
               </div>
             </div>
           </div>
@@ -202,9 +199,9 @@ function Home() {
                       idProducts={product.id}
                       image={product.photoProducts[0]?.photo}
                       isType={product.type}
-                      isgender={product.specialRules?.gender}
+                      isgender={product.gender}
                       namaProduk={product.name}
-                      kota={product.cities?.name}
+                      kota={product.city}
                       stok={product.stock}
                       hargaPerbulan={product.monthly_price}
                       hargaPerhari={product.daily_price}
@@ -331,16 +328,12 @@ function Home() {
         )}
         <div className='mt-[45px]'>
           <Swiper navigation={true} modules={[Navigation]} className='mySwiper'>
-            {filterProductsCity(filteredProducts, typeFilter, cityFilter).map(
+            {filterProductsCity(datas, typeFilter, cityFilter).map(
               (product: any, index: number) =>
                 index % 4 === 0 && (
                   <SwiperSlide key={index}>
                     <div className='flex justify-stretch gap-x-10 px-32'>
-                      {filterProductsCity(
-                        filteredProducts,
-                        typeFilter,
-                        cityFilter
-                      )
+                      {filterProductsCity(datas, typeFilter, cityFilter)
                         .slice(index, index + 4)
                         .map((product: any) => (
                           <div key={product.id}>
@@ -348,9 +341,9 @@ function Home() {
                               idProducts={product.id}
                               image={product.photoProducts[0]?.photo}
                               isType={product.type}
-                              isgender={product.specialRules?.gender}
+                              isgender={product.gender}
                               namaProduk={product.name}
-                              kota={product.cities?.name}
+                              kota={product.city}
                               stok={product.stock}
                               hargaPerbulan={product.monthly_price}
                               hargaPerhari={product.daily_price}

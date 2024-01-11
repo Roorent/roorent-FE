@@ -13,13 +13,14 @@ function Searchs({ placeholder }: any) {
 
   const onSearch: SearchProps['onSearch'] = (value, _e, info) => {
     setSearcher(value);
+    router.push('/search');
   };
 
   const { data, error, isLoading } =
     productsRepository.hooks.searchProducts(searcher);
 
   // if (data) {
-  //   router.push('/auth/register');
+  //   router.push('/search');
   // }
 
   return (

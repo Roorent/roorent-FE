@@ -21,7 +21,6 @@ import {
   Input,
   Menu,
   Modal,
-  Select,
   Upload,
   message,
 } from 'antd';
@@ -32,6 +31,7 @@ import { UploadProps } from 'antd/lib';
 import { RcFile } from 'antd/lib/upload';
 import { usePathname, useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
+import { mutate } from 'swr';
 
 type MenuItem = Required<MenuProps>['items'][number];
 
@@ -64,7 +64,7 @@ function Profile() {
   const [form] = Form.useForm();
   const { TextArea } = Input;
 
-  const { data, error, isLoading } = usersRepository.hooks.getUserProfile(id);
+  const { data, error, isLoading, mutate } = usersRepository.hooks.getUserProfile(id);
   const datasUser = data?.data;
 
   const [imageUrl, setImageUrl] = useState<string>();
@@ -124,15 +124,16 @@ function Profile() {
         ),
         title: (
           <div className='text-3xl font-bold flex justify-center'>
-            Berhasil Edit Produk
+            Berhasil Edit Profile
           </div>
         ),
         content: (
           <div className='text-xl font-semibold flex justify-center mb-[25px]'>
-            Anda telah berhasil mengubah produk
+            Anda telah berhasil mengubah profile
           </div>
         ),
       });
+      mutate()
     } catch (err: any) {
       message.error('Gagal mengubah profile');
     }
