@@ -98,7 +98,7 @@ function DetailProduct() {
 
       router.push(`/payment?id=${rentAppId}`);
     } catch (err: any) {
-      message.error(err.response.data.message);
+      message.error('Silahkan login terlebih dahulu !');
     }
   };
 
