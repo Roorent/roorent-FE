@@ -22,9 +22,23 @@ const url = {
   getProductsById(id: string) {
     return `/products/${id}`;
   },
-  getAllKos: () => '/products/all',
+  getAllProduct: (type?: string) => {
+    return `/products/all?type=${type}`;
+  },
   searchProducts: (search: string) => {
     return `/products/search?q=${search}`;
+  },
+  nonactivatProductOwner: (id: string) => {
+    return `/products/noactivate-products/${id}`;
+  },
+  getProductsOwnerByAdmin(
+    id: string,
+    type?: string,
+    page?: number,
+    limit?: number,
+    status?: string
+  ) {
+    return `/products/find-owner/${id}?type=${type}&page=${page}&limit=${limit}&status=${status}`;
   },
 };
 
@@ -43,6 +57,9 @@ const manipulatedata = {
   deleteProducts(id: string) {
     return http.del(url.deleteProductById(id)).send(id);
   },
+  async nonactivatProductOwner(id: string) {
+    await http.put(url.nonactivatProductOwner(id)).send();
+  },
 };
 
 const hooks = {
@@ -60,11 +77,23 @@ const hooks = {
   getProductsById(id: any) {
     return useSWR(url.getProductsById(id), http.fetcher);
   },
-  getAllKos() {
-    return useSWR(url.getAllKos(), http.fetcher);
+  getAllProduct(type?: string) {
+    return useSWR(url.getAllProduct(type), http.fetcher);
   },
   searchProducts(search: string) {
     return useSWR(url.searchProducts(search), http.fetcher);
+  },
+  getProductsOwnerByAdmin(
+    id: string,
+    type?: string,
+    page?: number,
+    limit?: number,
+    status?: string
+  ) {
+    return useSWR(
+      url.getProductsOwnerByAdmin(id, type, page, limit, status),
+      http.fetcher
+    );
   },
 };
 

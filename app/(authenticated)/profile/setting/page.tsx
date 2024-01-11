@@ -133,12 +133,12 @@ function Setting() {
         ),
         title: (
           <div className='text-3xl font-bold flex justify-center'>
-            Password Disimpan
+            Password Diubah
           </div>
         ),
         content: (
           <div className='text-xl font-semibold flex justify-center mb-[25px]'>
-            Anda telah berhasil menyimpan password
+            Anda telah berhasil mengubah password
           </div>
         ),
       });

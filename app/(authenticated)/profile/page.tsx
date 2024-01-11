@@ -17,7 +17,6 @@ import {
 } from '@ant-design/icons';
 import {
   Button,
-  DatePicker,
   Form,
   Input,
   Menu,
@@ -27,7 +26,6 @@ import {
   message,
 } from 'antd';
 import type { MenuProps, UploadFile } from 'antd';
-import { Option } from 'antd/es/mentions';
 import MenuItem from 'antd/es/menu/MenuItem';
 import { UploadChangeParam } from 'antd/es/upload';
 import { UploadProps } from 'antd/lib';
@@ -58,11 +56,11 @@ function Profile() {
   if (token) {
     id = parseJwt(token).id;
   }
-
+  
   const pathname = usePathname();
   const router = useRouter();
   const [currProfile, setCurrProfile] = useState<any>(pathname);
-
+  
   const [form] = Form.useForm();
   const { TextArea } = Input;
 
@@ -71,7 +69,7 @@ function Profile() {
 
   const [imageUrl, setImageUrl] = useState<string>();
   const [loading, setLoading] = useState(false);
-
+  
   const [datas, setDatas] = useState({
     email: '',
     first_name: '',
@@ -80,7 +78,7 @@ function Profile() {
     phone: '',
     photo_profile: '',
   });
-
+  
   useEffect(() => {
     if (!isLoading) {
       setDatas({
@@ -89,15 +87,15 @@ function Profile() {
         last_name: datasUser?.last_name,
         address: data?.data?.address,
         phone: datasUser?.phone,
-        photo_profile: datasUser?.photo,
+        photo_profile: datasUser?.photo, 
       });
       form.setFieldsValue({
         email: datasUser?.email,
         first_name: datasUser?.first_name,
         last_name: datasUser?.last_name,
-        address: datasUser?.address,
+        address:datasUser?.address,
         phone: datasUser?.phone,
-        photo_profile: datasUser?.photo,
+        photo_profile: datasUser?.photo, 
       });
     }
   }, [isLoading]);
@@ -110,10 +108,13 @@ function Profile() {
         last_name: datas?.last_name,
         address: datas?.address,
         phone: datas?.phone,
-        photo_profile: datas?.photo_profile,
+        photo_profile: datas?.photo_profile, 
       };
 
-      await usersRepository.manipulateData.updateProfile(id, dataProfile);
+      await usersRepository.manipulateData.updateProfile(
+        id,
+        dataProfile
+      );
 
       Modal.success({
         icon: (
@@ -123,17 +124,17 @@ function Profile() {
         ),
         title: (
           <div className='text-3xl font-bold flex justify-center'>
-            Berhasil Memperbaharui Profil
+            Berhasil Edit Produk
           </div>
         ),
         content: (
           <div className='text-xl font-semibold flex justify-center mb-[25px]'>
-            Anda telah berhasil memperbaharui profil
+            Anda telah berhasil mengubah produk
           </div>
         ),
       });
     } catch (err: any) {
-      message.error('Gagal memperbaharui profil');
+      message.error('Gagal mengubah profile');
     }
   };
 
@@ -163,17 +164,16 @@ function Profile() {
     try {
       if (photoProfile?.status === 'done') {
         if (photoProfile.size && photoProfile.size > 2097152) {
-          message.error('Ukuran foto profil terlalu besar');
+          message.error('Ukuran photoProfile terlalu besar');
         } else {
           if (
             photoProfile.type === 'image/png' ||
             photoProfile.type === 'image/jpg' ||
             photoProfile.type === 'image/jpeg'
           ) {
-            const response =
-              await usersRepository.manipulateData.uploadPhotoProfile(
-                photoProfile?.originFileObj
-              );
+            const response = await usersRepository.manipulateData.uploadPhotoProfile(
+              photoProfile?.originFileObj
+            );
             setDatas({ ...datas, photo_profile: response.body.filename });
           } else {
             message.error('Anda hanya dapat mengunggah file JPG/JPEG/PNG!');
@@ -228,27 +228,15 @@ function Profile() {
     <div>
       <div className='w-full grid gap-y-[20px]'>
         <div className='w-full grid gap-y-[20px] grid-cols-1 mb-3'>
-          {datasUser?.role === 'renter' ? (
-            <a
-              href='/home'
-              className='w-fit hover:text-teks flex font-bold text-xl gap-3'
-            >
-              <div>
-                <ArrowLeftOutlined />
-              </div>
-              <div>Kembali</div>
-            </a>
-          ) : (
-            <a
-              href='/list-product'
-              className='w-fit hover:text-teks flex font-bold text-xl gap-3'
-            >
-              <div>
-                <ArrowLeftOutlined />
-              </div>
-              <div>Kembali</div>
-            </a>
-          )}
+          <a
+            href='/home'
+            className='w-fit hover:text-teks flex font-bold text-xl gap-3'
+          >
+            <div>
+              <ArrowLeftOutlined />
+            </div>
+            <div>Kembali</div>
+          </a>
         </div>
         <div className='w-full h-full flex gap-x-20 profile'>
           <div className='w-1/4 h-fit grid gap-y-8 profile sticky top-5'>
@@ -272,11 +260,12 @@ function Profile() {
                 </div>
               </div>
             </a>
+            {/* ksih kondisi !!!! */}
             <div
               className='w-full flex justify-center text-primary text-xl font-semibold bg-white border border-primary rounded-[10px] py-2'
               style={{ boxShadow: '0 1px 8px rgba(36,36,36,.14)' }}
             >
-              {datasUser?.role === 'renter' ? <>Penyewa</> : <>Pemilik</>}
+              {datasUser?.role}
             </div>
             <Menu
               onClick={onClickProfile}
@@ -358,10 +347,7 @@ function Profile() {
                             placeholder='Masukan nama depan'
                             className=' p-[10px] rounded-[10px] border border-rstroke regis text-xl'
                             onChange={(e) => {
-                              setDatas({
-                                ...datas,
-                                first_name: e.target.value,
-                              });
+                              setDatas({ ...datas, first_name: e.target.value });
                             }}
                           />
                         </Form.Item>
@@ -399,8 +385,8 @@ function Profile() {
                     <div>
                       <p className='text-teks text-2xl font-bold'> NIK</p>
                     </div>
-                    <div className='w-full p-[10px] rounded-[10px] border border-rstroke regis text-xl cursor-not-allowed'>
-                      {datasUser?.nik}
+                    <div className='w-full p-[10px] rounded-[10px] border border-rstroke regis text-xl'>
+                    {datasUser?.nik}
                     </div>
                   </div>
                   <div className='grid gap-y-4 grid-cols-1'>
@@ -461,7 +447,7 @@ function Profile() {
                           Tanggal Lahir
                         </p>
                       </div>
-                      <div className='w-full p-[10px] rounded-[10px] border border-rstroke regis text-xl flex cursor-not-allowed'>
+                      <div className='w-full p-[10px] rounded-[10px] border border-rstroke regis text-xl flex'>
                         <div className='w-full'>
                           {convertDate(datasUser?.birthday)}
                         </div>
@@ -476,7 +462,7 @@ function Profile() {
                           Jenis Kelamin
                         </p>
                       </div>
-                      <div className='w-full p-[10px] rounded-[10px] border border-rstroke regis text-xl flex cursor-not-allowed'>
+                      <div className='w-full p-[10px] rounded-[10px] border border-rstroke regis text-xl flex'>
                         <div className='w-full'>
                           {datasUser?.gender === 'pria' ? 'Pria' : 'Wanita'}
                         </div>
@@ -489,7 +475,15 @@ function Profile() {
                   <div className='my-4'>
                     <p className='mb-4 text-teks text-2xl font-bold'>Alamat</p>
                     <div className='textarea-produk'>
-                      <Form.Item name='address'>
+                      <Form.Item
+                        name='address'
+                        rules={[
+                          {
+                            required: true,
+                            message: 'Harap masukan alamat produk!',
+                          },
+                        ]}
+                      >
                         <TextArea
                           showCount
                           maxLength={225}

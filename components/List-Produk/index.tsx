@@ -1,5 +1,4 @@
 import React from 'react';
-import ModalDelete from '../Modal/modalDelete';
 import {
   HomeFilled,
   QuestionCircleFilled,
@@ -7,8 +6,59 @@ import {
 } from '@ant-design/icons';
 import { Icon } from '@iconify/react';
 import Button from '../Button';
+import { ReviewsRepository } from '#/repository/reviews';
+import { countRate } from '#/utils/convertRating';
+import { Modal } from 'antd';
+import { productsRepository } from '#/repository/products';
 
 function ListProduk({ image, label, title, idProducts, mutate }: any) {
+  const { data: dataReview } =
+    ReviewsRepository.hooks.getReviewsByProduct(idProducts);
+
+  const dataReviews = dataReview?.reviewsData;
+
+  const totalRating = dataReviews?.map((dataReview: any) => {
+    return dataReview.rating;
+  });
+
+  const { confirm } = Modal;
+
+  const showModal = () => {
+    confirm({
+      title: (
+        <div className='text-3xl font-bold flex justify-center'>
+          Nonaktif Produk
+        </div>
+      ),
+      content: (
+        <div className='text-xl font-semibold flex justify-center mb-[25px]'>
+          Apakah anda yakin ingin nonaktif ?
+        </div>
+      ),
+      icon: (
+        <div className='modal-hapus mb-[10px] flex justify-center'>
+          <QuestionCircleFilled />
+        </div>
+      ),
+      okText: (
+        <div className='modal-hapus text-xl font-bold text-white'>Ya</div>
+      ),
+      cancelText: <div className='text-xl font-bold text-white'>Batal</div>,
+      async onOk() {
+        try {
+            await productsRepository.manipulatedata.nonactivatProductOwner(
+              idProducts
+            );
+          mutate();
+        } catch (err) {
+          throw err;
+        }
+      },
+      onCancel() {
+        console.log('Cancel');
+      },
+    });
+  };
   return (
     <div>
       <div className='p-5 rounded-[10px] border border-[#858585]'>
@@ -40,7 +90,9 @@ function ListProduk({ image, label, title, idProducts, mutate }: any) {
                   </div>
                   <div className='flex items-center gap-x-2'>
                     <StarFilled className='text-[#FFCC00] text-[26px]' />
-                    <p className='font-bold text-xl text-rstroke'>0 (0)</p>
+                    <p className='font-bold text-xl text-rstroke'>
+                      {countRate(totalRating)} ({dataReview?.count} review)
+                    </p>
                   </div>
                 </div>
               </div>
@@ -56,15 +108,12 @@ function ListProduk({ image, label, title, idProducts, mutate }: any) {
                   </Button>
                 </div>
                 <div className='w-full modal-nonaktifkan h-max'>
-                  <ModalDelete
-                    id={idProducts}
-                    title='Nonaktif Produk'
-                    content='Apakah anda yakin ingin nonaktif ?'
-                    icon={<QuestionCircleFilled />}
-                    buttonText='Nonaktif'
-                    mutate={mutate}
-                    className='!w-full'
-                  />
+                  <Button
+                    className='hover:text-white hover:!bg-[#e24444] hapus !bg-merah rounded-[10px] text-base font-bold py-3 !w-full'
+                    onClick={showModal}
+                  >
+                    Nonaktif Produk
+                  </Button>
                 </div>
               </div>
             </div>

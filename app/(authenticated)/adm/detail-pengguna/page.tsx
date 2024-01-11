@@ -12,6 +12,7 @@ import { ArrowLeftOutlined, CalendarOutlined, DownOutlined } from '@ant-design/i
 import { Empty, Image, Pagination, Spin } from 'antd';
 import { useSearchParams } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
+import { mutate } from 'swr';
 
 function DetailPengguna() {
   useEffect(() => {
@@ -21,10 +22,16 @@ function DetailPengguna() {
   const userId: any = searchParams?.get('id');
 
   const [filterType, setFilterType] = useState('kost');
+  const [currentPage, setCurrentPage] = useState(1);
+  const [status, setStatus] = useState('true');
+  const limit = 10;
 
-  const { data: productData } = productsRepository.hooks.getListProductByOwner(
+  const { data: productData, mutate } = productsRepository.hooks.getProductsOwnerByAdmin(
     userId,
-    filterType
+    filterType,
+    currentPage, 
+    limit,
+    status
   );
   const { data: userData } = usersRepository.hooks.getUserById(userId);
 
@@ -48,8 +55,14 @@ function DetailPengguna() {
   }
   const users = userData?.data;
 
+  const handlePageChange = (page: any) => {
+    setCurrentPage(page);
+  };
+
   const handleChange = (value: string) => {
     setFilterType(value);
+    setCurrentPage(1)
+    setStatus('true');
   };
   const handleApprove = () => {
     usersRepository.manipulateData.approveReject(userId, 'approve');
@@ -221,6 +234,7 @@ function DetailPengguna() {
               <p>Produk Pemilik</p>
             </div>
             <div className='grid gap-y-3'>
+            {status === 'true' && <></>}
               <div className='w-full mb-[30px]'>
                 <TypeRadio
                   defaultValue='kost'
@@ -237,6 +251,7 @@ function DetailPengguna() {
                         image={imgProduct(produk.photo)}
                         label={produk.type}
                         title={produk.name}
+                        mutate={mutate}
                       />
                     </div>
                   ))}
@@ -258,12 +273,10 @@ function DetailPengguna() {
               )}
               <div className='w-full py-[20px] flex justify-end'>
                 <Pagination
-                  // current={currentPage}
-                  // total={totalProducts}
-                  // pageSize={itemsPerPage}
-                  // onChange={handlePageChange}
-                  defaultCurrent={1}
-                  total={50}
+                 current={currentPage}
+                 total={productData?.count}
+                 pageSize={limit}
+                 onChange={handlePageChange}
                   className='text-2xl font-semibold'
                 />
               </div>
