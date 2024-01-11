@@ -5,8 +5,13 @@ const url = {
   createProduct: () => '/products',
   uploadProduct: () => '/photo-products/upload-photo-products',
   updateProduct: (id: any) => `/products/${id}`,
-  getListProductByOwner(id: string, type?: string) {
-    return `/products/find-owner/${id}?type=${type}`;
+  getListProductByOwner(
+    id: string,
+    type?: string,
+    page?: number,
+    limit?: number
+  ) {
+    return `/products/find-owner/${id}?type=${type}&page=${page}&limit=${limit}`;
   },
   getProductById(id: string) {
     return `/products/${id}`;
@@ -41,8 +46,16 @@ const manipulatedata = {
 };
 
 const hooks = {
-  getListProductByOwner(id: string, type?: string) {
-    return useSWR(url.getListProductByOwner(id, type), http.fetcher);
+  getListProductByOwner(
+    id: string,
+    type?: string,
+    page?: number,
+    limit?: number
+  ) {
+    return useSWR(
+      url.getListProductByOwner(id, type, page, limit),
+      http.fetcher
+    );
   },
   getProductsById(id: any) {
     return useSWR(url.getProductsById(id), http.fetcher);

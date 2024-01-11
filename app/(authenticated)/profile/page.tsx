@@ -305,7 +305,7 @@ function Profile() {
                             position: 'relative',
                           }}
                         >
-                          <div className='absolute bottom-4 left-[30%] z-50 bg-slate-800/50 text-white font-bold text-xl px-6 py-3 rounded-[10px] border border-white'>
+                          <div className='absolute bottom-4 left-[30%] bg-slate-800/50 text-white font-bold text-xl px-6 py-3 rounded-[10px] border border-white'>
                             Edit
                           </div>
                           <img

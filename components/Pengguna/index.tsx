@@ -6,43 +6,14 @@ import {
   CloseCircleFilled,
   PauseCircleFilled,
 } from '@ant-design/icons';
-import Button from '../Button';
-import { adminRepository } from '#/repository/adm';
-import { Input, Modal } from 'antd';
 
 function ListPengguna({ image, namaPengguna, status, idUsers }: any) {
-  const handleApprove = async () => {
-    try {
-      await adminRepository.manipulatedata.approveOwner(idUsers);
-    } catch (error) {
-      console.error('Error approving owner:', error);
-    }
-  };
-
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const showModal = () => {
-    setIsModalOpen(true);
-  };
-
-  const handleOk = () => {
-    setIsModalOpen(false);
-  };
-
-  const handleCancel = () => {
-    setIsModalOpen(false);
-  };
 
   return (
     <div>
       <a href={`/adm/detail-pengguna?id=${idUsers}`}>
         <div className='flex items-center gap-x-[24px] px-5 py-2.5 rounded-[10px] border border-rstroke'>
           <div>
-            {/* <img
-                src={`${imgProfile(image)}`}
-                alt='produk'
-                className='object-cover object-center w-full h-full rounded-xl'
-              /> */}
             <Photo size={50} src={image} />
           </div>
           <div className='w-full text-xl font-bold'>{namaPengguna}</div>

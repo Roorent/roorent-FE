@@ -8,9 +8,15 @@ const url = {
   getDetailRenter: (id: string) => `/transactions/renter/${id}`,
   getTransactionsRenter: () => '/transactions/all-renter',
   transactionsApp: (id: string) => `/transactions/applications/${id}/`,
-  getListTransactionsByRenter: (id: string, status: string) => `/transactions/list-renter/${id}?status=${status}`,
+  getListTransactionsByRenter: (
+    id: string,
+    status: string,
+    page?: number,
+    limit?: number
+  ) =>
+    `/transactions/list-renter/${id}?status=${status}&page=${page}&limit=${limit}`,
   getDetailTransactions: (id: string) => `/transactions/${id}`,
-  getlistTransactionsByProducts: (id: string) => `/transactions/products/${id}`
+  getlistTransactionsByProducts: (id: string) => `/transactions/products/${id}`,
 };
 
 const manipulatedata = {
@@ -37,12 +43,20 @@ const manipulatedata = {
 const hooks = {
   getDetailRenter(id: string) {
     return useSWR(url.getDetailRenter(id), http.fetcher);
-  },  
+  },
   getTransactionsRenter() {
     return useSWR(url.getTransactionsRenter(), http.fetcher);
   },
-  getListTransactionsByRenter(id: string, status: string) {
-    return useSWR(url.getListTransactionsByRenter(id, status), http.fetcher);
+  getListTransactionsByRenter(
+    id: string,
+    status: string,
+    page?: number,
+    limit?: number
+  ) {
+    return useSWR(
+      url.getListTransactionsByRenter(id, status, page, limit),
+      http.fetcher
+    );
   },
   getDetailTransactions(id: string) {
     return useSWR(url.getDetailTransactions(id), http.fetcher);

@@ -35,7 +35,6 @@ function getItem(
 }
 
 function RiwayatTransaksi() {
-  // const [filterType, setFilterType] = useState('pending');
   const token = localStorage.getItem('access_token');
   let id: string = '';
 
@@ -44,7 +43,7 @@ function RiwayatTransaksi() {
   }
 
   const [filteredDatas, setFilteredDatas] = useState([]);
-  const [filterType, setFilterType] = useState('pending');
+  const [filterType, setFilterType] = useState('semua');
   const riwayatTransaksi: MenuItem[] = [
     getItem(
       null,
@@ -70,13 +69,18 @@ function RiwayatTransaksi() {
     router.push(e.key);
   };
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 9;
+  const limit = 8;
   const handlePageChange = (page: any) => {
     setCurrentPage(page);
   };
 
   const { data, error, isLoading, mutate } =
-    TransactionRepository.hooks.getListTransactionsByRenter(id, filterType);
+    TransactionRepository.hooks.getListTransactionsByRenter(
+      id,
+      filterType,
+      currentPage,
+      limit
+    );
 
   const datas = data?.transactionsData;
 
@@ -84,16 +88,13 @@ function RiwayatTransaksi() {
     setFilteredDatas(datas);
   }, [datas]);
 
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = filteredDatas?.slice(indexOfFirstItem, indexOfLastItem);
-
   interface OptionTypeIO {
     value: string;
     label: string;
   }
 
   const options: OptionTypeIO[] = [
+    { value: 'semua', label: 'Semua Transaksi' },
     { value: 'pending', label: 'Belum Dikonfirmasi' },
     { value: 'approve', label: 'Dikonfirmasi' },
     { value: 'reject', label: 'Ditolak' },
@@ -103,7 +104,7 @@ function RiwayatTransaksi() {
     setFilterType(value);
     setCurrentPage(1);
 
-    if (value === 'pending') {
+    if (value === 'semua') {
       setFilteredDatas(datas);
     } else {
       const filtered = datas?.filter(
@@ -160,7 +161,6 @@ function RiwayatTransaksi() {
                 </div>
               </div>
             </a>
-            {/* ksih kondisi !!!! */}
             <div
               className='w-full flex justify-center text-primary text-xl font-semibold bg-white border border-primary rounded-[10px] py-2'
               style={{ boxShadow: '0 1px 8px rgba(36,36,36,.14)' }}
@@ -193,13 +193,7 @@ function RiwayatTransaksi() {
               </div>
             </div>
             <div className='grid gap-10 grid-cols-2'>
-            {currentItems
-            ?.sort((first: any, second: any) => {
-              return (
-                new Date(second.updatedAt).getTime() -
-                new Date(first.updatedAt).getTime()
-              );
-            }).map((riwayat: any) => (
+              {datas?.map((riwayat: any) => (
                 <div key={riwayat.id}>
                   <ListRiwayat
                     idTransaction={riwayat.id}
@@ -217,8 +211,8 @@ function RiwayatTransaksi() {
             <div className='w-full py-[20px] flex justify-end'>
               <Pagination
                 current={currentPage}
-                total={filteredDatas?.length}
-                pageSize={itemsPerPage}
+                total={data?.count}
+                pageSize={limit}
                 onChange={handlePageChange}
                 className='text-2xl font-semibold'
               />

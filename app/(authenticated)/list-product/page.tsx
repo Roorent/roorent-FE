@@ -28,13 +28,18 @@ function ListProduct() {
     setCurrentPage(1);
   };
 
-  const itemsPerPage = 9;
+  const limit = 9;
   const handlePageChange = (page: any) => {
     setCurrentPage(page);
   };
 
   const { data, error, isLoading, mutate } =
-    productsRepository.hooks.getListProductByOwner(id, filterType);
+    productsRepository.hooks.getListProductByOwner(
+      id,
+      filterType,
+      currentPage,
+      limit
+    );
 
   if (isLoading) {
     return (
@@ -46,16 +51,18 @@ function ListProduct() {
   }
   const datas = data?.data;
 
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = datas
-    ?.sort((first: any, second: any) => {
-      return (
-        new Date(second.updatedAt).getTime() -
-        new Date(first.updatedAt).getTime()
-      );
-    })
-    .slice(indexOfFirstItem, indexOfLastItem);
+  console.log(data);
+
+  // const indexOfLastItem = currentPage * itemsPerPage;
+  // const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  // const currentItems = datas
+  //   ?.sort((first: any, second: any) => {
+  //     return (
+  //       new Date(second.updatedAt).getTime() -
+  //       new Date(first.updatedAt).getTime()
+  //     );
+  //   })
+  //   .slice(indexOfFirstItem, indexOfLastItem);
 
   return (
     <div>
@@ -63,7 +70,7 @@ function ListProduct() {
         <div className='w-full'>
           <p className='text-white w-full'>Daftar Produk </p>
         </div>
-        {datas.length > 0 && (
+        {datas?.length > 0 && (
           <div className='flex gap-x-6 items-center'>
             <div className='w-full'>
               <Button
@@ -85,10 +92,10 @@ function ListProduct() {
           onChange={handleChange}
         />
       </div>
-      {currentItems.length > 0 ? (
+      {datas?.length > 0 ? (
         <>
           <div className='grid gap-5 grid-cols-3'>
-            {currentItems?.map((product: any) => (
+            {datas?.map((product: any) => (
               <div key={product.id}>
                 <CardProduk
                   idProducts={product.id}
@@ -96,20 +103,17 @@ function ListProduct() {
                   label={product.type}
                   title={product.name}
                   address={product.address}
-                  // disini tambah mutate
                   mutate={mutate}
                 />
               </div>
             ))}
           </div>
-          {/* <div className='grid gap-5 grid-cols-3 mb-10'>{renderProducts()}</div>
 
-      {totalPages > 1 && ( */}
           <div className='w-full py-[20px] flex justify-end'>
             <Pagination
               current={currentPage}
-              total={datas?.length}
-              pageSize={itemsPerPage}
+              total={data?.count}
+              pageSize={limit}
               onChange={handlePageChange}
               className='text-2xl font-semibold'
             />
