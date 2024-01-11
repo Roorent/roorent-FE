@@ -182,7 +182,7 @@ function Home() {
               <Button
                 type='primary'
                 htmlType='submit'
-                href='/product'
+                href={`/search?type=${typeFilter}`}
                 className='w-max hover:!text-white hover:!bg-primary !bg-white !text-primary border-2 border-white hover:!border-primary rounded-[10px] text-[20px] !font-bold !mt-0 px-7'
               >
                 Lihat Semua
@@ -200,7 +200,7 @@ function Home() {
               <Button
                 type='primary'
                 htmlType='submit'
-                href='/product'
+                href={`/search?type=${typeFilter}`}
                 className='w-max hover:!text-white hover:!bg-primary !bg-white !text-primary border-2 border-white hover:!border-primary rounded-[10px] text-[20px] !font-bold !mt-0 px-7'
               >
                 Lihat Semua
@@ -218,7 +218,7 @@ function Home() {
               <Button
                 type='primary'
                 htmlType='submit'
-                href='/product'
+                href={`/search?type=${typeFilter}`}
                 className='w-max hover:!text-white hover:!bg-primary !bg-white !text-primary border-2 border-white hover:!border-primary rounded-[10px] text-[20px] font-bold !mt-0 px-7'
               >
                 Lihat Semua
@@ -279,7 +279,7 @@ function Home() {
                 <Button
                   type='primary'
                   htmlType='submit'
-                  href='/product'
+                  href={`/search?type=${typeFilter}`}
                   className='w-max hover:!text-white hover:!bg-primary !bg-white !text-primary border-2 border-white hover:!border-primary rounded-[10px] text-[20px] font-bold !mt-0 px-7'
                 >
                   Lihat Semua
@@ -318,7 +318,7 @@ function Home() {
                 <Button
                   type='primary'
                   htmlType='submit'
-                  href='/product'
+                  href={`/search?type=${typeFilter}`}
                   className='w-max hover:!text-white hover:!bg-primary !bg-white !text-primary border-2 border-white hover:!border-primary rounded-[10px] text-[20px] font-bold !mt-0 px-7'
                 >
                   Lihat Semua
@@ -357,7 +357,7 @@ function Home() {
                 <Button
                   type='primary'
                   htmlType='submit'
-                  href='/product'
+                  href={`/search?type=${typeFilter}`}
                   className='w-max hover:!text-white hover:!bg-primary !bg-white !text-primary border-2 border-white hover:!border-primary rounded-[10px] text-[20px] font-bold !mt-0 px-7'
                 >
                   Lihat Semua
