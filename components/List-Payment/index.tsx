@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Button from '../Button';
 import { Form, Image, Input, Modal, message } from 'antd';
 import { toIDR } from '#/utils/convertCurrency';
 import { convertDate, toHours } from '#/utils/convertTime';
 import { imgTransProof } from '#/constants/general';
 import { TransactionRepository } from '#/repository/transaction';
+import { CheckCircleFilled, CloseCircleFilled } from '@ant-design/icons';
 
 function ListPayment({
   tanggal,
@@ -15,6 +16,7 @@ function ListPayment({
   biayaSewa,
   lamaSewa,
   totalPembayaran,
+  status,
   idTransaction,
   mutate,
 }: any) {
@@ -69,12 +71,12 @@ function ListPayment({
         try {
           if (reason) {
             const statusReject = { status: 'reject', reason: reason };
-            const appprove =
+            const reject =
               await TransactionRepository.manipulatedata.transactionsApp(
                 idTransaction,
                 statusReject
               );
-            mutate(appprove);
+            mutate(reject);
           } else {
             message.error('Harap masukkan alasan penolakan!');
           }
@@ -115,7 +117,7 @@ function ListPayment({
   return (
     <div>
       <div
-        className='grid gap-y-[25px] border border-slate-300 rounded-[10px] p-5 mt-[30px]'
+        className='grid gap-y-[25px] border border-slate-300 rounded-[10px] p-5'
         style={{
           boxShadow: '0 -1px 4px rgba(0,0,0,.04), 0 4px 8px rgba(0,0,0,.08)',
         }}
@@ -152,12 +154,16 @@ function ListPayment({
             <div className='grid gap-y-[2px] grid-cols-1 font-semibold text-rstroke pt-2'>
               <div className='flex text-2xl justify-between'>
                 <div>Biaya sewa</div>
-                <div className=' underline underline-offset-2'>{toIDR(biayaSewa)}</div>
+                <div className=' underline underline-offset-2'>
+                  {toIDR(biayaSewa)}
+                </div>
               </div>
               <div className='flex text-2xl justify-between'>
                 <div>Lama Sewa</div>
                 <div className='flex gap-2'>
-                  <p className=' underline underline-offset-2'>{lamaSewa} Bulan</p>
+                  <p className=' underline underline-offset-2'>
+                    {lamaSewa} Bulan
+                  </p>
                 </div>
               </div>
             </div>
@@ -167,24 +173,45 @@ function ListPayment({
           <div className='text-3xl'>Total Pembayaran</div>
           <div>{toIDR(totalPembayaran)}</div>
         </div>
-        <div className='flex gap-x-5'>
-          <div className='w-full'>
-            <Button
-              onClick={showModal}
-              className='!py-3 !mt-0 !font-semibold !text-2xl !bg-merah hover:!bg-[#e24444]'
-            >
-              Tolak
-            </Button>
+        {status === 'pending' ? (
+          <div className='flex gap-x-5'>
+            <div className='w-full'>
+              <Button
+                onClick={showModal}
+                className='!py-3 !mt-0 !font-semibold !text-2xl !bg-merah hover:!bg-[#e24444]'
+              >
+                Tolak
+              </Button>
+            </div>
+            <div className='w-full'>
+              <Button
+                className='!py-3 !mt-0 !font-semibold !text-2xl'
+                onClick={handleApprove}
+              >
+                Konfirmasi
+              </Button>
+            </div>
           </div>
-          <div className='w-full'>
-            <Button
-              className='!py-3 !mt-0 !font-semibold !text-2xl'
-              onClick={handleApprove}
-            >
-              Konfirmasi
-            </Button>
+        ) : (
+          <div>
+            {status === 'approve' && (
+              <div className='text-2xl bg-[#19B929] text-white font-bold rounded-[10px] px-2 py-2.5 flex items-center justify-center'>
+                <div className='mr-5'>
+                  <CheckCircleFilled className='text-4xl' />
+                </div>
+                <p>Terkonfirmasi</p>
+              </div>
+            )}
+            {status === 'reject' && (
+              <div className='text-2xl bg-merah text-white font-bold rounded-[10px] px-3 py-2.5 flex items-center justify-center'>
+                <div className='mr-5'>
+                  <CloseCircleFilled className='text-4xl' />
+                </div>
+                <p>Ditolak</p>
+              </div>
+            )}
           </div>
-        </div>
+        )}
       </div>
     </div>
   );

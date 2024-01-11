@@ -64,7 +64,7 @@ function Profile() {
   const [form] = Form.useForm();
   const { TextArea } = Input;
 
-  const { data, error, isLoading } = usersRepository.hooks.getUserProfile(id);
+  const { data, error, isLoading, mutate } = usersRepository.hooks.getUserProfile(id);
   const datasUser = data?.data;
 
   const [imageUrl, setImageUrl] = useState<string>();
@@ -133,6 +133,7 @@ function Profile() {
           </div>
         ),
       });
+      mutate()
     } catch (err: any) {
       message.error('Gagal mengubah profile');
     }
@@ -260,12 +261,11 @@ function Profile() {
                 </div>
               </div>
             </a>
-            {/* ksih kondisi !!!! */}
             <div
               className='w-full flex justify-center text-primary text-xl font-semibold bg-white border border-primary rounded-[10px] py-2'
               style={{ boxShadow: '0 1px 8px rgba(36,36,36,.14)' }}
             >
-              {datasUser?.role}
+              {datasUser?.role === 'renter' ? <>Penyewa</> : <>Pemilik</>}
             </div>
             <Menu
               onClick={onClickProfile}

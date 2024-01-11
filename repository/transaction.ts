@@ -6,7 +6,8 @@ const url = {
     `/transactions/renter-to-admin/${id}`,
   uploadPayment: () => '/transactions/upload-transactions',
   getDetailRenter: (id: string) => `/transactions/renter/${id}`,
-  getTransactionsRenter: () => '/transactions/all-renter',
+  getTransactionsRenter: (status?: string, page?: number, limit?: number) =>
+    `/transactions/all-renter?status=${status}&page=${page}&limit=${limit}`,
   transactionsApp: (id: string) => `/transactions/applications/${id}/`,
   getListTransactionsByRenter: (
     id: string,
@@ -30,7 +31,7 @@ const manipulatedata = {
     return http.post(url.uploadPayment()).send(formData);
   },
 
-  async transactionsApp(id: string, data: any) {
+  async transactionsApp(id: string, data: any, ) {
     try {
       await http.put(url.transactionsApp(id)).send(data);
       mutate(url.getTransactionsRenter());
@@ -44,8 +45,8 @@ const hooks = {
   getDetailRenter(id: string) {
     return useSWR(url.getDetailRenter(id), http.fetcher);
   },
-  getTransactionsRenter() {
-    return useSWR(url.getTransactionsRenter(), http.fetcher);
+  getTransactionsRenter(status: string, page?: number, limit?: number) {
+    return useSWR(url.getTransactionsRenter(status, page, limit), http.fetcher);
   },
   getListTransactionsByRenter(
     id: string,

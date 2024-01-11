@@ -39,14 +39,6 @@ function Home() {
 
   console.log(datas);
 
-  // const filterProducts = (products: any, filter: any) => {
-  //   return products.filter((product: any) => product.type === filter);
-  // };
-
-  // const filteredProducts = typeFilter
-  //   ? filterProducts(datas, typeFilter)
-  //   : datas;
-
   const productsInSetsOfFour = [];
   for (let i = 0; i < datas?.length; i += 4) {
     productsInSetsOfFour.push(datas?.slice(i, i + 4));
