@@ -2,13 +2,22 @@
 
 import React, { useState } from 'react';
 import Button from '../Button';
-import { ConfigProvider, Modal, Rate, Input, Form, message, Upload } from 'antd';
+import {
+  ConfigProvider,
+  Modal,
+  Rate,
+  Input,
+  Form,
+  message,
+  Upload,
+} from 'antd';
 import SummaryProducts from '../SummaryProducts';
 import { ReviewsRepository } from '#/repository/reviews';
 import { UploadChangeParam, UploadFile } from 'antd/es/upload/interface';
 import { UploadProps } from 'antd/lib';
 import { RcFile } from 'antd/lib/upload';
 import { CameraOutlined, CheckCircleFilled } from '@ant-design/icons';
+import { useRouter } from 'next/navigation';
 
 // const beforeUpload = (file: RcFile) => {
 //   const isJpgOrPng =
@@ -33,8 +42,8 @@ function Review({
   address,
   image,
   namaProduk,
-  idProducts
-}:any) {
+  idProducts,
+}: any) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [photoReviewsArray, setPhotoReviews] = useState<string[] | []>([]);
   const [fileList, setFileList] = useState<UploadFile[]>([]);
@@ -48,6 +57,7 @@ function Review({
     photo: [],
   });
 
+  const router = useRouter();
   const { TextArea } = Input;
 
   const onFinish = async () => {
@@ -58,7 +68,10 @@ function Review({
         photo: datas?.photo,
       };
 
-      await ReviewsRepository.manipulatedata.createTransactionRenter(idProducts, dataReviews);
+      await ReviewsRepository.manipulatedata.createTransactionRenter(
+        idProducts,
+        dataReviews
+      );
 
       Modal.success({
         icon: (
@@ -79,27 +92,28 @@ function Review({
       });
 
       setIsModalOpen(false);
+      router.push(`/detail-product?id=${idProducts}`);
     } catch (err: any) {
       message.error('Gagal membuat review');
     }
   };
 
   const getBase64 = (file: RcFile): Promise<string> =>
-  new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => resolve(reader.result as string);
-    reader.onerror = (error) => reject(error);
-  });
+    new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result as string);
+      reader.onerror = (error) => reject(error);
+    });
 
   const handleUploadPhoto: UploadProps['onChange'] = async (
     args: UploadChangeParam<UploadFile<any>>
   ) => {
     // Fungsi uploadProducts
-    const photoReviews = args?.file;
+    const photoReviews: any = args?.file;
     try {
       if (photoReviews.status === 'done') {
-        if (photoReviews.size && photoReviews.size > 2097152) {
+        if (photoReviews.size > 2097152) {
           message.error('ukuran photoReviews terlalu besar');
         } else {
           if (
@@ -112,7 +126,7 @@ function Review({
                 photoReviews?.originFileObj
               );
 
-              setPhotoReviews([...photoReviewsArray, response.body.filename]);
+            setPhotoReviews([...photoReviewsArray, response.body.filename]);
             setDatas({
               ...datas,
               photo: [...photoReviewsArray, response.body.filename],
@@ -165,7 +179,7 @@ function Review({
         className='!font-bold !w-full !py-3 !text-xl !mt-0'
         onClick={openModal}
       >
-        Nilai
+        Beri Ulasan
       </Button>
       <ConfigProvider
         modal={{
@@ -229,28 +243,28 @@ function Review({
                 <Form.Item name='photo'>
                   {/* <PhotoUpload files={handleUploadPhoto} /> */}
                   <Upload
-                      action='https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188'
-                      listType='picture-card'
-                      fileList={fileList}
-                      multiple={true}
-                      onPreview={handlePreview}
-                      onChange={handleUploadPhoto}
-                      // beforeUpload={beforeUpload}
-                    >
-                      {fileList.length >= 3 ? null : uploadButton}
-                    </Upload>
-                    <Modal
-                      open={previewOpen}
-                      title={previewTitle}
-                      footer={null}
-                      onCancel={handleCancel}
-                    >
-                      <img
-                        alt='Produk'
-                        style={{ width: '100%' }}
-                        src={previewImage}
-                      />
-                    </Modal>
+                    action='https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188'
+                    listType='picture-card'
+                    fileList={fileList}
+                    multiple={true}
+                    onPreview={handlePreview}
+                    onChange={handleUploadPhoto}
+                    // beforeUpload={beforeUpload}
+                  >
+                    {fileList.length >= 3 ? null : uploadButton}
+                  </Upload>
+                  <Modal
+                    open={previewOpen}
+                    title={previewTitle}
+                    footer={null}
+                    onCancel={handleCancel}
+                  >
+                    <img
+                      alt='Produk'
+                      style={{ width: '100%' }}
+                      src={previewImage}
+                    />
+                  </Modal>
                 </Form.Item>
               </div>
               <div className='my-4'>

@@ -51,8 +51,6 @@ function ListProduct() {
   }
   const datas = data?.data;
 
-  console.log(data);
-
   // const indexOfLastItem = currentPage * itemsPerPage;
   // const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   // const currentItems = datas

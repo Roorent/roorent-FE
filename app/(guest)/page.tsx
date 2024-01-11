@@ -115,9 +115,7 @@ function Home() {
                 Dapatkan informasi dan lakukan penyewaan
               </div>
               <div>
-                <Searchs
-                  placeholder={'Masukan nama/kota/alamat'}
-                />
+                <Searchs placeholder={'Masukan nama/kota/alamat'} />
               </div>
             </div>
           </div>

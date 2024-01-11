@@ -56,11 +56,11 @@ function Profile() {
   if (token) {
     id = parseJwt(token).id;
   }
-  
+
   const pathname = usePathname();
   const router = useRouter();
   const [currProfile, setCurrProfile] = useState<any>(pathname);
-  
+
   const [form] = Form.useForm();
   const { TextArea } = Input;
 
@@ -69,7 +69,7 @@ function Profile() {
 
   const [imageUrl, setImageUrl] = useState<string>();
   const [loading, setLoading] = useState(false);
-  
+
   const [datas, setDatas] = useState({
     email: '',
     first_name: '',
@@ -78,7 +78,7 @@ function Profile() {
     phone: '',
     photo_profile: '',
   });
-  
+
   useEffect(() => {
     if (!isLoading) {
       setDatas({
@@ -87,15 +87,15 @@ function Profile() {
         last_name: datasUser?.last_name,
         address: data?.data?.address,
         phone: datasUser?.phone,
-        photo_profile: datasUser?.photo, 
+        photo_profile: datasUser?.photo,
       });
       form.setFieldsValue({
         email: datasUser?.email,
         first_name: datasUser?.first_name,
         last_name: datasUser?.last_name,
-        address:datasUser?.address,
+        address: datasUser?.address,
         phone: datasUser?.phone,
-        photo_profile: datasUser?.photo, 
+        photo_profile: datasUser?.photo,
       });
     }
   }, [isLoading]);
@@ -108,13 +108,10 @@ function Profile() {
         last_name: datas?.last_name,
         address: datas?.address,
         phone: datas?.phone,
-        photo_profile: datas?.photo_profile, 
+        photo_profile: datas?.photo_profile,
       };
 
-      await usersRepository.manipulateData.updateProfile(
-        id,
-        dataProfile
-      );
+      await usersRepository.manipulateData.updateProfile(id, dataProfile);
 
       Modal.success({
         icon: (
@@ -124,17 +121,17 @@ function Profile() {
         ),
         title: (
           <div className='text-3xl font-bold flex justify-center'>
-            Berhasil Edit Produk
+            Berhasil Memperbaharui Profil
           </div>
         ),
         content: (
           <div className='text-xl font-semibold flex justify-center mb-[25px]'>
-            Anda telah berhasil mengubah produk
+            Anda telah berhasil memperbaharui profil
           </div>
         ),
       });
     } catch (err: any) {
-      message.error('Gagal mengubah profile');
+      message.error('Gagal memperbaharui profil');
     }
   };
 
@@ -164,16 +161,17 @@ function Profile() {
     try {
       if (photoProfile?.status === 'done') {
         if (photoProfile.size && photoProfile.size > 2097152) {
-          message.error('Ukuran photoProfile terlalu besar');
+          message.error('Ukuran foto profil terlalu besar');
         } else {
           if (
             photoProfile.type === 'image/png' ||
             photoProfile.type === 'image/jpg' ||
             photoProfile.type === 'image/jpeg'
           ) {
-            const response = await usersRepository.manipulateData.uploadPhotoProfile(
-              photoProfile?.originFileObj
-            );
+            const response =
+              await usersRepository.manipulateData.uploadPhotoProfile(
+                photoProfile?.originFileObj
+              );
             setDatas({ ...datas, photo_profile: response.body.filename });
           } else {
             message.error('Anda hanya dapat mengunggah file JPG/JPEG/PNG!');
@@ -347,7 +345,10 @@ function Profile() {
                             placeholder='Masukan nama depan'
                             className=' p-[10px] rounded-[10px] border border-rstroke regis text-xl'
                             onChange={(e) => {
-                              setDatas({ ...datas, first_name: e.target.value });
+                              setDatas({
+                                ...datas,
+                                first_name: e.target.value,
+                              });
                             }}
                           />
                         </Form.Item>
@@ -386,7 +387,7 @@ function Profile() {
                       <p className='text-teks text-2xl font-bold'> NIK</p>
                     </div>
                     <div className='w-full p-[10px] rounded-[10px] border border-rstroke regis text-xl'>
-                    {datasUser?.nik}
+                      {datasUser?.nik}
                     </div>
                   </div>
                   <div className='grid gap-y-4 grid-cols-1'>

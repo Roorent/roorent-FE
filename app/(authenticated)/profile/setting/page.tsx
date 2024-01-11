@@ -54,7 +54,9 @@ function Setting() {
   const showNonactiveConfirm = () => {
     confirm({
       title: (
-        <div className='text-3xl font-bold flex justify-center'>Nonaktifkan Akun</div>
+        <div className='text-3xl font-bold flex justify-center'>
+          Nonaktifkan Akun
+        </div>
       ),
       content: (
         <div className='text-xl font-semibold flex justify-center mb-[25px]'>
@@ -62,7 +64,9 @@ function Setting() {
         </div>
       ),
       icon: (
-        <div className='modal-hapus mb-[10px] flex justify-center'><QuestionCircleFilled /></div>
+        <div className='modal-hapus mb-[10px] flex justify-center'>
+          <QuestionCircleFilled />
+        </div>
       ),
       async onOk() {
         await usersRepository.manipulateData.nonactiveAccount(id);
@@ -83,6 +87,8 @@ function Setting() {
             </div>
           ),
         });
+        localStorage.removeItem('access_token');
+        router.push('/');
       },
       okText: (
         <div className='modal-hapus text-xl font-bold text-white'>Ya</div>

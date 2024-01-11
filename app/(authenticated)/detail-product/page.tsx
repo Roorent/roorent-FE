@@ -603,13 +603,24 @@ function DetailProduct() {
                       </div>
                       <div>
                         <Form.Item>
-                          <Button
-                            type='primary'
-                            htmlType='submit'
-                            className='bg-primary w-full p-[8px] h-14 !-mt-2 rounded-2xl flex justify-center items-center text-white !font-bold !text-xl hover:!bg-rhover1 hover:text-white'
-                          >
-                            Ajukan Sewa
-                          </Button>
+                          {datas?.stock === 0 ? (
+                            <Button
+                              type='primary'
+                              htmlType='submit'
+                              disabled={true}
+                              className='bg-primary w-full p-[8px] h-14 !-mt-2 rounded-2xl flex justify-center items-center text-white !font-bold !text-xl'
+                            >
+                              Ajukan Sewa
+                            </Button>
+                          ) : (
+                            <Button
+                              type='primary'
+                              htmlType='submit'
+                              className='bg-primary w-full p-[8px] h-14 !-mt-2 rounded-2xl flex justify-center items-center text-white !font-bold !text-xl hover:!bg-rhover1 hover:text-white'
+                            >
+                              Ajukan Sewa
+                            </Button>
+                          )}
                         </Form.Item>
                       </div>
                     </>
