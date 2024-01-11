@@ -119,24 +119,30 @@ function Product({
             <div className='text-xl flex '>
               {type === 'kost' && (
                 <>
-                {(hargaPerbulan !== 0 && hargaPerhari === 0) && (
-                <div className='flex '>
-                  <p className='font-bold'>{toIDR(hargaPerbulan)}</p>
-                  <p className='text-lg'>/bulan</p>
-                </div>
-                )}
-                {(hargaPerbulan === 0 && hargaPerhari !== 0) && (
-                <div className='flex '>
-                  <p className='font-bold'>{toIDR(hargaPerhari)}</p>
-                  <p className='text-lg'>/hari</p>
-                </div>
-                )}
-                {(hargaPerbulan !== 0 && hargaPerhari !== 0) && (
-                <div className='flex '>
-                  <p className='font-bold'>{toIDR(hargaPerbulan)}</p>
-                  <p className='text-lg'>/bulan</p>
-                </div>
-                )}
+                  {hargaPerbulan !== 0 && hargaPerhari === 0 && (
+                    <div className='flex '>
+                      <p className='font-bold'>{toIDR(hargaPerbulan)}</p>
+                      <p className='text-lg'>/bulan</p>
+                    </div>
+                  )}
+                  {hargaPerbulan === 0 && hargaPerhari !== 0 && (
+                    <div className='flex '>
+                      <p className='font-bold'>{toIDR(hargaPerhari)}</p>
+                      <p className='text-lg'>/hari</p>
+                    </div>
+                  )}
+                  {hargaPerbulan !== 0 && hargaPerhari !== 0 && (
+                    <div className='grid gapy-2'>
+                      <div className='flex '>
+                        <p className='font-bold'>{toIDR(hargaPerhari)}</p>
+                        <p className='text-lg'>/hari</p>
+                      </div>
+                      <div className='flex '>
+                        <p className='font-bold'>{toIDR(hargaPerbulan)}</p>
+                        <p className='text-lg'>/bulan</p>
+                      </div>
+                    </div>
+                  )}
                 </>
               )}
               {type === 'gedung' && (

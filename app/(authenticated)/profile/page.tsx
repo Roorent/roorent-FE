@@ -17,6 +17,7 @@ import {
 } from '@ant-design/icons';
 import {
   Button,
+  DatePicker,
   Form,
   Input,
   Menu,
@@ -26,6 +27,7 @@ import {
   message,
 } from 'antd';
 import type { MenuProps, UploadFile } from 'antd';
+import { Option } from 'antd/es/mentions';
 import MenuItem from 'antd/es/menu/MenuItem';
 import { UploadChangeParam } from 'antd/es/upload';
 import { UploadProps } from 'antd/lib';
@@ -226,15 +228,27 @@ function Profile() {
     <div>
       <div className='w-full grid gap-y-[20px]'>
         <div className='w-full grid gap-y-[20px] grid-cols-1 mb-3'>
-          <a
-            href='/home'
-            className='w-fit hover:text-teks flex font-bold text-xl gap-3'
-          >
-            <div>
-              <ArrowLeftOutlined />
-            </div>
-            <div>Kembali</div>
-          </a>
+          {datasUser?.role === 'renter' ? (
+            <a
+              href='/home'
+              className='w-fit hover:text-teks flex font-bold text-xl gap-3'
+            >
+              <div>
+                <ArrowLeftOutlined />
+              </div>
+              <div>Kembali</div>
+            </a>
+          ) : (
+            <a
+              href='/list-product'
+              className='w-fit hover:text-teks flex font-bold text-xl gap-3'
+            >
+              <div>
+                <ArrowLeftOutlined />
+              </div>
+              <div>Kembali</div>
+            </a>
+          )}
         </div>
         <div className='w-full h-full flex gap-x-20 profile'>
           <div className='w-1/4 h-fit grid gap-y-8 profile sticky top-5'>
@@ -258,12 +272,11 @@ function Profile() {
                 </div>
               </div>
             </a>
-            {/* ksih kondisi !!!! */}
             <div
               className='w-full flex justify-center text-primary text-xl font-semibold bg-white border border-primary rounded-[10px] py-2'
               style={{ boxShadow: '0 1px 8px rgba(36,36,36,.14)' }}
             >
-              {datasUser?.role}
+              {datasUser?.role === 'renter' ? <>Penyewa</> : <>Pemilik</>}
             </div>
             <Menu
               onClick={onClickProfile}
@@ -386,7 +399,7 @@ function Profile() {
                     <div>
                       <p className='text-teks text-2xl font-bold'> NIK</p>
                     </div>
-                    <div className='w-full p-[10px] rounded-[10px] border border-rstroke regis text-xl'>
+                    <div className='w-full p-[10px] rounded-[10px] border border-rstroke regis text-xl cursor-not-allowed'>
                       {datasUser?.nik}
                     </div>
                   </div>
@@ -448,7 +461,7 @@ function Profile() {
                           Tanggal Lahir
                         </p>
                       </div>
-                      <div className='w-full p-[10px] rounded-[10px] border border-rstroke regis text-xl flex'>
+                      <div className='w-full p-[10px] rounded-[10px] border border-rstroke regis text-xl flex cursor-not-allowed'>
                         <div className='w-full'>
                           {convertDate(datasUser?.birthday)}
                         </div>
@@ -463,7 +476,7 @@ function Profile() {
                           Jenis Kelamin
                         </p>
                       </div>
-                      <div className='w-full p-[10px] rounded-[10px] border border-rstroke regis text-xl flex'>
+                      <div className='w-full p-[10px] rounded-[10px] border border-rstroke regis text-xl flex cursor-not-allowed'>
                         <div className='w-full'>
                           {datasUser?.gender === 'pria' ? 'Pria' : 'Wanita'}
                         </div>
@@ -476,15 +489,7 @@ function Profile() {
                   <div className='my-4'>
                     <p className='mb-4 text-teks text-2xl font-bold'>Alamat</p>
                     <div className='textarea-produk'>
-                      <Form.Item
-                        name='address'
-                        rules={[
-                          {
-                            required: true,
-                            message: 'Harap masukan alamat produk!',
-                          },
-                        ]}
-                      >
+                      <Form.Item name='address'>
                         <TextArea
                           showCount
                           maxLength={225}

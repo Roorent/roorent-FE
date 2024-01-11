@@ -144,7 +144,6 @@ function ListProduct() {
           </div>
         </Empty>
       )}
-      {/* )} */}
     </div>
   );
 }

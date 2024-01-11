@@ -3,6 +3,7 @@
 import ListRiwayat from '#/components/List-Riwayat';
 import Photo from '#/components/Photo';
 import { TransactionRepository } from '#/repository/transaction';
+import { usersRepository } from '#/repository/users';
 import { parseJwt } from '#/utils/convert';
 import {
   ArrowLeftOutlined,
@@ -10,7 +11,7 @@ import {
   RightOutlined,
   SettingOutlined,
 } from '@ant-design/icons';
-import { Menu, Pagination, Select, Spin } from 'antd';
+import { Empty, Menu, Pagination, Select, Spin } from 'antd';
 import { MenuProps } from 'antd/lib';
 import { Option } from 'antd/lib/mentions';
 import { usePathname, useRouter } from 'next/navigation';
@@ -84,6 +85,9 @@ function RiwayatTransaksi() {
 
   const datas = data?.transactionsData;
 
+  const { data: dataProfile } = usersRepository.hooks.getUserProfile(id);
+  const datasUser = dataProfile?.data;
+
   useEffect(() => {
     setFilteredDatas(datas);
   }, [datas]);
@@ -151,10 +155,10 @@ function RiwayatTransaksi() {
                     <Photo
                       className='cursor-pointer'
                       size={70}
-                      src={'/assets/images/profile.png'}
+                      src={datasUser?.photo}
                     />
                   </div>
-                  <div className='text-xl font-bold'>M Danar Kahfi</div>
+                  <div className='text-xl font-bold'>{datasUser?.name}</div>
                 </div>
                 <div className='text-xl font-bold text-teks'>
                   <RightOutlined />
@@ -165,7 +169,7 @@ function RiwayatTransaksi() {
               className='w-full flex justify-center text-primary text-xl font-semibold bg-white border border-primary rounded-[10px] py-2'
               style={{ boxShadow: '0 1px 8px rgba(36,36,36,.14)' }}
             >
-              Penyewa
+              {datasUser?.role === 'renter' ? <>Penyewa</> : <>Pemilik</>}
             </div>
             <Menu
               onClick={onClickRiwayat}
@@ -192,31 +196,49 @@ function RiwayatTransaksi() {
                 </Select>
               </div>
             </div>
-            <div className='grid gap-10 grid-cols-2'>
-              {datas?.map((riwayat: any) => (
-                <div key={riwayat.id}>
-                  <ListRiwayat
-                    idTransaction={riwayat.id}
-                    image={riwayat.product_photo}
-                    product_type={riwayat.product_type}
-                    product_label={riwayat.product_gender}
-                    product_name={riwayat.product_name}
-                    product_address={riwayat.product_address}
-                    total_price={riwayat.total_price}
-                    statusPembayaran={riwayat.statusPembayaran}
+            {datas?.length > 0 ? (
+              <>
+                <div className='grid gap-10 grid-cols-2'>
+                  {datas?.map((riwayat: any) => (
+                    <div key={riwayat.id}>
+                      <ListRiwayat
+                        idTransaction={riwayat.id}
+                        image={riwayat.product_photo}
+                        product_type={riwayat.product_type}
+                        product_label={riwayat.product_gender}
+                        product_name={riwayat.product_name}
+                        product_address={riwayat.product_address}
+                        total_price={riwayat.total_price}
+                        statusPembayaran={riwayat.statusPembayaran}
+                      />
+                    </div>
+                  ))}
+                </div>
+                <div className='w-full py-[20px] flex justify-end'>
+                  <Pagination
+                    current={currentPage}
+                    total={data?.count}
+                    pageSize={limit}
+                    onChange={handlePageChange}
+                    className='text-2xl font-semibold'
                   />
                 </div>
-              ))}
-            </div>
-            <div className='w-full py-[20px] flex justify-end'>
-              <Pagination
-                current={currentPage}
-                total={data?.count}
-                pageSize={limit}
-                onChange={handlePageChange}
-                className='text-2xl font-semibold'
-              />
-            </div>
+              </>
+            ) : (
+              <Empty
+                image='https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg'
+                imageStyle={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  height: '100%',
+                }}
+                description={
+                  <span className='font-semibold text-2xl text-[#C0C0C0]'>
+                    Belum ada riwayat transkasi
+                  </span>
+                }
+              ></Empty>
+            )}
           </div>
         </div>
       </div>

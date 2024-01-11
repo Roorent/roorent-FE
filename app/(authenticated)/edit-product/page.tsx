@@ -47,7 +47,9 @@ function EditProduct() {
   const [previewImage, setPreviewImage] = useState('');
   const [previewTitle, setPreviewTitle] = useState('');
   const [fileList, setFileList] = useState<UploadFile[]>([]);
-  const [photoProductsArray, setPhotoProductsArray] = useState<string[] | []>([]);
+  const [photoProductsArray, setPhotoProductsArray] = useState<string[] | []>(
+    []
+  );
 
   const { data, error, isLoading } =
     productsRepository.hooks.getProductsById(productId);
@@ -179,7 +181,10 @@ function EditProduct() {
             );
 
           setFileList((state) => [...state, response.body.filename]);
-          setPhotoProductsArray([...photoProductsArray, response.body.filename]);
+          setPhotoProductsArray([
+            ...photoProductsArray,
+            response.body.filename,
+          ]);
         } else {
           message.error('Anda hanya dapat mengunggah file JPG/JPEG/PNG');
         }
@@ -247,7 +252,7 @@ function EditProduct() {
     (fee) => selectedOptionProduk?.value === fee.name
   );
 
-  useEffect(() => { 
+  useEffect(() => {
     document.title = 'Edit Product - Roorent';
 
     if (price?.daily !== 0 && price?.monthly !== 0) {
@@ -280,6 +285,8 @@ function EditProduct() {
     }
   }, [price, data?.data?.type]);
 
+  const sisaBagiPerhari = hargaPerHari - adminFee.daily;
+  const sisaBagiPerbulan = hargaPerBulan - adminFee.monthly;
   // const beforeUpload = (file: RcFile) => {
   //   const isJpgOrPng =
   //     file.type === 'image/jpeg' ||
@@ -300,17 +307,18 @@ function EditProduct() {
     <div>
       <Form name='createProduk' form={form}>
         <div className='w-full grid gap-y-[20px] grid-cols-1'>
-          <a
-            href='/list-product'
-            className='w-fit hover:text-teks flex font-bold text-xl gap-3'
-          >
-            <div>
-              <ArrowLeftOutlined />
+          <div className='w-full flex items-center gap-x-[20px] grid-cols-1 mb-10'>
+            <a
+              href='/list-product'
+              className='w-fit hover:text-teks flex font-bold text-4xl gap-3'
+            >
+              <div>
+                <ArrowLeftOutlined />
+              </div>
+            </a>
+            <div className='w-full flex justify-center text-4xl font-bold'>
+              Edit Produk
             </div>
-            <div>Kembali</div>
-          </a>
-          <div className='produkOwner text-white text-4xl font-bold bg-primary rounded-[10px] px-5 py-5 flex justify-center items-center mb-[30px]'>
-            <p>Edit Produk </p>
           </div>
           <div className='flex gap-x-[70px]'>
             <div className='w-full'>
@@ -704,17 +712,33 @@ function EditProduct() {
                             />
                           </Form.Item>
                         </div>
-                        <div className='text-xl border border-slate-300 rounded-[10px] px-5 py-2.5 flex items-center mb-[30px]'>
-                          <div className='mr-5'>
-                            <ExclamationCircleFilled className='text-3xl text-primary' />
-                          </div>
-                          <div className='w-full'>
-                            <p className='w-full '>
-                              Harga yang akan anda terima =
-                              <span className='font-bold'>
-                                {' ' + toIDR(adminFee.daily)}
-                              </span>
-                            </p>
+                        <div className='my-4'>
+                          <p className='mb-4 text-teks text-2xl font-bold'>
+                            Rincian Harga
+                          </p>
+                          <div className='text-xl border border-slate-300 rounded-[10px] px-5 py-2.5 flex items-center mb-[30px]'>
+                            <div className='w-full text-xl'>
+                              <div className='grid gap-y-3 pb-5 border-b border-slate-300'>
+                                <div className='flex'>
+                                  <p className='w-1/2'>Harga input :</p>
+                                  <p className='w-1/2 flex justify-center underline-offset-2'>
+                                    {toIDR(price.daily) || toIDR(hargaPerHari)}
+                                  </p>
+                                </div>
+                                <div className='flex'>
+                                  <p className='w-1/2 '>Biaya admin 5% :</p>
+                                  <p className='w-1/2 flex justify-center text-merah font-bold'>
+                                    {toIDR(sisaBagiPerhari)}
+                                  </p>
+                                </div>
+                              </div>
+                              <div className='flex mt-3'>
+                                <p className='w-1/2 font-bold'>Total</p>
+                                <p className='w-1/2 flex justify-center font-bold'>
+                                  {toIDR(adminFee.daily)}
+                                </p>
+                              </div>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -747,17 +771,34 @@ function EditProduct() {
                             />
                           </Form.Item>
                         </div>
-                        <div className='text-xl border border-slate-300 rounded-[10px] px-5 py-2.5 flex items-center mb-[30px]'>
-                          <div className='mr-5'>
-                            <ExclamationCircleFilled className='text-3xl text-primary' />
-                          </div>
-                          <div className='w-full'>
-                            <p className='w-full '>
-                              Harga yang akan anda terima =
-                              <span className='font-bold'>
-                                {' ' + toIDR(adminFee.monthly)}
-                              </span>
-                            </p>
+                        <div className='my-4'>
+                          <p className='mb-4 text-teks text-2xl font-bold'>
+                            Rincian Harga
+                          </p>
+                          <div className='text-xl border border-slate-300 rounded-[10px] px-5 py-2.5 flex items-center mb-[30px]'>
+                            <div className='w-full text-xl'>
+                              <div className='grid gap-y-3 pb-5 border-b border-slate-300'>
+                                <div className='flex'>
+                                  <p className='w-1/2'>Harga input :</p>
+                                  <p className='w-1/2 flex justify-center underline-offset-2'>
+                                    {toIDR(price.monthly) ||
+                                      toIDR(hargaPerBulan)}
+                                  </p>
+                                </div>
+                                <div className='flex'>
+                                  <p className='w-1/2 '>Biaya admin 5% :</p>
+                                  <p className='w-1/2 flex justify-center text-merah font-bold'>
+                                    {toIDR(sisaBagiPerbulan)}
+                                  </p>
+                                </div>
+                              </div>
+                              <div className='flex mt-3'>
+                                <p className='w-1/2 font-bold'>Total</p>
+                                <p className='w-1/2 flex justify-center font-bold'>
+                                  {toIDR(adminFee.monthly)}
+                                </p>
+                              </div>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -792,17 +833,34 @@ function EditProduct() {
                                 />
                               </Form.Item>
                             </div>
-                            <div className='text-xl border border-slate-300 rounded-[10px] px-5 py-2.5 flex items-center mb-[30px]'>
-                              <div className='mr-5'>
-                                <ExclamationCircleFilled className='text-3xl text-primary' />
-                              </div>
-                              <div className='w-full'>
-                                <p className='w-full '>
-                                  Harga yang akan anda terima =
-                                  <span className='font-bold'>
-                                    {' ' + toIDR(adminFee.daily)}
-                                  </span>
-                                </p>
+                            <div className='my-4'>
+                              <p className='mb-4 text-teks text-2xl font-bold'>
+                                Rincian Harga
+                              </p>
+                              <div className='text-xl border border-slate-300 rounded-[10px] px-5 py-2.5 flex items-center mb-[30px]'>
+                                <div className='w-full text-xl'>
+                                  <div className='grid gap-y-3 pb-5 border-b border-slate-300'>
+                                    <div className='flex'>
+                                      <p className='w-1/2'>Harga input :</p>
+                                      <p className='w-1/2 flex justify-center underline-offset-2'>
+                                        {toIDR(price.daily) ||
+                                          toIDR(hargaPerHari)}
+                                      </p>
+                                    </div>
+                                    <div className='flex'>
+                                      <p className='w-1/2 '>Biaya admin 5% :</p>
+                                      <p className='w-1/2 flex justify-center text-merah font-bold'>
+                                        {toIDR(sisaBagiPerhari)}
+                                      </p>
+                                    </div>
+                                  </div>
+                                  <div className='flex mt-3'>
+                                    <p className='w-1/2 font-bold'>Total</p>
+                                    <p className='w-1/2 flex justify-center font-bold'>
+                                      {toIDR(adminFee.daily)}
+                                    </p>
+                                  </div>
+                                </div>
                               </div>
                             </div>
                           </div>
@@ -833,17 +891,34 @@ function EditProduct() {
                                 />
                               </Form.Item>
                             </div>
-                            <div className='text-xl border border-slate-300 rounded-[10px] px-5 py-2.5 flex items-center mb-[30px]'>
-                              <div className='mr-5'>
-                                <ExclamationCircleFilled className='text-3xl text-primary' />
-                              </div>
-                              <div className='w-full'>
-                                <p className='w-full '>
-                                  Harga yang akan anda terima =
-                                  <span className='font-bold'>
-                                    {' ' + toIDR(adminFee.monthly)}
-                                  </span>
-                                </p>
+                            <div className='my-4'>
+                              <p className='mb-4 text-teks text-2xl font-bold'>
+                                Rincian Harga
+                              </p>
+                              <div className='text-xl border border-slate-300 rounded-[10px] px-5 py-2.5 flex items-center mb-[30px]'>
+                                <div className='w-full text-xl'>
+                                  <div className='grid gap-y-3 pb-5 border-b border-slate-300'>
+                                    <div className='flex'>
+                                      <p className='w-1/2'>Harga input :</p>
+                                      <p className='w-1/2 flex justify-center underline-offset-2'>
+                                        {toIDR(price.monthly) ||
+                                          toIDR(hargaPerBulan)}
+                                      </p>
+                                    </div>
+                                    <div className='flex'>
+                                      <p className='w-1/2 '>Biaya admin 5% :</p>
+                                      <p className='w-1/2 flex justify-center text-merah font-bold'>
+                                        {toIDR(sisaBagiPerbulan)}
+                                      </p>
+                                    </div>
+                                  </div>
+                                  <div className='flex mt-3'>
+                                    <p className='w-1/2 font-bold'>Total</p>
+                                    <p className='w-1/2 flex justify-center font-bold'>
+                                      {toIDR(adminFee.monthly)}
+                                    </p>
+                                  </div>
+                                </div>
                               </div>
                             </div>
                           </div>
@@ -881,17 +956,33 @@ function EditProduct() {
                           />
                         </Form.Item>
                       </div>
-                      <div className='text-xl border border-slate-300 rounded-[10px] px-5 py-2.5 flex items-center mb-[30px]'>
-                        <div className='mr-5'>
-                          <ExclamationCircleFilled className='text-3xl text-primary' />
-                        </div>
-                        <div className='w-full'>
-                          <p className='w-full '>
-                            Harga yang akan anda terima =
-                            <span className='font-bold'>
-                              {' ' + toIDR(adminFee.daily)}
-                            </span>
-                          </p>
+                      <div className='my-4'>
+                        <p className='mb-4 text-teks text-2xl font-bold'>
+                          Rincian Harga
+                        </p>
+                        <div className='text-xl border border-slate-300 rounded-[10px] px-5 py-2.5 flex items-center mb-[30px]'>
+                          <div className='w-full text-xl'>
+                            <div className='grid gap-y-3 pb-5 border-b border-slate-300'>
+                              <div className='flex'>
+                                <p className='w-1/2'>Harga input :</p>
+                                <p className='w-1/2 flex justify-center underline-offset-2'>
+                                  {toIDR(price.daily) || toIDR(hargaPerHari)}
+                                </p>
+                              </div>
+                              <div className='flex'>
+                                <p className='w-1/2 '>Biaya admin 5% :</p>
+                                <p className='w-1/2 flex justify-center text-merah font-bold'>
+                                  {toIDR(sisaBagiPerhari)}
+                                </p>
+                              </div>
+                            </div>
+                            <div className='flex mt-3'>
+                              <p className='w-1/2 font-bold'>Total</p>
+                              <p className='w-1/2 flex justify-center font-bold'>
+                                {toIDR(adminFee.daily)}
+                              </p>
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -926,17 +1017,33 @@ function EditProduct() {
                           />
                         </Form.Item>
                       </div>
-                      <div className='text-xl border border-slate-300 rounded-[10px] px-5 py-2.5 flex items-center mb-[30px]'>
-                        <div className='mr-5'>
-                          <ExclamationCircleFilled className='text-3xl text-primary' />
-                        </div>
-                        <div className='w-full'>
-                          <p className='w-full '>
-                            Harga yang akan anda terima =
-                            <span className='font-bold'>
-                              {' ' + toIDR(adminFee.daily)}
-                            </span>
-                          </p>
+                      <div className='my-4'>
+                        <p className='mb-4 text-teks text-2xl font-bold'>
+                          Rincian Harga
+                        </p>
+                        <div className='text-xl border border-slate-300 rounded-[10px] px-5 py-2.5 flex items-center mb-[30px]'>
+                          <div className='w-full text-xl'>
+                            <div className='grid gap-y-3 pb-5 border-b border-slate-300'>
+                              <div className='flex'>
+                                <p className='w-1/2'>Harga input :</p>
+                                <p className='w-1/2 flex justify-center underline-offset-2'>
+                                  {toIDR(price.daily) || toIDR(hargaPerHari)}
+                                </p>
+                              </div>
+                              <div className='flex'>
+                                <p className='w-1/2 '>Biaya admin 5% :</p>
+                                <p className='w-1/2 flex justify-center text-merah font-bold'>
+                                  {toIDR(sisaBagiPerhari)}
+                                </p>
+                              </div>
+                            </div>
+                            <div className='flex mt-3'>
+                              <p className='w-1/2 font-bold'>Total</p>
+                              <p className='w-1/2 flex justify-center font-bold'>
+                                {toIDR(adminFee.daily)}
+                              </p>
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>

@@ -22,10 +22,10 @@ function ListSearch({
   //     `${config.baseUrl}/images/photo-products/${img}`;
 
   return (
-    <div>
+    <div style={{ boxShadow: '0 1px 8px rgba(36,36,36,.14)', borderRadius: '10px' }}>
       <a href={`/detail-product?id=${idProducts}`}>
         <div className='flex gap-x-5 border border-slate-300 p-5 rounded-[10px]'>
-          <div className='w-2/5 h-[180px]'>
+          <div className='w-1/2'>
             <img
               // src={imgProduct(image)}
               src={image}
@@ -33,7 +33,7 @@ function ListSearch({
               className='object-cover object-center w-full h-full rounded-xl'
             />
           </div>
-          <div className='w-3/5'>
+          <div className='w-1/2'>
             <div className='text-slate-600'>
               <div className='flex gap-x-2 items-center mb-2'>
                 {type === 'kost' && (
@@ -100,11 +100,11 @@ function ListSearch({
                 )}
               </div>
               <div className='text-xl '>
-                <p className='w-[32rem] overflow-hidden truncate'>
+                <p className='w-56 overflow-hidden truncate'>
                   {namaProduk}
                 </p>
               </div>
-              <div className='flex items-center gap-x-2 text-rstroke w-[32rem]'>
+              <div className='flex items-center gap-x-2 text-rstroke w-56'>
                 <EnvironmentFilled className='text-xl' />
                 <p className='text-xl truncate'>{alamat}</p>
               </div>
@@ -113,11 +113,36 @@ function ListSearch({
               </div>
               <div className='text-xl flex '>
                 {type === 'kost' && (
-                  <div className='flex gap-x-1'>
-                    {/* <p className='font-bold'>{toIDR(hargaPerbulan)}</p> */}
-                    <p className='font-bold'>{hargaPerbulan}</p>
-                    <p className='text-lg'>/bulan</p>
-                  </div>
+                  <>
+                  {hargaPerbulan !== 0 && hargaPerhari === 0 && (
+                    <div className='flex '>
+                      {/* <p className='font-bold'>{toIDR(hargaPerbulan)}</p> */}
+                      <p className='font-bold'>{hargaPerbulan}</p>
+                      <p className='text-lg'>/bulan</p>
+                    </div>
+                  )}
+                  {hargaPerbulan === 0 && hargaPerhari !== 0 && (
+                    <div className='flex '>
+                      {/* <p className='font-bold'>{toIDR(hargaPerhari)}</p> */}
+                      <p className='font-bold'>{hargaPerhari}</p>
+                      <p className='text-lg'>/hari</p>
+                    </div>
+                  )}
+                  {hargaPerbulan !== 0 && hargaPerhari !== 0 && (
+                    <div className='grid gapy-2'>
+                      <div className='flex '>
+                        {/* <p className='font-bold'>{toIDR(hargaPerhari)}</p> */}
+                        <p className='font-bold'>{hargaPerhari}</p>
+                        <p className='text-lg'>/hari</p>
+                      </div>
+                      <div className='flex '>
+                        {/* <p className='font-bold'>{toIDR(hargaPerbulan)}</p> */}
+                        <p className='font-bold'>{hargaPerbulan}</p>
+                        <p className='text-lg'>/bulan</p>
+                      </div>
+                    </div>
+                  )}
+                </>
                 )}
                 {type === 'gedung' && (
                   <div className='flex gap-x-1'>

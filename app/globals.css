@@ -674,5 +674,7 @@ textarea:where(.css-dev-only-do-not-override-1dj4ii3).ant-input {
 .profile .ant-menu-light .ant-menu-item-selected{
   background-color: #ffffff;
   font-weight: 600 !important;
-  /* color: #646464; */
+}
+.ant-select-show-search:where(.css-dev-only-do-not-override-19l9cjq).ant-select:not(.ant-select-customize-input) .ant-select-selector input{
+  color: #4065da;
 }

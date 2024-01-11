@@ -115,7 +115,9 @@ function Home() {
                 Dapatkan informasi dan lakukan penyewaan
               </div>
               <div>
-                <Searchs placeholder={'Masukan nama/kota/alamat'} />
+                <a href='/search'>
+                  <Searchs placeholder={'Masukan nama/kota/alamat'} />
+                </a>
               </div>
             </div>
           </div>
@@ -180,7 +182,7 @@ function Home() {
               <Button
                 type='primary'
                 htmlType='submit'
-                href='#'
+                href='/product'
                 className='w-max hover:!text-white hover:!bg-primary !bg-white !text-primary border-2 border-white hover:!border-primary rounded-[10px] text-[20px] !font-bold !mt-0 px-7'
               >
                 Lihat Semua
@@ -198,7 +200,7 @@ function Home() {
               <Button
                 type='primary'
                 htmlType='submit'
-                href='#'
+                href='/product'
                 className='w-max hover:!text-white hover:!bg-primary !bg-white !text-primary border-2 border-white hover:!border-primary rounded-[10px] text-[20px] !font-bold !mt-0 px-7'
               >
                 Lihat Semua
@@ -216,7 +218,7 @@ function Home() {
               <Button
                 type='primary'
                 htmlType='submit'
-                href='#'
+                href='/product'
                 className='w-max hover:!text-white hover:!bg-primary !bg-white !text-primary border-2 border-white hover:!border-primary rounded-[10px] text-[20px] font-bold !mt-0 px-7'
               >
                 Lihat Semua
@@ -277,7 +279,7 @@ function Home() {
                 <Button
                   type='primary'
                   htmlType='submit'
-                  href='#'
+                  href='/product'
                   className='w-max hover:!text-white hover:!bg-primary !bg-white !text-primary border-2 border-white hover:!border-primary rounded-[10px] text-[20px] font-bold !mt-0 px-7'
                 >
                   Lihat Semua
@@ -316,7 +318,7 @@ function Home() {
                 <Button
                   type='primary'
                   htmlType='submit'
-                  href='#'
+                  href='/product'
                   className='w-max hover:!text-white hover:!bg-primary !bg-white !text-primary border-2 border-white hover:!border-primary rounded-[10px] text-[20px] font-bold !mt-0 px-7'
                 >
                   Lihat Semua
@@ -355,7 +357,7 @@ function Home() {
                 <Button
                   type='primary'
                   htmlType='submit'
-                  href='#'
+                  href='/product'
                   className='w-max hover:!text-white hover:!bg-primary !bg-white !text-primary border-2 border-white hover:!border-primary rounded-[10px] text-[20px] font-bold !mt-0 px-7'
                 >
                   Lihat Semua

@@ -1,15 +1,14 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { isRole } from '#/constants/general';
 import type { MenuProps } from 'antd';
-import { ConfigProvider, Layout, Menu, Modal, theme } from 'antd';
+import { Layout, Menu, theme } from 'antd';
 import { usePathname, useRouter } from 'next/navigation';
 import MenuItem from 'antd/es/menu/MenuItem';
 import {
   FileSyncOutlined,
   LogoutOutlined,
-  SettingOutlined,
   UserOutlined,
 } from '@ant-design/icons';
 import Notifications from '#/components/Notifications';
@@ -83,7 +82,7 @@ const AuthenticatedLayout: React.FC<AuthenticatedLayoutProps> = ({
     firstName = parseJwt(token).firstname;
     photo = parseJwt(token).photo;
   }
-  if (!token && pathname !== '/detail-product') {
+  if (!token && pathname !== '/detail-product' && !search) {
     router.push('/');
   }
 
@@ -92,77 +91,42 @@ const AuthenticatedLayout: React.FC<AuthenticatedLayoutProps> = ({
     router.push('/');
   };
 
-  let items: MenuProps['items'];
-
-  if (role === isRole.renter) {
-    items = [
-      {
-        label: <Photo className='cursor-pointer' size={50} src={photo} />,
-        key: 'Profil',
-        children: [
-          {
-            label: (
-              <a href='/profile' className='text-lg'>
-                <UserOutlined className='mr-2 ' style={{ fontSize: '18px' }} />
-                Profil
-              </a>
-            ),
-            key: 'profil',
-          },
-          {
-            label: (
-              <a href='/riwayat-transaksi' className='text-lg'>
-                <FileSyncOutlined
-                  className='mr-2'
-                  style={{ fontSize: '18px' }}
-                />
-                Riwayat Transaksi
-              </a>
-            ),
-            key: 'riwayat',
-          },
-          {
-            label: (
-              <a onClick={handleLogout} className='text-lg'>
-                <LogoutOutlined className='mr-2' style={{ fontSize: '18px' }} />
-                Keluar
-              </a>
-            ),
-            key: 'logout',
-          },
-        ],
-      },
-    ];
-  } else if (role === isRole.owner) {
-    items = [
-      {
-        label: <Photo className='cursor-pointer' size={50} src={photo} />,
-        key: 'Profil',
-        children: [
-          {
-            label: (
-              <a href='/profile' className='text-lg'>
-                <UserOutlined className='mr-2 ' style={{ fontSize: '18px' }} />
-                Profil
-              </a>
-            ),
-            key: 'profil',
-          },
-          {
-            label: (
-              <a onClick={handleLogout} className='text-lg'>
-                <LogoutOutlined className='mr-2' style={{ fontSize: '18px' }} />
-                Keluar
-              </a>
-            ),
-            key: 'logout',
-          },
-        ],
-      },
-    ];
-  } else {
-    items = [];
-  }
+  const items: MenuItem[] = [
+    {
+      label: <Photo className='cursor-pointer' size={50} src={photo} />,
+      key: 'Profil',
+      // style: {transformOrigin: 'top-left'},
+      children: [
+        {
+          label: (
+            <a href='/profile' className='text-lg'>
+              <UserOutlined className='mr-2 ' style={{ fontSize: '18px' }} />
+              Profil
+            </a>
+          ),
+          key: 'profil',
+        },
+        {
+          label: (
+            <a href='/riwayat-transaksi' className='text-lg'>
+              <FileSyncOutlined className='mr-2' style={{ fontSize: '18px' }} />
+              Riwayat Transaksi
+            </a>
+          ),
+          key: 'riwayat',
+        },
+        {
+          label: (
+            <a onClick={handleLogout} className='text-lg'>
+              <LogoutOutlined className='mr-2' style={{ fontSize: '18px' }} />
+              Keluar
+            </a>
+          ),
+          key: 'logout',
+        },
+      ],
+    },
+  ];
 
   const itemOwner: MenuItem[] = [
     getItem(
@@ -321,7 +285,7 @@ const AuthenticatedLayout: React.FC<AuthenticatedLayoutProps> = ({
       <Layout>
         {role !== isRole.renter ? (
           <>
-            {!cruProduk ? (
+            {!cruProduk && !search ? (
               <Header style={{ background: colorBgContainer }}>
                 <Menu
                   mode='horizontal'
@@ -369,152 +333,198 @@ const AuthenticatedLayout: React.FC<AuthenticatedLayoutProps> = ({
                 </Menu>
               </Header>
             ) : (
-              <Header style={{ background: colorBgContainer }}>
-                <Menu
-                  mode='horizontal'
-                  defaultSelectedKeys={[]}
-                  style={{ borderBottomWidth: '2px' }}
-                  className={
-                    'absolute z-50 border-slate-200 flex justify-start py-[12px] px-[120px] gap-10 w-full -ml-14 items-center'
-                  }
-                >
-                  <div className='w-full'>
-                    <LOGO className='!w-[190px]' />
-                  </div>
-                  {!token ? (
-                    <>
-                      <div className='flex'>
-                        <Button
-                          type='primary'
-                          htmlType='submit'
-                          href='/auth/login'
-                          className='w-max hover:!text-white hover:!bg-primary !bg-white !text-primary border-2 border-primary rounded-[10px] text-[20px] font-bold !mt-0 px-10 shadow-md shadow-primary hover:!shadow-lg'
-                        >
-                          Masuk
-                        </Button>
+              <>
+                {search && !token ? (
+                  <></>
+                ) : (
+                  <Header style={{ background: colorBgContainer }}>
+                    <Menu
+                      mode='horizontal'
+                      defaultSelectedKeys={[]}
+                      style={{ borderBottomWidth: '2px' }}
+                      className={
+                        'absolute z-50 border-slate-200 flex justify-start py-[12px] px-[120px] gap-10 w-full -ml-14 items-center'
+                      }
+                    >
+                      <div className='w-full'>
+                        <LOGO className='!w-[190px]' />
                       </div>
-                    </>
-                  ) : (
-                    <>
-                      <div className='flex gap-6 items-center'>
-                        {role === isRole.admin ? (
-                          <>
-                            <Notifications />
-                          </>
-                        ) : (
-                          <>
-                            <Chats />
-                            <Notifications />
-                          </>
-                        )}
-                      </div>
-                      {role === isRole.admin ? (
-                        <div className='flex items-center gap-6 w-fit'>
-                          <div className='flex items-center gap-8'>
-                            <p className='text-xl font-bold flex w-max justify-end'>
-                              Halo, {firstName}
-                            </p>
-                            <Photo
-                              className='cursor-pointer'
-                              size={50}
-                              src={photo}
-                            />
+                      {!token ? (
+                        <>
+                          <div className='flex'>
+                            <Button
+                              type='primary'
+                              htmlType='submit'
+                              href='/auth/login'
+                              className='w-max hover:!text-white hover:!bg-primary !bg-white !text-primary border-2 border-primary rounded-[10px] text-[20px] font-bold !mt-0 px-10 shadow-md shadow-primary hover:!shadow-lg'
+                            >
+                              Masuk
+                            </Button>
                           </div>
-                        </div>
+                        </>
                       ) : (
-                        <div className='menu-profil flex items-center gap-2'>
-                          <p className='text-xl font-bold flex w-max justify-end'>
-                            Halo, {firstName}
-                          </p>
-                          <Menu
-                            selectedKeys={['Profil']}
-                            mode='horizontal'
-                            items={items}
-                            className='menu-profil'
-                          />
-                        </div>
+                        <>
+                          <div className='flex gap-6 items-center'>
+                            {role === isRole.admin ? (
+                              <>
+                                <Notifications />
+                              </>
+                            ) : (
+                              <>
+                                <Chats />
+                                <Notifications />
+                              </>
+                            )}
+                          </div>
+                          {role === isRole.admin ? (
+                            <div className='flex items-center gap-6 w-fit'>
+                              <div className='flex items-center gap-8'>
+                                <p className='text-xl font-bold flex w-max justify-end'>
+                                  Halo, {firstName}
+                                </p>
+                                <Photo
+                                  className='cursor-pointer'
+                                  size={50}
+                                  src={photo}
+                                />
+                              </div>
+                            </div>
+                          ) : (
+                            <div className='menu-profil flex items-center gap-2'>
+                              <p className='text-xl font-bold flex w-max justify-end'>
+                                Halo, {firstName}
+                              </p>
+                              <Menu
+                                selectedKeys={['Profil']}
+                                mode='horizontal'
+                                items={items}
+                                className='menu-profil'
+                              />
+                            </div>
+                          )}
+                        </>
                       )}
-                    </>
-                  )}
-                </Menu>
-              </Header>
+                    </Menu>
+                  </Header>
+                )}
+              </>
             )}
-            {search && <></>}
           </>
         ) : (
           <>
-            {!search ? (
-              <Header style={{ background: colorBgContainer }}>
-                <Menu
-                  mode='horizontal'
-                  defaultSelectedKeys={[]}
-                  style={{ borderBottomWidth: '2px' }}
-                  className={
-                    'absolute z-50 border-slate-200 flex justify-start py-[12px] px-[150px] gap-10 w-full items-center -ml-[50px]'
-                  }
-                >
-                  <div className='w-full'>
-                    <LOGO className='!w-[190px]' />
-                  </div>
-                  <div className='flex gap-6 items-center'>
-                    <Favorite />
-                    <Chats />
-                    <Notifications />
-                  </div>
-                  <div className='menu-profil flex items-center gap-2'>
-                    <p className='text-xl font-bold flex w-max justify-end'>
-                      Halo, {firstName}
-                    </p>
-                    <Menu
-                      selectedKeys={['Profil']}
-                      mode='horizontal'
-                      items={items}
-                      className='menu-profil'
-                    />
-                  </div>
-                </Menu>
-              </Header>
-            ) : (
-              <></>
-            )}
+            <Header style={{ background: colorBgContainer }}>
+              <Menu
+                mode='horizontal'
+                defaultSelectedKeys={[]}
+                style={{ borderBottomWidth: '2px' }}
+                className={
+                  'absolute z-50 border-slate-200 flex justify-start py-[12px] px-[150px] gap-10 w-full items-center -ml-[50px]'
+                }
+              >
+                <div className='w-full'>
+                  <LOGO className='!w-[190px]' />
+                </div>
+                <div className='flex gap-6 items-center'>
+                  <Favorite />
+                  <Chats />
+                  <Notifications />
+                </div>
+                <div className='menu-profil flex items-center gap-2'>
+                  <p className='text-xl font-bold flex w-max justify-end'>
+                    Halo, {firstName}
+                  </p>
+                  <Menu
+                    selectedKeys={['Profil']}
+                    mode='horizontal'
+                    items={items}
+                    className='menu-profil'
+                    style={{ transformOrigin: 'top left' }}
+                  />
+                </div>
+              </Menu>
+            </Header>
           </>
         )}
         {role !== isRole.renter ? (
           <>
-            {cruProduk ? (
-              <Content
-                style={{ margin: '10px 0 0 0' }}
-                className='text-slate-800 bg-white'
-              >
-                <div
-                  style={{
-                    padding: '40px 150px 0 150px',
-                    minHeight: 360,
-                    height: '100%',
-                    background: colorBgContainer,
-                  }}
-                  className='overflow-auto'
-                >
-                  {children}
-                </div>
-              </Content>
+            {!token ? (
+              <>
+                {search && (
+                  <Content
+                    style={{ margin: '10px 0 0 0' }}
+                    className='text-slate-800 bg-white'
+                  >
+                    <div
+                      style={{
+                        padding: '40px 150px 0 150px',
+                        minHeight: 360,
+                        height: '100%',
+                        background: colorBgContainer,
+                      }}
+                      className='overflow-auto'
+                    >
+                      {children}
+                    </div>
+                  </Content>
+                )}
+
+                {cruProduk && (
+                  <Content
+                    style={{ margin: '10px 0 0 0' }}
+                    className='text-slate-800 bg-white'
+                  >
+                    <div
+                      style={{
+                        padding: '40px 150px 0 150px',
+                        minHeight: 360,
+                        height: '100%',
+                        background: colorBgContainer,
+                      }}
+                      className='overflow-auto'
+                    >
+                      {children}
+                    </div>
+                  </Content>
+                )}
+              </>
             ) : (
-              <Content
-                style={{ margin: '10px 0 0 0' }}
-                className='text-slate-800 bg-white'
-              >
-                <div
-                  style={{
-                    padding: '40px 150px 0 50px',
-                    minHeight: 360,
-                    height: '100%',
-                    background: colorBgContainer,
-                  }}
-                  className='overflow-auto'
-                >
-                  {children}
-                </div>
-              </Content>
+              <>
+                {cruProduk ? (
+                  <Content
+                    style={{ margin: '10px 0 0 0' }}
+                    className='text-slate-800 bg-white'
+                  >
+                    <div
+                      style={{
+                        padding: '40px 150px 0 150px',
+                        minHeight: 360,
+                        height: '100%',
+                        background: colorBgContainer,
+                      }}
+                      className='overflow-auto'
+                    >
+                      {children}
+                    </div>
+                  </Content>
+                ) : (
+                  <Content
+                    style={{ margin: '10px 0 0 0' }}
+                    className='text-slate-800 bg-white'
+                  >
+                    <div
+                      style={{
+                        padding: '40px 150px 0 50px',
+                        minHeight: 360,
+                        height: '100%',
+                        background: colorBgContainer,
+                      }}
+                      className='overflow-auto'
+                    >
+                      {children}
+                    </div>
+                  </Content>
+                )}
+              </>
             )}
           </>
         ) : (
@@ -538,42 +548,46 @@ const AuthenticatedLayout: React.FC<AuthenticatedLayoutProps> = ({
               </Content>
             ) : (
               <>
-                {!search ? (
-                  <Content
-                    style={{ margin: '10px 0 0 0' }}
-                    className='text-slate-800 bg-white'
-                  >
-                    <div
-                      style={{
-                        padding: '40px 0 0 0',
-                        minHeight: 360,
-                        height: '100%',
-                        background: colorBgContainer,
-                      }}
-                      className='overflow-auto'
+                <>
+                  {!search ? (
+                    <Content
+                      style={{ margin: '10px 0 0 0' }}
+                      className='text-slate-800 bg-white'
                     >
-                      {children}
-                      <Footer />
-                    </div>
-                  </Content>
-                ) : (
-                  <Content
-                    style={{ margin: '10px 0 0 0' }}
-                    className='text-slate-800 bg-white'
-                  >
-                    <div
-                      style={{
-                        padding: '40px 500px 0 500px',
-                        minHeight: 360,
-                        height: '100%',
-                        background: colorBgContainer,
-                      }}
-                      className='overflow-auto'
-                    >
-                      {children}
-                    </div>
-                  </Content>
-                )}
+                      <div
+                        style={{
+                          padding: '40px 0 0 0',
+                          minHeight: 360,
+                          height: '100%',
+                          background: colorBgContainer,
+                        }}
+                        className='overflow-auto'
+                      >
+                        {children}
+                        <Footer />
+                      </div>
+                    </Content>
+                  ) : (
+                    <>
+                      <Content
+                        style={{ margin: '10px 0 0 0' }}
+                        className='text-slate-800 bg-white'
+                      >
+                        <div
+                          style={{
+                            padding: '40px 190px 0 190px',
+                            minHeight: 360,
+                            height: '100%',
+                            background: colorBgContainer,
+                          }}
+                          className='overflow-auto'
+                        >
+                          {children}
+                        </div>
+                      </Content>
+                    </>
+                  )}
+                </>
               </>
             )}
           </>

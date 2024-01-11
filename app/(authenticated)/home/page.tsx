@@ -4,7 +4,7 @@ import Button from '#/components/Button';
 import Searchs from '#/components/Search';
 import { HomeFilled } from '@ant-design/icons';
 import { Icon } from '@iconify/react';
-import { Radio, Select, Spin } from 'antd';
+import { Empty, Radio, Select, Spin } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper/modules';
@@ -84,9 +84,7 @@ function Home() {
               </div>
               <div>
                 <a href='/search'>
-                  <Searchs
-                    placeholder={'Masukan nama/kota/alamat'}
-                  />
+                  <Searchs placeholder={'Masukan nama/kota/alamat'} />
                 </a>
               </div>
             </div>
@@ -152,7 +150,7 @@ function Home() {
               <Button
                 type='primary'
                 htmlType='submit'
-                href='#'
+                href={`/search?type=${typeFilter}`}
                 className='w-max hover:!text-white hover:!bg-primary !bg-white !text-primary border-2 border-white hover:!border-primary rounded-[10px] text-[20px] !font-bold !mt-0 px-7'
               >
                 Lihat Semua
@@ -170,7 +168,7 @@ function Home() {
               <Button
                 type='primary'
                 htmlType='submit'
-                href='#'
+                href={`/search?type=${typeFilter}`}
                 className='w-max hover:!text-white hover:!bg-primary !bg-white !text-primary border-2 border-white hover:!border-primary rounded-[10px] text-[20px] !font-bold !mt-0 px-7'
               >
                 Lihat Semua
@@ -188,7 +186,7 @@ function Home() {
               <Button
                 type='primary'
                 htmlType='submit'
-                href='#'
+                href={`/search?type=${typeFilter}`}
                 className='w-max hover:!text-white hover:!bg-primary !bg-white !text-primary border-2 border-white hover:!border-primary rounded-[10px] text-[20px] font-bold !mt-0 px-7'
               >
                 Lihat Semua
@@ -249,7 +247,7 @@ function Home() {
                 <Button
                   type='primary'
                   htmlType='submit'
-                  href='#'
+                  href='/product'
                   className='w-max hover:!text-white hover:!bg-primary !bg-white !text-primary border-2 border-white hover:!border-primary rounded-[10px] text-[20px] font-bold !mt-0 px-7'
                 >
                   Lihat Semua
@@ -287,7 +285,7 @@ function Home() {
                 <Button
                   type='primary'
                   htmlType='submit'
-                  href='#'
+                  href='/product'
                   className='w-max hover:!text-white hover:!bg-primary !bg-white !text-primary border-2 border-white hover:!border-primary rounded-[10px] text-[20px] font-bold !mt-0 px-7'
                 >
                   Lihat Semua
@@ -324,7 +322,7 @@ function Home() {
                 <Button
                   type='primary'
                   htmlType='submit'
-                  href='#'
+                  href='/product'
                   className='w-max hover:!text-white hover:!bg-primary !bg-white !text-primary border-2 border-white hover:!border-primary rounded-[10px] text-[20px] font-bold !mt-0 px-7'
                 >
                   Lihat Semua
@@ -333,40 +331,58 @@ function Home() {
             </div>
           </div>
         )}
-        <div className='mt-[45px]'>
-          <Swiper navigation={true} modules={[Navigation]} className='mySwiper'>
-            {filterProductsCity(filteredProducts, typeFilter, cityFilter).map(
-              (product: any, index: number) =>
-                index % 4 === 0 && (
-                  <SwiperSlide key={index}>
-                    <div className='flex justify-stretch gap-x-10 px-32'>
-                      {filterProductsCity(
-                        filteredProducts,
-                        typeFilter,
-                        cityFilter
-                      )
-                        .slice(index, index + 4)
-                        .map((product: any) => (
-                          <div key={product.id}>
-                            <Product
-                              idProducts={product.id}
-                              image={product.photoProducts[0]?.photo}
-                              isType={product.type}
-                              isgender={product.specialRules?.gender}
-                              namaProduk={product.name}
-                              kota={product.cities?.name}
-                              stok={product.stock}
-                              hargaPerbulan={product.monthly_price}
-                              hargaPerhari={product.daily_price}
-                            />
-                          </div>
-                        ))}
-                    </div>
-                  </SwiperSlide>
-                )
-            )}
-          </Swiper>
-        </div>
+          <div className='mt-[45px]'>
+            <Swiper
+              navigation={true}
+              modules={[Navigation]}
+              className='mySwiper'
+            >
+              {filterProductsCity(filteredProducts, typeFilter, cityFilter).map(
+                (product: any, index: number) =>
+                  index % 4 === 0 && (
+                    <SwiperSlide key={index}>
+                      <div className='flex justify-stretch gap-x-10 px-32'>
+                        {filterProductsCity(
+                          filteredProducts,
+                          typeFilter,
+                          cityFilter
+                        )
+                          .slice(index, index + 4)
+                          .map((product: any) => (
+                            <div key={product.id}>
+                              <Product
+                                idProducts={product.id}
+                                image={product.photoProducts[0]?.photo}
+                                isType={product.type}
+                                isgender={product.specialRules?.gender}
+                                namaProduk={product.name}
+                                kota={product.cities?.name}
+                                stok={product.stock}
+                                hargaPerbulan={product.monthly_price}
+                                hargaPerhari={product.daily_price}
+                              />
+                            </div>
+                          ))}
+                      </div>
+                    </SwiperSlide>
+                  )
+              )}
+            </Swiper>
+          </div>
+          {/* <Empty
+            image='https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg'
+            imageStyle={{
+              display: 'flex',
+              justifyContent: 'center',
+              height: '100%',
+            }}
+            description={
+              <span className='font-semibold text-2xl text-[#C0C0C0]'>
+                Produk di tidak tersedia
+              </span>
+            }
+          >
+          </Empty> */}
       </div>
     </div>
   );
