@@ -72,10 +72,7 @@ function Search() {
     setCurrentPage(1);
     if (urlType) {
       setSearcher('');
-      // params.delete('type');
-      // const updatedURL = decodeURIComponent(params.toString());
       router.push(`/search?type=${selectedProduct?.name}`);
-      // router.push(updatedURL);
     } else {
       router.push(`/search?type=${selectedProduct?.name}`);
     }
