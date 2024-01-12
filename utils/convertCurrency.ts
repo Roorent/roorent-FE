@@ -1,6 +1,8 @@
 export const toIDR = (number: any) => {
-  return new Intl.NumberFormat('id-ID', {
+  const formattedNumber = new Intl.NumberFormat('id-ID', {
     style: 'currency',
     currency: 'IDR',
   }).format(number);
+
+  return formattedNumber.replace(/,\d{2}$/, '');
 };

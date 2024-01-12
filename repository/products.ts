@@ -25,8 +25,45 @@ const url = {
   getAllProduct: (type?: string) => {
     return `/products/all?type=${type}`;
   },
-  searchProducts: (search: string) => {
-    return `/products/search?q=${search}`;
+  searchProducts: (options: {
+    search?: string;
+    type?: string;
+    city?: string;
+    payment?: string;
+    min?: string;
+    max?: string;
+    page?: number;
+    limit?: number;
+  }) => {
+    const { search, type, city, payment, min, max, page, limit } = options;
+    let searcher: string = '';
+
+    if (search) {
+      searcher = `/products/search?q=${search}`;
+    } else if (type) {
+      searcher = `/products/search?type=${type}`;
+    }
+
+    if (city) {
+      searcher += `&city=${city}`;
+    }
+    if (payment) {
+      searcher += `&payment=${payment}`;
+    }
+    if (min) {
+      searcher += `&min=${min}`;
+    }
+    if (max) {
+      searcher += `&max=${max}`;
+    }
+    if (page) {
+      searcher += `&page=${page}`;
+    }
+    if (limit) {
+      searcher += `&limit=${limit}`;
+    }
+
+    return searcher;
   },
   nonactivatProductOwner: (id: string) => {
     return `/products/noactivate-products/${id}`;
@@ -80,8 +117,17 @@ const hooks = {
   getAllProduct(type?: string) {
     return useSWR(url.getAllProduct(type), http.fetcher);
   },
-  searchProducts(search: string) {
-    return useSWR(url.searchProducts(search), http.fetcher);
+  searchProducts(options: {
+    search?: string;
+    type?: string;
+    city?: string;
+    payment?: string;
+    min?: string;
+    max?: string;
+    page?: number;
+    limit?: number;
+  }) {
+    return useSWR(url.searchProducts(options), http.fetcher);
   },
   getProductsOwnerByAdmin(
     id: string,
