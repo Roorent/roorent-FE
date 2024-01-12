@@ -102,14 +102,14 @@ function ListProduk({ image, label, title, idProducts, mutate }: any) {
                     type='primary'
                     htmlType='submit'
                     href={`/detail-product?id=${idProducts}`}
-                    className='hover:!bg-primary hover:!text-white !text-primary bg-transparent rounded-[10px] text-base font-bold px-2 border-2 border-primary w-[140px] h-max !mt-0'
+                    className='!mt-0 hover:!bg-primary hover:!text-white !text-primary bg-transparent rounded-[10px] text-base font-bold px-2 border-2 border-primary w-[140px] h-max !mt-0'
                   >
                     Lihat Detail
                   </Button>
                 </div>
                 <div className='w-full modal-nonaktifkan h-max'>
                   <Button
-                    className='hover:text-white hover:!bg-[#e24444] hapus !bg-merah rounded-[10px] text-base font-bold py-3 !w-full'
+                    className='!mt-0 hover:text-white hover:!bg-[#e24444] hapus !bg-merah rounded-[10px] text-base font-bold py-3 !w-full'
                     onClick={showModal}
                   >
                     Nonaktif Produk

@@ -11,6 +11,7 @@ let AuthIntercept = superagentIntercept((err: any, res: any) => {
 		// TokenUtil.clearAccessToken();
 		// TokenUtil.persistToken(); 
 		// window.location.href = "/auth/login";
+		window.location.reload()
 	}
 });
 

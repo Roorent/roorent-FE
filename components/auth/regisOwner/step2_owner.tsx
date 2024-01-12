@@ -88,7 +88,7 @@ function OwnerStep2({ setData, data, formStep2 }: Props) {
             <p className='text-teks text-2xl font-bold'><span className='text-merah mr-2'>*</span>Foto KTP</p>
             <p className='text-teks text-md'>
               <ExclamationCircleFilled className='text-primary text-xl pr-2' />
-              Foto diri dengan KTP
+              Pastikan memasukan foto KTP dengan jelas
             </p>
           </div>
           <div className='w-full btn-upload'>

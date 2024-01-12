@@ -187,7 +187,7 @@ function Home() {
           <Swiper navigation={true} modules={[Navigation]} className='mySwiper'>
             {productsInSetsOfFour.map((productSet, index) => (
               <SwiperSlide key={index}>
-                <div className='flex justify-stretch gap-x-10 px-32'>
+                <div className='flex justify-stretch gap-x-10 px-48'>
                   {productSet.map((product: any) => (
                     <Product
                       idProducts={product.id}
@@ -210,7 +210,7 @@ function Home() {
           <div className='flex items-center py-10 mt-[25px]'>
             <div className='flex w-full items-center'>
               <div className='text-4xl font-bold'>Rekomendasi Kost di</div>
-              <div className='font-bold home-produk items-center'>
+              <div className='landing-page font-bold home-produk items-center'>
                 <Select
                   showSearch
                   placeholder='Pilih Kota'
@@ -225,6 +225,7 @@ function Home() {
                     };
                   })}
                   onChange={handleChangeCity}
+                  className='landing-page'
                 />
               </div>
             </div>
@@ -249,7 +250,7 @@ function Home() {
           <div className='flex items-center py-10 mt-[50px]'>
             <div className='flex w-full items-center'>
               <div className='text-4xl font-bold'>Rekomendasi Gedung di</div>
-              <div className='font-bold home-produk items-center'>
+              <div className='landing-page font-bold home-produk items-center'>
                 <Select
                   showSearch
                   placeholder='Pilih Kota'
@@ -263,6 +264,7 @@ function Home() {
                     };
                   })}
                   onChange={handleChangeCity}
+                  className='landing-page'
                 />
               </div>
             </div>
@@ -287,7 +289,7 @@ function Home() {
           <div className='flex items-center py-10 mt-[25px]'>
             <div className='flex w-full items-center'>
               <div className='text-4xl font-bold'>Rekomendasi Hotel di</div>
-              <div className='font-bold home-produk items-center'>
+              <div className='landing-page font-bold home-produk items-center'>
                 <Select
                   placeholder='Pilih Kota'
                   style={{ width: 'max-content', alignItems: 'center' }}
@@ -300,6 +302,7 @@ function Home() {
                     };
                   })}
                   onChange={handleChangeCity}
+                  className='landing-page'
                 />
               </div>
             </div>
@@ -322,11 +325,11 @@ function Home() {
         )}
         <div className='mt-[45px]'>
           <Swiper navigation={true} modules={[Navigation]} className='mySwiper'>
-            {filterProductsCity(datas, typeFilter, cityFilter).map(
+            {filterProductsCity(datas, typeFilter, cityFilter)?.map(
               (product: any, index: number) =>
                 index % 4 === 0 && (
                   <SwiperSlide key={index}>
-                    <div className='flex justify-stretch gap-x-10 px-32'>
+                    <div className='flex justify-stretch gap-x-10 px-48'>
                       {filterProductsCity(datas, typeFilter, cityFilter)
                         .slice(index, index + 4)
                         .map((product: any) => (

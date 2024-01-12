@@ -98,7 +98,7 @@ function RegisOwner() {
           </div>
         ),
       });
-      setTimeout(() => router.push('/auth/login'));
+      router.push('/auth/login');
     } catch (err: any) {
       message.error(err.response.body?.error);
     }

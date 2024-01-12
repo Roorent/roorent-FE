@@ -73,10 +73,11 @@ const AuthenticatedLayout: React.FC<AuthenticatedLayoutProps> = ({
   let photo: string = '';
   let id: string = '';
 
+  
   if (token) {
     id = parseJwt(token).id;
   }
-
+  
   if (token) {
     role = parseJwt(token).role;
     firstName = parseJwt(token).firstname;
@@ -85,6 +86,7 @@ const AuthenticatedLayout: React.FC<AuthenticatedLayoutProps> = ({
   if (!token && pathname !== '/detail-product' && !search) {
     router.push('/');
   }
+  console.log(photo)
 
   const handleLogout = () => {
     localStorage.removeItem('access_token');
@@ -93,7 +95,7 @@ const AuthenticatedLayout: React.FC<AuthenticatedLayoutProps> = ({
 
   const items: MenuItem[] = [
     {
-      label: <Photo className='cursor-pointer' size={50} src={photo} />,
+      label: <Photo className='cursor-pointer !text-white' size={50} src={photo} />,
       key: 'Profil',
       // style: {transformOrigin: 'top-left'},
       children: [
@@ -127,7 +129,7 @@ const AuthenticatedLayout: React.FC<AuthenticatedLayoutProps> = ({
       ],
     },
   ];
-
+ 
   const itemOwner: MenuItem[] = [
     getItem(
       'Produk',
@@ -148,9 +150,7 @@ const AuthenticatedLayout: React.FC<AuthenticatedLayoutProps> = ({
       '/riwayat-transaksi',
       null,
       [
-        getItem('Transaksi Pending', '/trans-pending', null),
-        { type: 'group' },
-        getItem('Transaksi Berhasil', '/trans-success', null),
+        getItem('Transaksi ', '/transaksi', null),
       ],
       'group'
     ),

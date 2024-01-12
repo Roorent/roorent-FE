@@ -323,7 +323,7 @@ function Profile() {
                           </div>
                           <img
                             src={imgProfile(datasUser?.photo)}
-                            alt='avatar'
+                            // alt='avatar'
                             style={{
                               width: '100%',
                               height: '100%',

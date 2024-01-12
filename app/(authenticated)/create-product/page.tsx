@@ -718,7 +718,7 @@ function CreateProduct() {
                                   </div>
                                 </div>
                                 <div className='flex mt-3'>
-                                  <p className='w-1/2 font-bold'>Total</p>
+                                  <p className='w-1/2 font-bold'>Harga yang anda terima</p>
                                   <p className='w-1/2 flex justify-center font-bold'>
                                     {toIDR(adminFee.daily)}
                                   </p>
@@ -790,7 +790,7 @@ function CreateProduct() {
                                   </div>
                                 </div>
                                 <div className='flex mt-3'>
-                                  <p className='w-1/2 font-bold'>Total</p>
+                                  <p className='w-1/2 font-bold'>Harga yang anda terima</p>
                                   <p className='w-1/2 flex justify-center font-bold'>
                                     {toIDR(adminFee.monthly)}
                                   </p>
@@ -866,7 +866,7 @@ function CreateProduct() {
                                       </div>
                                     </div>
                                     <div className='flex mt-3'>
-                                      <p className='w-1/2 font-bold'>Total</p>
+                                      <p className='w-1/2 font-bold'>Harga yang anda terima</p>
                                       <p className='w-1/2 flex justify-center font-bold'>
                                         {toIDR(adminFee.daily)}
                                       </p>
@@ -938,7 +938,7 @@ function CreateProduct() {
                                       </div>
                                     </div>
                                     <div className='flex mt-3'>
-                                      <p className='w-1/2 font-bold'>Total</p>
+                                      <p className='w-1/2 font-bold'>Harga yang anda terima</p>
                                       <p className='w-1/2 flex justify-center font-bold'>
                                         {toIDR(adminFee.monthly)}
                                       </p>
@@ -1009,14 +1009,14 @@ function CreateProduct() {
                                 </p>
                               </div>
                               <div className='flex'>
-                                <p className='w-1/2 '>Biaya admin 5% :</p>
+                                <p className='w-1/2 '>Biaya admin 10% :</p>
                                 <p className='w-1/2 flex justify-center text-merah font-bold'>
                                   -{toIDR(sisaBagiPerhari)}
                                 </p>
                               </div>
                             </div>
                             <div className='flex mt-3'>
-                              <p className='w-1/2 font-bold'>Total</p>
+                              <p className='w-1/2 font-bold'>Harga yang anda terima</p>
                               <p className='w-1/2 flex justify-center font-bold'>
                                 {toIDR(adminFee.daily)}
                               </p>
@@ -1083,14 +1083,14 @@ function CreateProduct() {
                                 </p>
                               </div>
                               <div className='flex'>
-                                <p className='w-1/2 '>Biaya admin 5% :</p>
+                                <p className='w-1/2 '>Biaya admin 10% :</p>
                                 <p className='w-1/2 flex justify-center text-merah font-bold'>
                                   -{toIDR(sisaBagiPerhari)}
                                 </p>
                               </div>
                             </div>
                             <div className='flex mt-3'>
-                              <p className='w-1/2 font-bold'>Total</p>
+                              <p className='w-1/2 font-bold'>Harga yang anda terima</p>
                               <p className='w-1/2 flex justify-center font-bold'>
                                 {toIDR(adminFee.daily)}
                               </p>

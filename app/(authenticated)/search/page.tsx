@@ -289,6 +289,7 @@ function Search() {
           {datasProduct?.map((product: any) => (
             <div key={product?.id}>
               <ListSearch
+              idProducts={product?.id}
                 image={product?.photoProducts[0]?.photo}
                 type={product?.type}
                 namaProduk={product?.name}
