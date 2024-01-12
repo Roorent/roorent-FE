@@ -5,6 +5,7 @@ const url = {
   createReviews: (id:string) => `/reviews/${id}`,
   uploadReviews: () => '/photo-reviews/upload-photo-reviews',
   getReviewsByProducts: (id: string) => `/reviews/product/${id}`,
+  getReviewsByTransactions: (id: string) => `/reviews/trancations/${id}`,
 }
 
 const manipulatedata = {
@@ -21,6 +22,9 @@ const manipulatedata = {
 const hooks = {
   getReviewsByProduct(id: string) {
     return useSWR(url.getReviewsByProducts(id), http.fetcher);
+  },
+  getReviewsByTransactions(id: string) {
+    return useSWR(url.getReviewsByTransactions(id), http.fetcher);
   },
 }
 

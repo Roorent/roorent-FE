@@ -312,6 +312,7 @@ function DetailTransaksi() {
                     image={datas?.product_photo}
                     nameProduk={datas?.product_name}
                     idProducts={datas?.product_id}
+                    idTransaction={idTransaction}
                   />
                 </div>
               </div>

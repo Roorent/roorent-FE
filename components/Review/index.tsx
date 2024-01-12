@@ -43,6 +43,7 @@ function Review({
   image,
   nameProduk,
   idProducts,
+  idTransaction,
 }: any) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [photoReviewsArray, setPhotoReviews] = useState<string[] | []>([]);
@@ -56,9 +57,13 @@ function Review({
     content: '',
     photo: [],
   });
-
+  
   const router = useRouter();
   const { TextArea } = Input;
+
+  const { data: dataReview } =
+  ReviewsRepository.hooks.getReviewsByTransactions(idTransaction);
+console.log(dataReview);
 
   const onFinish = async () => {
     try {
@@ -175,12 +180,16 @@ function Review({
 
   return (
     <div className='review'>
-      <Button
-        className='!font-bold !w-full !py-3 !text-xl !mt-0 !px-8'
-        onClick={openModal}
-      >
-        Beri Ulasan
-      </Button>
+      {dataReview?.count >= 1? (
+        <></>
+      ) : (
+        <Button
+          className='!font-bold !w-full !py-3 !text-xl !mt-0 !px-8'
+          onClick={openModal}
+        >
+          Beri Ulasan
+        </Button>
+      )}
       <ConfigProvider
         modal={{
           styles: {
