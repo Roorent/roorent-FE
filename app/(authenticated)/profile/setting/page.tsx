@@ -1,6 +1,7 @@
 'use client';
 
 import Photo from '#/components/Photo';
+import { isRole } from '#/constants/general';
 import { usersRepository } from '#/repository/users';
 import { parseJwt } from '#/utils/convert';
 import {
@@ -39,8 +40,11 @@ function getItem(
 function Setting() {
   const token = localStorage.getItem('access_token');
   let id: string = '';
+  let role: string = '';
+
   if (token) {
     id = parseJwt(token).id;
+    role = parseJwt(token).role;
   }
 
   const pathname = usePathname();
@@ -150,16 +154,31 @@ function Setting() {
   return (
     <div>
       <div className='w-full grid gap-y-[20px]'>
-        <div className='w-full flex items-center gap-x-[20px] grid-cols-1 mb-10'>
-          <a
-            href='/profile'
-            className='w-fit hover:text-teks flex font-bold text-4xl gap-3'
-          >
-            <div>
-              <ArrowLeftOutlined />
-            </div>
-          </a>
-          <div className='w-full flex justify-center text-4xl font-bold'>
+        <div className='w-full flex gap-x-20 items-center grid-cols-1 mb-5 border-b border-slate-300 pb-8'>
+          <div className='w-1/4 grid gap-y-[20px] grid-cols-1'>
+            {role === isRole.renter ? (
+              <a
+                href='/home'
+                className='w-fit hover:text-teks flex font-bold text-xl gap-3'
+              >
+                <div>
+                  <ArrowLeftOutlined />
+                </div>
+                <div>Kembali</div>
+              </a>
+            ) : (
+              <a
+                href='/list-product'
+                className='w-fit hover:text-teks flex font-bold text-xl gap-3'
+              >
+                <div>
+                  <ArrowLeftOutlined />
+                </div>
+                <div>Kembali</div>
+              </a>
+            )}
+          </div>
+          <div className='w-3/4 flex justify-center text-4xl font-bold '>
             Pengaturan
           </div>
         </div>

@@ -14,20 +14,37 @@ import 'swiper/css/navigation';
 import Product from '#/components/Product';
 import { productsRepository } from '#/repository/products';
 import { cityRepository } from '#/repository/city';
+import { parseJwt } from '#/utils/convert';
+import { useRouter } from 'next/navigation';
 
 function Home() {
+  const router = useRouter();
+
+  const token = localStorage.getItem('access_token');
+  let role: string = '';
+  if (token) {
+    role = parseJwt(token).role;
+  }
+  if (role === 'renter') {
+    router.push('/home');
+  }
+  if (role === 'owner') {
+    router.push('/list-product');
+  }
+  if (role === 'admin') {
+    router.push('/adm/dashboard');
+  }
+
   const [typeFilter, setTypeFilter] = useState('kost');
   const [cityFilter, setCityFilter] = useState('Pilih Kota');
-
   useEffect(() => {
     document.title = 'Home - Roorent';
   }, []);
-
   const { data, error, isLoading } =
     productsRepository.hooks.getAllProduct(typeFilter);
   const { data: dataCity } = cityRepository.hooks.allCity();
 
-  if (isLoading) {
+  if (!data) {
     return (
       <Spin
         size='large'
@@ -36,8 +53,6 @@ function Home() {
     );
   }
   const datas = data?.data;
-
-  console.log(datas);
 
   const productsInSetsOfFour = [];
   for (let i = 0; i < datas?.length; i += 4) {
@@ -49,21 +64,21 @@ function Home() {
   };
 
   const filterProductsCity = (products: any, type: any, city: any) => {
-    let filtered = products?.filter((product: any) => product.type === type);
+    let filtered = products.filter((product: any) => product.type === type);
     if (city && city !== 'Pilih Kota') {
       filtered = filtered.filter((product: any) => product.city === city);
     }
     return filtered;
   };
 
+  const handleChangeCity = (value: any) => {
+    setCityFilter(value); // Update nilai kota saat terjadi perubahan pada Select
+  };
+
   const filterOption = (
     input: string,
     option?: { label: string; value: string }
   ) => (option?.label ?? '').toLowerCase().includes(input.toLowerCase());
-
-  const handleChangeCity = (value: any) => {
-    setCityFilter(value); // Update nilai kota saat terjadi perubahan pada Select
-  };
 
   return (
     <div>
@@ -240,7 +255,7 @@ function Home() {
                 <Button
                   type='primary'
                   htmlType='submit'
-                  href='/product'
+                  href={`/search?type=${typeFilter}`}
                   className='w-max hover:!text-white hover:!bg-primary !bg-white !text-primary border-2 border-white hover:!border-primary rounded-[10px] text-[20px] font-bold !mt-0 px-7'
                 >
                   Lihat Semua
@@ -259,6 +274,7 @@ function Home() {
                   placeholder='Pilih Kota'
                   style={{ width: 'max-content', alignItems: 'center' }}
                   bordered={false}
+                  filterOption={filterOption}
                   value={cityFilter}
                   options={dataCity?.data.map((val: any) => {
                     return {
@@ -278,7 +294,7 @@ function Home() {
                 <Button
                   type='primary'
                   htmlType='submit'
-                  href='/product'
+                  href={`/search?type=${typeFilter}`}
                   className='w-max hover:!text-white hover:!bg-primary !bg-white !text-primary border-2 border-white hover:!border-primary rounded-[10px] text-[20px] font-bold !mt-0 px-7'
                 >
                   Lihat Semua
@@ -293,9 +309,11 @@ function Home() {
               <div className='text-4xl font-bold'>Rekomendasi Hotel di</div>
               <div className='font-bold home-produk items-center'>
                 <Select
+                  showSearch
                   placeholder='Pilih Kota'
                   style={{ width: 'max-content', alignItems: 'center' }}
                   bordered={false}
+                  filterOption={filterOption}
                   value={cityFilter}
                   options={dataCity?.data.map((val: any) => {
                     return {
@@ -315,7 +333,7 @@ function Home() {
                 <Button
                   type='primary'
                   htmlType='submit'
-                  href='/product'
+                  href={`/search?type=${typeFilter}`}
                   className='w-max hover:!text-white hover:!bg-primary !bg-white !text-primary border-2 border-white hover:!border-primary rounded-[10px] text-[20px] font-bold !mt-0 px-7'
                 >
                   Lihat Semua
@@ -325,34 +343,55 @@ function Home() {
           </div>
         )}
         <div className='mt-[45px]'>
-          <Swiper navigation={true} modules={[Navigation]} className='mySwiper'>
-            {filterProductsCity(datas, typeFilter, cityFilter).map(
-              (product: any, index: number) =>
-                index % 4 === 0 && (
-                  <SwiperSlide key={index}>
-                    <div className='flex justify-stretch gap-x-10 px-32'>
-                      {filterProductsCity(datas, typeFilter, cityFilter)
-                        .slice(index, index + 4)
-                        .map((product: any) => (
-                          <div key={product.id}>
-                            <Product
-                              idProducts={product.id}
-                              image={product.photoProducts[0]?.photo}
-                              isType={product.type}
-                              isgender={product.gender}
-                              namaProduk={product.name}
-                              kota={product.city}
-                              stok={product.stock}
-                              hargaPerbulan={product.monthly_price}
-                              hargaPerhari={product.daily_price}
-                            />
-                          </div>
-                        ))}
-                    </div>
-                  </SwiperSlide>
-                )
-            )}
-          </Swiper>
+          {filterProductsCity(datas, typeFilter, cityFilter).length > 0 ? (
+            <Swiper
+              navigation={true}
+              modules={[Navigation]}
+              className='mySwiper'
+            >
+              {filterProductsCity(datas, typeFilter, cityFilter).map(
+                (product: any, index: number) =>
+                  index % 4 === 0 && (
+                    <SwiperSlide key={index}>
+                      <div className='flex justify-stretch gap-x-10 px-32'>
+                        {filterProductsCity(datas, typeFilter, cityFilter)
+                          .slice(index, index + 4)
+                          .map((product: any) => (
+                            <div key={product.id}>
+                              <Product
+                                idProducts={product.id}
+                                image={product.photoProducts[0]?.photo}
+                                isType={product.type}
+                                isgender={product.gender}
+                                namaProduk={product.name}
+                                kota={product.city}
+                                stok={product.stock}
+                                hargaPerbulan={product.monthly_price}
+                                hargaPerhari={product.daily_price}
+                              />
+                            </div>
+                          ))}
+                      </div>
+                    </SwiperSlide>
+                  )
+              )}
+            </Swiper>
+          ) : (
+            <Empty
+              image='https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg'
+              imageStyle={{
+                display: 'flex',
+                justifyContent: 'center',
+                height: '100%',
+              }}
+              description={
+                <span className='font-semibold text-2xl text-[#C0C0C0]'>
+                  {typeFilter.charAt(0).toUpperCase() + typeFilter.slice(1)} di{' '}
+                  {cityFilter.toLowerCase()} tidak tersedia
+                </span>
+              }
+            ></Empty>
+          )}
         </div>
       </div>
     </div>

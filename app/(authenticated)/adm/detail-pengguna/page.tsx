@@ -8,7 +8,11 @@ import { imgKTP, imgProduct, isRole } from '#/constants/general';
 import { productsRepository } from '#/repository/products';
 import { usersRepository } from '#/repository/users';
 import { convertDate } from '#/utils/convertTime';
-import { ArrowLeftOutlined, CalendarOutlined, DownOutlined } from '@ant-design/icons';
+import {
+  ArrowLeftOutlined,
+  CalendarOutlined,
+  DownOutlined,
+} from '@ant-design/icons';
 import { Empty, Image, Pagination, Spin } from 'antd';
 import { useSearchParams } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
@@ -26,13 +30,14 @@ function DetailPengguna() {
   const [status, setStatus] = useState('true');
   const limit = 10;
 
-  const { data: productData, mutate } = productsRepository.hooks.getProductsOwnerByAdmin(
-    userId,
-    filterType,
-    currentPage, 
-    limit,
-    status
-  );
+  const { data: productData, mutate } =
+    productsRepository.hooks.getProductsOwnerByAdmin(
+      userId,
+      filterType,
+      currentPage,
+      limit,
+      status
+    );
   const { data: userData } = usersRepository.hooks.getUserById(userId);
 
   if (!productData) {
@@ -61,7 +66,7 @@ function DetailPengguna() {
 
   const handleChange = (value: string) => {
     setFilterType(value);
-    setCurrentPage(1)
+    setCurrentPage(1);
     setStatus('true');
   };
   const handleApprove = () => {
@@ -74,21 +79,22 @@ function DetailPengguna() {
   return (
     <div>
       <div className='w-full grid gap-y-[20px] grid-cols-1 pb-10 border-b border-slate-300'>
-        <div className='w-full grid gap-y-[20px] grid-cols-1'>
-          <a
-            href='/adm/pengguna'
-            className='w-fit hover:text-teks flex font-bold text-xl gap-3'
-          >
-            <div>
-              <ArrowLeftOutlined />
-            </div>
-            <div>Kembali</div>
-          </a>
-        </div>
-        <div className='grid gap-y-5 pb-10 border-b border-slate-300'>
-          <div className='produkOwner text-white text-4xl font-bold bg-primary rounded-[10px] px-5 py-3 flex items-center mb-[30px]'>
-            <p>Data Pemilik</p>
+        <div className='w-full flex items-center grid-cols-1 mb-10 border-b border-slate-300 pb-8'>
+          <div className='w-fit grid gap-y-[20px] grid-cols-1'>
+            <a
+              href='/adm/pengguna'
+              className='w-fit hover:text-teks flex font-bold text-xl gap-3'
+            >
+              <div className='text-3xl'>
+                <ArrowLeftOutlined />
+              </div>
+            </a>
           </div>
+          <div className='w-full flex justify-center text-4xl font-bold '>
+            Data Pemilik
+          </div>
+        </div>
+        <div className='grid gap-y-5'>
           <div className='flex gap-x-10'>
             <div>
               <Photo size={200} src={users.photo} />
@@ -140,23 +146,13 @@ function DetailPengguna() {
               </div>
             </div>
           </div>
-          <div className='w-full grid gap-y-4 grid-cols-1'>
-            <div>
-              <p className='text-teks text-2xl font-bold'>Alamat</p>
-            </div>
-            <div className='w-full h-[120px] p-[10px] rounded-[10px] border border-rstroke regis text-xl'>
-              {users.address}
-            </div>
-          </div>
           <div className='w-full flex gap-x-5'>
             <div className='w-1/2 grid gap-y-4 grid-cols-1'>
               <div>
                 <p className='text-teks text-2xl font-bold'>Tanggal Lahir</p>
               </div>
               <div className='w-full p-[10px] rounded-[10px] border border-rstroke regis text-xl flex'>
-                <div className='w-full'>
-                  {convertDate(users.birthday)}
-                </div>
+                <div className='w-full'>{convertDate(users.birthday)}</div>
                 <div>
                   <CalendarOutlined />
                 </div>
@@ -176,23 +172,48 @@ function DetailPengguna() {
               </div>
             </div>
           </div>
-          {users.userRole === isRole.owner ? (
-            <div className='w-full grid gap-y-4 grid-cols-1'>
-              <div>
-                <p className='text-teks text-2xl font-bold'>Foto KTP</p>
-              </div>
-              <div className='adm-renter rounded-[10px] w-full flex justify-center'>
-                <Image
-                  src={imgKTP(users.ktp)}
-                  width={500}
-                  className='blur'
-                  style={{ borderRadius: 10 }}
-                  preview={{
-                    src: imgKTP(users.ktp),
-                  }}
-                />
-              </div>
+          <div className='w-full grid gap-y-4 grid-cols-1'>
+            <div>
+              <p className='text-teks text-2xl font-bold'>Alamat</p>
             </div>
+            {!users.address ? (
+              <div className='w-full h-[120px] p-[10px] rounded-[10px] border border-rstroke regis text-xl flex items-center justify-center'>
+                <div className='text-merah'>
+                  <Empty
+                    image={Empty.PRESENTED_IMAGE_SIMPLE}
+                    description={`${users.name} belum memasukan alamat !`}
+                  />
+                </div>
+              </div>
+            ) : (
+              <div className='w-full h-[120px] p-[10px] rounded-[10px] border border-rstroke regis text-xl'>
+                {users.address}
+              </div>
+            )}
+          </div>
+          {users.status === 'pending' ? (
+            <>
+              {users.userRole === isRole.owner ? (
+                <div className='w-full grid gap-y-4 grid-cols-1'>
+                  <div>
+                    <p className='text-teks text-2xl font-bold'>Foto KTP</p>
+                  </div>
+                  <div className='adm-renter rounded-[10px] w-full flex justify-center'>
+                    <Image
+                      src={imgKTP(users.ktp)}
+                      width={500}
+                      className='blur'
+                      style={{ borderRadius: 10 }}
+                      preview={{
+                        src: imgKTP(users.ktp),
+                      }}
+                    />
+                  </div>
+                </div>
+              ) : (
+                <></>
+              )}
+            </>
           ) : (
             <></>
           )}
@@ -229,59 +250,68 @@ function DetailPengguna() {
           )}
         </div>
         {users.userRole === isRole.owner ? (
-          <div className='mt-5'>
-            <div className='produkOwner text-white text-4xl font-bold bg-primary rounded-[10px] px-5 py-3 flex items-center mb-[30px]'>
-              <p>Produk Pemilik</p>
-            </div>
-            <div className='grid gap-y-3'>
-            {status === 'true' && <></>}
-              <div className='w-full mb-[30px]'>
-                <TypeRadio
-                  defaultValue='kost'
-                  value={filterType}
-                  onChange={handleChange}
-                />
-              </div>
-              {products.length ? (
-                <div className='grid gap-7 grid-cols-2'>
-                  {products.map((produk: any) => (
-                    <div key={produk.id}>
-                      <ListProduk
-                        idProducts={produk.id}
-                        image={imgProduct(produk.photo)}
-                        label={produk.type}
-                        title={produk.name}
-                        mutate={mutate}
-                      />
-                    </div>
-                  ))}
+          <>
+            {users.status === 'active' ? (
+              <div className='mt-5'>
+                <div className='produkOwner text-4xl font-bold px-5 py-3 flex items-center justify-center mb-[30px] border-b border-slate-300 pb-8 '>
+                  <p>Produk Pemilik</p>
                 </div>
-              ) : (
-                <Empty
-                  image='https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg'
-                  imageStyle={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    height: '100%',
-                  }}
-                  description={
-                    <span className='font-semibold text-2xl text-[#C0C0C0]'>
-                      Belum mempunyai produk
-                    </span>
-                  }
-                />
-              )}
-              <div className='w-full py-[20px] flex justify-end'>
-                <Pagination
-                 current={currentPage}
-                 total={productData?.count}
-                 pageSize={limit}
-                 onChange={handlePageChange}
-                  className='text-2xl font-semibold'
-                />
+                <div className='grid gap-y-3'>
+                  {status === 'true' && <></>}
+                  <div className='w-full mb-[30px]'>
+                    <TypeRadio
+                      defaultValue='kost'
+                      value={filterType}
+                      onChange={handleChange}
+                    />
+                  </div>
+                  {products.length ? (
+                    <>
+                      <div className='grid gap-7 grid-cols-2'>
+                        {products.map((produk: any) => (
+                          <div key={produk.id}>
+                            <ListProduk
+                              idProducts={produk.id}
+                              image={imgProduct(produk.photo)}
+                              label={produk.type}
+                              title={produk.name}
+                              mutate={mutate}
+                            />
+                          </div>
+                        ))}
+                      </div>
+                      <div className='w-full py-[20px] flex justify-end'>
+                        <Pagination
+                          current={currentPage}
+                          total={productData?.count}
+                          pageSize={limit}
+                          onChange={handlePageChange}
+                          className='text-2xl font-semibold'
+                        />
+                      </div>
+                    </>
+                  ) : (
+                    <Empty
+                      image='https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg'
+                      className='pb-10'
+                      imageStyle={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        height: '100%',
+                      }}
+                      description={
+                        <span className='font-semibold text-2xl text-[#C0C0C0]'>
+                          Belum mempunyai produk
+                        </span>
+                      }
+                    />
+                  )}
+                </div>
               </div>
-            </div>
-          </div>
+            ) : (
+              <></>
+            )}
+          </>
         ) : (
           <></>
         )}

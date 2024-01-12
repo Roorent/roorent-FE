@@ -722,7 +722,9 @@ function EditProduct() {
                                 <div className='flex'>
                                   <p className='w-1/2'>Harga input :</p>
                                   <p className='w-1/2 flex justify-center underline-offset-2'>
-                                    {toIDR(price.daily) || toIDR(hargaPerHari)}
+                                    {hargaPerHari
+                                      ? toIDR(hargaPerHari)
+                                      : toIDR(price.daily)}
                                   </p>
                                 </div>
                                 <div className='flex'>
@@ -781,8 +783,9 @@ function EditProduct() {
                                 <div className='flex'>
                                   <p className='w-1/2'>Harga input :</p>
                                   <p className='w-1/2 flex justify-center underline-offset-2'>
-                                    {toIDR(price.monthly) ||
-                                      toIDR(hargaPerBulan)}
+                                    {hargaPerBulan
+                                      ? toIDR(hargaPerBulan)
+                                      : toIDR(price.monthly)}
                                   </p>
                                 </div>
                                 <div className='flex'>
@@ -843,8 +846,9 @@ function EditProduct() {
                                     <div className='flex'>
                                       <p className='w-1/2'>Harga input :</p>
                                       <p className='w-1/2 flex justify-center underline-offset-2'>
-                                        {toIDR(price.daily) ||
-                                          toIDR(hargaPerHari)}
+                                        {hargaPerHari
+                                          ? toIDR(hargaPerHari)
+                                          : toIDR(price.daily)}
                                       </p>
                                     </div>
                                     <div className='flex'>
@@ -901,8 +905,9 @@ function EditProduct() {
                                     <div className='flex'>
                                       <p className='w-1/2'>Harga input :</p>
                                       <p className='w-1/2 flex justify-center underline-offset-2'>
-                                        {toIDR(price.monthly) ||
-                                          toIDR(hargaPerBulan)}
+                                        {hargaPerBulan
+                                          ? toIDR(hargaPerBulan)
+                                          : toIDR(price.monthly)}
                                       </p>
                                     </div>
                                     <div className='flex'>
@@ -966,7 +971,9 @@ function EditProduct() {
                               <div className='flex'>
                                 <p className='w-1/2'>Harga input :</p>
                                 <p className='w-1/2 flex justify-center underline-offset-2'>
-                                  {toIDR(price.daily) || toIDR(hargaPerHari)}
+                                  {hargaPerHari
+                                    ? toIDR(hargaPerHari)
+                                    : toIDR(price.daily)}
                                 </p>
                               </div>
                               <div className='flex'>
@@ -1027,7 +1034,9 @@ function EditProduct() {
                               <div className='flex'>
                                 <p className='w-1/2'>Harga input :</p>
                                 <p className='w-1/2 flex justify-center underline-offset-2'>
-                                  {toIDR(price.daily) || toIDR(hargaPerHari)}
+                                  {hargaPerHari
+                                    ? toIDR(hargaPerHari)
+                                    : toIDR(price.daily)}
                                 </p>
                               </div>
                               <div className='flex'>

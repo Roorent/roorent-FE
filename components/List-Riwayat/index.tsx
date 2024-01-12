@@ -17,12 +17,16 @@ function ListRiwayat({
   const imgProduct = (img: string) =>
     `${config.baseUrl}/images/photo-products/${img}`;
   return (
-    <div className='border border-[#858585] rounded-[10px] p-5' style={{boxShadow: '0 1px 8px rgba(36,36,36,.14)'}}>
+    <div
+      className='border border-[#858585] rounded-[10px] p-5 hover:shadow-xl'
+    >
       {statusPembayaran === 'pending' && <></>}
       {statusPembayaran === 'approve' && <></>}
       {statusPembayaran === 'reject' && <></>}
-      <a href={`/detail-transaksi?id=${idTransaction}`} 
-      className='hover:text-teks'>
+      <a
+        href={`/detail-transaksi?id=${idTransaction}`}
+        className='hover:text-teks '
+      >
         <div className='flex gap-x-[30px] pb-[30px] border-b border-[#858585]'>
           <div className='w-1/2 h-[190px]'>
             <img
@@ -55,23 +59,29 @@ function ListRiwayat({
                   )}
                 </div>
                 <div className='font-bold text-white text-xl'>
-                  {product_label === 'pria' && (
+                  {product_type === 'kost' && (
                     <>
-                      <p className='bg-primary py-1.5 px-5 rounded-md'>Pria</p>
-                    </>
-                  )}
-                  {product_label === 'wanita' && (
-                    <>
-                      <p className='bg-labelWanita py-1.5 px-5 rounded-md'>
-                        Wanita
-                      </p>
-                    </>
-                  )}
-                  {product_label === 'campur' && (
-                    <>
-                      <p className='bg-orange-400 py-1.5 px-5 rounded-md'>
-                        Campur
-                      </p>
+                      {product_label === 'pria' && (
+                        <>
+                          <p className='bg-primary py-1.5 px-5 rounded-md'>
+                            Pria
+                          </p>
+                        </>
+                      )}
+                      {product_label === 'wanita' && (
+                        <>
+                          <p className='bg-labelWanita py-1.5 px-5 rounded-md'>
+                            Wanita
+                          </p>
+                        </>
+                      )}
+                      {product_label === 'campur' && (
+                        <>
+                          <p className='bg-orange-400 py-1.5 px-5 rounded-md'>
+                            Campur
+                          </p>
+                        </>
+                      )}
                     </>
                   )}
                 </div>

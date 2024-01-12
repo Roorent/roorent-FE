@@ -1,6 +1,6 @@
 'use client';
 import Photo from '#/components/Photo';
-import { imgProfile } from '#/constants/general';
+import { imgProfile, isRole } from '#/constants/general';
 import { usersRepository } from '#/repository/users';
 import { parseJwt } from '#/utils/convert';
 import { convertDate } from '#/utils/convertTime';
@@ -53,14 +53,17 @@ function getItem(
 function Profile() {
   const token = localStorage.getItem('access_token');
   let id: string = '';
+  let role: string = '';
+
   if (token) {
     id = parseJwt(token).id;
+    role = parseJwt(token).role;
   }
-  
+
   const pathname = usePathname();
   const router = useRouter();
   const [currProfile, setCurrProfile] = useState<any>(pathname);
-  
+
   const [form] = Form.useForm();
   const { TextArea } = Input;
 
@@ -69,7 +72,7 @@ function Profile() {
 
   const [imageUrl, setImageUrl] = useState<string>();
   const [loading, setLoading] = useState(false);
-  
+
   const [datas, setDatas] = useState({
     email: '',
     first_name: '',
@@ -78,7 +81,7 @@ function Profile() {
     phone: '',
     photo_profile: '',
   });
-  
+
   useEffect(() => {
     if (!isLoading) {
       setDatas({
@@ -87,15 +90,15 @@ function Profile() {
         last_name: datasUser?.last_name,
         address: data?.data?.address,
         phone: datasUser?.phone,
-        photo_profile: datasUser?.photo, 
+        photo_profile: datasUser?.photo,
       });
       form.setFieldsValue({
         email: datasUser?.email,
         first_name: datasUser?.first_name,
         last_name: datasUser?.last_name,
-        address:datasUser?.address,
+        address: datasUser?.address,
         phone: datasUser?.phone,
-        photo_profile: datasUser?.photo, 
+        photo_profile: datasUser?.photo,
       });
     }
   }, [isLoading]);
@@ -108,13 +111,10 @@ function Profile() {
         last_name: datas?.last_name,
         address: datas?.address,
         phone: datas?.phone,
-        photo_profile: datas?.photo_profile, 
+        photo_profile: datas?.photo_profile,
       };
 
-      await usersRepository.manipulateData.updateProfile(
-        id,
-        dataProfile
-      );
+      await usersRepository.manipulateData.updateProfile(id, dataProfile);
 
       Modal.success({
         icon: (
@@ -172,9 +172,10 @@ function Profile() {
             photoProfile.type === 'image/jpg' ||
             photoProfile.type === 'image/jpeg'
           ) {
-            const response = await usersRepository.manipulateData.uploadPhotoProfile(
-              photoProfile?.originFileObj
-            );
+            const response =
+              await usersRepository.manipulateData.uploadPhotoProfile(
+                photoProfile?.originFileObj
+              );
             setDatas({ ...datas, photo_profile: response.body.filename });
           } else {
             message.error('Anda hanya dapat mengunggah file JPG/JPEG/PNG!');
@@ -229,15 +230,27 @@ function Profile() {
     <div>
       <div className='w-full grid gap-y-[20px]'>
         <div className='w-full grid gap-y-[20px] grid-cols-1 mb-3'>
-          <a
-            href='/home'
-            className='w-fit hover:text-teks flex font-bold text-xl gap-3'
-          >
-            <div>
-              <ArrowLeftOutlined />
-            </div>
-            <div>Kembali</div>
-          </a>
+          {role === isRole.renter ? (
+            <a
+              href='/home'
+              className='w-fit hover:text-teks flex font-bold text-xl gap-3'
+            >
+              <div>
+                <ArrowLeftOutlined />
+              </div>
+              <div>Kembali</div>
+            </a>
+          ) : (
+            <a
+              href='/list-product'
+              className='w-fit hover:text-teks flex font-bold text-xl gap-3'
+            >
+              <div>
+                <ArrowLeftOutlined />
+              </div>
+              <div>Kembali</div>
+            </a>
+          )}
         </div>
         <div className='w-full h-full flex gap-x-20 profile'>
           <div className='w-1/4 h-fit grid gap-y-8 profile sticky top-5'>
@@ -347,7 +360,10 @@ function Profile() {
                             placeholder='Masukan nama depan'
                             className=' p-[10px] rounded-[10px] border border-rstroke regis text-xl'
                             onChange={(e) => {
-                              setDatas({ ...datas, first_name: e.target.value });
+                              setDatas({
+                                ...datas,
+                                first_name: e.target.value,
+                              });
                             }}
                           />
                         </Form.Item>
@@ -385,8 +401,8 @@ function Profile() {
                     <div>
                       <p className='text-teks text-2xl font-bold'> NIK</p>
                     </div>
-                    <div className='w-full p-[10px] rounded-[10px] border border-rstroke regis text-xl'>
-                    {datasUser?.nik}
+                    <div className='w-full p-[10px] rounded-[10px] border border-rstroke regis text-xl cursor-not-allowed'>
+                      {datasUser?.nik}
                     </div>
                   </div>
                   <div className='grid gap-y-4 grid-cols-1'>
@@ -447,7 +463,7 @@ function Profile() {
                           Tanggal Lahir
                         </p>
                       </div>
-                      <div className='w-full p-[10px] rounded-[10px] border border-rstroke regis text-xl flex'>
+                      <div className='w-full p-[10px] rounded-[10px] border border-rstroke regis text-xl flex cursor-not-allowed'>
                         <div className='w-full'>
                           {convertDate(datasUser?.birthday)}
                         </div>
@@ -462,7 +478,7 @@ function Profile() {
                           Jenis Kelamin
                         </p>
                       </div>
-                      <div className='w-full p-[10px] rounded-[10px] border border-rstroke regis text-xl flex'>
+                      <div className='w-full p-[10px] rounded-[10px] border border-rstroke regis text-xl flex cursor-not-allowed'>
                         <div className='w-full'>
                           {datasUser?.gender === 'pria' ? 'Pria' : 'Wanita'}
                         </div>

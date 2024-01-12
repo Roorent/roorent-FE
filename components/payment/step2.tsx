@@ -149,7 +149,7 @@ const Step2 = ({ onNext, datas }: any) => {
           <div className='pb-[50px] border-b border-slate-300 mt-[30px]'>
             <div className='grid gap-y-2 grid-cols-1'>
               <div className='grid gap-y-2'>
-                <p className='text-teks text-2xl font-bold'>Bukti Pembayaran</p>
+                <p className='text-teks text-2xl font-bold'><span className='text-merah mr-2'>*</span>Bukti Pembayaran</p>
                 <p className='text-teks text-md mt-2'>
                   <ExclamationCircleFilled className='text-primary text-xl pr-2' />
                   Pastikan photo terlihat jelas, agar kami dapat proses dengan

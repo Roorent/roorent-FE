@@ -51,6 +51,8 @@ function ListProduct() {
   }
   const datas = data?.data;
 
+  console.log(data);
+
   // const indexOfLastItem = currentPage * itemsPerPage;
   // const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   // const currentItems = datas
@@ -64,9 +66,9 @@ function ListProduct() {
 
   return (
     <div>
-      <div className='produkOwner text-4xl font-bold bg-primary rounded-[10px] px-5 py-2.5 flex items-center mb-[30px]'>
+      <div className='produkOwner text-4xl font-bold flex items-center mb-[30px] gap-x-5 border-b pb-7 border-slate-300'>
         <div className='w-full'>
-          <p className='text-white w-full'>Daftar Produk </p>
+          <p className='text-primary flex w-full rounded-[10px] py-3'>Daftar Produk </p>
         </div>
         {datas?.length > 0 && (
           <div className='flex gap-x-6 items-center'>
@@ -75,7 +77,7 @@ function ListProduct() {
                 type='primary'
                 htmlType='submit'
                 href='/create-product'
-                className='hover:!text-primary hover:bg-white bg-tranparant border-2 border-white rounded-[10px] text-[20px] font-bold !mt-0 px-7'
+                className='hover:!text-primary hover:!bg-white hover:!border hover:!border-primary border-2 border-white rounded-[10px] !text-[20px] font-bold !mt-0 px-7 '
               >
                 Tambah
               </Button>

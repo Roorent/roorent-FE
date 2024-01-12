@@ -37,6 +37,10 @@ function Payment() {
     }
   };
 
+  const { data: dataTrans } =
+    TransactionRepository.hooks.getDetailRenter(rentAppId);
+  const trans = dataTrans?.data;
+
   const { data, error, isLoading } =
     RentAppRepository.hooks.getRentAppById(rentAppId);
 
@@ -73,6 +77,59 @@ function Payment() {
           datas={datas}
           onFinish={() => {
             Modal.success({
+              //   trans?.payment_status === 'approve' &&
+              // Modal.success({
+              //   icon: (
+              //     <div className='modal-hapus mb-[10px] flex justify-center'>
+              //       <CheckCircleFilled />
+              //     </div>
+              //   ),
+              //   title: (
+              //     <div className='text-3xl font-bold flex justify-center'>
+              //       Transaksi Berhasil !
+              //     </div>
+              //   ),
+              //   content: (
+              //     <div className='text-xl font-semibold flex justify-center mb-[25px]'>
+              //       Semoga nyaman dengan pilihan anda
+              //     </div>
+              //   ),
+              // });
+              // trans?.payment_status === 'pending' &&
+              // Modal.success({
+              //   icon: (
+              //     <div className='modal-hapus mb-[10px] flex justify-center'>
+              //       <CheckCircleFilled />
+              //     </div>
+              //   ),
+              //   title: (
+              //     <div className='text-3xl font-bold flex justify-center'>
+              //       Menungggu konfirmasi transaksi !
+              //     </div>
+              //   ),
+              //   content: (
+              //     <div className='text-xl font-semibold flex justify-center mb-[25px]'>
+              //       Harap tunggu konfirmasi transaksi anda
+              //     </div>
+              //   ),
+              // });
+              // trans?.payment_status === 'reject' &&
+              // Modal.success({
+              //   icon: (
+              //     <div className='modal-hapus mb-[10px] flex justify-center'>
+              //       <CheckCircleFilled />
+              //     </div>
+              //   ),
+              //   title: (
+              //     <div className='text-3xl font-bold flex justify-center'>
+              //       Transaksi gagal !
+              //     </div>
+              //   ),
+              //   content: (
+              //     <div className='text-xl font-semibold flex justify-center mb-[25px]'>
+              //       Harap ajukan pesanan kembali
+              //     </div>
+              //   ),
               icon: (
                 <div className='modal-hapus mb-[10px] flex justify-center'>
                   <CheckCircleFilled />
