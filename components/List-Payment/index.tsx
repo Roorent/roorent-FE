@@ -22,15 +22,14 @@ function ListPayment({
 }: any) {
   const { confirm } = Modal;
   const [reason, setReason] = useState('');
-  const [isOKButtonDisabled, setIsOKButtonDisabled] = useState(true);
+  const [form] = Form.useForm()
 
   const handleReason = (value: any) => {
     setReason(value);
-    setIsOKButtonDisabled(value === '');
   };
 
   const reasonForm = (
-    <Form name='reason' layout='vertical' autoComplete='off'>
+    <Form name='reason' layout='vertical' autoComplete='off' form={form}>
       <Form.Item
         name='reason'
         label={<span className='text-lg'>Alasan :</span>}
@@ -44,7 +43,7 @@ function ListPayment({
         <Input.TextArea
           placeholder='Masukkan alasan'
           rows={4}
-          onChange={(e) => handleReason(e.target.value)}
+          onChange={(e) => setReason(e.target.value)}
           value={reason}
         />
       </Form.Item>
@@ -69,8 +68,8 @@ function ListPayment({
       icon: <></>,
       async onOk() {
         try {
-          if (reason) {
-            const statusReject = { status: 'reject', reason: reason };
+          if ( form.getFieldValue('reason')) {
+            const statusReject = { status: 'reject', reason: form.getFieldValue('reason')};
             const reject =
               await TransactionRepository.manipulatedata.transactionsApp(
                 idTransaction,
@@ -86,7 +85,6 @@ function ListPayment({
       },
       onCancel() {
         setReason('');
-        setIsOKButtonDisabled(true);
       },
       okText: (
         <div className='modal-hapus text-xl font-bold text-white'>Simpan</div>
