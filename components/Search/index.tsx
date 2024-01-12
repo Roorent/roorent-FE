@@ -1,4 +1,5 @@
 import { productsRepository } from '#/repository/products';
+import { usersRepository } from '#/repository/users';
 import { SearchOutlined } from '@ant-design/icons';
 import { SearchProps } from 'antd/es/input';
 import { Input } from 'antd/lib';
@@ -11,21 +12,24 @@ function Searchs({ placeholder }: any) {
   const { Search } = Input;
   const router = useRouter();
 
+  const { data, error, isLoading } =
+    usersRepository.hooks.searchUsers(searcher);
+  
   const onSearch: SearchProps['onSearch'] = (value, _e, info) => {
     setSearcher(value);
-    router.push('/search');
+    // router.push('/search');
   };
-
-  const { data, error, isLoading } =
-    productsRepository.hooks.searchProducts(searcher);
-
+  
+  
+  // const { data, error, isLoading } =
+  //   productsRepository.hooks.searchProducts(searcher);
   // if (data) {
   //   router.push('/search');
   // }
 
   return (
     <div className='search'>
-      <Search
+       <Search
         className='search font-semibold'
         placeholder={placeholder}
         prefix={<SearchOutlined className='text-3xl' />}

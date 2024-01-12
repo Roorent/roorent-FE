@@ -12,6 +12,7 @@ const url = {
   getUserProfile: (id: string) => `/users/profile/${id}`,
   updatePassword: (id: string) => `/users/password/${id}`,
   nonactiveAccount: (id: string) => `/users/nonactive/${id}`,
+  listProductsWithSearch: (search: string, page?: number, limit?: number) => `/users/search?q=${search}`
 };
 
 const manipulateData = {
@@ -44,6 +45,9 @@ const hooks = {
   },
   getUserProfile(id: string) {
     return useSWR(url.getUserProfile(id), http.fetcher);
+  },
+  searchUsers(search: string, page?: number, limit?: number) {
+    return useSWR(url.listProductsWithSearch(search), http.fetcher);
   },
 };
 

@@ -178,7 +178,7 @@ function DetailTransaksi() {
                   </div>
                 )}
                 {datas?.payment_status === 'approve' && (
-                  <div className='text-xl bg-primary text-white font-bold rounded-[10px] px-2 py-2.5 flex items-center'>
+                  <div className='text-xl bg-[#19B929] text-white font-bold rounded-[10px] px-2 py-2.5 flex items-center'>
                     <div className='mr-5'>
                       <CheckCircleFilled className='text-3xl' />
                     </div>
@@ -312,6 +312,7 @@ function DetailTransaksi() {
                     image={datas?.product_photo}
                     nameProduk={datas?.product_name}
                     idProducts={datas?.product_id}
+                    idTransaction={idTransaction}
                   />
                 </div>
               </div>
