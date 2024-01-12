@@ -4,7 +4,7 @@ import Button from '#/components/Button';
 import Searchs from '#/components/Search';
 import { HomeFilled } from '@ant-design/icons';
 import { Icon } from '@iconify/react';
-import { Radio, Select, Spin } from 'antd';
+import { Empty, Radio, Select, Spin } from 'antd';
 import React, { useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper/modules';
@@ -358,34 +358,55 @@ function Home() {
           </div>
         )}
         <div className='mt-[45px]'>
-          <Swiper navigation={true} modules={[Navigation]} className='mySwiper'>
-            {filterProductsCity(datas, typeFilter, cityFilter).map(
-              (product: any, index: number) =>
-                index % 4 === 0 && (
-                  <SwiperSlide key={index}>
-                    <div className='flex justify-stretch gap-x-10 px-32'>
-                      {filterProductsCity(datas, typeFilter, cityFilter)
-                        .slice(index, index + 4)
-                        .map((product: any) => (
-                          <div key={product.id}>
-                            <Product
-                              idProducts={product.id}
-                              image={product.photoProducts[0]?.photo}
-                              isType={product.type}
-                              isgender={product.gender}
-                              namaProduk={product.name}
-                              kota={product.city}
-                              stok={product.stock}
-                              hargaPerbulan={product.monthly_price}
-                              hargaPerhari={product.daily_price}
-                            />
-                          </div>
-                        ))}
-                    </div>
-                  </SwiperSlide>
-                )
-            )}
-          </Swiper>
+          {filterProductsCity(datas, typeFilter, cityFilter).length > 0 ? (
+            <Swiper
+              navigation={true}
+              modules={[Navigation]}
+              className='mySwiper'
+            >
+              {filterProductsCity(datas, typeFilter, cityFilter).map(
+                (product: any, index: number) =>
+                  index % 4 === 0 && (
+                    <SwiperSlide key={index}>
+                      <div className='flex justify-stretch gap-x-10 px-32'>
+                        {filterProductsCity(datas, typeFilter, cityFilter)
+                          .slice(index, index + 4)
+                          .map((product: any) => (
+                            <div key={product.id}>
+                              <Product
+                                idProducts={product.id}
+                                image={product.photoProducts[0]?.photo}
+                                isType={product.type}
+                                isgender={product.gender}
+                                namaProduk={product.name}
+                                kota={product.city}
+                                stok={product.stock}
+                                hargaPerbulan={product.monthly_price}
+                                hargaPerhari={product.daily_price}
+                              />
+                            </div>
+                          ))}
+                      </div>
+                    </SwiperSlide>
+                  )
+              )}
+            </Swiper>
+          ) : (
+            <Empty
+              image='https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg'
+              imageStyle={{
+                display: 'flex',
+                justifyContent: 'center',
+                height: '100%',
+              }}
+              description={
+                <span className='font-semibold text-2xl text-[#C0C0C0]'>
+                  {typeFilter.charAt(0).toUpperCase() + typeFilter.slice(1)} di {cityFilter.toLowerCase()} tidak tersedia
+                </span>
+              }
+            >
+            </Empty>
+          )}
         </div>
       </div>
       <div>

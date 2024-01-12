@@ -38,23 +38,27 @@ function DetailTransaksi() {
 
   const datas = data?.data;
 
+  function redirectToDetail() {
+    const ajukanKembali = `/detail-product?id=${datas?.product_id}`;
+    window.location.href = ajukanKembali;
+  }
+
   return (
     <div>
       <div className='w-full grid gap-y-[20px]'>
-        <div className='w-full grid gap-y-[20px] grid-cols-1'>
-          <a
-            href='/riwayat-transaksi'
-            className='w-fit hover:text-teks flex font-bold text-xl gap-3'
-          >
-            <div>
-              <ArrowLeftOutlined />
-            </div>
-            <div>Kembali</div>
-          </a>
-        </div>
-        <div className='grid gap-y-5'>
-          <div className='produkOwner text-white text-4xl font-bold bg-primary rounded-[10px] px-5 py-3 flex justify-center items-center mb-[10px]'>
-            <p>Detail Riwayat Transaksi</p>
+        <div className='w-full flex gap-x-5 items-center grid-cols-1 mb-10 border-b border-slate-300 pb-8'>
+          <div className='w-fit grid gap-y-[20px] grid-cols-1'>
+            <a
+              href='/riwayat-transaksi'
+              className='w-fit hover:text-teks flex font-bold text-xl gap-3'
+            >
+              <div className='text-3xl'>
+                <ArrowLeftOutlined />
+              </div>
+            </a>
+          </div>
+          <div className='w-full flex justify-center text-4xl font-bold '>
+            Detail Riwayat Transaksi
           </div>
         </div>
         <div className='flex gap-x-20'>
@@ -202,7 +206,20 @@ function DetailTransaksi() {
                 </Button>
               </div>
             ) : (
-              ''
+              <>
+                {datas?.payment_status === 'reject' ? (
+                  <div>
+                    <Button
+                      onClick={redirectToDetail}
+                      className='!flex !font-bold !py-3 !text-2xl !bg-merah hover:opacity-85'
+                    >
+                      Ajukan Kembali
+                    </Button>
+                  </div>
+                ) : (
+                  <></>
+                )}
+              </>
             )}
           </div>
           <div
@@ -268,9 +285,7 @@ function DetailTransaksi() {
                     </p>
                   </div>
                   <div className='w-[325px] text-2xl font-semibold'>
-                    <p className='line-clamp-2'>
-                      {datas?.product_name}
-                    </p>
+                    <p className='line-clamp-2'>{datas?.product_name}</p>
                   </div>
                 </div>
               </div>
@@ -279,16 +294,28 @@ function DetailTransaksi() {
               <div>Total</div>
               <div>{toIDR(datas?.total_price)}</div>
             </div>
-            <div>
-              <Review 
-              isType={datas?.product_type} 
-              isLabel={datas?.product_gender}
-              address={datas?.product_address}
-              image={datas?.product_photo}
-              namaProduk={datas?.product_name}
-              idProducts={datas?.product_id}
-              />
-            </div>
+            {datas?.payment_status === 'approve' && (
+              <div className='flex gap-x-2 justify-end'>
+                <div>
+                  <Button
+                    className='!font-bold !w-full !py-3 !text-xl !mt-0 !bg-transparent !border !border-primary !text-primary hover:!opacity-85'
+                    // onClick={openModal}
+                  >
+                    Lepaskan Dana
+                  </Button>
+                </div>
+                <div>
+                  <Review
+                    isType={datas?.product_type}
+                    isLabel={datas?.product_gender}
+                    address={datas?.product_address}
+                    image={datas?.product_photo}
+                    nameProduk={datas?.product_name}
+                    idProducts={datas?.product_id}
+                  />
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>

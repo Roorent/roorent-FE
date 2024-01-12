@@ -60,7 +60,7 @@ function OwnerStep2({ setData, data, formStep2 }: Props) {
       <div>
         <div className='grid gap-y-4 grid-cols-1'>
           <div className='grid gap-y-2'>
-            <p className='text-teks text-2xl font-bold'>NIK</p>
+            <p className='text-teks text-2xl font-bold'><span className='text-merah mr-2'>*</span>NIK</p>
             <p className='text-teks text-md'>
               <ExclamationCircleFilled className='text-primary text-xl pr-2' />
               Pastikan anda memasukan NIK dengan benar
@@ -85,7 +85,7 @@ function OwnerStep2({ setData, data, formStep2 }: Props) {
         </div>
         <div className='grid gap-y-4 grid-cols-1'>
           <div className='grid gap-y-2'>
-            <p className='text-teks text-2xl font-bold'>Foto</p>
+            <p className='text-teks text-2xl font-bold'><span className='text-merah mr-2'>*</span>Foto KTP</p>
             <p className='text-teks text-md'>
               <ExclamationCircleFilled className='text-primary text-xl pr-2' />
               Foto diri dengan KTP

@@ -15,7 +15,7 @@ function SummaryProducts({ isType, isLabel, address, image, nameProduk }: any) {
   }, [isType, isLabel]);
 
   return (
-    <div className='flex gap-4 items-center mb-4'>
+    <div className='flex gap-4 items-start mb-4'>
       <div className='w-1/2 bg-red-400 rounded-xl'>
         <img
           className='object-none rounded-xl'

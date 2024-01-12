@@ -41,7 +41,7 @@ function Review({
   isLabel,
   address,
   image,
-  namaProduk,
+  nameProduk,
   idProducts,
 }: any) {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -176,7 +176,7 @@ function Review({
   return (
     <div className='review'>
       <Button
-        className='!font-bold !w-full !py-3 !text-xl !mt-0'
+        className='!font-bold !w-full !py-3 !text-xl !mt-0 !px-8'
         onClick={openModal}
       >
         Beri Ulasan
@@ -202,7 +202,7 @@ function Review({
                   isLabel={isLabel}
                   address={address}
                   image={image}
-                  namaProduk={namaProduk}
+                  nameProduk={nameProduk}
                 />
               </div>
               <div className='border-slate-200 border-b-2 mt-2 mb-4'></div>

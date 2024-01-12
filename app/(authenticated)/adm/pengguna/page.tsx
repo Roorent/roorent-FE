@@ -38,8 +38,8 @@ function ManagementUser() {
   return (
     <div>
       <div className='w-full grid gap-y-[20px] grid-cols-1'>
-        <div className='produkOwner text-white text-4xl font-bold bg-primary rounded-[10px] px-5 py-3 flex justify-center items-center mb-[30px]'>
-          <p>Pengguna</p>
+        <div className='produkOwner text-4xl font-bold px-5 py-3 flex justify-center items-center mb-3 pb-8 border-b border-slate-300'>
+          <p>Daftar Pengguna</p>
         </div>
         <div>
           <Radio.Group
@@ -90,13 +90,13 @@ function ManagementUser() {
           ))}
         </div>
       </div>
-      <div className='w-full py-[20px] flex justify-end'>
+      <div className='w-full py-5 flex justify-end '>
         <Pagination
           current={currentPage}
           total={data?.count}
           pageSize={limit}
           onChange={handlePageChange}
-          className='text-2xl font-semibold absolute bottom-5'
+          className='text-2xl font-semibold'
         />
       </div>
     </div>

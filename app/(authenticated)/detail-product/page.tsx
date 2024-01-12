@@ -11,9 +11,9 @@ import {
   ArrowLeftOutlined,
   CommentOutlined,
   EnvironmentFilled,
+  HeartFilled,
   HeartOutlined,
   HomeFilled,
-  QuestionCircleFilled,
   ReconciliationFilled,
   StarFilled,
   WarningFilled,
@@ -40,6 +40,7 @@ import { TransactionRepository } from '#/repository/transaction';
 function DetailProduct() {
   const [showAllReviews, setShowAllReviews] = useState(false);
   const [filterPrice, setFilterPrice] = useState('perhari');
+  const [isFavorite, setIsFavorite] = useState(false);
 
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -132,6 +133,15 @@ function DetailProduct() {
         },
       });
     }
+  };
+
+  const handleClick = () => {
+    setIsFavorite((prev) => !prev);
+    const successMessage = isFavorite
+      ? 'Dihapus dari Favorit'
+      : 'Ditambahkan ke Favorit';
+
+    message.success(successMessage);
   };
 
   const limitedReviews = showAllReviews
@@ -370,10 +380,17 @@ function DetailProduct() {
                 </p>
               </div>
               {role === isRole.renter ? (
-                <div className='rounded-[10px] flex items-center h-12 gap-x-2 px-3 border border-rstroke text-rstroke text-xl cursor-default'>
-                  <HeartOutlined />
-                  <p className='font-semibold'>Simpan</p>
-                </div>
+                <Button
+                  onClick={handleClick}
+                  className='rounded-[10px] flex items-center h-12 px-3 border border-rstroke text-rstroke text-xl hover:!border-rstroke hover:!text-rstroke cursor-pointer'
+                >
+                  {isFavorite ? (
+                    <HeartFilled style={{ color: 'red' }} />
+                  ) : (
+                    <HeartOutlined />
+                  )}
+                  {isFavorite ? 'Hapus' : 'Simpan'}
+                </Button>
               ) : (
                 <></>
               )}

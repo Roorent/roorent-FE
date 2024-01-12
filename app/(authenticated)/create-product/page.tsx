@@ -275,17 +275,18 @@ function CreateProduct() {
     <div>
       <Form name='createProduk'>
         <div className='w-full grid gap-y-[20px] grid-cols-1'>
-          <a
-            href='/list-product'
-            className='w-fit hover:text-teks flex font-bold text-xl gap-3'
-          >
-            <div>
-              <ArrowLeftOutlined />
+          <div className='w-full flex items-center gap-x-[20px] grid-cols-1 mb-10'>
+            <a
+              href='/list-product'
+              className='w-fit hover:text-teks flex font-bold text-4xl gap-3'
+            >
+              <div>
+                <ArrowLeftOutlined />
+              </div>
+            </a>
+            <div className='w-full flex justify-center text-4xl font-bold'>
+              Tambah Produk
             </div>
-            <div>Kembali</div>
-          </a>
-          <div className='produkOwner text-white text-4xl font-bold bg-primary rounded-[10px] px-5 py-5 flex justify-center items-center mb-[30px]'>
-            <p>Tambah Produk </p>
           </div>
           <div className='flex gap-x-[70px]'>
             <div className='w-full'>

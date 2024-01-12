@@ -11,8 +11,8 @@ function ListPengguna({ image, namaPengguna, status, idUsers }: any) {
 
   return (
     <div>
-      <a href={`/adm/detail-pengguna?id=${idUsers}`}>
-        <div className='flex items-center gap-x-[24px] px-5 py-2.5 rounded-[10px] border border-rstroke'>
+      <a href={`/adm/detail-pengguna?id=${idUsers}`} className='hover:text-teks'>
+        <div className='flex items-center gap-x-[24px] px-5 py-2.5 rounded-[10px] border border-rstroke hover:text-teks hover:shadow-lg'>
           <div>
             <Photo size={50} src={image} />
           </div>
