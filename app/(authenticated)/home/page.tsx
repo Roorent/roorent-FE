@@ -84,9 +84,7 @@ function Home() {
                 Dapatkan informasi dan lakukan penyewaan
               </div>
               <div>
-                <a href='/search'>
-                  <Searchs placeholder={'Masukan nama/kota/alamat'} />
-                </a>
+                <Searchs placeholder={'Masukan nama/kota/alamat'} />
               </div>
             </div>
           </div>
