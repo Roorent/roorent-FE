@@ -24,19 +24,21 @@ function ListChats({ openChat, isOpen }: any) {
           styles: {
             content: {
               position: 'absolute',
+              display: 'flex',
+              flexDirection: 'column',
               right: 0,
               top: 0,
               width: '80%',
               height: '100vh',
               padding: '15px',
-              boxShadow: '0 25px 50px -12px rgb(0 0 0 / 0.5)',
+              boxShadow: '0 4px 8px rgba(0,0,0,.08), 0 -1px 4px rgba(0,0,0,.04)',
             },
           },
         }}
       >
         <Modal
           title={
-            <div>
+            <div className='w-[380px]'>
               <div className='ml-2 text-2xl font-bold text-slate-800'>
                 Pesan
               </div>
@@ -54,10 +56,10 @@ function ListChats({ openChat, isOpen }: any) {
           }
           footer={false}
         >
-          <div className='flex flex-col gap-4 my-2'>
+          <div className='flex flex-col gap-4 my-2 w-[380px]'>
             <div className='flex items-center'>
               <div className='w-[18%]'>
-                <Photo />
+                <Photo size={50}/>
               </div>
               <div
                 className='w-[82%] py-1 border-b border-slate-200 cursor-pointer'
@@ -77,7 +79,7 @@ function ListChats({ openChat, isOpen }: any) {
             </div>
             <div className='flex items-center'>
               <div className='w-[18%]'>
-                <Photo />
+                <Photo size={50}/>
               </div>
               <div
                 className='w-[82%] py-1 border-b border-slate-200 cursor-pointer'
@@ -98,7 +100,7 @@ function ListChats({ openChat, isOpen }: any) {
             </div>
             <div className='flex items-center'>
               <div className='w-[18%]'>
-                <Photo />
+                <Photo size={50}/>
               </div>
               <div
                 className='w-[82%] py-1 border-b border-slate-200 cursor-pointer'

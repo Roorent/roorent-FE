@@ -65,12 +65,12 @@ function RenterStep1({ setData, data, formStep1 }: Props) {
         </div>
         <div className='grid gap-y-4 grid-cols-1'>
           <div>
-            <p className='text-teks text-2xl font-bold'>No. NIK</p>
+            <p className='text-teks text-2xl font-bold'>NIK</p>
           </div>
           <div className='w-full'>
             <Form.Item
               name='nik'
-              rules={[{ required: true, message: 'Harap masukan No.NIK!' }]}
+              rules={[{ required: true, message: 'Harap masukan NIK!' }]}
             >
               <Input
                 onChange={(e) => {
@@ -128,7 +128,6 @@ function RenterStep1({ setData, data, formStep1 }: Props) {
                 <DatePicker
                   onChange={(e: any) => {
                     setData({ ...data, birth_date: e?.$d });
-                    console.log(e);
                   }}
                   placeholder='Pilih tanggal'
                   className='w-full regis'

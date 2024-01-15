@@ -13,20 +13,22 @@ import { Form, Input } from "antd/lib/index";
 import React from "react";
 
 function ReactiveAccount() {
-  const beforeUpload = (file: RcFile) => {
-    const isJpgOrPng =
-      file.type === "image/jpeg" ||
-      file.type === "image/png" ||
-      file.type === "image/jpg";
-    if (!isJpgOrPng) {
-      message.error("Anda hanya dapat mengunggah file JPG/JPEG/PNG!");
-    }
-    const isLt2M = file.size / 1024 / 1024 < 2;
-    if (!isLt2M) {
-      message.error("Gambar harus lebih kecil dari 2MB!");
-    }
-    return isJpgOrPng && isLt2M;
-  };
+  // const beforeUpload = (file: RcFile) => {
+  //   const isJpgOrPng =
+  //     file.type === 'image/jpeg' ||
+  //     file.type === 'image/png' ||
+  //     file.type === 'image/jpg';
+  //   if (!isJpgOrPng) {
+  //     message.error('Anda hanya dapat mengunggah file JPG/JPEG/PNG!');
+  //   }
+  //   const isLt2M = file.size / 1024 / 1024 < 2 ;
+
+  //   if (!isLt2M) {
+  //     message.error('Gambar harus lebih kecil dari 2 MB!');
+  //   }
+
+  //   return !isJpgOrPng || !isLt2M;
+  // };
   return (
     <div className="w-full min-h-screen flex justify-center relative">
       <div className="w-1/2 flex justify-center min-h-screen relative">
@@ -98,7 +100,7 @@ function ReactiveAccount() {
                   >
                     <Upload
                       className="w-full"
-                      beforeUpload={beforeUpload}
+                      // beforeUpload={beforeUpload}
                       action="https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188"
                       listType="picture"
                       maxCount={1}

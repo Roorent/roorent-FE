@@ -6,7 +6,7 @@ import React, { useEffect, useState } from 'react';
 import Photo from '../Photo';
 
 function CreateChats({ openChat, isOpen }: any) {
-  const [isModalOpen, setIsModalOpen] = useState(true);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const closeModal = () => {
     openChat('');
@@ -29,17 +29,20 @@ function CreateChats({ openChat, isOpen }: any) {
               position: 'absolute',
               right: 0,
               top: 0,
+              display: 'flex',
+              flexDirection: 'column',
               width: '80%',
-              height: '991px',
+              height: '100vh',
               padding: '15px',
-              boxShadow: '0 25px 50px -12px rgb(0 0 0 / 0.5)',
+              boxShadow:
+                '0 4px 8px rgba(0,0,0,.08), 0 -1px 4px rgba(0,0,0,.04)',
             },
           },
         }}
       >
         <Modal
           title={
-            <div>
+            <div className='w-[380px]'>
               <div className='flex items-center gap-4'>
                 <ArrowLeftOutlined
                   className='text-2xl'
@@ -49,7 +52,7 @@ function CreateChats({ openChat, isOpen }: any) {
                 />
                 <div className='flex items-center'>
                   <div>
-                    <Photo />
+                    <Photo size={50} />
                   </div>
                   <div className='ml-4 py-1 text-slate-700'>
                     <p className='font-bold text-xl'>Catur</p>
@@ -69,7 +72,7 @@ function CreateChats({ openChat, isOpen }: any) {
           closeIcon={<p></p>}
           footer={false}
         >
-          <div className='my-1 h-[835px]'>
+          <div className='my-1 h-[750px]'>
             <div className='h-full px-4 flex flex-col gap-4 text-slate-800 drop-shadow-md overflow-auto'>
               <div className='flex'>
                 <div className='bg-white text-slate-800 rounded-xl rounded-bl-none p-2 max-w-[80%] flex flex-col relative'>

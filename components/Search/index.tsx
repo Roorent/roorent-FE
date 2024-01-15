@@ -1,23 +1,41 @@
-import { SearchOutlined } from "@ant-design/icons";
-import { SearchProps } from "antd/es/input";
-import { Input } from "antd/lib";
-import React from "react";
+import { productsRepository } from '#/repository/products';
+import { usersRepository } from '#/repository/users';
+import { SearchOutlined } from '@ant-design/icons';
+import { SearchProps } from 'antd/es/input';
+import { Input } from 'antd/lib';
+import { useRouter } from 'next/navigation';
+import React, { useState } from 'react';
 
-const { Search } = Input;
+function Searchs({ placeholder }: any) {
+  const [searcher, setSearcher] = useState('');
 
-const onSearch: SearchProps["onSearch"] = (value, _e, info) =>
-  console.log(info?.source, value);
+  const { Search } = Input;
+  const router = useRouter();
 
-function Searchs() {
+  const { data, error, isLoading } =
+    usersRepository.hooks.searchUsers(searcher);
+  
+  const onSearch: SearchProps['onSearch'] = (value, _e, info) => {
+    setSearcher(value);
+    // router.push('/search');
+  };
+  
+  
+  // const { data, error, isLoading } =
+  //   productsRepository.hooks.searchProducts(searcher);
+  // if (data) {
+  //   router.push('/search');
+  // }
+
   return (
-    <div className="search">
-      <Search
-        className="search"
-        placeholder="Masukan nama lokasi/kota/alamat/produk"
-        prefix={<SearchOutlined className="text-3xl" />}
+    <div className='search'>
+       <Search
+        className='search font-semibold'
+        placeholder={placeholder}
+        prefix={<SearchOutlined className='text-3xl' />}
         allowClear
-        enterButton="Cari"
-        size="large"
+        enterButton='Cari'
+        size='large'
         onSearch={onSearch}
       />
     </div>

@@ -1,8 +1,13 @@
+import { productsRepository } from '#/repository/products';
 import { Button, Modal } from 'antd';
-import React from 'react';
+import { useRouter } from 'next/navigation';
+import React, { useState } from 'react';
 
-function ModalDelete({ title, content, icon, buttonText }: any) {
+//disini tambahin mutate juga
+function ModalDelete({ title, content, icon, buttonText, id, mutate, className }: any) {
   const { confirm } = Modal;
+  const router = useRouter()
+  const data = productsRepository.manipulatedata.deleteProducts(id)
 
   const showDeleteConfirm = () => {
     confirm({
@@ -21,20 +26,26 @@ function ModalDelete({ title, content, icon, buttonText }: any) {
         <div className='modal-hapus text-xl font-bold text-white'>Ya</div>
       ),
       cancelText: <div className='text-xl font-bold text-white'>Batal</div>,
-      onOk() {
-        console.log('OK');
+      onOk() {       
+        data.then((del:any) => {
+          return del
+        });
+        //disini panggil mutate nya
+        mutate(data)
+        // router.refresh()
       },
       onCancel() {
         console.log('Cancel');
       },
     });
   };
+  const styleButton = `hover:text-white hover:!bg-[#e24444] hapus !bg-merah rounded-[10px] text-base font-bold py-3 w-[111px] h-max ${className}`
   return (
     <div className='modal-hapus'>
       <Button
         type='primary'
         onClick={showDeleteConfirm}
-        className='hover:text-white hover:!bg-[#e24444] hapus !bg-merah rounded-[10px] text-base font-bold py-3 w-[111px] h-max'
+        className={styleButton}
       >
         {buttonText}
       </Button>

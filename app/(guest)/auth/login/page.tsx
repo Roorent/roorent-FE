@@ -30,7 +30,6 @@ const Login = () => {
       const login = await authRepository.manipulatedata.login(data);
 
       localStorage.setItem('access_token', login?.body?.data?.access_token);
-      setTimeout(message.success('Anda Telah Berhasil Login!'), 5000);
 
       const token = localStorage.getItem('access_token');
       let role: string = '';
@@ -40,12 +39,16 @@ const Login = () => {
 
       if (role === 'owner') {
         router.push('/list-product');
-      }
-      if (role === 'renter') {
+        setTimeout(message.success('Anda Telah Berhasil Login!'), 5000);
+      } else if (role === 'renter') {
         router.push('/home');
+        setTimeout(message.success('Anda Telah Berhasil Login!'), 5000);
+      } else {
+        localStorage.removeItem('access_token');
+        message.error('Anda bukan Owner/Renter!');
       }
     } catch (err: any) {
-        message.error(err.response.body?.error);
+      message.error(err.response.body?.error);
     }
   };
 
@@ -61,9 +64,9 @@ const Login = () => {
                     <p>Masuk</p>
                   </div>
                   <div className='text-white text-xl'>
-                    <p className='mb-2'>Jika kamu belum memiliki akun</p>
+                    <p className='mb-2'>Jika anda belum memiliki akun</p>
                     <p>
-                      kamu bisa
+                      Anda bisa
                       <a
                         href='/auth/register'
                         className='ml-2 font-bold text-2xl no-underline hover:underline'

@@ -2,16 +2,174 @@
 
 import React, { useState } from 'react';
 import Button from '../Button';
-import { ConfigProvider, Modal, Rate, Input } from 'antd';
-import PhotoUpload from './PhotoUpload';
+import {
+  ConfigProvider,
+  Modal,
+  Rate,
+  Input,
+  Form,
+  message,
+  Upload,
+} from 'antd';
 import SummaryProducts from '../SummaryProducts';
+import { ReviewsRepository } from '#/repository/reviews';
+import { UploadChangeParam, UploadFile } from 'antd/es/upload/interface';
+import { UploadProps } from 'antd/lib';
+import { RcFile } from 'antd/lib/upload';
+import { CameraOutlined, CheckCircleFilled } from '@ant-design/icons';
+import { useRouter } from 'next/navigation';
 
-function Review() {
+// const beforeUpload = (file: RcFile) => {
+//   const isJpgOrPng =
+//     file.type === 'image/jpeg' ||
+//     file.type === 'image/png' ||
+//     file.type === 'image/jpg';
+//   if (!isJpgOrPng) {
+//     message.error('Anda hanya dapat mengunggah file JPG/JPEG/PNG!');
+//   }
+//   const isLt2M = file.size / 1024 / 1024 < 2 ;
+
+//   if (!isLt2M) {
+//     message.error('Gambar harus lebih kecil dari 2 MB!');
+//   }
+
+//   return !isJpgOrPng || !isLt2M;
+// };
+
+function Review({
+  isType,
+  isLabel,
+  address,
+  image,
+  nameProduk,
+  idProducts,
+  idTransaction,
+}: any) {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [rateVal, setRateVal] = useState(0);
-  const [photos, setPhotos] = useState([]);
-
+  const [photoReviewsArray, setPhotoReviews] = useState<string[] | []>([]);
+  const [fileList, setFileList] = useState<UploadFile[]>([]);
+  const [previewOpen, setPreviewOpen] = useState(false);
+  const [previewImage, setPreviewImage] = useState('');
+  const [previewTitle, setPreviewTitle] = useState('');
+  const handleCancel = () => setPreviewOpen(false);
+  const [datas, setDatas] = useState<any>({
+    rating: 1,
+    content: '',
+    photo: [],
+  });
+  
+  const router = useRouter();
   const { TextArea } = Input;
+
+  const { data: dataReview } =
+  ReviewsRepository.hooks.getReviewsByTransactions(idTransaction);
+console.log(dataReview);
+
+  const onFinish = async () => {
+    try {
+      const dataReviews = {
+        rating: datas?.rating,
+        content: datas?.content,
+        photo: datas?.photo,
+      };
+
+      await ReviewsRepository.manipulatedata.createTransactionRenter(
+        idProducts,
+        dataReviews
+      );
+
+      Modal.success({
+        icon: (
+          <div className='modal-hapus mb-[10px] flex justify-center'>
+            <CheckCircleFilled />
+          </div>
+        ),
+        title: (
+          <div className='text-3xl font-bold flex justify-center'>
+            Berhasil Buat Review
+          </div>
+        ),
+        content: (
+          <div className='text-xl font-semibold flex justify-center mb-[25px]'>
+            Anda telah berhasil membuat review
+          </div>
+        ),
+      });
+
+      setIsModalOpen(false);
+      router.push(`/detail-product?id=${idProducts}`);
+    } catch (err: any) {
+      message.error('Gagal membuat review');
+    }
+  };
+
+  const getBase64 = (file: RcFile): Promise<string> =>
+    new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result as string);
+      reader.onerror = (error) => reject(error);
+    });
+
+  const handleUploadPhoto: UploadProps['onChange'] = async (
+    args: UploadChangeParam<UploadFile<any>>
+  ) => {
+    // Fungsi uploadProducts
+    const photoReviews: any = args?.file;
+    try {
+      if (photoReviews.status === 'done') {
+        if (photoReviews.size > 2097152) {
+          message.error('ukuran photoReviews terlalu besar');
+        } else {
+          if (
+            photoReviews.type === 'image/png' ||
+            photoReviews.type === 'image/jpg' ||
+            photoReviews.type === 'image/jpeg'
+          ) {
+            const response =
+              await ReviewsRepository.manipulatedata.uploadPhotoReviews(
+                photoReviews?.originFileObj
+              );
+
+            setPhotoReviews([...photoReviewsArray, response.body.filename]);
+            setDatas({
+              ...datas,
+              photo: [...photoReviewsArray, response.body.filename],
+            });
+          } else {
+            message.error('Anda hanya dapat mengunggah file JPG/JPEG/PNG !');
+          }
+        }
+      }
+      // Fungsi handleChangeUpload
+      const { fileList: newFileList } = args;
+      setFileList(newFileList);
+    } catch (err: any) {
+      message.error(err.response.body?.error);
+    }
+  };
+
+  const handlePreview = async (file: UploadFile) => {
+    if (!file.url && !file.preview) {
+      file.preview = await getBase64(file.originFileObj as RcFile);
+    }
+
+    setPreviewImage(file.url || (file.preview as string));
+    setPreviewOpen(true);
+    setPreviewTitle(
+      file.name || file.url!.substring(file.url!.lastIndexOf('/') + 1)
+    );
+  };
+
+  const uploadButton = (
+    <div>
+      <CameraOutlined className='text-4xl text-primary' />
+      <div style={{ marginTop: 5 }} className='text-xl'>
+        Masukan Foto
+      </div>
+      <div className='text-[#BBBBBB]'>Berupa format jpg/jpeg/png.</div>
+    </div>
+  );
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -20,25 +178,26 @@ function Review() {
     setIsModalOpen(false);
   };
 
-  const handleSubmit = () => {
-    setIsModalOpen(false);
-  };
-  const handleFiles = (value: any) => {
-    setPhotos(value);
-  };
-
   return (
-    <div>
-      <Button className='font-bold w-[150px]' onClick={openModal}>
-        Nilai
-      </Button>
+    <div className='review'>
+      {dataReview?.count >= 1? (
+        <></>
+      ) : (
+        <Button
+          className='!font-bold !w-full !py-3 !text-xl !mt-0 !px-8'
+          onClick={openModal}
+        >
+          Beri Ulasan
+        </Button>
+      )}
       <ConfigProvider
         modal={{
           styles: {
             content: {
-              width: '90%',
+              width: '100%',
               padding: '25px',
               boxShadow: '0 10px 20px -12px rgb(0 0 0 / 0.5)',
+              display: 'block',
             },
           },
         }}
@@ -48,10 +207,11 @@ function Review() {
             <div>
               <div>
                 <SummaryProducts
-                  isType='Gedung'
-                  // isLabel='campuran'
-                  address='Jl. Bandeng No.2'
-                  image='/assets/images/Kost.png'
+                  isType={isType}
+                  isLabel={isLabel}
+                  address={address}
+                  image={image}
+                  nameProduk={nameProduk}
                 />
               </div>
               <div className='border-slate-200 border-b-2 mt-2 mb-4'></div>
@@ -61,37 +221,90 @@ function Review() {
           open={isModalOpen}
           onCancel={closeModal}
           closeIcon={<p></p>}
+          className='review'
           footer={
             <div className='font-bold flex gap-4 justify-end mb-2'>
               <Button
-                className='w-[120px] bg-white !text-primary border border-primary hover:bg-gray-100'
+                className='w-[120px] !bg-white !text-primary border border-primary hover:!text-opacity-80 hover:!bg-white'
                 onClick={closeModal}
               >
                 Nanti Saja
               </Button>
-              <Button className='w-[120px]' onClick={handleSubmit}>
+              <Button className='w-[120px]' onClick={onFinish}>
                 OK
               </Button>
             </div>
           }
         >
           <div className='flex flex-col gap-4 my-2'>
-            <div className='flex flex-col gap-4'>
-              <Rate
-                allowClear={false}
-                defaultValue={rateVal}
-                style={{ fontSize: 40, display: 'flex', gap: '10px' }}
-                className='justify-center'
-                onChange={(value) => setRateVal(value)}
-              />
-              <PhotoUpload files={handleFiles} />
-            </div>
-            <div>
-              <TextArea
-                placeholder='Tulis ulasan anda'
-                autoSize={{ minRows: 4, maxRows: 4 }}
-              />
-            </div>
+            <Form name='review'>
+              <div className='flex flex-col gap-4'>
+                <Form.Item name='rating'>
+                  <Rate
+                    allowClear={false}
+                    style={{ fontSize: 40, display: 'flex', gap: '10px' }}
+                    className='justify-center'
+                    onChange={(e) => {
+                      setDatas({ ...datas, rating: e });
+                    }}
+                  />
+                </Form.Item>
+                <Form.Item name='photo'>
+                  {/* <PhotoUpload files={handleUploadPhoto} /> */}
+                  <Upload
+                    action='https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188'
+                    listType='picture-card'
+                    fileList={fileList}
+                    multiple={true}
+                    onPreview={handlePreview}
+                    onChange={handleUploadPhoto}
+                    // beforeUpload={beforeUpload}
+                  >
+                    {fileList.length >= 3 ? null : uploadButton}
+                  </Upload>
+                  <Modal
+                    open={previewOpen}
+                    title={previewTitle}
+                    footer={null}
+                    onCancel={handleCancel}
+                  >
+                    <img
+                      alt='Produk'
+                      style={{ width: '100%' }}
+                      src={previewImage}
+                    />
+                  </Modal>
+                </Form.Item>
+              </div>
+              <div className='my-4'>
+                <p className='mb-4 text-teks text-xl font-semibold'>Ulasan :</p>
+                <div className='textarea-produk'>
+                  <Form.Item
+                    name='content'
+                    rules={[
+                      {
+                        required: true,
+                        message: 'Masukan ulasan anda!',
+                      },
+                    ]}
+                  >
+                    <TextArea
+                      showCount
+                      maxLength={225}
+                      placeholder='Masukan ulasan anda'
+                      style={{
+                        height: 120,
+                        resize: 'none',
+                        fontSize: '15px',
+                      }}
+                      onChange={(e) => {
+                        setDatas({ ...datas, content: e.target.value });
+                      }}
+                    />
+                  </Form.Item>
+                </div>
+              </div>
+            </Form>
           </div>
         </Modal>
       </ConfigProvider>

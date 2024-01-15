@@ -1,6 +1,10 @@
 import moment from 'moment';
+import 'moment-timezone';
+import 'moment/locale/id';
 
 export const convertTime = (inputString: any) => {
+  moment.locale('id');
+
   const inputDate = moment(inputString);
   const currentDate = moment();
 
@@ -25,4 +29,22 @@ export const convertTime = (inputString: any) => {
     const date = inputDate.format('DD MMMM YYYY');
     return date;
   }
+};
+
+export const toHours = (inputString: any) => {
+  moment.locale('id');
+
+  const inputDate = moment(inputString);
+
+  const hours = inputDate.format('HH:mm');
+  return hours;
+}
+
+export const convertDate = (inputString: any) => {
+  moment.locale('id');
+
+  const inputDate = moment(inputString);
+
+  const date = inputDate.format('DD MMMM YYYY');
+  return date;
 };
